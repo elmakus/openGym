@@ -23,6 +23,7 @@ import { plannedOf, rowsOfPerformance, targetFor } from './session-ui-adapter.js
 import { hasCompletedWork } from './workout-model.js'
 import { stampWorkout } from './sync-merge.js'
 import { legacySyncKey, rebuildPrHistory } from './workout-date.js'
+import { replayAtp2History } from '../../../api/training-control/history.js'
 
 const clone = value => structuredClone(value)
 const list = v => (Array.isArray(v) ? v : [])
@@ -204,6 +205,7 @@ export function saveWorkoutEdit(state, now = Date.now()) {
   // asymmetric rule a date move follows, so imported history never sprouts trophies.
   const touched = [...new Set([...list(current.exposures), ...record.exposures].map(x => x?.exerciseId).filter(id => id != null))]
   state.workouts = rebuildPrHistory(state.workouts, touched, record)
+  reconcileAtp2History(state)
   const saved = state.workouts.find(w => keyOf(w) === key)
   lowerKeptWeights(state, touched, current, saved)
   reconcileDerivedOneRms(state)
@@ -240,8 +242,18 @@ export function editedRecord(state) {
   return key == null ? null : list(state.workouts).find(w => keyOf(w) === key) || null
 }
 
+/** Historical ATP2 state is derived from the corrected chronological log, not from last-save state. */
+export function reconcileAtp2History(state) {
+  const hasAtp2 = !!state.trainingControl?.atp2 || (state.workouts || []).some(w =>
+    (w.exposures || []).some(x => x.atp2?.version === 1))
+  if (!hasAtp2) return
+  state.trainingControl ||= {}
+  state.trainingControl.atp2 = replayAtp2History(state.workouts)
+}
+
 /** Refresh derived references after ordinary history deletion or editor deletion. */
 export function reconcileSessionHistory(state) {
+  reconcileAtp2History(state)
   reconcileDerivedOneRms(state)
   const tracks = new Set([...Object.keys(state.progression || {}), ...list(state.workouts).flatMap(w => list(w.exposures).map(x => x.trackId).filter(Boolean))])
   state.progression ||= {}
