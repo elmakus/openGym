@@ -93,14 +93,25 @@ node api/training-control/atp2-liftosaur-parity.mjs \
 The runtime and original source are supplied externally, not vendored into
 openGym. The script refuses an unpinned source file.
 
-This is **direct runtime evidence for covered scenarios**, not proof for all
-possible equipment ladders, paired inputs, history ordering or device flows.
+A second direct differential run used **25 independent trajectories of 12
+successive workouts**. Each completed Liftosaur session's `updatedProgramText`
+was reparsed as the source of the next workout. All **300/300 sessions** and
+**1,200/1,200 live/final state checks** matched the openGym controller:
+
+```sh
+node api/training-control/atp2-liftosaur-multisession.mjs \
+  /path/to/liftosaur-playground-runtime/runtime_api.cjs \
+  /path/to/fitness/programs/adaptive_rep_engine_turbo_probe_candidate.liftoscript
+```
+
+These are **direct runtime comparisons for covered scenarios**, not universal
+proof for all equipment ladders, paired inputs, history ordering or device flows.
 
 ## Limitations and next work
 
 - No real Android/app interactive workout acceptance test yet.
 - Differential runtime comparison still needs alternative native ladders,
-  paired/unilateral observations, longer multi-session state transitions,
+  paired/unilateral observations, additional multi-session edge states,
   and further adverse input coverage.
 - Local edit/delete/date/backfill replay and representative two-device merge cases
   have tests. Production sync races, incomplete migrations and actual offline-device
