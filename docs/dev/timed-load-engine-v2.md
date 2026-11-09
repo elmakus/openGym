@@ -117,3 +117,30 @@ cd frontend && npx vitest run
 The committed fixture is a snapshot **from the executed Python oracle**;
 the original Python source is private and not vendored into openGym.
 Reproducing the vectors requires access to \`elmakus/fitness\`.
+
+## Independent review fixes (2026-11-09)
+
+Three regression tests were demonstrated failing before the corresponding changes.
+
+1. First calibration: original Liftoscript update() requires setIndex == 1,
+   state.initialized == 0 and completedWeights[1] != weights[1], then updates
+   weights[2] = completedWeights[1]. In openGym the unilateral first logical
+   set consists of both L and R rows. Once both sides complete at a realizable
+   6 kg from an initial 0 kg, subsequent unfinished rows inherit 6 kg.
+2. Trigger ownership: an arbitrary completed later row cannot trigger the
+   original first-set downshift. First logical set completion (both L and R)
+   gates update() and the durable manual-override/calibration decisions.
+   Skipped first-set work does not silently calibrate from a later completed
+   set. Completed rows are never rewritten.
+3. Technique: an explicit techniqueValid: false is retained through
+   editable sets, canonical performance, JSON, history replay, editing
+   and offline sync conflict resolution. For opted-in Timed Load holds,
+   the set menu includes a Technique valid switch. A flagged hold remains
+   completed in the log, is visibly marked !, and cannot earn progression
+   even when its recorded duration reaches the target.
+
+The 4,976 Python-oracle transition vectors remain unchanged and passing.
+The original Liftoscript source was regenerated from fitness's
+programs/timed_load_controller.py and checked at the adapter boundary;
+live Liftosaur-runtime parity was not claimed. No HYBRID-2, RTT,
+production-data edits or physical phone tests were performed.

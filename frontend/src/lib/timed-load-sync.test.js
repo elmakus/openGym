@@ -55,6 +55,20 @@ describe('Timed Load reconciliation: physical sync conflict scenarios',()=>{
       expect(state.trainingControl.timedLoad.plank.target).toBe(35)
     }
   })
+  it('technique-invalid correction wins offline conflict and replays failed hold',()=>{
+    const original=base()
+    original.workouts=[work('one',1000,30)]
+    const valid=clone(original), invalid=clone(original)
+    invalid.workouts[0].exposures[0].performance.sets[3].techniqueValid=false
+    stampWorkout(valid.workouts[0],4000)
+    stampWorkout(invalid.workouts[0],6000)
+    for (const result of [merged(valid,invalid), merged(invalid,valid)]) {
+      expect(result.workouts[0].exposures[0].performance.sets[3].techniqueValid).toBe(false)
+      expect(result.trainingControl.timedLoad.plank).toMatchObject({load:6,target:30,fails:1})
+      expect(result.trainingControl.timedLoad).toEqual(replayTimedLoadHistory(result.workouts))
+    }
+  })
+
   it('deleted on one device while the other was offline remains deleted; no phantom progress',()=>{
     const original=base()
     original.workouts=[work('a',1000),work('b',2000,35)]

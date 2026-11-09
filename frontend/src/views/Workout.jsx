@@ -284,6 +284,7 @@ function ExerciseBlock({ entryIdx, compact, dense, editing, onToggle, onToggleSi
   const best = cardio ? 0
     : bestHist > 0 && bestKept > 0 ? betterWeight(entry.id, bestHist, bestKept) : Math.max(bestHist, bestKept)
   const exposure = A.exposures?.find(x => x.exposureId === entry.exposureId)
+  const timedLoadEnabled = timed && exposure?.timedLoad?.version === 1
   const prescription = S.prescriptions?.[exposure?.prescriptionId]
   // What the rows are held against (#173): the last time in this routine (#216), or the best set
   // of the exercise ever logged — after a bad day, "last time" puts the bad day on the screen as
@@ -559,6 +560,14 @@ function ExerciseBlock({ entryIdx, compact, dense, editing, onToggle, onToggleSi
           // as RIR 0 wherever effort is read, unless a rating was logged on the set. A timed
           // per-side pair is one set, so both halves get it.
           !warm && mode !== 'cardio' && { icon: 'gauge', label: t('Taken to failure'), sub: t('Nothing left in the tank'), on: isFailureSet(s), onClick: () => toggleFailureAt(i) },
+          // A logged hold can meet its timer while losing technical position.
+          // This flag is independent of Done, which records that the hold was attempted.
+          !warm && timedLoadEnabled && {
+            icon: 'shield', label: t('Technique valid'),
+            sub: t('Mark off when the hold lost its proper position'),
+            on: s.techniqueValid !== false,
+            onClick: () => onField(i, 'techniqueValid', s.techniqueValid === false ? null : false)
+          },
           // Cardio's effort lives here, not in a column (the third one is the incline): RPE only,
           // whatever the profile logs, since reps in reserve mean nothing on a treadmill. Stored as
           // `rpe` on the set, which the fatigue model already reads (recovery.js via rirOf).
@@ -715,9 +724,10 @@ function ExerciseBlock({ entryIdx, compact, dense, editing, onToggle, onToggleSi
   // from. The button's own label speaks for it, so a screen reader hears it with the set number.
   const failMark = s => isFailureSet(s) ? <span className="failmark" aria-hidden="true">{t('F')}</span> : null
   const failSay = (s, label) => isFailureSet(s) ? label + ', ' + t('Taken to failure') : label
+  const techniqueSay = (s, label) => timedLoadEnabled && s.techniqueValid === false ? label + ', ' + t('Technique invalid') : label
   const plainRow = (s, i) => (
     <div ref={el => onSetRowRef?.(i, el)} data-tour="set" className={'setrow' + (s.done ? ' done' : '') + (col3 ? ' eff3' : '') + (timed ? ' timed' : '')}>
-      <button type="button" className="n" aria-label={trendSay(i, failSay(s, sideTagOf(s) ? t('Set {0} ({1})', setNumOf(s, i), sideTagOf(s)) : t('Set {0}', setNumOf(s, i))))} aria-describedby={optsId} title={t('More')} onClick={() => openSetMenu(s, i)}>{setNumOf(s, i)}{failMark(s)}{trendMark(i)}</button>
+      <button type="button" className="n" aria-label={trendSay(i, techniqueSay(s, failSay(s, sideTagOf(s) ? t('Set {0} ({1})', setNumOf(s, i), sideTagOf(s)) : t('Set {0}', setNumOf(s, i)))))} aria-describedby={optsId} title={t('More')} onClick={() => openSetMenu(s, i)}>{setNumOf(s, i)}{failMark(s)}{timedLoadEnabled && s.techniqueValid === false && <span className="failmark" aria-hidden="true">!</span>}{trendMark(i)}</button>
       {/* Both words sit in the pill's one grid cell (::before/::after, hidden), so Left and
           Right are as wide as the longer of the two in every language and the inputs
           after them line up (#322). */}
@@ -1397,7 +1407,7 @@ function ActiveWorkout() {
     e.sets[i] = markWarmupEdited(e.sets[i], field)
     })
     // A corrected completed working set must immediately recompute the remaining ATP2 load.
-    if (!editing && wasLogged && (field === 'w' || field === 'r' || field === 'sec')) updateActive(a => { refreshAtp2Live(a, idx); refreshTimedLoadLive(a, idx) })
+    if (!editing && wasLogged && (field === 'w' || field === 'r' || field === 'sec' || field === 'techniqueValid')) updateActive(a => { refreshAtp2Live(a, idx); refreshTimedLoadLive(a, idx) })
   }
   const modeAt = idx => modeOf({ ...(A.entries[idx].target || {}), id: A.entries[idx].id })
   const addSet = idx => mutEntry(idx, e => {

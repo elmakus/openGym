@@ -124,6 +124,18 @@ describe('Timed Load: actual Engine v2 session→rows→finish→persist→next 
     expect(replayTimedLoadHistory(s.workouts)).toEqual(saved.timedLoadStates)
   })
 
+  it('regression #3: technique-invalid completed hold persists, edits and replays exactly',()=>{
+    const s=S(), a=start(s,T0)
+    a.entries[0].sets.forEach(row=>{row.done=true;row.sec=30})
+    a.entries[0].sets[3].techniqueValid=false
+    const live=finish(s,a)
+    expect(live.timedLoadStates['side-plank-timed']).toMatchObject({target:30,fails:1})
+    const saved=JSON.parse(JSON.stringify(live.session))
+    expect(saved.exposures[0].performance.sets[3].techniqueValid).toBe(false)
+    expect(rowsOfPerformance(saved.exposures[0].performance.sets,'time')[3].techniqueValid).toBe(false)
+    expect(replayTimedLoadHistory([saved])).toEqual(live.timedLoadStates)
+  })
+
   it('opt-out keeps old Engine behaviour and no Timed Load state',()=>{
     const s=S();s.routines[0].ex[0].timedLoad={...config,enabled:false}
     const a=start(s,T0)
