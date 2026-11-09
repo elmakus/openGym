@@ -2178,6 +2178,7 @@ function ExConfig({ ex, existing: stored, initial, onSave, onDelete, onReplace, 
   const [failure, setFailure] = useState(() => (existing?.failureSets != null ? failureSetsOf(existing) : (existing?.lastToFailure ?? rule.preset === 'greyskull') ? 'last' : []))
   const failureDecided = useRef(existing?.lastToFailure != null || existing?.failureSets != null)
   const [backoff, setBackoff] = useState(() => existing?.backoff === true)
+  const [atp2, setAtp2] = useState(() => existing?.atp2 || { enabled: false, floorWeight: 0 })
   // The warm-ups' own rest (no timer, or a time; neither = like the profile's / the work sets), the
   // break between the two sides of a per-side set, and the slot's planned substitutes
   // (lib/routine-backups.js). All optional, written only when chosen.
@@ -2200,6 +2201,10 @@ function ExConfig({ ex, existing: stored, initial, onSave, onDelete, onReplace, 
   const valid = cardio || (validatePlanRule(rule).ok && (!warmup || typeof warmup !== 'object' || validateWarmup(warmup, weightDecimals())))
   // The plan as the routine shows it: its first phase.
   const plan = planPhase(rule).parameters
+  const canAtp2 = !freestyle && !cardio && !bw && !assisted && !intensifier && !backoff &&
+    !plan.durationSeconds && plan.load?.mode === 'absolute' && plan.load.value > 0 &&
+    plan.reps.min >= (side ? 4 : 2) && plan.reps.max >= plan.reps.min &&
+    plan.sets.min === plan.sets.max && ['manual', 'linear'].includes(rule.preset)
   const canFailure = !cardio && rule.preset !== 'pyramid_reps'
   const backoffStep = planOptions(rule).step?.type === 'absolute' ? planOptions(rule).step.value : rule.rounding.step
   const backoffPreview = plan.load.mode === 'absolute' && plan.load.value > 0 && backoffStep > 0
@@ -2242,6 +2247,7 @@ function ExConfig({ ex, existing: stored, initial, onSave, onDelete, onReplace, 
       ...(isBellEx(ex) && !bw && dbLoad ? { dbLoad } : {}),
       ...(canFailure ? failureFieldsOf(failure, failureSetRange(rule).max) : {}),
       ...(canBackoff && backoff ? { backoff: true } : {}),
+      ...(canAtp2 && atp2.enabled ? { atp2: { enabled: true, floorWeight: Math.max(0, Number(atp2.floorWeight) || 0) } } : {}),
       ...(!cardio && bw !== isBodyweightEq(ex.id) ? { bodyweight: bw } : {}),
       ...(trimmedNote ? { note: trimmedNote } : {}),
     }
@@ -2328,6 +2334,20 @@ function ExConfig({ ex, existing: stored, initial, onSave, onDelete, onReplace, 
       restDefault={restDefault} defaultRest={st.restSec} onRestDefault={on => { setRestDefault(on); if (on) setRule(r => withRest(r, st.restSec)) }}
       // A rest-pause set is the exercise's one work set, taken to failure by what it is.
       extra={canFailure && intensifier?.type !== 'restpause' ? <FailureSets rule={rule} value={failure} onChange={v => { failureDecided.current = true; setFailure(v) }} /> : null} />}
+
+    {canAtp2 && tab === 'progression' && <div className="sect-b" style={{ marginTop: 18, marginBottom: 12 }}>
+      <Row icon="steps" title="ATP2-BOOK (experimental)"
+        subtitle="Liftosaur-compatible load calibration and Turbo between work sets. Replaces built-in progression for this exercise.">
+        <Switch checked={atp2.enabled === true} onChange={enabled => setAtp2(x => ({ ...x, enabled }))} />
+      </Row>
+      {atp2.enabled && <div style={{ padding: '6px 16px 14px' }}>
+        <Stepper label="Minimum native load" unit={st.unit}
+          value={Number(atp2.floorWeight) || 0} min={0}
+          step={rule.rounding.step || 2.5}
+          onChange={floorWeight => setAtp2(x => ({ ...x, floorWeight }))} />
+        <div className="small dim">Actual completed reps drive ATP2. Work sets initially show 1 rep (no-result sentinel), so enter your real reps before marking each set done.</div>
+      </div>}
+    </div>}
 
     {panel('options', <>
       {!cardio && <>
@@ -4018,7 +4038,7 @@ function doFinishWorkout() {
   const past = !!A.backfill
   // Read before the session is gone: the summary offers these to their routines (#592).
   const additions = past ? [] : routineAdditions({ exposures: exposuresWithPerformance(A.exposures || [], A.entries || [], st.unit) }, st.routines, st.unit)
-  const { session: w, oneRepMaxes, progression } = buildCompletedSession(A, st, {
+  const { session: w, oneRepMaxes, progression, atp2States } = buildCompletedSession(A, st, {
     end: past ? backfillEnd(A) : sessionEnd(A), newId: uid, unit: st.unit
   })
   const { prs, e1prs } = recordsOf(st, w, { backfill: past })
@@ -4044,7 +4064,13 @@ function doFinishWorkout() {
     for (const record of oneRepMaxes) s.oneRepMaxes = appendOneRm(s.oneRepMaxes, record)
     // A backfilled session is older than the live track state; merging its advance would
     // rewind (or double-count) progress a newer session already made.
-    if (!past) s.progression = { ...(s.progression || {}), ...progression }
+    if (!past) {
+      s.progression = { ...(s.progression || {}), ...progression }
+      if (Object.keys(atp2States).length) s.trainingControl = {
+        ...(s.trainingControl || {}),
+        atp2: { ...(s.trainingControl?.atp2 || {}), ...atp2States }
+      }
+    }
     // A rotation pass this app manages starts its next pass the moment the last session lands
     // (lib/rotation.js). A planner's queue is left alone: it completes and waits for its writer.
     refillAfter(s, w)
