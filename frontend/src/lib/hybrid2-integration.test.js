@@ -12,11 +12,19 @@ import { SIDE_PLANK_TIMED_CONFIG } from '../../../api/training-control/timed-loa
 import { replayProgression } from './prescription/index.js'
 
 const startAt = Date.UTC(2026, 10, 9, 10)
+// Unlike generic controller fixtures, live openGym tracks use occurrenceId
+// as their actual progression identity. Preserve topology and thresholds while
+// explicitly binding identities to the real Engine v2 mapping.
+const liveK5Adapter = structuredClone(K5.adapter)
+for (const occurrence of liveK5Adapter.occurrences)
+  if (occurrence.progressionIdentity !== null) occurrence.progressionIdentity = occurrence.occurrenceId
+for (const signal of liveK5Adapter.signals) signal.progressionIdentity = signal.occurrence
+
 const buildProfile = () => ({
   engineSchemaVersion: 2, unit: 'kg', restSec: 90, workouts: [],
   prescriptions: {}, progression: {}, oneRepMaxes: {}, bodyweight: [], exWeights: {},
   trainingControl: { hybrid2Config: { version: 1, enabled: true,
-    adapter: structuredClone(K5.adapter) } },
+    adapter: structuredClone(liveK5Adapter) } },
   routines: K5.routines.map(r => ({ ...r, ex: r.ex.map(x => x.occurrenceId.endsWith(':closer')
     ? { ...ruleOccurrence('0089', { preset:'hold_seconds', occurrenceId: x.occurrenceId, routineId:r.id,
       options:{ sets:{ min:2, max:2 }, durationSeconds:{ min:30, max:30 } } }),

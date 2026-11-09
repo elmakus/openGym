@@ -151,3 +151,55 @@ The current Python oracle test group (37 PASS), the pinned 4,467-transition
 cross-language fixture and the openGym automated H1 tests apply the accepted
 asymmetric policy. The older failure is recorded, not suppressed or
 changed to force a green report.
+
+## Independent adversarial review corrective — 2026-11-09
+
+Five failing cases from the independent audit were reproduced on the exact
+reviewed commit a658ddd8bee5a98d3dd76a06d83303d40819fed6 and preserved
+unchanged as regression tests in api/training-control.
+
+**Fake terminal closer.** The replay reducer used occurrenceId as a Map
+key and checked signal identity only for configured H1 signals, not for
+non-signal terminal closers. A renamed ordinary exposure could therefore
+claim a completed closer and reset the entire H1 epoch. The new
+hybrid2/evidence.js validates the **entire occurrence identity, routineId,
+cyclePosition, progressionIdentity, signalId, signalClass and (where declared)
+exercise identity**, before recognizing a closer or processing any H1 data.
+An actual trackId must match the declared progression identity.
+
+**Three missing persisted-contract checks.** History previously accepted
+a HYBRID-1 controller marker, an H2 exposure without its structural workout
+event, and an obsolete metric version. The validator now requires the
+workout event with HYBRID-2 and HYBRID-STATE-2 identifiers, exact namespace,
+planVersion, adapterFingerprint and structural positions. Each tagged
+exposure must match the accepted H1-EPL-1 / H1-ASYM-M3-1 versions and the
+compiled Static Plan Adapter. A mismatched namespace, stripped tag on a
+declared occurrence, duplicate occurrence or inconsistent recorded position
+fails closed. Foreign H2 namespaces require explicit review instead of
+silently reusing an unrelated epoch. Ordinary old workouts without any H2
+markers still replay without new metadata requirements.
+
+**Extreme repetitions.** H2PERF-DEC-001 defines an approximately 5–20-rep
+initial loaded-reps operating envelope. The comparability boundary now
+returns INDETERMINATE above **20 completed reps**, using the accepted upper
+endpoint rather than inventing a wider threshold. Such samples cannot seed
+or inflate the reference, issue weak votes or spuriously queue deload.
+A genuine subordinate candidate raise still arms candidateGuard. Since the
+accepted lower edge is explicitly approximate and a strict numeric minimum
+is not separately approved, existing low-rep/paired-set sentinels remain
+unchanged. Review of borderline low-rep samples is still needed.
+
+**Legal incomplete performance.** A properly identified skipped or missing
+working set remains INVALID/INDETERMINATE H1 evidence; this differs from a
+corrupt structural event. Skipping all working sets of the authentic deload
+closer does not trigger an H1 reset.
+
+**Test provenance.** The original five independent assertions were copied
+without altered expectations. Added hybrid2-evidence-contract.test.mjs
+covers K5, M6 and SYN4 identities and version fields, closer spoofing,
+stripped tags, legacy records, skipped sets, and 300-rep H1 pollution.
+The actual native openGym UI fixture explicitly maps progressionIdentity
+to its real occurrence-based trackId. It does not modify a real user plan.
+
+No RTT, live account changes, production database modifications, APK,
+merge or deployment are included in this correction.
