@@ -5,6 +5,7 @@ import { auditExecution, normalizeEffort, operatorFor, phaseOf, planOptions, pla
 import { isSideSet, isWarmupRow, isFailureSet, makeSideSet, syncSideAggregate } from './workout-model.js'
 import { applyIntensifierPlan, applyFailurePlan, modeOf } from './history.js'
 import { inclineFrom } from './incline.js'
+import { prefillAtp2Entry } from './atp2-session.js'
 import { pyramidLabel } from './pyramid.js'
 
 const weightOf = (p, i) => p.prefill.load?.value ?? p.rows[i]?.load?.value ?? null
@@ -92,7 +93,7 @@ function intensified(p, exposure) {
 export function entriesForExposures(exposures, prescriptions) {
   return exposures.map(exposure => {
     const p = prescriptions[exposure.prescriptionId]
-    return {
+    const entry = {
       id: exposure.exerciseId,
       exposureId: exposure.exposureId,
       ...(exposure.routineId ? { rid: exposure.routineId } : {}),
@@ -106,6 +107,7 @@ export function entriesForExposures(exposures, prescriptions) {
       ...(p.prefill.carried ? { carried: true } : {}),
       sets: [...(p.warmupRows || []).map(warmupRowFor), ...intensified(p, exposure)]
     }
+    return prefillAtp2Entry(entry, exposure)
   })
 }
 
