@@ -1,0 +1,435 @@
+{
+  "schema": "HYBRID2-RTT-PRIVATE-ADAPTIVE-UPDATE-FUSION-1",
+  "pin": {
+    "runtime": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+    "fitness": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+    "openGymBase": "8529b2d41b28fea8ae96a50325aaf28e864a0160",
+    "originalSourceSha256": "7b1c7d114229b4d1cf86093409d7d89ae4e7d88e6a0c1c4c89bcba30a4a425df",
+    "queuedSourceSha256": "b1f481de1385292b63ae12d7873c37f386e5f521c4807b89bfa503c8ddaa89e5",
+    "settings": "Frozen original Marta baseline; NOT active gym",
+    "privateOriginalPublished": false,
+    "accountWrites": 0,
+    "fusedInitialSha256": "435865f44eed0c8d27ace9e9d45d11633df15897ff20328f92cb0d04890427f2",
+    "fusedQueuedSha256": "b4b52dbfbb8dbbc94ddc1e1f18a1e268967b65ab597b8e88db98bcfcf4418583",
+    "templateUpdateSha256": "5ff793946b549a2d9fd9280aaa98b379acdfc8530679da624e63f128345fe6c0"
+  },
+  "experiments": [
+    {
+      "id": "fusion-shape",
+      "mergedOccurrenceOverrides": 29,
+      "originalSourceUntouched": true,
+      "parser": "PASS"
+    },
+    {
+      "id": "NORMAL-against-native-inherited-Adaptive",
+      "nativeWorkouts": 6,
+      "normal": [
+        {
+          "day": 1,
+          "matchedAllProgressStates": true
+        },
+        {
+          "day": 2,
+          "matchedAllProgressStates": true
+        },
+        {
+          "day": 3,
+          "matchedAllProgressStates": true
+        }
+      ]
+    },
+    {
+      "id": "INTRO-against-native-original-RTT",
+      "nativeWorkouts": 6,
+      "days": [
+        {
+          "day": 1,
+          "secondSetNativeAccepted": true,
+          "secondSetAfterFirstAccepted": true
+        },
+        {
+          "day": 2,
+          "secondSetNativeAccepted": true,
+          "secondSetAfterFirstAccepted": true
+        },
+        {
+          "day": 3,
+          "secondSetNativeAccepted": true,
+          "secondSetAfterFirstAccepted": true
+        }
+      ]
+    },
+    {
+      "id": "QUEUED-full-native-DELOAD-with-all-RTT",
+      "nativeWorkouts": 3,
+      "days": [
+        {
+          "day": 1,
+          "anchors": 6,
+          "invalidSetProbes": 11,
+          "active": 1,
+          "queued": 0,
+          "resetOnCloser": false
+        },
+        {
+          "day": 2,
+          "anchors": 6,
+          "invalidSetProbes": 13,
+          "active": 1,
+          "queued": 0,
+          "resetOnCloser": false
+        },
+        {
+          "day": 3,
+          "anchors": 6,
+          "invalidSetProbes": 12,
+          "active": 0,
+          "queued": 0,
+          "resetOnCloser": true
+        }
+      ]
+    },
+    {
+      "id": "STALE-shared-write-order-native-controls",
+      "nativeWorkouts": 3,
+      "cases": [
+        {
+          "id": "first-anchor-only",
+          "executedSlots": [
+            1
+          ],
+          "cleared": true,
+          "rolloverClear": 1,
+          "tagCounts": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          }
+        },
+        {
+          "id": "second-anchor-only",
+          "executedSlots": [
+            2
+          ],
+          "cleared": true,
+          "rolloverClear": 1,
+          "tagCounts": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          }
+        },
+        {
+          "id": "first-then-second",
+          "executedSlots": [
+            1,
+            2
+          ],
+          "cleared": true,
+          "rolloverClear": 1,
+          "tagCounts": {
+            "1": 0,
+            "2": 3,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "INDUCED-STALE-original-progress-shared-tag920",
+      "nativeWorkouts": 2,
+      "mode": "scratch RTT mode 2 after genuine day-A deload (not naturally occurring)",
+      "dayA": {
+        "rolloverClear": 1,
+        "active": 0,
+        "tags": {
+          "1": {
+            "day": 1,
+            "occurrenceCount": 0,
+            "canonicalCount": 0,
+            "occurrenceIsReset": true,
+            "canonicalIsReset": true
+          },
+          "2": {
+            "day": 1,
+            "occurrenceCount": 3,
+            "canonicalCount": 3,
+            "occurrenceIsReset": false,
+            "canonicalIsReset": false
+          },
+          "3": {
+            "day": 2,
+            "occurrenceCount": 0,
+            "canonicalCount": 0,
+            "occurrenceIsReset": true,
+            "canonicalIsReset": true
+          },
+          "4": {
+            "day": 2,
+            "occurrenceCount": 0,
+            "canonicalCount": 0,
+            "occurrenceIsReset": true,
+            "canonicalIsReset": true
+          },
+          "5": {
+            "day": 3,
+            "occurrenceCount": 0,
+            "canonicalCount": 0,
+            "occurrenceIsReset": true,
+            "canonicalIsReset": true
+          },
+          "6": {
+            "day": 3,
+            "occurrenceCount": 0,
+            "canonicalCount": 0,
+            "occurrenceIsReset": true,
+            "canonicalIsReset": true
+          }
+        }
+      },
+      "dayB": {
+        "rolloverClear": 0,
+        "active": 0,
+        "tags": {
+          "1": {
+            "day": 1,
+            "occurrenceCount": 0,
+            "canonicalCount": 0,
+            "occurrenceIsReset": true,
+            "canonicalIsReset": true
+          },
+          "2": {
+            "day": 1,
+            "occurrenceCount": 3,
+            "canonicalCount": 3,
+            "occurrenceIsReset": false,
+            "canonicalIsReset": false
+          },
+          "3": {
+            "day": 2,
+            "occurrenceCount": 0,
+            "canonicalCount": 0,
+            "occurrenceIsReset": true,
+            "canonicalIsReset": true
+          },
+          "4": {
+            "day": 2,
+            "occurrenceCount": 0,
+            "canonicalCount": 0,
+            "occurrenceIsReset": true,
+            "canonicalIsReset": true
+          },
+          "5": {
+            "day": 3,
+            "occurrenceCount": 0,
+            "canonicalCount": 0,
+            "occurrenceIsReset": true,
+            "canonicalIsReset": true
+          },
+          "6": {
+            "day": 3,
+            "occurrenceCount": 0,
+            "canonicalCount": 0,
+            "occurrenceIsReset": true,
+            "canonicalIsReset": true
+          }
+        }
+      }
+    },
+    {
+      "id": "POST-DELOAD-native-relearn-vs-openGym",
+      "nativeWorkouts": 9,
+      "cycles": [
+        {
+          "cycle": 1,
+          "observedSignals": 6,
+          "differences": 0,
+          "anchorCounts": [
+            {
+              "slot": 1,
+              "count": 1
+            },
+            {
+              "slot": 2,
+              "count": 1
+            },
+            {
+              "slot": 3,
+              "count": 1
+            },
+            {
+              "slot": 4,
+              "count": 1
+            },
+            {
+              "slot": 5,
+              "count": 1
+            },
+            {
+              "slot": 6,
+              "count": 1
+            }
+          ]
+        },
+        {
+          "cycle": 2,
+          "observedSignals": 6,
+          "differences": 0,
+          "anchorCounts": [
+            {
+              "slot": 1,
+              "count": 2
+            },
+            {
+              "slot": 2,
+              "count": 2
+            },
+            {
+              "slot": 3,
+              "count": 2
+            },
+            {
+              "slot": 4,
+              "count": 2
+            },
+            {
+              "slot": 5,
+              "count": 2
+            },
+            {
+              "slot": 6,
+              "count": 2
+            }
+          ]
+        },
+        {
+          "cycle": 3,
+          "observedSignals": 6,
+          "differences": 0,
+          "anchorCounts": [
+            {
+              "slot": 1,
+              "count": 3
+            },
+            {
+              "slot": 2,
+              "count": 3
+            },
+            {
+              "slot": 3,
+              "count": 3
+            },
+            {
+              "slot": 4,
+              "count": 3
+            },
+            {
+              "slot": 5,
+              "count": 3
+            },
+            {
+              "slot": 6,
+              "count": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "nativeFinishedWorkouts": 29,
+  "nativeSetProbes": 48,
+  "comparisons": 688,
+  "failures": [
+    {
+      "phase": "stale-H1-reset-perf1",
+      "slot": 2
+    },
+    {
+      "phase": "stale-H1-reset-perf2",
+      "slot": 2
+    },
+    {
+      "phase": "stale-H1-reset-perf3",
+      "slot": 2
+    },
+    {
+      "phase": "stale-H1-reset-perfCount",
+      "slot": 2
+    },
+    {
+      "phase": "stale-H1-reset-perfReference",
+      "slot": 2
+    },
+    {
+      "phase": "stale-exact-once-perf1",
+      "slot": 2
+    },
+    {
+      "phase": "stale-exact-once-perf2",
+      "slot": 2
+    },
+    {
+      "phase": "stale-exact-once-perf3",
+      "slot": 2
+    },
+    {
+      "phase": "stale-exact-once-perfCount",
+      "slot": 2
+    },
+    {
+      "phase": "stale-exact-once-perfReference",
+      "slot": 2
+    },
+    {
+      "phase": "stale-canonical-tag-H1-perf1",
+      "slot": 2
+    },
+    {
+      "phase": "stale-canonical-tag-H1-perf2",
+      "slot": 2
+    },
+    {
+      "phase": "stale-canonical-tag-H1-perf3",
+      "slot": 2
+    },
+    {
+      "phase": "stale-canonical-tag-H1-perfCount",
+      "slot": 2
+    },
+    {
+      "phase": "stale-canonical-tag-H1-perfReference",
+      "slot": 2
+    },
+    {
+      "phase": "stale-canonical-tag-H1-perf1",
+      "slot": 2
+    },
+    {
+      "phase": "stale-canonical-tag-H1-perf2",
+      "slot": 2
+    },
+    {
+      "phase": "stale-canonical-tag-H1-perf3",
+      "slot": 2
+    },
+    {
+      "phase": "stale-canonical-tag-H1-perfCount",
+      "slot": 2
+    },
+    {
+      "phase": "stale-canonical-tag-H1-perfReference",
+      "slot": 2
+    }
+  ],
+  "exclusion": "Validation-only fused copied template update; not a production fix. No real program modified.",
+  "failureCount": 20
+}

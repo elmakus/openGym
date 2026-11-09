@@ -162,3 +162,20 @@ node scripts/hybrid2-runtime-parity/run-current-krzysztof-native.mjs
 The actual current K5 runner uses a **synthetic custom label registry** from the original H2PERF-T04 fixture. The original pinned Playground does not implement `change_reps_left`, so `paired:1` `Single-Leg Leg Press` cannot be validated as a bilateral result; explicitly treat those 4 steps as INDETERMINATE rather than product RED. All private source and numeric loads remain off GitHub. Only [sanitized source hashes](../../docs/validation/hybrid2-runtime-parity/current-live-source-metadata.json), [read-only live M6/K5 results](../../docs/validation/hybrid2-runtime-parity/CURRENT_LIVE_K5_M6_NATIVE.md), [genuine M6 RTT cause](../../docs/validation/hybrid2-runtime-parity/M6_RTT_UPDATE_SHADOW_CAUSAL.md), and [shared native proof](../../docs/validation/hybrid2-runtime-parity/SHARED_H1_NATIVE_DIFF.md) are committed.
 
 **DO NOT** delete 29 RTT overrides from a real account/program as a fix: that was intentionally a destructive-of-RTT-in-intro control performed only on a temporary private test string. Product change would need a separate reviewed authorization.
+
+
+## RTT update fusion / stale shared-tag native diagnostic (2026-11-10)
+
+Use the original read-only current M6 source and queued serialized snapshot in the private scratch directory. This experiment deliberately returns nonzero due to an **induced shared stale-reset RED**, after successfully testing NORMAL, INTRO, full 36-occurrence deload set budgets and three native H1 relearning cycles.
+
+```sh
+export FITNESS_ROOT=/tmp/hybrid2-runtime-parity-20261109/fitness
+export LIFTOSAUR_RUNTIME_ROOT=/tmp/hybrid2-runtime-parity-20261109/liftosaur
+export PRIVATE_LIVE_ROOT=/tmp/hybrid2-runtime-parity-20261109/private-live
+export H2_PARITY_OUT=/tmp/hybrid2-runtime-parity-20261109/evidence
+node scripts/hybrid2-runtime-parity/run-current-marta-rtt-fused.mjs
+# Expected: 29 native finished workouts, 48 set probes, 688 assertions,
+# 20 RED fields under synthetic RTT mode-switch stale rollover. Do not mask.
+```
+
+[Native findings](../../docs/validation/hybrid2-runtime-parity/M6_RTT_NONDESTRUCTIVE_UPDATE_FUSION_NATIVE.md) and [sanitized trace](../../docs/validation/hybrid2-runtime-parity/rtt-fused-native-sanitized.json) retain source SHA proofs and comparison details, excluding any private training loads or Liftoscript source. The source composition happens only in isolated memory and is not a production patch.
