@@ -1,4 +1,4 @@
-import test from 'node:test'
+import { test } from 'vitest'
 import assert from 'node:assert/strict'
 import { prepareAtp2Session, prefillAtp2Entry, refreshAtp2Live } from './atp2-session.js'
 
