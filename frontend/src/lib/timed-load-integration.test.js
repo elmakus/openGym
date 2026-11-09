@@ -77,10 +77,11 @@ describe('Timed Load: actual Engine v2 session→rows→finish→persist→next 
       bridgeTarget:null,bridgeProvenance:null
     }}
     const a=start(s,T0);expect(a.entries[0].sets[0].w).toBe(8)
-    a.entries[0].sets[0].w=7;a.entries[0].sets[0].done=true
+    // The first logical set is a completed L/R pair, not a lone side.
+    for (const i of [0,1]) { a.entries[0].sets[i].w=7;a.entries[0].sets[i].done=true }
     refreshTimedLoadLive(a,0)
     expect(a.entries[0].sets.map(r=>r.w)).toEqual([7,7,7,7])
-    a.entries[0].sets.slice(1).forEach(r=>{r.done=true;r.sec=45})
+    a.entries[0].sets.slice(2).forEach(r=>{r.done=true;r.sec=45})
     const result=finish(s,a)
     expect(result.timedLoadStates['side-plank-timed']).toMatchObject({load:7,target:45})
     expect(start(s,T0+86400000).entries[0].sets[0].w).toBe(7)
@@ -102,6 +103,25 @@ describe('Timed Load: actual Engine v2 session→rows→finish→persist→next 
     const result=finish(s,a)
     expect(result.timedLoadStates['side-plank-timed']).toMatchObject({initialized:true,load:6,target:35})
     expect(replayTimedLoadHistory(s.workouts)).toEqual(result.timedLoadStates)
+  })
+
+  it('regression #2: a lone completed right side of set 1 cannot downshift remaining sets',()=>{
+    const s=S()
+    // Build real chronological history first, so a replay has the same 8 kg baseline.
+    const prior=start(s,T0-86400000)
+    fill(prior,30,8)
+    finish(s,prior)
+    const a=start(s,T0)
+    // Completing row index 1 is NOT completing Liftosaur setIndex == 1.
+    a.entries[0].sets[1].w=7
+    a.entries[0].sets[1].done=true
+    const result=refreshTimedLoadLive(a,0)
+    expect(a.entries[0].sets.map(r=>r.w)).toEqual([8,7,8,8])
+    expect(a.entries[0].sets[0].done).toBe(false)
+    expect(result.nextState.load).toBe(8)
+    const saved=finish(s,a)
+    expect(saved.timedLoadStates['side-plank-timed']).toMatchObject({load:8,target:35,fails:1})
+    expect(replayTimedLoadHistory(s.workouts)).toEqual(saved.timedLoadStates)
   })
 
   it('opt-out keeps old Engine behaviour and no Timed Load state',()=>{

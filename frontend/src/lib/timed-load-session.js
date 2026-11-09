@@ -50,17 +50,18 @@ export function refreshTimedLoadLive(active, entryIndex) {
   // including an upward conservative starting load (e.g. 0 -> 6 kg).
   const calibrated = !spec.initialState.initialized && firstSet &&
     firstSet.weightKg !== spec.initialState.load
-  const first = rows.find(r => r.completed)
-  const lower = spec.initialState.initialized && first && first.weightKg != null &&
-    first.weightKg < spec.initialState.load ? viewLoad(first.weightKg, spec.unit) : null
+  // As in Liftoscript update(), only setIndex == 1 can own a downshift.
+  // An arbitrary completed R side or later set is never a valid trigger.
+  const lower = spec.initialState.initialized && firstSet &&
+    firstSet.weightKg < spec.initialState.load ? viewLoad(firstSet.weightKg, spec.unit) : null
   const carried = calibrated ? viewLoad(firstSet.weightKg, spec.unit) : lower
   if (carried != null) {
-    const firstDone = rows.findIndex(r => r.completed)
+    const firstSetRows = spec.config.unilateral ? 2 : 1
     let ordinal = 0
     entry.sets = entry.sets.map(row => {
       if (isWarmupRow(row)) return row
       const i = ordinal++
-      return row.done || i <= firstDone ? row : { ...row, w: carried }
+      return row.done || i < firstSetRows ? row : { ...row, w: carried }
     })
   }
   entry.timedLoadPreview = { reason: result.reason, nextTarget: result.nextState.target,

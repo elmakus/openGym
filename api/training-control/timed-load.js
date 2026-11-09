@@ -200,10 +200,13 @@ export function firstTimedLoadSet(rows, raw) {
 /** No completed work = no progression event. Partial work = a failed exposure. */
 export function evaluateTimedLoad({ config, state, rows = [] }) {
   const c = validateTimedConfig(config)
-  const first = rows.find(r => r.completed === true && Number.isFinite(r.weightKg) &&
-    c.ladderKg.includes(r.weightKg))
-  if (!first) return { nextState: state || initialTimedState(c), reason: 'no_completed_work', counted: false }
+  const anyCompleted = rows.some(r => r.completed === true)
+  if (!anyCompleted) return { nextState: state || initialTimedState(c), reason: 'no_completed_work', counted: false }
   let s = adaptTimedState(state, c)
+  const first = firstTimedLoadSet(rows, c)
+  // The initial/native load is owned by logical setIndex == 1. If it was skipped,
+  // later sets cannot silently calibrate or downshift the first-set baseline.
+  if (!s.initialized && !first) return { nextState: s, reason: 'first_set_not_calibrated', counted: false }
   const success = timedExposureSuccess(rows, s, c)
   if (!s.initialized) {
     // First exposure establishes the actual first native load instead of climbing from 0.
@@ -213,7 +216,7 @@ export function evaluateTimedLoad({ config, state, rows = [] }) {
     return { nextState: { ...s, target: ok && c.minTime < c.maxTime ? c.minTime + c.timeStep : c.minTime,
       fails: ok ? 0 : 1 }, reason: 'first_exposure_calibration', counted: true }
   }
-  if (first.weightKg < s.load) {
+  if (first && first.weightKg < s.load) {
     // Liftoscript update() may copy this downshift to later uncompleted sets.
     // progress() only persists the conservative baseline; no automatic promotion.
     return { nextState: stateAt(first.weightKg, s.target), reason: 'manual_conservative_downshift', counted: true }
