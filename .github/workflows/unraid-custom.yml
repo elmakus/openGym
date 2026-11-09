@@ -39,6 +39,24 @@ jobs:
         run: docker build --target default -t opengym-fork-api:build ./api
       - name: Build custom web from fork
         run: docker build -f web/Dockerfile --build-arg APP_BUILD=${GITHUB_SHA::12} -t opengym-fork-web:build .
+      - name: Cache pinned s6 overlay archives
+        uses: actions/cache@v4
+        with:
+          path: deploy/unraid/.build-assets
+          key: opengym-s6-v3.2.3.2-x86_64
+      - name: Download pinned s6 overlay archives with retries
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p deploy/unraid/.build-assets
+          for asset in s6-overlay-noarch.tar.xz s6-overlay-x86_64.tar.xz s6-overlay-symlinks-arch.tar.xz s6-overlay-symlinks-noarch.tar.xz; do
+            target="deploy/unraid/.build-assets/$asset"
+            if [ -s "$target" ]; then continue; fi
+            curl --fail --location --retry 10 --retry-all-errors --retry-delay 5 \
+              --connect-timeout 15 --max-time 120 \
+              "https://github.com/just-containers/s6-overlay/releases/download/v3.2.3.2/$asset" \
+              --output "$target"
+          done
       - name: Package custom all-in-one image
         run: |
           docker build -f deploy/unraid/Dockerfile \

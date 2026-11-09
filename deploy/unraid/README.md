@@ -33,3 +33,7 @@ Application: Duarte Santos and contributors, AGPL-3.0-or-later.
 The one-container s6 and nginx packaging is adapted from
 [0x1917/opengym](https://github.com/0x1917/opengym), AGPL-3.0-or-later.
 Exercise media carry their own terms; see the upstream NOTICE.md.
+
+The s6 overlay build assets are fetched by CI with retry and cached. For manual
+builds download the four v3.2.3.2 archives into `deploy/unraid/.build-assets/`
+first; Dockerfile validates all four pinned SHA256 checksums.

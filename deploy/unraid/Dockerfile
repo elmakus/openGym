@@ -101,10 +101,12 @@ RUN apk add --no-cache nginx gettext tzdata \
 # are needed. The two tiny symlinks tarballs additionally put the s6 binaries on
 # /usr/bin so run/finish scripts (and anyone docker exec-ing in) can call
 # s6-setuidgid / s6-svscanctl without knowing the /command layout.
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp/s6-overlay-noarch.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-x86_64.tar.xz /tmp/s6-overlay-x86_64.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz /tmp/s6-overlay-symlinks-arch.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz /tmp/s6-overlay-symlinks-noarch.tar.xz
+# Downloaded with retries by GitHub Actions into the transient build context.
+# These archives are never committed; the SHA256 verification below remains authoritative.
+COPY deploy/unraid/.build-assets/s6-overlay-noarch.tar.xz /tmp/s6-overlay-noarch.tar.xz
+COPY deploy/unraid/.build-assets/s6-overlay-x86_64.tar.xz /tmp/s6-overlay-x86_64.tar.xz
+COPY deploy/unraid/.build-assets/s6-overlay-symlinks-arch.tar.xz /tmp/s6-overlay-symlinks-arch.tar.xz
+COPY deploy/unraid/.build-assets/s6-overlay-symlinks-noarch.tar.xz /tmp/s6-overlay-symlinks-noarch.tar.xz
 RUN echo "${S6_NOARCH_SHA256}  /tmp/s6-overlay-noarch.tar.xz" | sha256sum -c -                   \
  && echo "${S6_OVERLAY_SHA256}  /tmp/s6-overlay-x86_64.tar.xz" | sha256sum -c -                  \
  && echo "${S6_SYMLINKS_ARCH_SHA256}  /tmp/s6-overlay-symlinks-arch.tar.xz" | sha256sum -c -     \
