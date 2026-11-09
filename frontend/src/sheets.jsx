@@ -84,7 +84,7 @@ import { isFav, toggleFav, sortFavouritesFirst, sortYoursFirst } from './lib/fav
 import { buildSessionExposures, effectiveExerciseId, missingOneRms, occurrenceFor } from './lib/session-start.js'
 import { buildCombinedExposures, deriveSessionName } from './lib/session-merge.js'
 import { entriesForExposures, planSummary, exposuresWithPerformance } from './lib/session-ui-adapter.js'
-import { reconcileSessionHistory, editCompletedSession, editChangesNothing, editLeftEmpty, editedRecord } from './lib/session-edit.js'
+import { reconcileSessionHistory, reconcileAtp2History, editCompletedSession, editChangesNothing, editLeftEmpty, editedRecord } from './lib/session-edit.js'
 import { finishCompare, finishCardio } from './lib/finish-compare.js'
 import { workoutFit, fitFileName } from './lib/fit-export.js'
 import { workoutsOn, backfillStart, backfillEnd, completeBackfill, historyAsOf, sessionHistory } from './lib/backfill.js'
@@ -2886,7 +2886,7 @@ function WorkoutDateEdit({ w, onDone, close }) {
     if (endsInFuture(date, time, durationMinOf(w))) { toast(t('That’s still in the future. Try an earlier start.')); return }
     update(s => {
       const next = moveWorkout(s.workouts, w, date, time)
-      if (next) s.workouts = next
+      if (next) { s.workouts = next; reconcileAtp2History(s) }
     })
     close()
     onDone && onDone()
@@ -4052,6 +4052,7 @@ function doFinishWorkout() {
       const replaced = A.backfill.replaceId ? s.workouts.find(x => x.id === A.backfill.replaceId) : null
       const touched = [...new Set([...(replaced?.exposures || []), ...w.exposures].map(x => x?.exerciseId).filter(id => id != null))]
       s.workouts = rebuildPrHistory(completeBackfill(s.workouts, A, w), touched, w)
+      reconcileAtp2History(s)
       shown = s.workouts.find(x => x === w || (w.id != null && x.id === w.id)) || w
       prs.push(...[...(shown.prs || [])])
     } else {
