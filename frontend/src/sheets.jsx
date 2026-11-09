@@ -84,6 +84,7 @@ import { isFav, toggleFav, sortFavouritesFirst, sortYoursFirst } from './lib/fav
 import { buildSessionExposures, effectiveExerciseId, missingOneRms, occurrenceFor } from './lib/session-start.js'
 import { buildCombinedExposures, deriveSessionName } from './lib/session-merge.js'
 import { entriesForExposures, planSummary, exposuresWithPerformance } from './lib/session-ui-adapter.js'
+import { reconcileHybridHistory } from './lib/hybrid2-sync.js'
 import { reconcileSessionHistory, reconcileAtp2History, reconcileTimedLoadHistory, editCompletedSession, editChangesNothing, editLeftEmpty, editedRecord } from './lib/session-edit.js'
 import { finishCompare, finishCardio } from './lib/finish-compare.js'
 import { workoutFit, fitFileName } from './lib/fit-export.js'
@@ -2906,7 +2907,7 @@ function WorkoutDateEdit({ w, onDone, close }) {
     if (endsInFuture(date, time, durationMinOf(w))) { toast(t('That’s still in the future. Try an earlier start.')); return }
     update(s => {
       const next = moveWorkout(s.workouts, w, date, time)
-      if (next) { s.workouts = next; reconcileAtp2History(s); reconcileTimedLoadHistory(s) }
+      if (next) { s.workouts = next; reconcileAtp2History(s); reconcileTimedLoadHistory(s); reconcileHybridHistory(s) }
     })
     close()
     onDone && onDone()
@@ -4074,10 +4075,12 @@ function doFinishWorkout() {
       s.workouts = rebuildPrHistory(completeBackfill(s.workouts, A, w), touched, w)
       reconcileAtp2History(s)
       reconcileTimedLoadHistory(s)
+      reconcileHybridHistory(s)
       shown = s.workouts.find(x => x === w || (w.id != null && x.id === w.id)) || w
       prs.push(...[...(shown.prs || [])])
     } else {
       w.exposures.forEach(x => {
+        if (x.hybrid2?.deloadFrozen === true) return // H2 deload never updates persistent exercise bests
         const mx = workLoadOf(x)
         if (mx > 0 && beatsWeight(x.exerciseId, mx, (s.exWeights[x.exerciseId] || {}).w || 0)) s.exWeights[x.exerciseId] = { w: mx, d: w.d }
       })
@@ -4096,6 +4099,7 @@ function doFinishWorkout() {
     }
     // A rotation pass this app manages starts its next pass the moment the last session lands
     // (lib/rotation.js). A planner's queue is left alone: it completes and waits for its writer.
+    reconcileHybridHistory(s)
     refillAfter(s, w)
   })
   useStore.getState().clearActive()

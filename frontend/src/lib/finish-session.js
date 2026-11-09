@@ -21,7 +21,7 @@ export function buildCompletedSession(active, profile, { end, newId, unit }) {
   // A track twice in one session (a combined workout) advances once: from its last counted exposure
   // with completed work (an excluded one never counts), as replayProgression does.
   const worked = new Map()
-  for (const x of active.exposures || []) if (!x.excludedFromProgression && (entries.get(x.exposureId)?.sets || []).some(row => row.done && !isWarmupRow(row))) worked.set(x.trackId, x.exposureId)
+  for (const x of active.exposures || []) if (!x.excludedFromProgression && x.hybrid2?.deloadFrozen !== true && (entries.get(x.exposureId)?.sets || []).some(row => row.done && !isWarmupRow(row))) worked.set(x.trackId, x.exposureId)
   const exposures = exposuresWithPerformance(active.exposures || [], active.entries || [], unit).map(({ setupNote, addedInSession, ...exposure }) => {
     const p = profile.prescriptions?.[exposure.prescriptionId]
     if (!p) return exposure
@@ -30,7 +30,7 @@ export function buildCompletedSession(active, profile, { end, newId, unit }) {
     const actual = summarizeActual(p, performed)
     const audit = [...performed.flatMap(set => auditExecution(p, set, state)), ...auditExecution(p, { sets: actual.sets }, state)]
     const done = performed.length > 0   // v1 never saved an entry with no completed set (finish-workout.js)
-    if (!exposure.excludedFromProgression && worked.get(exposure.trackId) === exposure.exposureId) {
+    if (!exposure.excludedFromProgression && exposure.hybrid2?.deloadFrozen !== true && worked.get(exposure.trackId) === exposure.exposureId) {
       if (exposure.atp2?.version === 1) {
         const rows = atp2WorkRows(entries.get(exposure.exposureId))
         atp2States[exposure.trackId] = evaluateAtp2({
@@ -49,16 +49,22 @@ export function buildCompletedSession(active, profile, { end, newId, unit }) {
     }
     // An assistance machine has no 1RM: the load is the help you were given (issue #232).
     const best = bestSetOf({ ...exposure, assisted: p.assisted ?? exposure.assisted }, formulaOf(profile))
-    if ((best?.est ?? 0) > (oneRmForMeaning(profile, exposure.exerciseId, exposure.dbLoad || 'as')?.value || 0)) {
+    if (exposure.hybrid2?.deloadFrozen !== true && (best?.est ?? 0) > (oneRmForMeaning(profile, exposure.exerciseId, exposure.dbLoad || 'as')?.value || 0)) {
       oneRepMaxes.push({ id: newId(`one-rep-max:${exposure.exposureId}`), exerciseId: exposure.exerciseId, value: best.est, low: best.low, high: best.high, unit, ...(exposure.dbLoad ? { dbLoad: exposure.dbLoad } : {}), source: 'estimated', capturedAt: completedAt, sourceRecordId: exposure.exposureId })
     }
-    return { ...exposure, completedAt, actual, audit, sourceAudit: { ...p.provenance }, ...(done ? {} : { excludedFromProgression: true }) }
+    return { ...exposure, completedAt, actual, audit, sourceAudit: { ...p.provenance }, ...(!done || exposure.hybrid2?.deloadFrozen ? { excludedFromProgression: true } : {}) }
   })
   const routineIds = [].concat(active.routineIds ?? (active.routineId ? [active.routineId] : []))
   return {
     session: {
       id: active.id, d: active.d, start: active.start, end, status: 'completed', routineIds,
       name: active.name,
+      ...((active.exposures || []).some(x => x.hybrid2?.version === 1) ? { hybrid2: {
+        version: 1, controllerVersion: 'HYBRID-2', stateSchemaVersion: 'HYBRID-STATE-2',
+        planVersion: (active.exposures || []).find(x => x.hybrid2?.version === 1).hybrid2.planVersion,
+        namespace: (active.exposures || []).find(x => x.hybrid2?.version === 1).hybrid2.namespace,
+        positions: [...new Set((active.exposures || []).filter(x => x.hybrid2?.version === 1).map(x => x.hybrid2.cyclePosition))]
+      } } : {}),
       ...(active.gym && typeof active.gym === 'object' && active.gym.id != null ? { gym: { id: active.gym.id, name: String(active.gym.name || '') } } : {}), ...(active.bw != null ? { bw: active.bw } : {}), exposures,
       vol: workoutVolume(profile, { exposures }),
       ...(active.note?.trim() ? { note: active.note.trim() } : {})
@@ -88,6 +94,7 @@ export function recordsOf(S, session, { backfill = false } = {}) {
   const prs = [], e1prs = []
   if (backfill) return { prs, e1prs }
   for (const x of session.exposures || []) {
+    if (x.hybrid2?.deloadFrozen === true) continue
     if (beatsWeight(x.exerciseId, workLoadOf(x), bestWeightFor(S, x.exerciseId, x.dbLoad))) { prs.push(x.exerciseId); continue }
     const rec = is1RMRecord(S, x.exerciseId, x)
     if (rec) e1prs.push({ id: x.exerciseId, ...rec })

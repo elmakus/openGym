@@ -360,7 +360,7 @@ export function unpairSuperset(items, idx) {
  * build time — editing the routine flag later never rewrites a saved session.
  */
 export function entryExcluded(w, entry) {
-  return w?.excludeFromProgression === true || entry?.noProg === true
+  return w?.excludeFromProgression === true || entry?.noProg === true || entry?.hybrid2?.deloadFrozen === true
 }
 
 /**
@@ -392,7 +392,7 @@ function lastEntryIn(S, exId, rid) {
     // A session that does not count — a planned deload, or a rehab block merged into a real
     // session — is not "last time" for the next regular prescription: its reps and durations
     // must not seed the rows any more than its weight seeds the progression.
-    if (exposure.excludedFromProgression && (exposure.kind !== 'legacy' || exposure.progressionExclusion === 'explicit')) continue
+    if (exposure.hybrid2?.deloadFrozen === true || (exposure.excludedFromProgression && (exposure.kind !== 'legacy' || exposure.progressionExclusion === 'explicit'))) continue
     // Work sets only. Every caller asks the same question — "what did you actually lift last
     // time" — to seed the next session's rows, to size a freestyle config, and to print "Last
     // time" on the card. A warm-up answers none of them: seeding position 0 from a 50% ramp row

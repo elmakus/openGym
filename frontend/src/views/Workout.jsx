@@ -1498,7 +1498,8 @@ function ActiveWorkout() {
   const setNoProg = (idx, on) => updateActive(A => { setEntryNoProg(A, idx, on); syncExposureExclusion(A) })
   // A deload or rehab routine keeps its own exercises out (RoutineEdit). That is the routine's
   // setting, so its entries get the marker but no switch.
-  const routineKeepsOut = e => !!e?.rid && S.routines.some(r => r.id === e.rid && r.excludeFromProgression === true)
+  const routineKeepsOut = e => A.exposures?.some(x => x.exposureId === e?.exposureId && x.hybrid2?.deloadFrozen === true) ||
+    (!!e?.rid && S.routines.some(r => r.id === e.rid && r.excludeFromProgression === true))
   // The same for the whole session from the header ⋮ (Discord, asierlama: "exclude the current
   // workout" on an injury day): every exercise gets the marker, and one added later joins them.
   // Absent when a deload or rehab routine already keeps every exercise out, since nothing is left

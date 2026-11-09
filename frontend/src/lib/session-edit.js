@@ -25,6 +25,7 @@ import { stampWorkout } from './sync-merge.js'
 import { legacySyncKey, rebuildPrHistory } from './workout-date.js'
 import { replayAtp2History } from '../../../api/training-control/history.js'
 import { replayTimedLoadHistory } from '../../../api/training-control/timed-load-history.js'
+import { reconcileHybridHistory } from './hybrid2-sync.js'
 
 const clone = value => structuredClone(value)
 const list = v => (Array.isArray(v) ? v : [])
@@ -208,6 +209,7 @@ export function saveWorkoutEdit(state, now = Date.now()) {
   state.workouts = rebuildPrHistory(state.workouts, touched, record)
   reconcileAtp2History(state)
   reconcileTimedLoadHistory(state)
+  reconcileHybridHistory(state)
   const saved = state.workouts.find(w => keyOf(w) === key)
   lowerKeptWeights(state, touched, current, saved)
   reconcileDerivedOneRms(state)
@@ -266,6 +268,7 @@ export function reconcileTimedLoadHistory(state) {
 export function reconcileSessionHistory(state) {
   reconcileAtp2History(state)
   reconcileTimedLoadHistory(state)
+  reconcileHybridHistory(state)
   reconcileDerivedOneRms(state)
   const tracks = new Set([...Object.keys(state.progression || {}), ...list(state.workouts).flatMap(w => list(w.exposures).map(x => x.trackId).filter(Boolean))])
   state.progression ||= {}

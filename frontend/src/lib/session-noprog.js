@@ -57,6 +57,9 @@ export function syncExposureExclusion(active) {
   const byId = new Map(list(active?.exposures).map(x => [x?.exposureId, x]))
   for (const entry of list(active?.entries)) {
     const exposure = byId.get(entry?.exposureId)
-    if (exposure) exposure.excludedFromProgression = entry.noProg === true
+    if (exposure) {
+      exposure.excludedFromProgression = entry.noProg === true || exposure.hybrid2?.deloadFrozen === true
+      if (exposure.hybrid2?.deloadFrozen === true) entry.noProg = true
+    }
   }
 }

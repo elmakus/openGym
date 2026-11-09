@@ -15,6 +15,7 @@ import { contentHash, deepFreeze } from '../../../api/engine/index.js'
 import { entriesForExposures } from './session-ui-adapter.js'
 import { prepareAtp2Session } from './atp2-session.js'
 import { prepareTimedLoadSession } from './timed-load-session.js'
+import { currentHybridPlan, hybridSessionMetadata, deloadPrescription } from '../../../api/training-control/hybrid2/supervisor.js'
 import { dbLoadFor, bellsIn, ownedWeightsFor, historyAs, meaningFactor, entryDbLoad } from './dumbbells.js'
 
 // How the exercise is logged: the occurrence's own mode, else the catalogue's (a cardio exercise);
@@ -60,6 +61,7 @@ export function effectiveExerciseId(occ, profile) {
 /** Mutates `profile.prescriptions` (the store's update draft) and returns the session exposures. */
 export function buildSessionExposures(stored, routine, ctx) {
   stored.prescriptions ||= {}
+  const hybrid = currentHybridPlan(stored, routine, ctx.now)
   return (routine?.ex || []).map((original, i) => {
     const id = effectiveExerciseId(original, stored)
     const storedOccurrence = id === original.exerciseId ? original : { ...original, exerciseId: id, exerciseName: undefined }
@@ -67,6 +69,7 @@ export function buildSessionExposures(stored, routine, ctx) {
       ? exView({ ...stored, workouts: [...(stored.workouts || [])] }, id) : stored
     const occ = viewTarget(stored, id, storedOccurrence)
     const excluded = routine.excludeFromProgression === true || occ.excludeFromProgression === true
+    const frozen = hybrid?.frozen === true
     // Opt-in only; its state belongs to ATP2, not to Engine v2's standard progression.
     const atp2Requested = !excluded && original.atp2?.enabled === true && !occ.intensifier && !occ.backoff
     const timedRequested = !excluded && !atp2Requested && original.timedLoad?.enabled === true && !occ.intensifier && !occ.backoff
@@ -129,11 +132,25 @@ export function buildSessionExposures(stored, routine, ctx) {
     }
     const slot = excluded ? null : programmeSlot(profile, routine.id, occ.exerciseId, ctx.date || stored.active?.d || isoOf(new Date(ctx.now)))
     if (slot) prescription = programmePrescription(profile, occ, prescription, slot)
+    const nativePrescription = prescription
+    const hybridMeta = hybrid ? hybridSessionMetadata(hybrid, original, profileUnit(stored)) : null
+    if (frozen) {
+      // Only session prescription changes; no durable ATP2/Timed/Engine v2 writes.
+      const adapterOcc = hybrid.adapter.occurrences.find(x => x.occurrenceId === original.occurrenceId)
+      const normalLoad = atp2Requested
+        ? (stored.trainingControl?.atp2?.[trackId]?.candidate ?? prescription.prefill?.load?.value ?? null)
+        : null
+      prescription = deloadPrescription(prescription, {
+        normalLoad, zeroOverride: adapterOcc.zeroOverride === true
+      }).prescription
+      if (!prescription) return null // approved ZERO optional override
+    }
     const exposure = {
       exposureId: ctx.newId(`exposure:${routine.id}:${occ.occurrenceId}:${ctx.now}:${i}`),
       exerciseId: occ.exerciseId, exerciseNameSnapshot: occ.exerciseName || occ.exerciseId, mode: modeFor(occ, prescription),
       routineId: routine.id, occurrenceId: occ.occurrenceId, trackId,
-      excludedFromProgression: excluded || slot?.deload === true,
+      excludedFromProgression: excluded || slot?.deload === true || frozen,
+      ...(hybridMeta ? { hybrid2: hybridMeta } : {}),
       prescriptionId: prescription.id,
       ...Object.fromEntries(['sgName', 'sgRest', 'sideRestOff', 'sideRestSec', 'autoHold', 'warmupRestOff', 'subs', 'restOff'].filter(k => occ[k] != null).map(k => [k, occ[k]])),
       ...(slot ? { programme: { ...slot, why: programmeWhy(slot) } } : {}),
@@ -152,9 +169,9 @@ export function buildSessionExposures(stored, routine, ctx) {
       ...(occ.intensifier && supports(occ.rule)[occ.intensifier.type] ? { intensifier: occ.intensifier } : {}),
       performance: { sets: [] }
     }
-    prescription = sessionWarmups(profile, occ, routine, prescription, exposure, excluded)
+    prescription = sessionWarmups(profile, occ, routine, prescription, exposure, excluded || frozen)
     if (exConverted(stored, occ.exerciseId)) prescription = convPrescription(prescription, profile.unit, profileUnit(stored), true, convertExact, (v, from, to) => convertExact(v, from, to, 10))
-    if (atp2Requested && !exposure.excludedFromProgression && exposure.mode === 'reps' && !assisted) {
+    if (atp2Requested && (frozen || !exposure.excludedFromProgression) && exposure.mode === 'reps' && !assisted) {
       const atp2 = prepareAtp2Session({
         config: original.atp2,
         previous: stored.trainingControl?.atp2?.[trackId],
@@ -162,15 +179,15 @@ export function buildSessionExposures(stored, routine, ctx) {
       })
       if (atp2) exposure.atp2 = atp2
     }
-    if (timedRequested && !exposure.excludedFromProgression && exposure.mode === 'time' && !assisted) {
+    if (timedRequested && (frozen || !exposure.excludedFromProgression) && exposure.mode === 'time' && !assisted) {
       const timedLoad = prepareTimedLoadSession({ config: original.timedLoad,
         previous: stored.trainingControl?.timedLoad?.[trackId],
-        prescription, unilateral: exposure.side === true, unit: profileUnit(stored) })
+        prescription: frozen ? nativePrescription : prescription, unilateral: exposure.side === true, unit: profileUnit(stored) })
       if (timedLoad) exposure.timedLoad = timedLoad
     }
     stored.prescriptions[prescription.id] = prescription
     return exposure
-  })
+  }).filter(Boolean)
 }
 
 const freezePrescription = p => {
