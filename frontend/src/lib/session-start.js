@@ -13,6 +13,7 @@ import { dropGrid } from './plates.js'
 import { isWarmupRow, isSideSet, syncSideAggregate } from './workout-model.js'
 import { contentHash, deepFreeze } from '../../../api/engine/index.js'
 import { entriesForExposures } from './session-ui-adapter.js'
+import { prepareAtp2Session } from './atp2-session.js'
 import { dbLoadFor, bellsIn, ownedWeightsFor, historyAs, meaningFactor, entryDbLoad } from './dumbbells.js'
 
 // How the exercise is logged: the occurrence's own mode, else the catalogue's (a cardio exercise);
@@ -65,6 +66,8 @@ export function buildSessionExposures(stored, routine, ctx) {
       ? exView({ ...stored, workouts: [...(stored.workouts || [])] }, id) : stored
     const occ = viewTarget(stored, id, storedOccurrence)
     const excluded = routine.excludeFromProgression === true || occ.excludeFromProgression === true
+    // Opt-in only; its state belongs to ATP2, not to Engine v2's standard progression.
+    const atp2Requested = !excluded && original.atp2?.enabled === true && !occ.intensifier && !occ.backoff
     const trackId = occ.occurrenceId
     const meaning = dbLoadFor(profile, occ)
     const owned = ownedWeightsFor(profile, occ)
@@ -95,10 +98,10 @@ export function buildSessionExposures(stored, routine, ctx) {
       id: ctx.newId(`prescription:${routine.id}:${occ.occurrenceId}:${ctx.now}:${i}`),
       now: new Date(ctx.now).toISOString(),
       trackId, rule,
-      state: excluded ? null : context.state, lastPrescription: excluded ? null : context.lastPrescription,
+      state: excluded || atp2Requested ? null : context.state, lastPrescription: excluded || atp2Requested ? null : context.lastPrescription,
       // The engine reads a log's id; a saved exposure carries it as exposureId.
-      lastLog: !excluded && context.baseline ? { ...context.baseline, id: context.baseline.exposureId } : null,
-      reset: excluded ? null : context.reset, heldLoad: excluded ? null : context.heldLoad, startFrom: profile.startFrom,
+      lastLog: !excluded && !atp2Requested && context.baseline ? { ...context.baseline, id: context.baseline.exposureId } : null,
+      reset: excluded || atp2Requested ? null : context.reset, heldLoad: excluded || atp2Requested ? null : context.heldLoad, startFrom: profile.startFrom,
       oneRm: oneRmForMeaning(profile, occ.exerciseId, meaning),
       // Lighter is harder on an assisted machine: the engine ramps its warm-ups up in help instead (#581).
       warmup: typeof occ.warmup === 'object' ? occ.warmup : null,
@@ -149,6 +152,14 @@ export function buildSessionExposures(stored, routine, ctx) {
     }
     prescription = sessionWarmups(profile, occ, routine, prescription, exposure, excluded)
     if (exConverted(stored, occ.exerciseId)) prescription = convPrescription(prescription, profile.unit, profileUnit(stored), true, convertExact, (v, from, to) => convertExact(v, from, to, 10))
+    if (atp2Requested && !exposure.excludedFromProgression && exposure.mode === 'reps' && !assisted) {
+      const atp2 = prepareAtp2Session({
+        config: original.atp2,
+        previous: stored.trainingControl?.atp2?.[trackId],
+        prescription, paired: occ.side === true
+      })
+      if (atp2) exposure.atp2 = atp2
+    }
     stored.prescriptions[prescription.id] = prescription
     return exposure
   })
