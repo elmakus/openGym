@@ -44,6 +44,20 @@ describe('ATP2 after full openGym account sync', () => {
     expect(reverse.trainingControl.atp2['track-atp2']).toMatchObject({ candidate: 25, probeActive: 0 })
   })
 
+  it('prefers the newer edit of the same historical workout, then replays ATP2', () => {
+    const stale = { ...workout('shared', 1000, 20, 12), _ts: 100 }
+    const corrected = { ...workout('shared', 1000, 20, 10), _ts: 250 }
+    const a = base({ _ts: 300, workouts: [stale],
+      trainingControl: { atp2: { 'track-atp2': { ...spec.initialState, candidate: 22.5 } } } })
+    const b = base({ _ts: 200, workouts: [corrected],
+      trainingControl: { atp2: { 'track-atp2': { ...spec.initialState, candidate: 22.5 } } } })
+    for (const merged of [mergeStates(a, b), mergeStates(b, a)]) {
+      expect(merged.workouts).toHaveLength(1)
+      expect(merged.workouts[0].exposures[0].performance.sets[0].observations[0].value).toBe(10)
+      expect(merged.trainingControl.atp2['track-atp2'].candidate).toBe(20)
+    }
+  })
+
   it('converts persistent state and historical ATP2 snapshots between kg and lb', () => {
     const source = base({
       workouts: [workout('a', 1000, 20, 18)],
