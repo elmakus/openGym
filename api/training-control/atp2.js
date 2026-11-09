@@ -30,7 +30,7 @@ export function nativeLadder(rounding) {
 export function normalizeAtp2State(state, rounding) {
   const ladder = nativeLadder(rounding)
   if (!Number.isFinite(state?.floorWeight) || !Number.isFinite(state?.candidate)) throw new Error('ATP2 needs candidate and floorWeight')
-  if (!Number.isInteger(state.minTarget) || !Number.isInteger(state.maxTarget) || state.minTarget < 2 || state.maxTarget < state.minTarget) throw new Error('Invalid ATP2 rep range')
+  if (!Number.isInteger(state.minTarget) || !Number.isInteger(state.maxTarget) || state.minTarget < 1 || state.maxTarget < state.minTarget) throw new Error('Invalid ATP2 rep range')
   const floorWeight = ladder.up(state.floorWeight)
   if (floorWeight == null) throw new Error('ATP2 floor is above the equipment ladder')
   const candidate = Math.max(ladder.down(state.candidate) ?? floorWeight, floorWeight)
