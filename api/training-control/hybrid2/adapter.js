@@ -1,6 +1,7 @@
 // Pure static adapter compiler; port of fitness@9f2deb6 hybrid2_plan_adapter.py.
 // No inference from exercise names, weekdays, number of signals or calendar.
 import { CONTROLLER_VERSION, STATE_VERSION, METRIC_VERSION, REFERENCE_VERSION, WEAK_RATIO } from './h1.js'
+import { contentHash } from '../../engine/canonical.js'
 
 const fail = message => { throw new Error('HYBRID-2 adapter: ' + message) }
 const required = (ok, reason) => { if (!ok) fail(reason) }
@@ -97,6 +98,7 @@ export function compilePlanAdapter(adapter, routines = null) {
     controllerVersion: CONTROLLER_VERSION, stateSchemaVersion: STATE_VERSION,
     metricVersion: METRIC_VERSION, referenceVersion: REFERENCE_VERSION,
     controllerTag: a.controllerTag, namespace: a.namespace, planVersion: a.planVersion,
+    adapterFingerprint: contentHash(a),
     orderedCyclePositions: [...a.orderedCyclePositions], cycleStartPosition: a.cycleStartPosition,
     closerOccurrence: a.closerOccurrence,
     occurrences: a.occurrences.map((o, i) => ({ ...o, executionOrder: i + 1, cyclePositionSlot: slots.get(o.cyclePosition),

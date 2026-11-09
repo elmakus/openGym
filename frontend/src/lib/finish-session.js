@@ -62,6 +62,7 @@ export function buildCompletedSession(active, profile, { end, newId, unit }) {
       ...((active.exposures || []).some(x => x.hybrid2?.version === 1) ? { hybrid2: {
         version: 1, controllerVersion: 'HYBRID-2', stateSchemaVersion: 'HYBRID-STATE-2',
         planVersion: (active.exposures || []).find(x => x.hybrid2?.version === 1).hybrid2.planVersion,
+        adapterFingerprint: (active.exposures || []).find(x => x.hybrid2?.version === 1).hybrid2.adapterFingerprint,
         namespace: (active.exposures || []).find(x => x.hybrid2?.version === 1).hybrid2.namespace,
         positions: [...new Set((active.exposures || []).filter(x => x.hybrid2?.version === 1).map(x => x.hybrid2.cyclePosition))]
       } } : {}),

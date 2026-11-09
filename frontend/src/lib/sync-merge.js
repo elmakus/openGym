@@ -1030,11 +1030,13 @@ export function mergeStates(a0, b0, { prefer } = {}) {
   }
   // H1 and deload are never selected from a device's cached controller state.
   // Conflicting offline adapter changes fail closed rather than choosing an LWW H1 epoch.
-  out.trainingControl = { ...(out.trainingControl || {}) }
-  delete out.trainingControl.hybrid2Conflict
-  Object.assign(out.trainingControl, mergeHybridSettings(n, o))
-  delete out.trainingControl.hybrid2
-  reconcileHybridHistory(out)
+  if (n.trainingControl?.hybrid2Config || o.trainingControl?.hybrid2Config) {
+    out.trainingControl = { ...(out.trainingControl || {}) }
+    delete out.trainingControl.hybrid2Conflict
+    Object.assign(out.trainingControl, mergeHybridSettings(n, o))
+    delete out.trainingControl.hybrid2
+    reconcileHybridHistory(out)
+  }
   if (out.engineSchemaVersion === 2) reconcileDerivedOneRms(out)
   // The plate-loading choices (lib/plates.js) are stamped the same way: an exercise's loading and
   // a unit's plate inventory are each one choice, made on one device, that a later set logged on

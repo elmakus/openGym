@@ -3,8 +3,8 @@
 import { replayHybridHistory } from '../../../api/training-control/hybrid2/history.js'
 import { verifyFrozenHistory } from '../../../api/training-control/hybrid2/supervisor.js'
 import { validatePlanAdapter } from '../../../api/training-control/hybrid2/adapter.js'
+import { canonicalJSON } from '../../../api/engine/canonical.js'
 
-const canonical = v => JSON.stringify(v, Object.keys(v || {}).sort())
 export function reconcileHybridHistory(profile) {
   const cfg = profile?.trainingControl?.hybrid2Config
   if (!cfg?.adapter) return null
@@ -40,7 +40,7 @@ export function mergeHybridSettings(local, remote) {
   if (!b) return { hybrid2Config: structuredClone(a) }
   // Equal assignments may be replayed arbitrarily often. Disagreement requires
   // explicit reconciliation by the user; an older enabled adapter cannot win by LWW.
-  if (JSON.stringify(a) === JSON.stringify(b)) return { hybrid2Config: structuredClone(a) }
+  if (canonicalJSON(a) === canonicalJSON(b)) return { hybrid2Config: structuredClone(a) }
   return { hybrid2Config: structuredClone(a),
     hybrid2Conflict: { reason: 'Concurrent HYBRID-2 configuration changes require review',
       local: structuredClone(a), remote: structuredClone(b) } }

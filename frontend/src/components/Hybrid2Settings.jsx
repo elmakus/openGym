@@ -107,7 +107,7 @@ export default function Hybrid2Settings({ profile, update }) {
           {Object.entries(state.anchors || {}).map(([id, anchor]) => <div key={id}
             style={{ marginTop: 5, overflowWrap: 'anywhere' }}>
             <strong>{id}</strong>: {anchor.perfCount}/3 ·
-            {t('Reference')}: {anchor.perfReference ? anchor.perfReference.toFixed(2) : '—'} ·
+            {t('Reference')}: {anchor.perfReference ? anchor.perfReference.toFixed(2) : '–'} ·
             {t('Candidate guard')}: {anchor.candidateGuard}
           </div>)}
           {(diagnostics?.lastDecisions || []).map((decision, index) => <div key={index}

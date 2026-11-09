@@ -21,10 +21,12 @@ const byId = (workouts) => {
   return [...ids.values()]
 }
 const ownSpec = (x, a) => x.hybrid2?.version === 1 &&
-  x.hybrid2.namespace === a.namespace && x.hybrid2.planVersion === a.planVersion
-const tracked = (w, adapter) => (w.exposures || []).filter(x => x.hybrid2?.version === 1)
+  x.hybrid2.namespace === a.namespace && x.hybrid2.planVersion === a.planVersion &&
+  x.hybrid2.adapterFingerprint === a.adapterFingerprint
+const tracked = (w, adapter) => (w.exposures || []).filter(x => x.hybrid2 != null &&
+  (x.hybrid2.namespace == null || x.hybrid2.namespace === adapter.namespace))
   .filter(x => {
-    if (!ownSpec(x, adapter)) fail('adapter version drift in historical log')
+    if (!ownSpec(x, adapter)) fail('adapter version/fingerprint drift in historical log')
     return true
   })
 const progressFor = (exposure, current, previousWorkouts, prescriptions) => {
@@ -70,6 +72,13 @@ export function replayHybridHistory({ workouts = [], adapter, prescriptions = {}
   let lastPosition = -1
   for (const w of sorted) {
     const exposures = tracked(w, compiled)
+    if (w.hybrid2?.namespace === compiled.namespace) {
+      const positions = [...new Set(exposures.map(x => x.hybrid2?.cyclePosition))]
+      if (w.hybrid2.version !== 1 || w.hybrid2.planVersion !== compiled.planVersion ||
+          w.hybrid2.adapterFingerprint !== compiled.adapterFingerprint ||
+          JSON.stringify(w.hybrid2.positions) !== JSON.stringify(positions))
+        fail('structural event metadata mismatch')
+    }
     if (!exposures.length) { lastWorkouts.push(w); continue }
     const positions = [...new Set(exposures.map(x => x.hybrid2.cyclePosition))]
       .sort((a, b) => (positionIndex.get(a) ?? -1) - (positionIndex.get(b) ?? -1))

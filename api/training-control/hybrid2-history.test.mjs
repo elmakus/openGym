@@ -135,7 +135,16 @@ test('backfill, invalid structural order, missing data, duplicate event and adap
   const adapterVersion=json(first)
   adapterVersion[0].exposures[0].hybrid2.planVersion='2'
   assert.throws(()=>replayHybridHistory({workouts:adapterVersion,adapter:M6.adapter}),
-    /adapter version drift/)
+    /adapter version\/fingerprint drift/)
+  const silentlyEdited=json(first)
+  const changedAdapter=json(M6.adapter)
+  changedAdapter.thresholds.fastWeakMin=5
+  assert.throws(()=>replayHybridHistory({workouts:silentlyEdited,adapter:changedAdapter}),
+    /adapter version\/fingerprint drift/)
+  const badEvent=json(first)
+  badEvent[0].hybrid2.positions=['B']
+  assert.throws(()=>replayHybridHistory({workouts:badEvent,adapter:M6.adapter}),
+    /structural event metadata mismatch/)
   const skipped=json(first)
   skipped[0].exposures[0].performance.sets[0].status='skipped'
   const noSample=replayHybridHistory({workouts:skipped,adapter:M6.adapter})

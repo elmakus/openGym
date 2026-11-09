@@ -193,6 +193,9 @@ const convExposure = (exposure, from, to, convert = true, weight = convertWeight
   for (const key of ['legacyTarget', 'legacyPlanned', 'planned']) if (out?.[key]) out[key] = convTarget(out[key], from, to, convert, weight, increment)
   // Timed Load state, config and equipment ladder are canonical kg; only its display unit changes.
   if (exposure.timedLoad?.version === 1) out.timedLoad = { ...exposure.timedLoad, unit: to }
+  // HYBRID-2 observes load in canonical kg, but the external ATP2 candidate is
+  // stored in the profile's display unit. Keep the explicit unit witness together.
+  if (exposure.hybrid2?.version === 1) out.hybrid2 = { ...exposure.hybrid2, unit: to }
   if (convert && exposure.atp2?.version === 1) {
     const spec = exposure.atp2
     out.atp2 = { ...spec,

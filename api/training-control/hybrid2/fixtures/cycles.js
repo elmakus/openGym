@@ -17,6 +17,7 @@ export function makeFixtureCycle({ adapter }, cycle, reps, { frozen = false,
         excludedFromProgression: frozen,
         hybrid2: {
           version:1, namespace:compiled.namespace, planVersion:compiled.planVersion,
+          adapterFingerprint:compiled.adapterFingerprint,
           controllerVersion: 'HYBRID-2', metricVersion:compiled.metricVersion,
           referenceVersion:compiled.referenceVersion,
           cyclePosition:position, progressionIdentity:o.progressionIdentity,
@@ -45,6 +46,7 @@ export function makeFixtureCycle({ adapter }, cycle, reps, { frozen = false,
       completedAt: new Date(iso+3000).toISOString(),
       mode:'time', excludedFromProgression:frozen,
       hybrid2:{ version:1, namespace:compiled.namespace, planVersion:compiled.planVersion,
+        adapterFingerprint:compiled.adapterFingerprint,
         cyclePosition:position, progressionIdentity:null, signalId:null,
         deloadFrozen:frozen, unit:'kg' },
       timedLoad:{version:1, config:{}, initialState:{}, unit:'kg'}, performance:{sets:[]}
@@ -55,7 +57,7 @@ export function makeFixtureCycle({ adapter }, cycle, reps, { frozen = false,
       start:iso, end:new Date(iso+3600000).toISOString(),
       hybrid2:{version:1, controllerVersion:'HYBRID-2',
         stateSchemaVersion:'HYBRID-STATE-2', namespace:compiled.namespace,
-        planVersion:compiled.planVersion, positions:[position]},
+        planVersion:compiled.planVersion, adapterFingerprint:compiled.adapterFingerprint, positions:[position]},
       exposures
     }
   })

@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { mergeStates, stampDeletions } from './sync-merge.js'
 import { reconcileHybridHistory } from './hybrid2-sync.js'
 import { replayHybridHistory } from '../../../api/training-control/hybrid2/history.js'
+import { convertStateUnit } from './units.js'
 import { replayAtp2History } from '../../../api/training-control/history.js'
 import { K5, M6, SYN4 } from '../../../api/training-control/hybrid2/fixtures/reference-adapters.js'
 import { makeFixtureCycle, fixtureCycles } from '../../../api/training-control/hybrid2/fixtures/cycles.js'
@@ -133,6 +134,15 @@ describe('HYBRID-2 across actual openGym two-device offline merge/replay', () =>
     C.trainingControl.hybrid2Config.enabled=false
     expect(mergeStates(A,C).trainingControl.hybrid2Conflict).toBeTruthy()
   })
+  it('equivalent adapter JSON with different object key order does not create a false offline conflict', () => {
+    const A=base(SYN4,{_ts:1000}), B=base(SYN4,{_ts:2000})
+    const old=B.trainingControl.hybrid2Config.adapter
+    B.trainingControl.hybrid2Config.adapter=Object.fromEntries(Object.entries(old).reverse())
+    const out=mergeStates(A,B)
+    expect(out.trainingControl.hybrid2Conflict).toBeUndefined()
+    expect(out.trainingControl.hybrid2Error).toBeUndefined()
+    expect(out.trainingControl.hybrid2Diagnostics.status).toBe('LEARNING')
+  })
   it('editing only workout dates changes cycle chronology and stops unsafe H1 acceptance', () => {
     const source=fixtureCycles(SYN4,[{reps:15},{reps:15}])
     const A=base(SYN4,{workouts:copy(source),_ts:3000})
@@ -143,6 +153,24 @@ describe('HYBRID-2 across actual openGym two-device offline merge/replay', () =>
     const out=mergeStates(A,B)
     expect(out.trainingControl.hybrid2Diagnostics.status).toBe('INCOMPATIBLE')
     expect(out.trainingControl.hybrid2Error).toMatch(/structural position/)
+  })
+  it('normalizes H1 load across kg/lb unit changes without resetting the epoch', () => {
+    const source=base(K5,{workouts:fixtureCycles(K5,[{reps:15},{reps:15},{reps:15},{reps:15}])})
+    const initial=reconcileHybridHistory(source)
+    expect(initial.status).toBe('NORMAL')
+    const lb=convertStateUnit(source,'lb')
+    expect(lb.workouts[0].exposures[0].hybrid2.unit).toBe('lb')
+    const result=replayHybridHistory({workouts:lb.workouts,adapter:K5.adapter})
+    expect(result.status).toBe('NORMAL')
+    for(const signal of K5.adapter.signals) {
+      const original=initial.state.anchors[signal.signalId]
+      const converted=result.state.anchors[signal.signalId]
+      expect(converted.perfCount).toBe(3)
+      expect(Math.abs(converted.perfReference-original.perfReference)).toBeLessThan(1)
+    }
+    const restored=convertStateUnit(lb,'kg')
+    const last=replayHybridHistory({workouts:restored.workouts,adapter:K5.adapter})
+    expect(last.status).toBe('NORMAL')
   })
   it('reconciliation from edited history is deterministic and disabled mode remains opt-out', () => {
     const profile=base(M6,{workouts:fixtureCycles(M6,[{reps:15},{reps:15},{reps:15}])})

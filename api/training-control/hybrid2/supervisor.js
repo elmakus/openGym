@@ -64,6 +64,7 @@ export function hybridSessionMetadata(context, occurrence, unit) {
   if (!match) fail('undeclared occurrence')
   return {
     version: 1, namespace: context.adapter.namespace, planVersion: context.adapter.planVersion,
+    adapterFingerprint: context.adapter.adapterFingerprint,
     controllerVersion: context.adapter.controllerVersion,
     metricVersion: context.adapter.metricVersion, referenceVersion: context.adapter.referenceVersion,
     cyclePosition: match.cyclePosition, progressionIdentity: match.progressionIdentity,
