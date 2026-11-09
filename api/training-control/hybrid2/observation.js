@@ -5,6 +5,12 @@ import { historicalAtp2Rows } from '../history.js'
 import { evaluateAtp2 } from '../atp2.js'
 import { replayProgression } from '../../engine/context.js'
 
+// H2PERF-DEC-001: initial supported loaded-reps envelope is approximately 5..20.
+// Conservatively reject samples ABOVE the documented upper end until a new
+// approved comparability contract extends it; do not invent a wider threshold.
+// Low-rep cases below the approximate lower end remain governed by the
+// existing controller/paired-set sentinel semantics pending a separate decision.
+export const H1_SUPPORTED_REPS_UPPER = 20
 const KG_PER_LB = 0.45359237
 const number = v => typeof v === 'number' && Number.isFinite(v)
 const obs = (row, metric) => row?.observations?.find(x => x.metric === metric)?.value
@@ -57,6 +63,9 @@ export function h1FromExposure(exposure, { beforeCandidate, afterCandidate, base
     return bare('DISCONTINUITY')
   if (first.reps < 1) return bare('INVALID')
   const raised = number(afterCandidate) && afterCandidate > beforeCandidate + Math.max(1e-7, Math.abs(beforeCandidate) * 1e-8)
+  // Out-of-envelope evidence may still advance an underlying ATP2 candidate,
+  // but cannot seed/shift the H1 reference or cast a weak vote.
+  if (first.reps > H1_SUPPORTED_REPS_UPPER) return bare('INDETERMINATE', raised)
   return { kind: 'COMPARABLE', performance: loadedRepScore(observedKg, first.reps),
     candidateRaised: raised }
 }
