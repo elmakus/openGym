@@ -12,6 +12,7 @@
   <Overview>Personal openGym fork: workout tracking, routines, progression and weight management. Built from elmakus/openGym by GitHub Actions and managed like any other Unraid Docker container. Back up the /data folder.</Overview>
   <Category>Productivity: Other:</Category>
   <WebUI>https://gym.makowski.li/</WebUI>
+  <Icon>https://raw.githubusercontent.com/elmakus/openGym/main/frontend/public/icon-512.png</Icon>
   <TemplateURL>https://raw.githubusercontent.com/elmakus/openGym/main/deploy/unraid/unraid-template.xml</TemplateURL>
   <ExtraParams>--restart=unless-stopped</ExtraParams>
   <Config Name="Web UI Port" Target="80" Default="8310" Mode="tcp" Description="Host HTTP port for Cloudflare Tunnel and LAN access." Type="Port" Display="always" Required="true" Mask="false">8310</Config>
