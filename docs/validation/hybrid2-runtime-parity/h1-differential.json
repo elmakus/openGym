@@ -51,6 +51,8 @@
   "scenarios": 8,
   "runtimeRuns": 53,
   "comparisons": 630,
+  "unitToleranceKg": 0.01,
+  "maxToleratedNumericDeltaKg": 0.003401942775013822,
   "passingSteps": 50,
   "failingSteps": 3,
   "firstDivergence": {
