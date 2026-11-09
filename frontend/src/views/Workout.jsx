@@ -43,6 +43,7 @@ import { Button, Check, NumberField } from '../components/ui.jsx'
 import { buildSessionExposures, occurrenceFor } from '../lib/session-start.js'
 import { legacyEntriesOf, missingReference, operatorFor, phaseOf, roundLoad, ruleOfPrescription, rungsOf } from '../lib/prescription/index.js'
 import { entriesForExposures, loadStepFor, planSummary, rowFindings } from '../lib/session-ui-adapter.js'
+import { refreshAtp2Live } from '../lib/atp2-session.js'
 import { ownWarmupsChange, keepOwnWarmups } from '../lib/routines.js'
 import { ownRowsLine } from '../lib/warmup-ramp.js'
 import { useCoachGate } from '../lib/use-coach-gate.js'
@@ -1373,7 +1374,9 @@ function ActiveWorkout() {
   const mutEntry = (idx, fn) => updateActive(a => { inEntryUnit({ ...useStore.getState().S, active: a }, idx, fn) })
   // Clearing an optional field drops the key rather than storing null, so a set only carries
   // what was actually logged — in the session, in history and in a backup.
-  const setField = (idx, i, field, v) => mutEntry(idx, e => {
+  const setField = (idx, i, field, v) => {
+    const wasLogged = !!A.entries[idx]?.sets[i]?.done
+    mutEntry(idx, e => {
     const before = e.sets[i].w
     if (v == null) delete e.sets[i][field]; else e.sets[i][field] = v
     // Typing a duration IS the new plan, the same way ticking the row ends it: a plan a displaced
@@ -1391,7 +1394,10 @@ function ActiveWorkout() {
     }
     // A warm-up you changed is yours from now on ("Your last session" carries it, #525).
     e.sets[i] = markWarmupEdited(e.sets[i], field)
-  })
+    })
+    // A corrected completed working set must immediately recompute the remaining ATP2 load.
+    if (!editing && wasLogged && (field === 'w' || field === 'r')) updateActive(a => refreshAtp2Live(a, idx))
+  }
   const modeAt = idx => modeOf({ ...(A.entries[idx].target || {}), id: A.entries[idx].id })
   const addSet = idx => mutEntry(idx, e => {
     const l = e.sets[e.sets.length - 1]
@@ -1578,7 +1584,11 @@ function ActiveWorkout() {
     onToggle: (i, onFocusProgress) => checkedToggle(idx, i, undefined, { onFocusProgress }),
     onToggleSide: (i, side, onFocusProgress) => checkedToggle(idx, i, side, { onFocusProgress }),
     onField: (i, f, v) => setField(idx, i, f, v),
-    onMutateSet: (i, fn) => mutEntry(idx, entry => { entry.sets[i] = fn(entry.sets[i]) }),
+    onMutateSet: (i, fn) => {
+      const wasLogged = !!A.entries[idx]?.sets[i]?.done
+      mutEntry(idx, entry => { entry.sets[i] = fn(entry.sets[i]) })
+      if (!editing && wasLogged) updateActive(a => refreshAtp2Live(a, idx))
+    },
     onAddSet: () => addSet(idx),
     onRemoveSet: () => removeSet(idx),
     onAddWarmup: () => addWarmup(idx),
@@ -2045,6 +2055,7 @@ function ActiveWorkout() {
           e.topW = bestWeightForEntry(e) || null
         }
       }
+      if (!editing) refreshAtp2Live(A, idx)
     })
     if (editing) return
     if (workoutDone) workoutCompleteSheet()
