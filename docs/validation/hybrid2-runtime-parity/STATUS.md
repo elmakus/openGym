@@ -42,3 +42,35 @@ The first two rows use **185** native workouts and **1,422** per-field compariso
 
 ## Safety
 Only isolated files, synthetic fixtures and separate validation branch. No account data, live Liftosaur workouts, Unraid DB, deployment, APK, PR update, merge or RTT.
+
+
+## Continued native validation (2026-11-09, checkpoint 2)
+
+Read-only inspection confirms validation HEAD at `f7cce7bccfc96623a69e47bb8048176238433c2e` before these additional validation-only commits. The exact original pinned fitness H1 policy source is `openspec/changes/hybrid-2-performance-reference-hardening/specs/h1-policy.md` and accepted decision `decisions/HYBRID_2_PERFORMANCE_REFERENCE.md` at fitness `9f2deb6...`.
+
+**New native differential executions, not repetitions of the prior 185 workouts:**
+
+| New suite | Runtime workouts | Differential field comparisons | Outcome | What it does NOT establish |
+|---|---:|---:|---|---|
+| [Expanded H1](h1-extended-raw-compact.json) | 124 | 1,470 | 118 matching workouts / **6 RED workouts** | Multi-anchor combined/production full-plan parity |
+| [Combined source-H1 + trigger](combined-h1-trigger-compact.json) | 108 | 891 | **0 mismatched fields** | Deload continuation, post-deload reset/relearn, ATP2/Turbo, production materialization |
+
+Combined current differential evidence, retaining originally published baseline: **417 genuine native workouts and 3,783 semantic field comparisons**, including **9 RED workout steps** (3 original, 6 new boundary cases), all due to the same >20-repetition policy seam. These are test-execution counts, not statistically independent failure classes. Original H2M02 matrix/shared smoke remain separate native-only evidence, not included in two-system field totals.
+
+Expanded H1 includes: 20 (control), 21, 22 repetitions, repeated 5/10/15/20, 43 stationary workouts, 35-workout decline/recovery, and skipped/reloaded transitions. Every step executes actual `Playground_run`, `finish_workout`, reloads `updatedProgramText`, then reads persistent state via original `PlannerProgram_evaluateText`/`Program_evaluate`. Unit comparison tolerance 0.01 kg; maximum matching drift 0.004423 kg. The 21/22 tests each diverge at workout 4 (native `perf3` and `auditValid`) with residual window differences on workouts 5–6; control 20 and other five suites match. Full original additional trace remains in isolated local workspace; the published compact JSON retains all native post-workout state, expected openGym state, inputs, mismatches, and before/after source SHA-256 for each workout.
+
+Combined native H1/trigger harness uses frozen `hybrid2_promotion_materializer._observation_setup`, `hybrid2_h1_liftosaur_codegen.render_h1_observation`, and `hybrid2_liftosaur_codegen.render_controller_progress`, with actual completed rep inputs and native write/reload across 3 original controller topologies (K5, M6, SYN4) × fast/slow trigger paths. It compares 6 H1 fields per signal after each workout, plus trigger-state fields at cycle close. Actual 108 workouts/891 comparisons/0 discrepancies. Synthetic test-program prescription and no ATP2/deload implementation: **do not promote to production parity evidence**.
+
+**H1 boundary classification:** [H1_GT20_CLASSIFICATION.md](H1_GT20_CLASSIFICATION.md). The accepted policy describes an *approximately* 5..20 operating envelope; the live fitness source observation adapter fails to enforce a strict >20 rejection while openGym's adapter enforces it. Observed mismatch is **implementation/observation-adapter policy inconsistency**. Whether to harden fitness codegen or formally broaden the envelope requires an explicit authority decision; **not** a proven intentional exemption or an Epley arithmetic defect. Red traces stay intact; no production changes.
+
+**T03/T04 inspection:** original reconstructed script files are present locally with checked pinned source; the required external archive SHA `bccd5330...` is present and SHA-verified in the ChatGPT container, **not** on the Desktop Commander host (its `/mnt/data/liftosaur-playground-runtime.tar.gz` is absent). Original T03 runner fails its mandatory archive precondition on that host. T04 additionally requires `/mnt/data/h2runtime/t04_marta_snapshot.json`, also absent there. Both unmodified runners remain **NOT EXECUTED** in this checkpoint. T03/T04 legacy `calculate1RM`/monotonic reference policy would not validate accepted H1-EPL-1/H1-ASYM-M3-1 even with intact historical fixtures.
+
+**Still RED / PARTIAL:** real K5/M6/SYN4 full-plan combined H1+trigger+queued→deload→epoch reset→post-deload relearning, exact-once shared H1 reset propagation and stale rollover, ATP2 Turbo, and saved-history/exposure round-trip comparison are NOT yet established. No production branch, live account, merge, deployment, or APK change performed.
+
+New reproducible runners:
+- [run-h1-extended.mjs](../../../../scripts/hybrid2-runtime-parity/run-h1-extended.mjs) (intentional nonzero RED)
+- [run-combined-h1-trigger.py](../../../../scripts/hybrid2-runtime-parity/run-combined-h1-trigger.py) (six K5/M6/SYN4 native scenarios)
+
+Raw evidence SHA-256 (UTF-8 compact files):
+- `h1-extended-raw-compact.json`: `f2ab26a6c1a98dd4b239daa5d2b2c56da3841425120a92c125e156d711384621`
+- `combined-h1-trigger-compact.json`: `a51e7fab1d062f9a46a60a3569c6120111068ddf0bce837044c97cd4295a8956`

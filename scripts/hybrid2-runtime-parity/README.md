@@ -57,3 +57,28 @@ Actual archived runtime binary is intentionally excluded from Git. Original priv
 **Not demonstrated**: full HYBRID-2 whole-controller differential parity in K5, M6, SYN4, all cyclic triggers, exact-once reset under varied shared ATP2/Turbo identities, full source current promoted real plans, end-to-end `buildSessionExposures → entriesForExposures → completed sets → buildCompletedSession → persisted history → replay → next session` against the exact same original Liftosaur scenarios, nor dual-device sync against Liftosaur (no such counterpart). No physical Android, RTT, live account writes, database modification, APK, deployment, or merge.
 
 For independent audit, see full first-step trace and immutable original RED data in `docs/validation/hybrid2-runtime-parity/`, and check `generator`, `run-current-h1.mjs`, original source SHA, current observation comparability, and realistic weight/repetition/unit serialization. Do not treat openGym-only tests as differential evidence.
+
+
+## Further native differential runners (validation checkpoint 2)
+
+Use the exact pinned `FITNESS_ROOT`, `LIFTOSAUR_RUNTIME_ROOT` and a clean pinned `openGym` checkout. No mock or production data is involved.
+
+```sh
+export FITNESS_ROOT=/tmp/hybrid2-runtime-parity-20261109/fitness
+export LIFTOSAUR_RUNTIME_ROOT=/tmp/hybrid2-runtime-parity-20261109/liftosaur
+export H2_PARITY_OUT=/tmp/hybrid2-runtime-parity-20261109/evidence
+node scripts/hybrid2-runtime-parity/run-h1-extended.mjs
+# expected: 7 suites, 124 true native runs, 1470 comparisons, 6 RED steps; exit 1
+python3 scripts/hybrid2-runtime-parity/run-combined-h1-trigger.py \
+  --fitness-root "$FITNESS_ROOT" \
+  --runtime-root "$LIFTOSAUR_RUNTIME_ROOT" \
+  --opengym-root . \
+  --out "$H2_PARITY_OUT/combined-h1-trigger.json"
+# expected: K5/M6/SYN4 x fast/slow, 108 native workouts, 891 comparisons, 0 issues
+```
+
+The extended H1 output is a full JSON report locally; [published compact raw trace](../../docs/validation/hybrid2-runtime-parity/h1-extended-raw-compact.json) keeps each workout's input, native post-state, openGym post-state, issue list, and sequential program-text hashes. Combined H1/trigger similarly has [raw trace](../../docs/validation/hybrid2-runtime-parity/combined-h1-trigger-compact.json) from actual native execution. Original generator SHA metadata is in both the H1 data and existing manifest. Do not confuse synthetic combined controller source with full promoted production plans: the combined runner stops when deload queues.
+
+The already published `run-topology-triggers.py` checks controlled synthetic weak/valid/ready votes (21 scenarios, 132 native workouts, 792 fields); it is separate from `run-combined-h1-trigger.py`, which obtains weak votes from original H1 codegen.
+
+**T03/T04**: reconstructed originals depend on exact SHA-verified native archive and T04 source snapshot at hard-coded paths on the execution machine. Presence of those on another filesystem does not count. Historic T03 H1 is the rejected `calculate1RM`/ratchet policy and not valid proof of H1-EPL-1.
