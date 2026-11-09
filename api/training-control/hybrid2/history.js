@@ -7,6 +7,7 @@ import { initialHybridState, observeSignal, evaluateNormalCloser,
   startStructuralCycle, closeDeload, settleStructuralRollover, hybridStatus, validateHybridState } from './controller.js'
 import { h1FromExposure, engineCandidate } from './observation.js'
 import { compilePlanAdapter } from './adapter.js'
+import { verifiedHybridExposures } from './evidence.js'
 
 const fail = reason => { throw new Error('HYBRID-2 replay: ' + reason) }
 const completedWork = exposure => (exposure?.performance?.sets || [])
@@ -20,15 +21,6 @@ const byId = (workouts) => {
   }
   return [...ids.values()]
 }
-const ownSpec = (x, a) => x.hybrid2?.version === 1 &&
-  x.hybrid2.namespace === a.namespace && x.hybrid2.planVersion === a.planVersion &&
-  x.hybrid2.adapterFingerprint === a.adapterFingerprint
-const tracked = (w, adapter) => (w.exposures || []).filter(x => x.hybrid2 != null &&
-  (x.hybrid2.namespace == null || x.hybrid2.namespace === adapter.namespace))
-  .filter(x => {
-    if (!ownSpec(x, adapter)) fail('adapter version/fingerprint drift in historical log')
-    return true
-  })
 const progressFor = (exposure, current, previousWorkouts, prescriptions) => {
   if (exposure.atp2?.version === 1) {
     const spec = exposure.atp2, rows = historicalAtp2Rows(exposure)
@@ -71,14 +63,7 @@ export function replayHybridHistory({ workouts = [], adapter, prescriptions = {}
   const positionIndex = new Map(compiled.orderedCyclePositions.map((p, i) => [p, i]))
   let lastPosition = -1
   for (const w of sorted) {
-    const exposures = tracked(w, compiled)
-    if (w.hybrid2?.namespace === compiled.namespace) {
-      const positions = [...new Set(exposures.map(x => x.hybrid2?.cyclePosition))]
-      if (w.hybrid2.version !== 1 || w.hybrid2.planVersion !== compiled.planVersion ||
-          w.hybrid2.adapterFingerprint !== compiled.adapterFingerprint ||
-          JSON.stringify(w.hybrid2.positions) !== JSON.stringify(positions))
-        fail('structural event metadata mismatch')
-    }
+    const exposures = verifiedHybridExposures(w, compiled)
     if (!exposures.length) { lastWorkouts.push(w); continue }
     const positions = [...new Set(exposures.map(x => x.hybrid2.cyclePosition))]
       .sort((a, b) => (positionIndex.get(a) ?? -1) - (positionIndex.get(b) ?? -1))
