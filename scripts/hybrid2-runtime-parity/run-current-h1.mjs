@@ -32,7 +32,7 @@ const generatedManifest = JSON.parse(execFileSync('python3', [
 const initialProgram = fs.readFileSync(script, 'utf8')
 const sha256 = value => crypto.createHash('sha256').update(value).digest('hex')
 const approx = (x,y) => x === y || (Number.isFinite(x) && Number.isFinite(y) &&
-  Math.abs(x-y) <= 0.32)
+  Math.abs(x-y) <= 0.01)
 const kg = value => {
   if (typeof value === 'number') return value
   if (!value || typeof value !== 'object') throw Error('expected Liftosaur unit value')
@@ -79,6 +79,7 @@ const suites = [
   {id:'H1_UNSUPPORTED_GT20',events:[{reps:10},{reps:10},{reps:10},{reps:21},{reps:22},{reps:10}]}
 ]
 const trace = [], divergences = []
+let maxToleratedNumericDeltaKg = 0
 let comparisons = 0, runtimeRuns = 0
 for (const suite of suites) {
   let source=initialProgram, state=initialAnchor(), candidateLb=75
@@ -124,6 +125,8 @@ for (const suite of suites) {
         ['perf1','perf2','perf3','perfReference','auditRefBefore'].includes(key)
           ? approx(actual[key],expected[key]) : actual[key]===expected[key]
       if (!eq) issues.push({field:key,original:actual[key],openGym:expected[key]})
+      else if (['perf1','perf2','perf3','perfReference','auditRefBefore'].includes(key))
+        maxToleratedNumericDeltaKg = Math.max(maxToleratedNumericDeltaKg, Math.abs(actual[key]-expected[key]))
     }
     const row={
       id:suite.id,step:index+1,input:{...event,commands},kind,
@@ -144,7 +147,8 @@ const result={schema:'HYBRID2-REAL-LIFTOSAUR-H1-DIFF-1',sourceCommit:fitnessPin,
   runtimeCommit:runtimePin, openGymBase:'8529b2d41b28fea8ae96a50325aaf28e864a0160',
   provenance:generatedManifest,
   coverage:'Original current H1 seam + promotion observation setup in exact Git-pinned Liftosaur runtime; NOT a full HYBRID-2 plan, nor ATP2/Turbo integration',
-  scenarios:suites.length,runtimeRuns,comparisons,passingSteps:trace.length-divergences.length,
+  scenarios:suites.length,runtimeRuns,comparisons,unitToleranceKg:0.01,
+  maxToleratedNumericDeltaKg,passingSteps:trace.length-divergences.length,
   failingSteps:divergences.length,firstDivergence:divergences[0]??null,
   trace,divergences}
 fs.writeFileSync(path.join(output,'h1-differential.json'),JSON.stringify(result,null,2)+'\n')
