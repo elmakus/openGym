@@ -47,6 +47,8 @@ Ordinary exercises stay on Engine v2.
 - Per-exposure ATP2 input snapshot for historical replay.
 - Exclusion of ATP2 logs from default Engine v2 progression replay.
 - Deterministic replay of the ATP2 controller after profile sync merge.
+- Immediate ATP2 replay after local saved-workout editing, deletion, date relocation
+  and historical backfill, without resetting unrelated Engine v2 progression.
 - Unit conversion of ATP2 candidate, floor, and equipment ladder metadata.
 - Frontend production build and dedicated controller/bridge/integration tests.
 
@@ -61,17 +63,48 @@ npx vitest run src/lib/atp2-session.test.mjs src/lib/atp2-integration.test.js
 npm run build
 ```
 
-The original Liftosaur oracle vectors have been translated into JavaScript
-acceptance tests; they have **not** been executed through the original
-Liftosaur runtime as part of this openGym integration.
+## Direct comparison with Liftosaur (2026-11-09)
+
+The original candidate source is verified by Git blob SHA
+`4d6452c2dd2a2ddd45f8b8d653d4ebcf3c37e170`.
+The supplied frozen Liftosaur Playground runtime identifies as
+`ce75750bde4a190682fb5a6fa1984fc9184a9842`.
+
+A true differential run used both the original Liftoscript custom() bodies
+and the openGym ATP2 reducer with identical completed working sets.
+It compared remaining-set load after each completion, and next-exposure
+`candidate` / `probeActive` after finishing. Result: **672/672 PASS**,
+including 500 deterministic seeded scenarios. No divergence in tested cases.
+
+The run used an explicit 5–30 kg native cable-equipment ladder, rep targets
+8–12, unilateral=false, and up to three working sets. The test intentionally
+changes only the original fixture's input parameters. Liftosaur omits a
+zero-valued `probeActive` from serialized text; the test interprets its
+absence as zero, matching the controller default.
+
+The reproducible runner is `api/training-control/atp2-liftosaur-parity.mjs`:
+
+```sh
+node api/training-control/atp2-liftosaur-parity.mjs \
+  /path/to/liftosaur-playground-runtime/runtime_api.cjs \
+  /path/to/fitness/programs/adaptive_rep_engine_turbo_probe_candidate.liftoscript
+```
+
+The runtime and original source are supplied externally, not vendored into
+openGym. The script refuses an unpinned source file.
+
+This is **direct runtime evidence for covered scenarios**, not proof for all
+possible equipment ladders, paired inputs, history ordering or device flows.
 
 ## Limitations and next work
 
 - No real Android/app interactive workout acceptance test yet.
-- No independent differential test of every state against the pinned
-  Liftosaur runtime; passing golden vectors is not a full parity proof.
-- Full edit-history/backfill, sync race, cross-device and unit-switch edge
-  conditions still need adversarial verification.
+- Differential runtime comparison still needs alternative native ladders,
+  paired/unilateral observations, longer multi-session state transitions,
+  and further adverse input coverage.
+- Local edit/delete/date/backfill replay and representative two-device merge cases
+  have tests. Production sync races, incomplete migrations and actual offline-device
+  round trips still need independent validation.
 - No Timed Load, HYBRID-2, or RTT integration yet.
 - This is not ready for live athlete profiles or production deployment.
 
