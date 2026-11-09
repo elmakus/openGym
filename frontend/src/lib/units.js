@@ -126,6 +126,7 @@ export const mapTargetWeights = (cfg, c, prev, cInc = c) => {
   const p = prev && typeof prev === 'object' ? prev : {}
   const out = { ...cfg }
   if (out.weight != null) out.weight = c(out.weight, p.weight)
+  if (out.atp2?.floorWeight != null) out.atp2 = { ...out.atp2, floorWeight: c(out.atp2.floorWeight, p.atp2?.floorWeight) }
   // A per-exercise increment is a load too — 2.5 kg is 5 lb, not 2.5 lb.
   if (out.inc > 0 && (out.mode == null || out.mode === 'reps')) out.inc = cInc(out.inc, p.inc)
   // The step a session's back-off sets were built with is that same increment.
@@ -190,6 +191,16 @@ const convEntry = (e, from, to, weight = convertWeight, increment = weight) => m
 const convExposure = (exposure, from, to, convert = true, weight = convertWeight, increment = weight) => {
   const out = canonicalLoads(exposure, from, to, convert, weight)
   for (const key of ['legacyTarget', 'legacyPlanned', 'planned']) if (out?.[key]) out[key] = convTarget(out[key], from, to, convert, weight, increment)
+  if (convert && exposure.atp2?.version === 1) {
+    const spec = exposure.atp2
+    out.atp2 = { ...spec,
+      initialState: { ...spec.initialState,
+        candidate: weight(spec.initialState.candidate, from, to),
+        floorWeight: weight(spec.initialState.floorWeight, from, to) },
+      rounding: roundingUnit(spec.rounding, v => weight(v, from, to))
+    }
+    if (spec.rounding?.mode !== 'allowed_values') out.atp2.rounding = roundingUnit(spec.rounding, v => increment(v, from, to))
+  }
   if (convert && Array.isArray(out?.audit)) out.audit = out.audit.map(a => a.field === 'load'
     ? { ...a, expected: typeof a.expected === 'number' ? convertWeight(a.expected, from, to) : a.expected && { ...a.expected, ...(a.expected.min != null ? { min: convertWeight(a.expected.min, from, to), max: convertWeight(a.expected.max, from, to) } : {}) }, actual: typeof a.actual === 'number' ? convertWeight(a.actual, from, to) : a.actual } : a)
   return out
@@ -243,6 +254,15 @@ export function convertStateUnit(S, to, { convert = true } = {}) {
   // dumbbell weight means (S.dbLoad) hold no weight.
   if (Array.isArray(S.routines)) out.routines = S.routines.map(r => ({ ...r, ex: (r.ex || []).map(cfg => convTarget(cfg, from, to, convert, ...convertersFor(S, cfg.exerciseId || cfg.id, to))) }))
   if (Array.isArray(S.workouts)) out.workouts = S.workouts.map(s => convSession(s, from, to, out, convert))
+  if (S.trainingControl?.atp2 && convert) {
+    const exerciseForTrack = id => S.routines?.flatMap(r => r.ex || []).find(o => o.occurrenceId === id)?.exerciseId
+    out.trainingControl = { ...S.trainingControl, atp2: Object.fromEntries(Object.entries(S.trainingControl.atp2).map(([id, state]) => {
+      const convertLoad = convertersFor(S, exerciseForTrack(id), to)[0]
+      return [id, { ...state,
+        candidate: convertLoad(state.candidate, from, to),
+        floorWeight: convertLoad(state.floorWeight, from, to) }]
+    })) }
+  }
   for (const key of ['oneRepMaxes', 'progression']) if (S[key]) out[key] = Object.fromEntries(Object.entries(S[key]).map(([id, value]) => [id, canonicalLoads(value, from, to, convert, convertersFor(S, value.exerciseId || S.routines?.flatMap(r => r.ex || []).find(o => o.occurrenceId === id)?.exerciseId, to)[0])]))
   if (S.progression) for (const state of Object.values(out.progression)) {
     // A stall run is kept by the weight lifted (v1 stallCount), a timed hold's included.
