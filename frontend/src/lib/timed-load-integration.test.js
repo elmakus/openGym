@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { ruleOccurrence } from './test-fixtures.js'
 import { buildSessionExposures } from './session-start.js'
-import { entriesForExposures } from './session-ui-adapter.js'
+import { entriesForExposures, rowsOfPerformance } from './session-ui-adapter.js'
 import { buildCompletedSession } from './finish-session.js'
 import { replayProgression } from './prescription/index.js'
 import { replayTimedLoadHistory } from '../../../api/training-control/timed-load-history.js'
@@ -85,6 +85,25 @@ describe('Timed Load: actual Engine v2 session→rows→finish→persist→next 
     expect(result.timedLoadStates['side-plank-timed']).toMatchObject({load:7,target:45})
     expect(start(s,T0+86400000).entries[0].sets[0].w).toBe(7)
   })
+  it('regression #1: first logical L/R set at 6 kg calibrates remaining uncompleted sets from 0',()=>{
+    const s=S(), a=start(s,T0)
+    expect(a.entries[0].sets.map(r=>r.w)).toEqual([0,0,0,0])
+    // One Liftosaur setIndex == 1 corresponds to the completed L and R pair.
+    a.entries[0].sets[0].w=6
+    a.entries[0].sets[0].done=true
+    refreshTimedLoadLive(a,0)
+    expect(a.entries[0].sets.map(r=>r.w)).toEqual([6,0,0,0])
+    a.entries[0].sets[1].w=6
+    a.entries[0].sets[1].done=true
+    refreshTimedLoadLive(a,0)
+    expect(a.entries[0].sets.map(r=>r.w)).toEqual([6,6,6,6])
+    expect(a.entries[0].sets.slice(2).every(r=>!r.done)).toBe(true)
+    a.entries[0].sets.slice(2).forEach(r=>r.done=true)
+    const result=finish(s,a)
+    expect(result.timedLoadStates['side-plank-timed']).toMatchObject({initialized:true,load:6,target:35})
+    expect(replayTimedLoadHistory(s.workouts)).toEqual(result.timedLoadStates)
+  })
+
   it('opt-out keeps old Engine behaviour and no Timed Load state',()=>{
     const s=S();s.routines[0].ex[0].timedLoad={...config,enabled:false}
     const a=start(s,T0)

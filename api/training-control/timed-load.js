@@ -182,6 +182,21 @@ export function timedExposureSuccess(rows, state, raw) {
     c.ladderKg.includes(r.weightKg) && Number.isFinite(r.seconds) && r.seconds >= state.target)
 }
 
+/**
+ * Liftoscript's setIndex == 1 refers to the first *logical* work set.
+ * A unilateral openGym set is two separately timed rows: L followed by R.
+ * Do not treat an out-of-order completed side as a first-set load.
+ */
+export function firstTimedLoadSet(rows, raw) {
+  const c = validateTimedConfig(raw)
+  const first = rows?.[0]
+  if (!first?.completed || !c.ladderKg.includes(first.weightKg)) return null
+  if (!c.unilateral) return first
+  const right = rows?.[1]
+  return first.side === 'L' && right?.side === 'R' && right.completed === true &&
+    right.weightKg === first.weightKg ? first : null
+}
+
 /** No completed work = no progression event. Partial work = a failed exposure. */
 export function evaluateTimedLoad({ config, state, rows = [] }) {
   const c = validateTimedConfig(config)

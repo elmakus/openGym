@@ -1,7 +1,7 @@
 // openGym session adapter for canonical-kg Timed Load; the reducer is in the API layer.
 // Timer rows keep their real held seconds. In the UI, Done means valid position;
  // an early stop is recorded as fewer seconds and does not meet the target.
-import { adaptTimedState, evaluateTimedLoad, validateTimedConfig } from '../../../api/training-control/timed-load.js'
+import { adaptTimedState, evaluateTimedLoad, firstTimedLoadSet, validateTimedConfig } from '../../../api/training-control/timed-load.js'
 import { isWarmupRow } from './workout-model.js'
 import { displayTimedWeight as viewLoad, nativeTimedKg } from '../../../api/training-control/timed-load-weight.js'
 export { nativeTimedKg } from '../../../api/training-control/timed-load-weight.js'
@@ -45,16 +45,22 @@ export function refreshTimedLoadLive(active, entryIndex) {
   const spec = exposure.timedLoad
   const rows = timedWorkRows(entry, spec)
   const result = evaluateTimedLoad({ config: spec.config, state: spec.initialState, rows })
+  const firstSet = firstTimedLoadSet(rows, spec.config)
+  // Liftoscript update() propagates a changed first set on first-exposure calibration,
+  // including an upward conservative starting load (e.g. 0 -> 6 kg).
+  const calibrated = !spec.initialState.initialized && firstSet &&
+    firstSet.weightKg !== spec.initialState.load
   const first = rows.find(r => r.completed)
-  const lower = first && first.weightKg != null && first.weightKg < spec.initialState.load
-    ? viewLoad(first.weightKg, spec.unit) : null
-  if (lower != null) {
+  const lower = spec.initialState.initialized && first && first.weightKg != null &&
+    first.weightKg < spec.initialState.load ? viewLoad(first.weightKg, spec.unit) : null
+  const carried = calibrated ? viewLoad(firstSet.weightKg, spec.unit) : lower
+  if (carried != null) {
     const firstDone = rows.findIndex(r => r.completed)
     let ordinal = 0
     entry.sets = entry.sets.map(row => {
       if (isWarmupRow(row)) return row
       const i = ordinal++
-      return row.done || i <= firstDone ? row : { ...row, w: lower }
+      return row.done || i <= firstDone ? row : { ...row, w: carried }
     })
   }
   entry.timedLoadPreview = { reason: result.reason, nextTarget: result.nextState.target,
