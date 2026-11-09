@@ -52,6 +52,8 @@ function compareSemver(a, b) {
 let cached = null
 export function resetUpdateCheck() { cached = null }
 export async function checkForUpdate() {
+  // Fork-only Android builds are updated by Obtainium, never by upstream openGym's APK updater.
+  if (import.meta.env.VITE_ENGINE_V2_OBTAINIUM === '1') return { hasUpdate: false, latestVersion: __APP_VERSION__, apkUrl: null, hashUrl: null }
   if (!cached) cached = fetchLatest().catch(e => { cached = null; throw e })
   return cached
 }
