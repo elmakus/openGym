@@ -1,0 +1,26 @@
+{
+  "schema": "H2PERF-T03-RUNTIME-1",
+  "runtimePin": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "parser": "PASS",
+  "serializer": "PASS",
+  "serializerQuantumKg": 0.01,
+  "continuationBoundaries": 49,
+  "scoreFingerprints": {
+    "100x10": 133.33333333333331,
+    "100x15": 150
+  },
+  "differential": "T01 oracle == T02 controller == pinned Liftosaur runtime",
+  "negativeControls": {
+    "nativeCalculate1RM": "REJECTED",
+    "monotonicRatchet": "REJECTED"
+  },
+  "nativeNegativeObserved": {
+    "100x10": 136.4,
+    "100x15": 166.4
+  },
+  "ratchetNegativeFinalReference": 107.84,
+  "acceptedFinalReference": 106.056,
+  "deterministicReplaySha256": "5a338d546bf55865aed69c9036cecc90021254491827d1ce5d1a0d05abf86e2f",
+  "generatedBlockSha256": "69a6e38a28b685e0d57e02fcc616085824e715b2785cfcead7897b59e3afc1e2",
+  "liveOrStagingWrites": 0
+}

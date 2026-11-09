@@ -88,3 +88,13 @@ The [isolated H1+trigger+deload/reset/relearn report](LIFECYCLE_INTEGRATION_PROB
 Primary cumulative native differential executions now **525 actual workouts / 4,917 semantic field comparisons or direct native assertions** (original 185/1422; H1 extension 124/1470; combined H1+trigger 108/891; lifecycle 108/1134). **Original H1 policy RED = 9 workout steps across 2 suites** (one unique >20-rep cause); **synthetic lifecycle deload-shape RED = 4 native access assertions** (not yet proven product defect). Mixed semantic fields and native shape assertions are identified and not implied to be equivalent. The additional diagnostic 108 runs are separate and are NOT added.
 
 Verdict remains **PARTIAL / RED**, NOT ready to close: unchanged full production materialization, exact-once H1 reset in real shared progression groups, ATP2 Turbo, openGym exposure/history replay, original T03/T04 external snapshots/runners, and full current-user-plan runtime parity remain unproven. No non-validation branch, live account, main, functional feature, merge, deploy or APK was touched.
+
+
+## Continued original current-H1 native fitness checks (2026-11-09, checkpoint 4)
+
+Two additional **unmodified original pinned fitness runtime scripts** were retrieved (with exact Git blob identities) and executed against original Liftosaur `ce75750...` with no live/staging writes:
+
+- [H2PERF-T03 native result](h2perf-t03-original-native.json): **PASS**, **49 native serial continuation boundaries**, T01 oracle/T02 controller/native H1 parity and adversarial negative controls (native `calculate1RM` / monotonic ratchet rejected).
+- [H2PERF-T04 native result](h2perf-t04-original-native.json): **PASS**, original real K5(5)/M6(6) adapter H1 fixtures parsed and persisted; original underlying program source SHA-1 identities verified.
+
+See [H2PERF_ORIGINAL_NATIVE_RUNS.md](H2PERF_ORIGINAL_NATIVE_RUNS.md) for pinned runner Git blobs, commands and caveats. They are **native-only original runner evidence** and must not be added to the 525 native two-system workout / 4917 field/shape-check differential count. They do not cover ATP2 Turbo, actual complete full-plan deload, shared progress H1 end-to-end or current openGym exposure storage. Earlier *H2M03* T03/T04 historical runners remain blocked/unexecuted and must not be confused with *H2PERF* T03/T04.

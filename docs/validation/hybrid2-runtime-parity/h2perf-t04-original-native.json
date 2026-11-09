@@ -1,0 +1,24 @@
+{
+  "schema": "H2PERF-T04-REAL-ADAPTER-RUNTIME-1",
+  "runtimePin": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "parser": "PASS",
+  "serializer": "PASS",
+  "settings": {
+    "Marta": "committed fixture v2 / deterministic buildSettings / no Settings_build",
+    "Krzysztof": "local label registry only / no settings or equipment claim"
+  },
+  "KrzysztofK5": {
+    "signals": 5,
+    "sourceGitBlob": "413fadc846d8f25ce1616bf2b1f06ba5748a005b",
+    "materializedProgramSha256": "b750892505eca3e8559f5e9d9f79b925eefc793e41ec0c25d44e1f396fab9273",
+    "serializedContinuationSha256": "c201304cb44de27201f5e9f8f8f2e36702a6eaae37fad90706d0bc0fd882771a"
+  },
+  "MartaM6": {
+    "signals": 6,
+    "sourceGitBlob": "3c40b21204bcfd6296874081450e375ff28a7d2c",
+    "materializedProgramSha256": "ba2ca34999a0b1e35d2dcbe99b52b9f85e670d2f1ec1daaedaa02f45d75cd6df",
+    "serializedContinuationSha256": "76cacb8066dfa1ed5395ac315b40d689f5b4f59f6e40c34e29887899ce2fc48a"
+  },
+  "nativeCalculate1RMPaths": 0,
+  "liveOrStagingWrites": 0
+}
