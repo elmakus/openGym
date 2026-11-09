@@ -2,6 +2,8 @@
 // the audit saved beside them), and each non-excluded track advances once.
 import { advanceProgression, auditExecution, currentOneRm, summarizeActual } from './prescription/index.js'
 import { actualOfRow, exposuresWithPerformance } from './session-ui-adapter.js'
+import { atp2WorkRows } from './atp2-session.js'
+import { evaluateAtp2 } from '../../../api/training-control/atp2.js'
 import { isWarmupRow } from './workout-model.js'
 import { betterWeight, beatsWeight } from './exercises.js'
 import { bestSetOf, formulaOf, is1RMRecord, oneRmForMeaning } from './onerm.js'
@@ -12,6 +14,7 @@ export function buildCompletedSession(active, profile, { end, newId, unit }) {
   const entries = new Map((active.entries || []).map(entry => [entry.exposureId, entry]))
   const oneRepMaxes = []
   const progression = {}
+  const atp2States = {}
   // A track twice in one session (a combined workout) advances once: from its last counted exposure
   // with completed work (an excluded one never counts), as replayProgression does.
   const worked = new Map()
@@ -25,7 +28,16 @@ export function buildCompletedSession(active, profile, { end, newId, unit }) {
     const audit = [...performed.flatMap(set => auditExecution(p, set, state)), ...auditExecution(p, { sets: actual.sets }, state)]
     const done = performed.length > 0   // v1 never saved an entry with no completed set (finish-workout.js)
     if (!exposure.excludedFromProgression && worked.get(exposure.trackId) === exposure.exposureId) {
-      progression[exposure.trackId] = advanceProgression({ state, prescription: p, log: { id: exposure.exposureId, actual, performance: exposure.performance }, now: completedAt })
+      if (exposure.atp2?.version === 1) {
+        const rows = atp2WorkRows(entries.get(exposure.exposureId))
+        atp2States[exposure.trackId] = evaluateAtp2({
+          state: exposure.atp2.initialState,
+          rounding: exposure.atp2.rounding,
+          sets: rows, numberOfSets: rows.length
+        }).nextState
+      } else {
+        progression[exposure.trackId] = advanceProgression({ state, prescription: p, log: { id: exposure.exposureId, actual, performance: exposure.performance }, now: completedAt })
+      }
     }
     // An assistance machine has no 1RM: the load is the help you were given (issue #232).
     const best = bestSetOf({ ...exposure, assisted: p.assisted ?? exposure.assisted }, formulaOf(profile))
@@ -44,7 +56,8 @@ export function buildCompletedSession(active, profile, { end, newId, unit }) {
       ...(active.note?.trim() ? { note: active.note.trim() } : {})
     },
     oneRepMaxes,
-    progression
+    progression,
+    atp2States
   }
 }
 
