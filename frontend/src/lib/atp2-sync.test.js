@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mergeStates } from './sync-merge.js'
+import { mergeStates, stampDeletions } from './sync-merge.js'
 import { convertStateUnit } from './units.js'
 import { replayAtp2History } from '../../../api/training-control/history.js'
 
@@ -55,6 +55,44 @@ describe('ATP2 after full openGym account sync', () => {
       expect(merged.workouts).toHaveLength(1)
       expect(merged.workouts[0].exposures[0].performance.sets[0].observations[0].value).toBe(10)
       expect(merged.trainingControl.atp2['track-atp2'].candidate).toBe(20)
+    }
+  })
+
+  it('keeps an ATP2 deletion tombstone against a newer offline device copy', () => {
+    const old = workout('erased', 1000, 20, 12)
+    const before = base({ _ts: 100, workouts: [old],
+      trainingControl: { atp2: { 'track-atp2': { ...spec.initialState, candidate: 22.5 } } } })
+    const deleted = structuredClone(before)
+    deleted.workouts = []
+    deleted.trainingControl.atp2 = {}
+    deleted._ts = 3000
+    stampDeletions(before, deleted, 3000)
+    const offline = structuredClone(before)
+    offline._ts = 5000 // newer profile timestamp must not resurrect the old log
+    for (const merged of [mergeStates(deleted, offline), mergeStates(offline, deleted)]) {
+      expect(merged.workouts).toHaveLength(0)
+      expect(merged.deleted.workouts.erased).toBeGreaterThan(0)
+      expect(merged.trainingControl.atp2).toEqual({})
+    }
+  })
+
+  it('replays surviving offline workout after a concurrent deletion, without the deleted exposure', () => {
+    const old = workout('erased', 1000, 20, 12)
+    const before = base({ _ts: 100, workouts: [old],
+      trainingControl: { atp2: { 'track-atp2': { ...spec.initialState, candidate: 22.5 } } } })
+    const deleted = structuredClone(before)
+    deleted.workouts = []
+    deleted.trainingControl.atp2 = {}
+    deleted._ts = 3000
+    stampDeletions(before, deleted, 3000)
+    const offline = structuredClone(before)
+    offline.workouts.push(workout('new', 2000, 22.5, 10,
+      { ...spec, initialState: { ...spec.initialState, candidate: 22.5 } }))
+    offline._ts = 5000
+    for (const merged of [mergeStates(deleted, offline), mergeStates(offline, deleted)]) {
+      expect(merged.workouts.map(w => w.id)).toEqual(['new'])
+      expect(merged.trainingControl.atp2).toEqual(replayAtp2History(merged.workouts))
+      expect(merged.trainingControl.atp2['track-atp2'].candidate).toBe(22.5)
     }
   })
 
