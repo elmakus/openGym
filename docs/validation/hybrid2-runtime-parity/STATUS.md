@@ -105,3 +105,15 @@ See [H2PERF_ORIGINAL_NATIVE_RUNS.md](H2PERF_ORIGINAL_NATIVE_RUNS.md) for pinned 
 [ATP2 direct original Liftoscript vs openGym report](ATP2_NATIVE_DIFF.md): **18 new genuine original Liftosaur workouts / 75 comparisons / 0 failures**. Unlike model-only ATP2 tests, this replays real `Playground_run` with original `adaptive_rep_engine_turbo_probe_candidate.liftoscript@fitness:9f2deb6...` (Git blob `4d6452c...`), `finish_workout`, repeated native `updatedProgramText` reloads, native workout-record set weights and `evaluateAtp2` from pinned openGym. Covers 21-rep Turbo, 2-set calibration, validation, chained, hard backoff, 1-rep sentinel, persisted candidate/floor/probe and intra-session second-set load at 2.5kg rounding.
 
 **Primary cumulative across 5 differential suites: 543 native workouts and 4,992 field/shape assertions.** Original H1 contract RED 9 failing workout steps across two suites, plus 4 synthetic lifecycle native set-access probe failures. All 18 native ATP2 workouts and all 75 comparisons PASS. Historical original current-H1 H2PERF T03/T04 source-only native-run evidence is separately recorded (do not double count as openGym differential), as is non-authoritative 108-workout lifecycle diagnostic. Global classification still **PARTIAL / RED**, because ATP2 + H1 guard original full materialization, true source-exposure persistence and replay, shared progression full workflow, and full-plan deload remain unverified.
+
+
+## Continued original ATP2+H1 combined native runtime differential (2026-11-09, checkpoint 6)
+
+[Original ATP2 + original H1 composite](ATP2_H1_COMPOSITE_NATIVE_DIFF.md) executed on the genuine pinned Liftosaur runtime: **33 additional native workouts, 429 openGym field comparisons and 8 RED steps**. This new integration takes the original ATP2 progress body unmodified, appends the original fitness H1 observation/codegen (a validation-only composite), and feeds actual completed-set workout records into openGym `h1FromExposure`, `observeAnchor` and `evaluateAtp2`.
+
+- The two in-envelope candidateGuard / Turbo / 1-rep sentinel scenarios: **15 workouts, 0 field differences**.
+- All eight failing steps belong to 21-/22-repetition H1 envelope mismatch already reported; includes later-history/weak-vote propagation. There is **no new independent native ATP2 progression mismatch** in this sample.
+- Exact source Git blob, composite manifest, source SHA, all native commands, actual set loads/reps, original/replayed H1+ATP2 states and mismatch list are published.
+- Total primary differential evidence increases to **576 native workouts / 5,421 comparisons or direct native assertions**, with **17 RED workout steps** on the >20 H1 seam across independent/combined suites plus 4 synthetic lifecycle shape-probe RED assertions. A failing workout is not equivalent to one failing field. Only five original/combined differential groups plus this composite count toward that total; other standalone original regression/diagnostic executions remain excluded.
+
+Production unchanged, no real exercise accounts or deploy. Not a full source-backed HYBRID-2 plan; no additional acceptance of end-to-end parity.

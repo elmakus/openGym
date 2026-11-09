@@ -115,3 +115,16 @@ node scripts/hybrid2-runtime-parity/run-atp2-real-native.mjs
 ```
 
 Source from **original frozen private fitness Git blob** (not copied into openGym), runtime pin enforced, stock settings with kg and 2.5kg ladder. This is **ATP2-only**, not complete H1+ATP2 original integration and **not** database exposure-history parity. See [methodology](../../docs/validation/hybrid2-runtime-parity/ATP2_NATIVE_DIFF.md) and [per-workout raw evidence](../../docs/validation/hybrid2-runtime-parity/atp2-real-native-diff.json).
+
+
+## Combined ATP2+H1 native composite
+
+```sh
+FITNESS_ROOT=/tmp/hybrid2-runtime-parity-20261109/fitness \
+LIFTOSAUR_RUNTIME_ROOT=/tmp/hybrid2-runtime-parity-20261109/liftosaur \
+H2_PARITY_OUT=/tmp/hybrid2-runtime-parity-20261109/evidence \
+node scripts/hybrid2-runtime-parity/run-atp2-h1-composite.mjs
+# expected: 33 native workouts, 429 fields, 8 RED steps. The 21/22 upper-envelope seam is intentionally unresolved.
+```
+
+[Source-verified manifest](../../docs/validation/hybrid2-runtime-parity/atp2-h1-composite-manifest.json), [full per-workout native/expected state trace](../../docs/validation/hybrid2-runtime-parity/atp2-h1-composite-native-compact.json), [interpretation](../../docs/validation/hybrid2-runtime-parity/ATP2_H1_COMPOSITE_NATIVE_DIFF.md). Generated code is a nonproduction composite of original frozen ATP2 and original fitness H1; no product source or live program is edited.
