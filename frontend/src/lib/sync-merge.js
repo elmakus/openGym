@@ -81,6 +81,7 @@ import { convertStateUnit, convertBodyWeight } from './units.js'
 import { sanitizeAccent } from './accent.js'
 import { readDayNote as readNote } from './day-notes.js'
 import { canonicalJSON, contentHash, chronologicalWorkouts, replayProgression, reconcileDerivedOneRms } from '../../../api/engine/index.js'
+import { replayAtp2History } from '../../../api/training-control/history.js'
 import { mergeAdvent } from './advent.js'
 import { mergeChallenges } from './challenges.js'
 import { mergeDay, dailyModeOf, settleAll } from './weigh-ins.js'
@@ -999,6 +1000,19 @@ export function mergeStates(a0, b0, { prefer } = {}) {
     for (const trackId of tracks) {
       const state = replayProgression({ workouts: out.workouts, prescriptions: out.prescriptions, trackId })
       if (state) out.progression[trackId] = state
+    }
+  }
+  // ATP2 has independent controller state. Recompute from the merged chronological logs;
+  // never merge its candidates by last-writer-wins or place them inside engine progression.
+  const persistedAtp2 = { ...(o.trainingControl?.atp2 || {}), ...(n.trainingControl?.atp2 || {}) }
+  const atp2EverLogged = new Set([...list(n.workouts), ...list(o.workouts)]
+    .flatMap(w => list(w.exposures)).filter(x => x?.atp2).map(x => x.trackId))
+  const replayedAtp2 = replayAtp2History(out.workouts)
+  const untouchedAtp2 = Object.fromEntries(Object.entries(persistedAtp2).filter(([id]) => !atp2EverLogged.has(id)))
+  if (Object.keys(persistedAtp2).length || Object.keys(replayedAtp2).length) {
+    out.trainingControl = {
+      ...(o.trainingControl || {}), ...(n.trainingControl || {}),
+      atp2: { ...untouchedAtp2, ...replayedAtp2 }
     }
   }
   if (out.engineSchemaVersion === 2) reconcileDerivedOneRms(out)
