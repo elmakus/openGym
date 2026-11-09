@@ -74,3 +74,17 @@ New reproducible runners:
 Raw evidence SHA-256 (UTF-8 compact files):
 - `h1-extended-raw-compact.json`: `f2ab26a6c1a98dd4b239daa5d2b2c56da3841425120a92c125e156d711384621`
 - `combined-h1-trigger-compact.json`: `a51e7fab1d062f9a46a60a3569c6120111068ddf0bce837044c97cd4295a8956`
+
+
+## Continued native validation (2026-11-09, checkpoint 3)
+
+The [isolated H1+trigger+deload/reset/relearn report](LIFECYCLE_INTEGRATION_PROBE.md) adds **108 new actual original-runtime workouts** and **1,134 state/probe checks** across K5, M6 and SYN4, running nine full cycles per topology with original fitness H1/reset/controller generators and explicit synthetic lifecycle wiring. Original source `updatedProgramText` is serially reloaded after each actual `finish_workout`.
+
+- H1 learning, weak classification, queue, epoch reset, Adaptive candidate preservation and three subsequent relearning cycles: **0 field discrepancies** in isolated runner.
+- Native DELoad **second-set-access** probes: **11/15 PASS, 4/15 FAIL**; the four expected-invalid second-set accesses are accepted on final deload/closer days. **This proves a gap in the synthetic harness integration, NOT a production bug**, because the `update` seam was harness-authored and not an unchanged real materialization.
+- Earlier static `Program_evaluate` set count claimed all 15 shapes still had 2 sets: **harness measurement false positive**, preserved separately rather than deleted. Actual native session access test is authoritative for this probe.
+- A further 108-workout **unsupported cross-tag diagnostic** has 15/15 failed second-set-access checks and is excluded from comparable evidence totals.
+
+Primary cumulative native differential executions now **525 actual workouts / 4,917 semantic field comparisons or direct native assertions** (original 185/1422; H1 extension 124/1470; combined H1+trigger 108/891; lifecycle 108/1134). **Original H1 policy RED = 9 workout steps across 2 suites** (one unique >20-rep cause); **synthetic lifecycle deload-shape RED = 4 native access assertions** (not yet proven product defect). Mixed semantic fields and native shape assertions are identified and not implied to be equivalent. The additional diagnostic 108 runs are separate and are NOT added.
+
+Verdict remains **PARTIAL / RED**, NOT ready to close: unchanged full production materialization, exact-once H1 reset in real shared progression groups, ATP2 Turbo, openGym exposure/history replay, original T03/T04 external snapshots/runners, and full current-user-plan runtime parity remain unproven. No non-validation branch, live account, main, functional feature, merge, deploy or APK was touched.

@@ -82,3 +82,18 @@ The extended H1 output is a full JSON report locally; [published compact raw tra
 The already published `run-topology-triggers.py` checks controlled synthetic weak/valid/ready votes (21 scenarios, 132 native workouts, 792 fields); it is separate from `run-combined-h1-trigger.py`, which obtains weak votes from original H1 codegen.
 
 **T03/T04**: reconstructed originals depend on exact SHA-verified native archive and T04 source snapshot at hard-coded paths on the execution machine. Presence of those on another filesystem does not count. Historic T03 H1 is the rejected `calculate1RM`/ratchet policy and not valid proof of H1-EPL-1.
+
+
+## Nine-cycle native H1 / deload / reset / relearn integration probe
+
+```sh
+python3 scripts/hybrid2-runtime-parity/run-combined-lifecycle.py \
+  --fitness-root "$FITNESS_ROOT" --runtime-root "$LIFTOSAUR_RUNTIME_ROOT" \
+  --opengym-root . --out "$H2_PARITY_OUT/combined-lifecycle-native-set-check.json"
+# native pinned Liftosaur; expected 108 finished workouts, 1134 comparisons,
+# 4 failures exclusively at last deload day second-set-access probes.
+```
+
+Uses original frozen fitness H1, generic controller and private H1 reset generator combined in a **synthetic harness**. Deload start/update gate is test-owned, not an exact production materialization. Directly probes `Playground_run(change_reps(exercise,2,6))` during reduced sets; do NOT replace with `Program_evaluate` static `evaluatedSetVariations` (the latter produced a **false positive** across all 15 signals).
+
+Detailed [audit and raw evidence](../../docs/validation/hybrid2-runtime-parity/LIFECYCLE_INTEGRATION_PROBE.md); [authoritative in-scope runner trace](../../docs/validation/hybrid2-runtime-parity/combined-lifecycle-native-set-check.json). Retained [pre-correction trace](../../docs/validation/hybrid2-runtime-parity/combined-lifecycle-static-shape-precorrection.json) and [non-authoritative cross-tag probe](../../docs/validation/hybrid2-runtime-parity/combined-lifecycle-native-tag-read-diagnostic.json). **NOT A PASS for production full-plan deload**.
