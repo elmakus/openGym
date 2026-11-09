@@ -131,3 +131,23 @@ Frozen Python oracle fixture: **160 traces / 4,467 H1 transitions**. Its JS diff
 5. Actual full source K5/M6 Liftosaur plans are **not bound** to live openGym routines. Fixture structural subsets do not constitute approval of the real plan translation. Complete production Static Plan Adapters require separate review.
 6. Converted display units use the application's rounding policy, so exact floating-point normalized scores may differ slightly after a kg↔lb history conversion. The conversion retains physical units and does not intentionally start a new H1 epoch.
 7. The deterministic reducer intentionally refuses incomplete/ambiguous structural histories or conflicting adapter edits rather than inventing a recovery decision. Resolve those records explicitly before activating on a new history.
+
+## Explicit historical source-test discrepancy
+
+On the pinned fitness source, the additional original test set
+(test_h2m03_t04c_h1_reset_codegen.py, test_h2perf_t04_integrated.py,
+test_h2m01_t01.py and test_h2m01_t02.py) returned **67 PASS / 1 FAIL**
+plus **29 passing unittest subtests** after supplying its full fixture inputs.
+
+The sole failure is test_h2m01_t01.py::H1LearningTests::test_seeded_reference_never_decreases.
+It asserts that a seeded reference must remain exactly 100.0 even with successive
+94, 93, 92 and 91 observations. The pinned production source implementation
+actually returns 100.0, 99.4, 98.76 and 98.084, correctly following the
+later-accepted **0.10 downward alpha** from H2PERF-DEC-001. Thus this is an
+**obsolete test expectation incompatible with the accepted performance-reference
+contract**, not a reason to replace H1 with a non-decreasing reference.
+
+The current Python oracle test group (37 PASS), the pinned 4,467-transition
+cross-language fixture and the openGym automated H1 tests apply the accepted
+asymmetric policy. The older failure is recorded, not suppressed or
+changed to force a green report.
