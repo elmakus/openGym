@@ -1,16 +1,21 @@
 name: Unraid Engine v2 smoke (integration only)
 
 on:
+  push:
+    branches: [integration/engine-v2]
   pull_request:
     branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
   docker-smoke:
-    if: github.event.pull_request.head.ref == 'integration/engine-v2' || github.event_name == 'workflow_dispatch'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/integration/engine-v2') ||
+      (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'integration/engine-v2' && github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:
@@ -56,3 +61,15 @@ jobs:
             sleep 2
           done
           exit 1
+      - name: Publish tested Engine v2 image (not latest)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/integration/engine-v2'
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker tag opengym-unraid:staging ghcr.io/elmakus/opengym:engine-v2-test
+          docker tag opengym-unraid:staging ghcr.io/elmakus/opengym:engine-v2-${GITHUB_SHA::12}
+          docker push ghcr.io/elmakus/opengym:engine-v2-${GITHUB_SHA::12}
+          docker push ghcr.io/elmakus/opengym:engine-v2-test
