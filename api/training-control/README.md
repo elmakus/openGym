@@ -104,17 +104,42 @@ node api/training-control/atp2-liftosaur-multisession.mjs \
   /path/to/fitness/programs/adaptive_rep_engine_turbo_probe_candidate.liftoscript
 ```
 
-These are **direct runtime comparisons for covered scenarios**, not universal
-proof for all equipment ladders, paired inputs, history ordering or device flows.
+A further direct differential run, `atp2-liftosaur-edges.mjs`, covered
+**1,785 additional cases with zero divergences**:
+
+- **1,425** completed-set and next-exposure comparisons across seven distinct
+  native load ladders, including large/irregular native steps and equipment top;
+- **216** asymmetric paired/unilateral **next-exposure** state comparisons:
+  the source's unilateral target seeds left-side repetitions while Playground
+  changes right-side completed repetitions after completion, testing 1|1,
+  1|3 recovery, both-limb performance and weaker-limb gating;
+- **144** non-native persisted `candidate` / `floorWeight` and provisional
+  `probeActive` cases, checking live loads, serialized floor and next state.
+
+```sh
+node api/training-control/atp2-liftosaur-edges.mjs \
+  /path/to/liftosaur-playground-runtime/runtime_api.cjs \
+  /path/to/fitness/programs/adaptive_rep_engine_turbo_probe_candidate.liftoscript
+```
+
+The Playground has no independent `change_reps_left` command; therefore the
+216 paired tests validate **final state** from asymmetric completed results,
+not live after-set behaviour for every possible left-side UI edit.
+
+These are **direct runtime comparisons for the covered cases**, not universal
+proof for arbitrary configurations or actual device flows.
 
 ## Limitations and next work
 
-- No real Android/app interactive workout acceptance test yet.
+- No real Android/app interactive workout acceptance test yet. The experimental
+  `atp2-experimental-android.yml` GitHub Actions workflow generates a **debug-only
+  APK artifact** with package suffix `.test` for side-by-side manual testing;
+  it does not release or install an APK.
 - Differential runtime comparison still needs alternative native ladders,
   paired/unilateral observations, additional multi-session edge states,
   and further adverse input coverage.
-- Local edit/delete/date/backfill replay and representative two-device merge cases
-  have tests. Production sync races, incomplete migrations and actual offline-device
+- Local edit/delete/date/backfill replay, competing offline edits, and delete
+  tombstones are covered by simulated sync tests. Actual two-device offline/online
   round trips still need independent validation.
 - No Timed Load, HYBRID-2, or RTT integration yet.
 - This is not ready for live athlete profiles or production deployment.
