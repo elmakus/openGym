@@ -128,3 +128,37 @@ node scripts/hybrid2-runtime-parity/run-atp2-h1-composite.mjs
 ```
 
 [Source-verified manifest](../../docs/validation/hybrid2-runtime-parity/atp2-h1-composite-manifest.json), [full per-workout native/expected state trace](../../docs/validation/hybrid2-runtime-parity/atp2-h1-composite-native-compact.json), [interpretation](../../docs/validation/hybrid2-runtime-parity/ATP2_H1_COMPOSITE_NATIVE_DIFF.md). Generated code is a nonproduction composite of original frozen ATP2 and original fitness H1; no product source or live program is edited.
+
+
+## Native current user-program read-only M6/K5 + RTT causal isolated checks
+
+The four current-source native runners require **fresh read-only** current Liftosaur `get_program` content copied to a chmod-600 scratch directory, original `fitness@9f2deb6...`, exact original `liftosaur@ce75750...`, and local *frozen* reference equipment settings (NOT live gym equipment). Never commit user Liftoscript source or native private weight/history files.
+
+```sh
+export FITNESS_ROOT=/tmp/hybrid2-runtime-parity-20261109/fitness
+export LIFTOSAUR_RUNTIME_ROOT=/tmp/hybrid2-runtime-parity-20261109/liftosaur
+export PRIVATE_LIVE_ROOT=/tmp/hybrid2-runtime-parity-20261109/private-live
+export H2_PARITY_OUT=/tmp/hybrid2-runtime-parity-20261109/evidence
+
+python3 scripts/hybrid2-runtime-parity/run-shared-h1-propagation.py \
+  --fitness-root "$FITNESS_ROOT" --runtime-root "$LIFTOSAUR_RUNTIME_ROOT" \
+  --opengym-root . --out "$H2_PARITY_OUT/shared-h1-native.json"
+# 72 genuine workouts, 2025 checks, 0 issues
+
+node scripts/hybrid2-runtime-parity/run-current-marta-native.mjs
+# 12 native current M6 normal workouts / 156 fields / 0 differences, queued at cycle 4
+
+node scripts/hybrid2-runtime-parity/run-current-marta-lifecycle-native.mjs
+# expected RED after queue: current M6 RTT local update prevents native deload start;
+# 27 original workouts / 488 checks / 97 downstream red entries, don't promote as full parity
+
+node scripts/hybrid2-runtime-parity/run-current-marta-rtt-causal.mjs
+# private scratch-only causal variants, 6 native finish_workout, 10 probes, 122 checks, 0 unexpected issues
+
+node scripts/hybrid2-runtime-parity/run-current-krzysztof-native.mjs
+# 20 full current K5 native workouts, 132 checks, 4 noncomparable paired-left probe steps
+```
+
+The actual current K5 runner uses a **synthetic custom label registry** from the original H2PERF-T04 fixture. The original pinned Playground does not implement `change_reps_left`, so `paired:1` `Single-Leg Leg Press` cannot be validated as a bilateral result; explicitly treat those 4 steps as INDETERMINATE rather than product RED. All private source and numeric loads remain off GitHub. Only [sanitized source hashes](../../docs/validation/hybrid2-runtime-parity/current-live-source-metadata.json), [read-only live M6/K5 results](../../docs/validation/hybrid2-runtime-parity/CURRENT_LIVE_K5_M6_NATIVE.md), [genuine M6 RTT cause](../../docs/validation/hybrid2-runtime-parity/M6_RTT_UPDATE_SHADOW_CAUSAL.md), and [shared native proof](../../docs/validation/hybrid2-runtime-parity/SHARED_H1_NATIVE_DIFF.md) are committed.
+
+**DO NOT** delete 29 RTT overrides from a real account/program as a fix: that was intentionally a destructive-of-RTT-in-intro control performed only on a temporary private test string. Product change would need a separate reviewed authorization.
