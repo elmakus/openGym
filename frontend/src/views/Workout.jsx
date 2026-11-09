@@ -41,7 +41,7 @@ import LiveHeartRate from '../components/LiveHeartRate.jsx'
 import Icon from '../components/Icon.jsx'
 import { Button, Check, NumberField } from '../components/ui.jsx'
 import { buildSessionExposures, occurrenceFor } from '../lib/session-start.js'
-import { legacyEntriesOf, missingReference, roundLoad, ruleOfPrescription } from '../lib/prescription/index.js'
+import { legacyEntriesOf, missingReference, operatorFor, phaseOf, roundLoad, ruleOfPrescription, rungsOf } from '../lib/prescription/index.js'
 import { entriesForExposures, loadStepFor, planSummary, rowFindings } from '../lib/session-ui-adapter.js'
 import { ownWarmupsChange, keepOwnWarmups } from '../lib/routines.js'
 import { ownRowsLine } from '../lib/warmup-ramp.js'
@@ -139,6 +139,8 @@ const RTL_LETTER = /[֐-ࣿיִ-﷿ﹰ-﻿]/
 // The pause between the left and the right side of one timed per-side set (owner's call): long
 // enough to turn over, far shorter than the rest the set earns once both sides are held.
 const SWITCH_SIDES_SEC = 10
+// A ladder rung's name; a rung past the end of the list reads as the last one.
+const rungName = (p, i) => { const rungs = rungsOf(operatorFor(phaseOf(p), 'difficulty')); return rungs[Math.min(i ?? 0, rungs.length - 1)]?.name }
 
 function ExerciseBlock({ entryIdx, compact, dense, editing, onToggle, onToggleSide, onField, onAddSet, onRemoveSet, onAddWarmup, onKeepWarmups, onAskCoach, onRemoveSetAt, onCopySetAt, onStartTimed, onPairPrev, onPairNext, onSetRowRef, onProgressionSettings, onRest, onNoProg, routineUpdate, onSwap, onSwapBackup, onMoveUp, onMoveDown, canMoveUp, canMoveDown, onRemoveExercise, busy }) {
   // The block reads the state as its exercise sees it (lib/ex-unit.js): in the exercise's own
@@ -805,13 +807,17 @@ function ExerciseBlock({ entryIdx, compact, dense, editing, onToggle, onToggleSi
     {prescription && <div className="small" style={{ margin: '6px 0', display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
       <span className="dim">{t('Plan')}: {planSummary(prescription, fmtNum)} · {t('Rest {0} s', prescription.parameters.restSeconds)}{effortText}</span>
       {prescription.statusAtGeneration === 'completed' && <span className="tag acc">{t('Progression completed')}</span>}
+      {prescription.ruleSnapshot.program.trainingMax && <span className="tag">{t('Phase {0} of {1}', prescription.ruleSnapshot.program.phases.findIndex(ph => ph.id === prescription.phaseId) + 1, prescription.ruleSnapshot.program.phases.length)}</span>}
+      {operatorFor(phaseOf(prescription), 'difficulty') && <span className="tag">{t('Variation: {0}', rungName(prescription, prescription.values.difficulty))}</span>}
       {findings.size > 0 && <span className="tag" style={{ color: 'var(--yellow)' }}>{t('Out of plan')}</span>}
     </div>}
     {prescription && missingReference(prescription) && <div className="small dim" style={{ marginBottom: 6 }}>{t('No 1RM on file — enter the weight you lift.')}</div>}
     {prescription?.provenance.derivedFromOutOfPlan && <div className="small dim" style={{ marginBottom: 6 }}>{t('Suggested from a session logged out of plan.')}</div>}
+    {prescription?.provenance.reviewTrainingMax && <div className="small" role="status" style={{ color: 'var(--yellow)', marginBottom: 6 }}>{t('progression.reviewTrainingMax')}</div>}
     {prescription?.provenance.deload && <div className="small dim" style={{ marginBottom: 6 }}>{t('Backed off after {0} sessions short of the plan: {1} → {2} {3}.',
       prescription.provenance.deload.stalls, fmtNum(prescription.provenance.deload.from), fmtNum(prescription.provenance.deload.to),
       prescription.provenance.deload.method === 'seconds' ? 's' : prescription.parameters.load.expression.mode === 'percent_1rm' ? '%' : S.unit)}</div>}
+    {prescription?.provenance.rung && <div className="small dim" style={{ marginBottom: 6 }}>{prescription.provenance.rung.reason === 'promote' ? t('Moved up to {0}.', rungName(prescription, prescription.provenance.rung.to)) : t('Back to {0}.', rungName(prescription, prescription.provenance.rung.to))}</div>}
     <div className="card" style={{ marginTop: 10, marginBottom: 0 }}>
       {/* the header carries the same eff3/timed sizing as the rows, or the labels drift off their
           columns; over L/R rows it also has to skip the side badge that sits in front of the weight cell */}
