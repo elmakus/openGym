@@ -1,0 +1,42 @@
+{
+  "schema": "HYBRID2-SHARED-REAL-RUNTIME-1",
+  "runtimePin": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "sourceCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+  "records": [
+    {
+      "scenario": "shared_normal",
+      "commands": [
+        "complete_set(1,1)",
+        "complete_set(2,1)",
+        "finish_workout()"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "updatedProgramSha256": "7be04bf8126e464c7a806fb85a6fbbaee7794d3d7668d6c10ee2afe61acfb7f9",
+      "pass": true
+    },
+    {
+      "scenario": "shared_skip_earlier",
+      "commands": [
+        "complete_set(1,1)",
+        "finish_workout()"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "updatedProgramSha256": "048af8cc62cd47becc6a3f9262871460bc1bfb082a2158582261fa29a8281061",
+      "pass": true
+    },
+    {
+      "scenario": "distinct_identity",
+      "commands": [
+        "complete_set(1,1)",
+        "complete_set(2,1)",
+        "finish_workout()"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "updatedProgramSha256": "ea7773c1cecdc78621c19b0f331516232ea2400e36aaf11b579bcd23f004278a",
+      "pass": true
+    }
+  ]
+}
