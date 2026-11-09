@@ -86,6 +86,27 @@ test('configuration and state never invent intermediate loads', () => {
   assert.deepEqual(adaptTimedState(original,{...side,ladderKg:[0,1,2]}),initialTimedState({...side,ladderKg:[0,1,2]}))
 })
 
+test('first logical set gates calibration and conservative manual downshift', () => {
+  const fresh = initialTimedState(side)
+  const outOfOrder = [0, 1, 2, 3].map(i => ({ side: i%2 ? 'R':'L',
+    completed: i === 1, seconds:30, weightKg:7 }))
+  let result=evaluateTimedLoad({config:side,state:fresh,rows:outOfOrder})
+  assert.equal(result.counted,false)
+  assert.equal(result.nextState.initialized,false)
+  const established={...fresh,initialized:true,load:8,target:35}
+  result=evaluateTimedLoad({config:side,state:established,rows:outOfOrder})
+  assert.equal(result.counted,true)
+  assert.equal(result.nextState.load,8)
+  assert.equal(result.nextState.fails,1)
+  assert.equal(result.reason,'first_failure_retry')
+  // Calibration accepts the first complete L/R set and ignores later unfinished ones.
+  outOfOrder[0]={...outOfOrder[0],completed:true}
+  result=evaluateTimedLoad({config:side,state:fresh,rows:outOfOrder})
+  assert.equal(result.counted,true)
+  assert.equal(result.nextState.load,7)
+  assert.equal(result.nextState.target,30)  // second logical set missing
+})
+
 test('manual downshift retains new/established bridge isolation and no same-session Turbo', () => {
   const rows = [0,1,2,3].map(i=>({completed:true,side:i%2?'R':'L',seconds:45,weightKg:5}))
   const s={...initialTimedState(side),initialized:true,load:6,target:45,bridgeTarget:8,bridgeProvenance:'new'}
