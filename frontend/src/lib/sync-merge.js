@@ -998,3 +998,359 @@ export function mergeStates(a0, b0, { prefer } = {}) {
   if (n.progression || o.progression) {
     out.progression = {}
     const tracks = new Set([...Object.keys(n.progression || {}), ...Object.keys(o.progression || {}), ...out.workouts.flatMap(w => list(w.exposures).map(x => x.trackId).filter(Boolean))])
+    for (const trackId of tracks) {
+      const state = replayProgression({ workouts: out.workouts, prescriptions: out.prescriptions, trackId })
+      if (state) out.progression[trackId] = state
+    }
+  }
+  // ATP2 has independent controller state. Recompute from the merged chronological logs;
+  // never merge its candidates by last-writer-wins or place them inside engine progression.
+  const persistedAtp2 = { ...(o.trainingControl?.atp2 || {}), ...(n.trainingControl?.atp2 || {}) }
+  const atp2EverLogged = new Set([...list(n.workouts), ...list(o.workouts)]
+    .flatMap(w => list(w.exposures)).filter(x => x?.atp2).map(x => x.trackId))
+  const replayedAtp2 = replayAtp2History(out.workouts)
+  const untouchedAtp2 = Object.fromEntries(Object.entries(persistedAtp2).filter(([id]) => !atp2EverLogged.has(id)))
+  if (Object.keys(persistedAtp2).length || Object.keys(replayedAtp2).length) {
+    out.trainingControl = {
+      ...(o.trainingControl || {}), ...(n.trainingControl || {}),
+      atp2: { ...untouchedAtp2, ...replayedAtp2 }
+    }
+  }
+  // Timed Load state is history-derived, including conflicting offline edits and tombstones.
+  // Preserve an untouched manually calibrated track only if neither copy ever logged it.
+  const persistedTimed = { ...(o.trainingControl?.timedLoad || {}), ...(n.trainingControl?.timedLoad || {}) }
+  const timedEverLogged = new Set([...list(n.workouts), ...list(o.workouts)]
+    .flatMap(w => list(w.exposures)).filter(x => x?.timedLoad?.version === 1).map(x => x.trackId))
+  const replayedTimed = replayTimedLoadHistory(out.workouts)
+  const untouchedTimed = Object.fromEntries(Object.entries(persistedTimed).filter(([id]) => !timedEverLogged.has(id)))
+  if (Object.keys(persistedTimed).length || Object.keys(replayedTimed).length) {
+    out.trainingControl = { ...(out.trainingControl || {}),
+      timedLoad: { ...untouchedTimed, ...replayedTimed } }
+  }
+  if (out.engineSchemaVersion === 2) reconcileDerivedOneRms(out)
+  // The plate-loading choices (lib/plates.js) are stamped the same way: an exercise's loading and
+  // a unit's plate inventory are each one choice, made on one device, that a later set logged on
+  // the other must not undo.
+  for (const f of STAMPED_MAPS) {
+    if (n[f] || o[f]) out[f] = clone(mergeStampedMap(n[f], o[f], prefer))
+  }
+  // Each stamped setting and plan day from the copy that changed it last (the `edited` section
+  // above). `prefer` (sign-in) keeps the preferred side's, stamps and all.
+  if (!prefer) {
+    const bumps = applyEdits(out, n, o)
+    const edited = mergeEdits(n.edited, o.edited)
+    if (edited) { Object.assign(edited, bumps); out.edited = edited } else delete out.edited
+    // An Undo's markers that still describe the merged stamp of their setting.
+    const undone = {}
+    for (const k of new Set([...Object.keys(isMap(n.undone) ? n.undone : {}), ...Object.keys(isMap(o.undone) ? o.undone : {})])) {
+      const at = Number(edited?.[k]) || 0
+      const m = undoOf(n.undone, k, at) || undoOf(o.undone, k, at)
+      if (m && !(k in bumps)) undone[k] = clone(m)
+    }
+    if (Object.keys(undone).length) out.undone = undone; else delete out.undone
+    // The Coach's conversation, log and Undo snapshots from both copies (mergeCoach), whichever
+    // changed `coach` last.
+    if (isMap(out.coach)) {
+      const other = sameJSON(out.coach, n.coach) ? o.coach : n.coach
+      if (isMap(other)) out.coach = mergeCoach(out.coach, other)
+    }
+  }
+  // The advent calendar (lib/advent.js): a door opened on either device stays open, and so does a
+  // ticked challenge, whichever copy changed the field last. A calendar of a later year wins.
+  const advent = mergeAdvent(n.advent, o.advent)
+  if (advent) out.advent = advent
+  // The monthly challenges (lib/challenges.js): a badge earned on either device stays earned.
+  const challenges = mergeChallenges(n.challenges, o.challenges)
+  if (challenges) out.challenges = challenges
+  if (deleted) out.deleted = deleted; else delete out.deleted
+  out._ts = Math.max(a._ts || 0, b._ts || 0)
+  if (resetAt) out.resetAt = resetAt
+  if (resetIds) out.resetIds = resetIds
+  else delete out.resetIds
+  delete out._rev
+  delete out._wid
+  delete out._wids
+  delete out._unstamped   // the server's own notes (api/sync-stamps.js), never a client's
+  delete out._prior
+  // The accent fields end up in CSS: whatever either copy brought, only a clean value goes on.
+  sanitizeAccent(out)
+  // The day's value of a day with several weigh-ins follows the daily-value setting as merged.
+  settleAll(out)
+  // An exercise merged into another on either copy (#656, lib/exercise-merge.js exMerged): what
+  // the other copy still logged against it moves over too.
+  applyExerciseMerges(out)
+  return out
+}
+
+/**
+ * `next` replacing `cur` wholesale (a backup import, a reset) never takes the reset stamp back:
+ * the later `resetAt` stays, with its names — a restored backup that carried none would otherwise
+ * be taken, on every device that saw the reset, for a copy from before it and wiped again.
+ * Mutates and returns `next`.
+ */
+export function keepReset(cur, next) {
+  if (!next || typeof next !== 'object') return next
+  const rc = Number(cur?.resetAt) || 0, rn = Number(next.resetAt) || 0
+  if (rc > rn) {
+    next.resetAt = cur.resetAt
+    if (cur.resetIds) next.resetIds = clone(cur.resetIds); else delete next.resetIds
+  } else if (rc && rc === rn && (cur.resetIds || next.resetIds)) {
+    next.resetIds = mergeResetIds(cur.resetIds, next.resetIds)
+  }
+  return next
+}
+
+// ---- A restored backup ------------------------------------------------------------------------
+//
+// A backup brought back over the profile (Settings, Import) is a deliberate add-back: the main way
+// to undo a mistake. Its entries are older than any removal recorded since it was made, so the
+// merge used to delete them again (the removal record outlived the restore), at once with "Merge
+// them in" and on the next conflict of any other device with "Replace". And a device with an older
+// unsent setting change won over the restored settings, which carried no stamp. So a restore marks
+// every entry it holds whose removal is on record (here or in `others`) as added back at `now`,
+// stamps its settings, plan days and plans as changed at `now`, and keeps the record of removals.
+
+/** Stamps `next`, a restored backup, as described above. Mutates and returns `next`. */
+export function stampRestore(next, others = [], now = Date.now()) {
+  if (!next || typeof next !== 'object') return next
+  let del = mergeDeletions(next.deleted, null)
+  for (const o of others) del = mergeDeletions(del, o?.deleted)
+  del = del || {}
+  for (const [f, key] of Object.entries(DEL_LISTS)) {
+    const m = del[f]
+    if (!isMap(m)) continue
+    for (const x of list(next[f])) {
+      if (x == null) continue
+      const k = String(key(x))
+      if (Number(m[k]) > 0) m[k] = -now
+    }
+  }
+  if (Object.keys(del).length) next.deleted = del; else delete next.deleted
+  const ed = isMap(next.edited) ? { ...next.edited } : {}
+  for (const k of Object.keys(next)) if (!OWN_MERGE.has(k) && !PER_KEY.has(k)) ed[k] = now
+  for (const f of PER_KEY) {
+    for (const S of [next, ...others]) for (const s of Object.keys(isMap(S?.[f]) ? S[f] : {})) ed[`${f}.${s}`] = now
+  }
+  ed[ORDER_KEY] = now
+  next.edited = ed
+  for (const f of ['routines', 'customEx']) for (const x of list(next[f])) if (x && typeof x === 'object') x._ts = now
+  return next
+}
+
+/**
+ * A backup that replaces the profile ("Replace anyway", or an import with nothing to ask about) is
+ * stamped like a reset of what it replaced, on top of stampRestore: every entry this device or the
+ * server held that the backup lacks is recorded as removed at `now`, and every field of an entry
+ * the backup holds in another version is stamped at `now`, and so is a stamped settings entry
+ * (balance, loading, plates) it sets differently. A device that still had an unsent change from
+ * before the replace used to bring the replaced workouts back with its merge, and its older edit
+ * of an entry won over the backup's version. A change made after the replace (a later stamp) still
+ * wins, and an entry only that device knew of is not named, so it stays. `others` are the copies
+ * the replace knew: this device's and the server's. Mutates and returns `next`.
+ */
+export function stampReplace(next, others = [], now = Date.now()) {
+  if (!next || typeof next !== 'object') return next
+  const known = {}
+  for (const f of Object.keys(DEL_LISTS)) known[f] = others.flatMap(o => list(o?.[f])).filter(x => x != null)
+  stampDeletions(known, next, now)
+  for (const f of ['workouts', 'routines', 'customEx', 'equipProfiles', 'gymCards']) {
+    const versions = new Map()
+    for (const o of others) for (const x of list(o?.[f])) if (x && typeof x === 'object' && x.id != null) versions.set(x.id, [...(versions.get(x.id) || []), x])
+    for (const x of list(next[f])) {
+      if (!x || typeof x !== 'object' || x.id == null || !versions.has(x.id)) continue
+      const fields = isMap(x._f) ? { ...x._f } : {}
+      let moved = false
+      for (const old of versions.get(x.id)) {
+        for (const k of new Set([...Object.keys(old), ...Object.keys(x)])) {
+          if (ENTRY_META.has(k)) continue
+          if ((k in old) !== (k in x) || !sameJSON(old[k], x[k])) { fields[k] = now; moved = true }
+        }
+      }
+      if (!moved) continue
+      x._f = fields
+      delete x._u
+      x._ts = Math.max(Number(x._ts) || 0, now)
+    }
+  }
+  for (const f of STAMPED_MAPS) {
+    if (!isMap(next[f])) continue
+    for (const [k, v] of Object.entries(next[f])) {
+      if (!isMap(v)) continue
+      if (others.some(o => isMap(o?.[f]) && k in o[f] && !sameJSON({ ...o[f][k], _ts: 0 }, { ...v, _ts: 0 }))) v._ts = Math.max(stampOf(v), now)
+    }
+  }
+  return next
+}
+
+// ---- One causal time per change ---------------------------------------------------------------
+//
+// Every stamp above is a wall-clock time, compared between devices. A phone whose clock runs
+// behind stamped its later change before the change it had already seen, and lost to it on the
+// next merge: its setting, its routine edit, its delete reverted, silently, on every device. So a
+// change is stamped after every stamp the copy it was made on carries (stampChange): a change
+// made after seeing another always wins over it, whatever either clock says. Only changes neither
+// device had seen are still ordered by their clocks.
+
+/** The latest stamp a copy carries: its `_ts`, every setting, removal and entry stamp. */
+export function highestStamp(S) {
+  let m = 0
+  const see = v => { const n = Math.abs(Number(v) || 0); if (n > m) m = n }
+  if (!S || typeof S !== 'object') return 0
+  see(S._ts)
+  see(S.unitSet?.at)
+  see(S.resetAt)
+  if (isMap(S.edited)) for (const v of Object.values(S.edited)) see(v)
+  if (isMap(S.deleted)) for (const f of Object.values(S.deleted)) if (isMap(f)) for (const v of Object.values(f)) see(v)
+  for (const f of ['workouts', 'routines', 'customEx', 'equipProfiles', 'gymCards']) {
+    for (const x of list(S[f])) {
+      if (!x || typeof x !== 'object') continue
+      see(x._ts)
+      if (isMap(x._f)) for (const v of Object.values(x._f)) see(v)
+    }
+  }
+  for (const f of STAMPED_MAPS) if (isMap(S[f])) for (const v of Object.values(S[f])) see(stampOf(v))
+  for (const e of [...list(S.bodyweight), ...list(S.measurements)]) if (e && typeof e === 'object') see(e.t)
+  return m
+}
+
+/**
+ * Stamps everything the change from `prev` to `next` touched, at one time that comes after every
+ * stamp `prev` carries (and `wall`, this device's clock): routines, custom exercises, workouts a
+ * screen re-stamped (stampWorkout), removals, settings and plan days. Mutates `next`; returns
+ * the time used, for the copy's own `_ts`.
+ */
+export function stampChange(prev, next, wall = Date.now()) {
+  const now = Math.max(Number(wall) || 0, highestStamp(prev) + 1)
+  if (!next || typeof next !== 'object') return now
+  const before = new Map(list(prev?.workouts).filter(w => w && w.id != null).map(w => [w.id, w]))
+  for (const w of list(next.workouts)) {
+    if (!w || typeof w !== 'object' || w.id == null || w._ts == null) continue
+    const old = before.get(w.id)
+    if (!old || w._ts === old._ts) continue
+    // A save that changed nothing is not an edit: it keeps the stamp it had. Re-stamped, the
+    // untouched copy outlived a removal made in between on another device and came back with
+    // whatever field another copy had changed before that removal, but only when those two met
+    // first (sync-merge.property.test.js: three copies, one deleting).
+    if (sameEntry(old, w)) { if (old._ts == null) delete w._ts; else w._ts = old._ts; continue }
+    stampEntry(old, w, now)
+  }
+  // Settings maps whose entries carry their own stamp (mergeStampedMap): an entry the change
+  // re-stamped takes the change's time.
+  for (const f of STAMPED_MAPS) {
+    const p = isMap(prev?.[f]) ? prev[f] : {}, n = isMap(next[f]) ? next[f] : null
+    if (!n) continue
+    for (const [k, v] of Object.entries(n)) if (isMap(v) && v._ts != null && stampOf(v) !== stampOf(p[k])) v._ts = now
+  }
+  // A weigh-in the change logged or corrected (its `t` moved): the newer entry of a day wins the
+  // merge (mergeBodyweight), so it takes the change's time like any other stamp. One whose weight
+  // only a unit switch converted keeps its own.
+  for (const f of ['bodyweight', 'measurements']) {
+    const before = new Map(list(prev?.[f]).filter(e => e && e.d != null).map(e => [e.d, e]))
+    for (const e of list(next[f])) {
+      if (!e || typeof e !== 'object' || e.d == null || e.t == null) continue
+      const old = before.get(e.d)
+      if (old && old.t === e.t) continue
+      const was = Number(e.t) || 0
+      e.t = Math.max(was, now)
+      // A day with several weigh-ins (lib/weigh-ins.js): the readings and removals this change
+      // made take the same time, so the day's `t` stays the one its readings explain (an older
+      // app's edit is told apart by exactly that, absorbLegacyEdit).
+      if (f !== 'bodyweight' || !Array.isArray(e.ins) || e.t === was) continue
+      const prior = new Map(list(old?.ins).filter(r => r && r.id != null).map(r => [String(r.id), r]))
+      for (const r of e.ins) {
+        const p = r && prior.get(String(r.id))
+        if (r && (!p || p.t !== r.t || p.w !== r.w || p.at !== r.at)) r.t = e.t
+      }
+      if (isMap(e.gone)) for (const k of Object.keys(e.gone)) if (Number(e.gone[k]) !== Number(old?.gone?.[k])) e.gone[k] = e.t
+    }
+  }
+  // A routine put back by an Undo keeps the edit time it had: what puts it back is the add-back
+  // on record (stampDeletions), not an edit of it. Stamped as edited now, it was the newer version
+  // to an older app's merge (v1.3.9 keeps a routine whole, by `_ts`), and a rename made there
+  // offline was lost to the Undo. Only a routine removed after its last edit counts, and one that
+  // never had an edit time (the seed's, a template's, one from before stamps) stays without one.
+  const gone = isMap(prev?.deleted?.routines) ? prev.deleted.routines : {}
+  const putBack = r => Number(gone[r.id]) > 0 && (!(Number(r._ts) > 0) || Number(r._ts) < Number(gone[r.id])) &&
+    !list(prev?.routines).some(x => x?.id === r.id)
+  stampRoutines(prev?.routines, next.routines, now, putBack)
+  stampCustomEx(prev?.customEx, next.customEx, now)
+  stampEntries(prev?.equipProfiles, next.equipProfiles, now)
+  stampEntries(prev?.gymCards, next.gymCards, now)
+  stampDeletions(prev, next, now)
+  stampEdits(prev, next, now)
+  return now
+}
+
+const sameRoutine = (a, b) => JSON.stringify({ ...a, _ts: 0, _f: 0, _u: 0 }) === JSON.stringify({ ...b, _ts: 0, _f: 0, _u: 0 })
+
+/**
+ * Stamps `_ts` on every routine of `next` that is new or differs from its version in `prev` — the
+ * edit time mergeStates needs to keep the routine edited last. The store runs it on every change
+ * (useStore update), so no screen that edits a plan has to remember to. Mutates and returns `next`.
+ */
+export function stampRoutines(prev = [], next = [], now = Date.now(), putBack = () => false) {
+  const before = new Map(list(prev).filter(r => r?.id != null).map(r => [r.id, r]))
+  for (const r of list(next)) {
+    if (!r || r.id == null) continue
+    const old = before.get(r.id)
+    if (!old && putBack(r)) continue
+    if (!old || (old !== r && !sameRoutine(old, r))) stampEntry(old, r, now)
+  }
+  return next
+}
+
+const sameEntry = (a, b) => JSON.stringify({ ...a, _ts: 0, _f: 0, _u: 0 }) === JSON.stringify({ ...b, _ts: 0, _f: 0, _u: 0 })
+
+/**
+ * Stamps `_ts` on every custom exercise of `next` that is new or differs from its version in
+ * `prev`, the way stampRoutines does for a plan — the edit time mergeStates needs to keep the
+ * version edited last. The store runs it on every change (useStore update). Mutates and returns
+ * `next`.
+ */
+export function stampCustomEx(prev = [], next = [], now = Date.now()) {
+  const before = new Map(list(prev).filter(c => c?.id != null).map(c => [c.id, c]))
+  for (const c of list(next)) {
+    if (!c || typeof c !== 'object' || c.id == null) continue
+    const old = before.get(c.id)
+    if (!old || (old !== c && !sameEntry(old, c))) stampEntry(old, c, now)
+  }
+  return next
+}
+
+/** stampCustomEx for any list of entries with ids: equipment profiles, gym cards. */
+export function stampEntries(prev = [], next = [], now = Date.now()) { return stampCustomEx(prev, next, now) }
+
+// What `local` holds that `server` does not: the workouts and weigh-ins a device logged while it
+// was signed out, and the custom exercises they use. Sign-in asks about these before the server's
+// profile replaces the local copy; zero of each means there is nothing to ask about.
+// A weigh-in on a day the server has one too counts when it differs and was entered later — the
+// one "Add them" keeps (mergeBodyweight). Counted only on days the server lacked, a weigh-in
+// made on the phone on a day the profile already had one was dropped without the question ever
+// being asked. Weights are compared in the server's unit.
+export function localExtras(local, server) {
+  const have = new Set(list(server?.workouts).map(workoutKey))
+  const days = new Map(list(server?.bodyweight).filter(e => e && e.d != null).map(e => [e.d, e]))
+  const ex = new Set(list(server?.customEx).map(e => e?.id))
+  const from = unitOf(local), to = unitOf(server)
+  const differs = (mine, theirs) =>
+    (Number(mine.t) || 0) > (Number(theirs.t) || 0) && Number(convertBodyWeight(mine.w, from, to)) !== Number(theirs.w)
+  // Routines, and the rest of what a device sets up (plan days, exercise notes, gym cards,
+  // equipment profiles), count too: a guest who only built a plan was never asked, and signing in
+  // dropped it. Present only when there are any.
+  const ids = f => new Set(list(server?.[f]).map(x => x?.id))
+  const routines = list(local?.routines).filter(r => r && r.id != null && !ids('routines').has(r.id)).length
+  const keysNew = f => Object.entries(isMap(local?.[f]) ? local[f] : {})
+    .filter(([k, v]) => v != null && !(Array.isArray(v) && !v.length) && !(isMap(server?.[f]) && k in server[f])).length
+  const measured = new Set(list(server?.measurements).map(e => e?.d))
+  const setup = ['gymCards', 'equipProfiles'].reduce((n, f) => n + list(local?.[f]).filter(x => x && x.id != null && !ids(f).has(x.id)).length, 0) +
+    list(local?.measurements).filter(e => e && e.d != null && !measured.has(e.d)).length +
+    Object.entries(isMap(local?.dayNotes) ? local.dayNotes : {}).filter(([k, v]) => readNote(v) && !readNote(server?.dayNotes?.[k])).length +
+    keysNew('week') + keysNew('dayPlan') + keysNew('exNotes') + keysNew('exAliases') + keysNew('programmes')
+  return {
+    workouts: list(local?.workouts).filter(w => !have.has(workoutKey(w))).length,
+    bodyweight: list(local?.bodyweight).filter(e => e && e.d != null && (!days.has(e.d) || differs(e, days.get(e.d)))).length,
+    customEx: list(local?.customEx).filter(e => e && !ex.has(e.id)).length,
+    ...(routines ? { routines } : {}),
+    ...(setup ? { setup } : {}),
+  }
+}
