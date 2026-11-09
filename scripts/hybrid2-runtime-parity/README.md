@@ -102,3 +102,16 @@ Detailed [audit and raw evidence](../../docs/validation/hybrid2-runtime-parity/L
 ## Original (unaltered) fitness H2PERF native regressions
 
 Restoring frozen original private `fitness@9f2deb6...` source into a scratch workspace is necessary; do not commit source/fixtures to openGym. Original `tests/runtime/h2perf_t03_runtime.cjs` and `tests/runtime/h2perf_t04_real_adapters.cjs` accept `<runtime-dir> <fitness-repo-root>` and run genuine pinned Liftosaur `ce75750...`. The H2PERF-T03 additionally requires original `tests/hybrid2/h2perf_t03_differential.py`, frozen Python programs+oracle. H2PERF-T04 requires original real K5/M6 source files plus `tests/fixtures/marta-playground-baseline/settings` fixture. Results: [T03 JSON](../../docs/validation/hybrid2-runtime-parity/h2perf-t03-original-native.json) (PASS, 49 continuation boundaries), [T04 JSON](../../docs/validation/hybrid2-runtime-parity/h2perf-t04-original-native.json) (PASS, real adapter K5/M6 fixture native parser/serializer). They are distinct from historical *H2M03*-T03/T04 runners still blocked on external snapshots.
+
+
+## ATP2 Turbo genuine native differential
+
+```sh
+FITNESS_ROOT=/tmp/hybrid2-runtime-parity-20261109/fitness \
+LIFTOSAUR_RUNTIME_ROOT=/tmp/hybrid2-runtime-parity-20261109/liftosaur \
+H2_PARITY_OUT=/tmp/hybrid2-runtime-parity-20261109/evidence \
+node scripts/hybrid2-runtime-parity/run-atp2-real-native.mjs
+# Expected: 18 genuine native finish_workout/reload, 75 openGym field comparisons, 0 issues.
+```
+
+Source from **original frozen private fitness Git blob** (not copied into openGym), runtime pin enforced, stock settings with kg and 2.5kg ladder. This is **ATP2-only**, not complete H1+ATP2 original integration and **not** database exposure-history parity. See [methodology](../../docs/validation/hybrid2-runtime-parity/ATP2_NATIVE_DIFF.md) and [per-workout raw evidence](../../docs/validation/hybrid2-runtime-parity/atp2-real-native-diff.json).
