@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Container version="2">
+  <Name>openGym</Name>
+  <Repository>ghcr.io/elmakus/opengym:latest</Repository>
+  <Registry>https://github.com/elmakus/openGym/pkgs/container/opengym</Registry>
+  <Network>bridge</Network>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/elmakus/openGym/issues</Support>
+  <Project>https://github.com/elmakus/openGym</Project>
+  <ReadMe>https://github.com/elmakus/openGym/blob/main/deploy/unraid/README.md</ReadMe>
+  <Overview>Personal openGym fork: workout tracking, routines, progression and weight management. Built from elmakus/openGym by GitHub Actions and managed like any other Unraid Docker container. Back up the /data folder.</Overview>
+  <Category>Productivity: Other:</Category>
+  <WebUI>https://gym.makowski.li/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/elmakus/openGym/main/deploy/unraid/unraid-template.xml</TemplateURL>
+  <ExtraParams>--restart=unless-stopped</ExtraParams>
+  <Config Name="Web UI Port" Target="80" Default="8310" Mode="tcp" Description="Host HTTP port for Cloudflare Tunnel and LAN access." Type="Port" Display="always" Required="true" Mask="false">8310</Config>
+  <Config Name="Appdata" Target="/data" Default="/mnt/user/appdata/opengym/data" Mode="rw" Description="Persistent profiles, workout data, uploads, and session keys. Back up this folder." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/opengym/data</Config>
+  <Config Name="Application URL" Target="ORIGIN" Default="https://gym.makowski.li" Mode="" Description="Canonical public browser URL, no trailing slash." Type="Variable" Display="always" Required="true" Mask="false">https://gym.makowski.li</Config>
+  <Config Name="Passkey hostname" Target="RP_ID" Default="gym.makowski.li" Mode="" Description="Domain only, without protocol or port." Type="Variable" Display="always" Required="true" Mask="false">gym.makowski.li</Config>
+  <Config Name="Password Login" Target="PASSWORD_LOGIN" Default="true" Mode="" Description="Enable username and password registration." Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="First Profile Admin" Target="FIRST_USER_ADMIN" Default="true" Mode="" Description="First registered profile becomes administrator." Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Invite Only" Target="INVITE_ONLY" Default="false" Mode="" Description="Enable after registering the administrator if you want restricted signups." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="Allow Guest" Target="ALLOW_GUEST" Default="false" Mode="" Description="Disable browser-only guest sessions." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="Timezone" Target="TZ" Default="Europe/Zurich" Mode="" Description="Local timezone for server logs." Type="Variable" Display="advanced" Required="false" Mask="false">Europe/Zurich</Config>
+</Container>
