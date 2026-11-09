@@ -1,0 +1,5162 @@
+{
+  "schema": "HYBRID2-REAL-LIFTOSAUR-H1-DIFF-1",
+  "sourceCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+  "runtimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "openGymBase": "8529b2d41b28fea8ae96a50325aaf28e864a0160",
+  "provenance": {
+    "generatedSha256": "fcfe2a0e796460516471622d3610916e13be025b8acbe482600803b12bdef061",
+    "metric": {
+      "alphaDown": 0.1,
+      "alphaUp": 0.4,
+      "metricVersion": "H1-EPL-1",
+      "nativeCalculate1RM": "FORBIDDEN",
+      "persistentFields": [
+        "perf1",
+        "perf2",
+        "perf3",
+        "perfCount",
+        "perfReference",
+        "candidateGuard"
+      ],
+      "referencePolicyVersion": "H1-ASYM-M3-1",
+      "stateSchema": "HYBRID-STATE-2",
+      "transientInputs": [
+        "h1Frozen",
+        "h1Discontinuity",
+        "hasComparableH1",
+        "anchorWeight",
+        "anchorReps",
+        "candidateRaised"
+      ],
+      "transientOutputs": [
+        "anchorValid",
+        "anchorWeak",
+        "anchorReset",
+        "anchorReady",
+        "guardBeforeH1",
+        "referenceBeforeH1",
+        "performance"
+      ],
+      "version": "H1-LIFTOSAUR-EPL-ASYM-1",
+      "weakRatio": 0.95
+    },
+    "originalSource": "fitness@9f2deb6c345643d7c0c793c52d358e496c2710d2",
+    "sourceSha256": {
+      "hybrid2_controller_state.py": "957d8b280412862ff88f1778efd3d6ad71d64ddbdaba0dd2152f23b3c5b0ef82",
+      "hybrid2_h1_liftosaur_codegen.py": "c38004d7f0bd53ce3994ae15675bb6cc8205109accaf378cc675d662ae9f3b8c",
+      "hybrid2_promotion_materializer.py": "493839d999795a7ba21e17026fca027dea9c192721d905428a0d38cc2edbe655"
+    }
+  },
+  "coverage": "Original current H1 seam + promotion observation setup in exact Git-pinned Liftosaur runtime; NOT a full HYBRID-2 plan, nor ATP2/Turbo integration",
+  "scenarios": 8,
+  "runtimeRuns": 53,
+  "comparisons": 630,
+  "passingSteps": 50,
+  "failingSteps": 3,
+  "firstDivergence": {
+    "scenarioId": "H1_UNSUPPORTED_GT20",
+    "step": 4,
+    "sourceCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+    "runtimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+    "kind": "INDETERMINATE",
+    "id": "H1_UNSUPPORTED_GT20",
+    "input": {
+      "reps": 21,
+      "commands": [
+        "change_reps(1,1,21)",
+        "complete_set(1,1)",
+        "finish_workout()"
+      ]
+    },
+    "voteObservable": true,
+    "previous": {
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0
+      }
+    },
+    "expected": {
+      "perf1": 45.35923699999999,
+      "perf2": 45.35923699999999,
+      "perf3": 45.35923699999999,
+      "perfCount": 3,
+      "perfReference": 45.35923699999999,
+      "candidateGuard": 0,
+      "auditWeak": false,
+      "auditValid": false,
+      "auditReady": true,
+      "auditReset": false,
+      "auditGuardBefore": 0,
+      "auditRefBefore": 45.35923699999999
+    },
+    "liftosaur": {
+      "perf1": 45.359237,
+      "perf2": 45.359237,
+      "perf3": 57.833027175000005,
+      "perfCount": 3,
+      "perfReference": 45.359237,
+      "candidateGuard": 0,
+      "candidate": 34.01942775,
+      "auditWeak": false,
+      "auditValid": true,
+      "auditReady": true,
+      "auditReset": false,
+      "auditGuardBefore": 0,
+      "auditRefBefore": 45.359237,
+      "auditPerformance": 57.833027175000005
+    },
+    "openGym": {
+      "perf1": 45.35923699999999,
+      "perf2": 45.35923699999999,
+      "perf3": 45.35923699999999,
+      "perfCount": 3,
+      "perfReference": 45.35923699999999,
+      "candidateGuard": 0,
+      "auditWeak": false,
+      "auditValid": false,
+      "auditReady": true,
+      "auditReset": false,
+      "auditGuardBefore": 0,
+      "auditRefBefore": 45.35923699999999
+    },
+    "issues": [
+      {
+        "field": "perf3",
+        "original": 57.833027175000005,
+        "openGym": 45.35923699999999
+      },
+      {
+        "field": "auditValid",
+        "original": true,
+        "openGym": false
+      }
+    ],
+    "previousProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04",
+    "nextProgramSha256": "d90d93a1c4eeef6be67de6278b54112627799b4948cde0028d10d4c5f17a12f7"
+  },
+  "trace": [
+    {
+      "id": "H1_STABLE",
+      "step": 1,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 0
+        },
+        "openGym": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "fcfe2a0e796460516471622d3610916e13be025b8acbe482600803b12bdef061",
+      "nextProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7"
+    },
+    {
+      "id": "H1_STABLE",
+      "step": 2,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7",
+      "nextProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861"
+    },
+    {
+      "id": "H1_STABLE",
+      "step": 3,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861",
+      "nextProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04"
+    },
+    {
+      "id": "H1_STABLE",
+      "step": 4,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04",
+      "nextProgramSha256": "43f2bd0dd526cd841c3fdd6738ec9a8d50a821a6b55674f918fcc8cf6489ff3f"
+    },
+    {
+      "id": "H1_STABLE",
+      "step": 5,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "43f2bd0dd526cd841c3fdd6738ec9a8d50a821a6b55674f918fcc8cf6489ff3f",
+      "nextProgramSha256": "43f2bd0dd526cd841c3fdd6738ec9a8d50a821a6b55674f918fcc8cf6489ff3f"
+    },
+    {
+      "id": "H1_STABLE",
+      "step": 6,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "43f2bd0dd526cd841c3fdd6738ec9a8d50a821a6b55674f918fcc8cf6489ff3f",
+      "nextProgramSha256": "43f2bd0dd526cd841c3fdd6738ec9a8d50a821a6b55674f918fcc8cf6489ff3f"
+    },
+    {
+      "id": "H1_WEAK_EQUALITY",
+      "step": 1,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 0
+        },
+        "openGym": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "fcfe2a0e796460516471622d3610916e13be025b8acbe482600803b12bdef061",
+      "nextProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7"
+    },
+    {
+      "id": "H1_WEAK_EQUALITY",
+      "step": 2,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7",
+      "nextProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861"
+    },
+    {
+      "id": "H1_WEAK_EQUALITY",
+      "step": 3,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861",
+      "nextProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04"
+    },
+    {
+      "id": "H1_WEAK_EQUALITY",
+      "step": 4,
+      "input": {
+        "reps": 8,
+        "commands": [
+          "change_reps(1,1,8)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 43.091275149999994,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 43.09127515,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 43.09127515
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 43.091275149999994,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04",
+      "nextProgramSha256": "5e5d79463e45efc266d3aede8524388813fcbbb82d2517d6e00e5296a6416031"
+    },
+    {
+      "id": "H1_WEAK_EQUALITY",
+      "step": 5,
+      "input": {
+        "reps": 8,
+        "commands": [
+          "change_reps(1,1,8)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 43.09127515,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": true,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 43.09127515
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 43.091275149999994,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 43.091275149999994,
+        "perf3": 43.091275149999994,
+        "perfCount": 3,
+        "perfReference": 45.132440814999995,
+        "candidateGuard": 0,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 43.09127515,
+        "perf3": 43.09127515,
+        "perfCount": 3,
+        "perfReference": 45.132440815,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 43.09127515
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 43.091275149999994,
+        "perf3": 43.091275149999994,
+        "perfCount": 3,
+        "perfReference": 45.132440814999995,
+        "candidateGuard": 0,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "5e5d79463e45efc266d3aede8524388813fcbbb82d2517d6e00e5296a6416031",
+      "nextProgramSha256": "7eff5f4b54439d40bd5b946dca1f74eb6a879c36f667d021d67c29d82cbf5039"
+    },
+    {
+      "id": "H1_WEAK_EQUALITY",
+      "step": 6,
+      "input": {
+        "reps": 8,
+        "commands": [
+          "change_reps(1,1,8)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 43.09127515,
+          "perf3": 43.09127515,
+          "perfCount": 3,
+          "perfReference": 45.132440815,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": true,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 43.09127515
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 43.091275149999994,
+          "perf3": 43.091275149999994,
+          "perfCount": 3,
+          "perfReference": 45.132440814999995,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 43.091275149999994,
+        "perf2": 43.091275149999994,
+        "perf3": 43.091275149999994,
+        "perfCount": 3,
+        "perfReference": 44.9283242485,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.132440814999995
+      },
+      "liftosaur": {
+        "perf1": 43.09127515,
+        "perf2": 43.09127515,
+        "perf3": 43.09127515,
+        "perfCount": 3,
+        "perfReference": 44.9283242485,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.132440815,
+        "auditPerformance": 43.09127515
+      },
+      "openGym": {
+        "perf1": 43.091275149999994,
+        "perf2": 43.091275149999994,
+        "perf3": 43.091275149999994,
+        "perfCount": 3,
+        "perfReference": 44.9283242485,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.132440814999995
+      },
+      "issues": [],
+      "previousProgramSha256": "7eff5f4b54439d40bd5b946dca1f74eb6a879c36f667d021d67c29d82cbf5039",
+      "nextProgramSha256": "edad286e58d7e7dcdee15151e05644757fe397635b67ddf17262206850550236"
+    },
+    {
+      "id": "H1_SLOW_DECLINE",
+      "step": 1,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 0
+        },
+        "openGym": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "fcfe2a0e796460516471622d3610916e13be025b8acbe482600803b12bdef061",
+      "nextProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7"
+    },
+    {
+      "id": "H1_SLOW_DECLINE",
+      "step": 2,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7",
+      "nextProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861"
+    },
+    {
+      "id": "H1_SLOW_DECLINE",
+      "step": 3,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861",
+      "nextProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04"
+    },
+    {
+      "id": "H1_SLOW_DECLINE",
+      "step": 4,
+      "input": {
+        "reps": 9,
+        "commands": [
+          "change_reps(1,1,9)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 44.225256075,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 44.225256075000004,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 44.225256075000004
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 44.225256075,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04",
+      "nextProgramSha256": "d3b04888fac0cd56b2cea00d68290e0ad70f080d626a2796abed633864f4b2d0"
+    },
+    {
+      "id": "H1_SLOW_DECLINE",
+      "step": 5,
+      "input": {
+        "reps": 9,
+        "commands": [
+          "change_reps(1,1,9)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 44.225256075000004,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 44.225256075000004
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 44.225256075,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 44.225256075,
+        "perf3": 44.225256075,
+        "perfCount": 3,
+        "perfReference": 45.245838907499994,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 44.225256075000004,
+        "perf3": 44.225256075000004,
+        "perfCount": 3,
+        "perfReference": 45.2458389075,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 44.225256075000004
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 44.225256075,
+        "perf3": 44.225256075,
+        "perfCount": 3,
+        "perfReference": 45.245838907499994,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "d3b04888fac0cd56b2cea00d68290e0ad70f080d626a2796abed633864f4b2d0",
+      "nextProgramSha256": "bdc2e1ff1abeef2d2e46967f36601b7e578d50bed5b503608c2e5b57e203517e"
+    },
+    {
+      "id": "H1_SLOW_DECLINE",
+      "step": 6,
+      "input": {
+        "reps": 8,
+        "commands": [
+          "change_reps(1,1,8)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 44.225256075000004,
+          "perf3": 44.225256075000004,
+          "perfCount": 3,
+          "perfReference": 45.2458389075,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 44.225256075000004
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 44.225256075,
+          "perf3": 44.225256075,
+          "perfCount": 3,
+          "perfReference": 45.245838907499994,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 44.225256075,
+        "perf2": 44.225256075,
+        "perf3": 43.091275149999994,
+        "perfCount": 3,
+        "perfReference": 45.14378062424999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.245838907499994
+      },
+      "liftosaur": {
+        "perf1": 44.225256075000004,
+        "perf2": 44.225256075000004,
+        "perf3": 43.09127515,
+        "perfCount": 3,
+        "perfReference": 45.1460485861,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.2458389075,
+        "auditPerformance": 43.09127515
+      },
+      "openGym": {
+        "perf1": 44.225256075,
+        "perf2": 44.225256075,
+        "perf3": 43.091275149999994,
+        "perfCount": 3,
+        "perfReference": 45.14378062424999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.245838907499994
+      },
+      "issues": [],
+      "previousProgramSha256": "bdc2e1ff1abeef2d2e46967f36601b7e578d50bed5b503608c2e5b57e203517e",
+      "nextProgramSha256": "6955d47ad698552203146f90504843589573ac1c89ad9a13c4ea7a139ba6e319"
+    },
+    {
+      "id": "H1_SLOW_DECLINE",
+      "step": 7,
+      "input": {
+        "reps": 8,
+        "commands": [
+          "change_reps(1,1,8)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 44.225256075000004,
+          "perf2": 44.225256075000004,
+          "perf3": 43.09127515,
+          "perfCount": 3,
+          "perfReference": 45.1460485861,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.2458389075,
+          "auditPerformance": 43.09127515
+        },
+        "openGym": {
+          "perf1": 44.225256075,
+          "perf2": 44.225256075,
+          "perf3": 43.091275149999994,
+          "perfCount": 3,
+          "perfReference": 45.14378062424999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 44.225256075,
+        "perf2": 43.091275149999994,
+        "perf3": 43.091275149999994,
+        "perfCount": 3,
+        "perfReference": 44.93853007682499,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.14378062424999
+      },
+      "liftosaur": {
+        "perf1": 44.225256075000004,
+        "perf2": 43.09127515,
+        "perf3": 43.09127515,
+        "perfCount": 3,
+        "perfReference": 44.9419320196,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.1460485861,
+        "auditPerformance": 43.09127515
+      },
+      "openGym": {
+        "perf1": 44.225256075,
+        "perf2": 43.091275149999994,
+        "perf3": 43.091275149999994,
+        "perfCount": 3,
+        "perfReference": 44.93853007682499,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.14378062424999
+      },
+      "issues": [],
+      "previousProgramSha256": "6955d47ad698552203146f90504843589573ac1c89ad9a13c4ea7a139ba6e319",
+      "nextProgramSha256": "81ca012c373b19f30309211d0201c7ed7de02c45eaf3ef165d90a49be475ce0f"
+    },
+    {
+      "id": "H1_SLOW_DECLINE",
+      "step": 8,
+      "input": {
+        "reps": 7,
+        "commands": [
+          "change_reps(1,1,7)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 44.225256075000004,
+          "perf2": 43.09127515,
+          "perf3": 43.09127515,
+          "perfCount": 3,
+          "perfReference": 44.9419320196,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.1460485861,
+          "auditPerformance": 43.09127515
+        },
+        "openGym": {
+          "perf1": 44.225256075,
+          "perf2": 43.091275149999994,
+          "perf3": 43.091275149999994,
+          "perfCount": 3,
+          "perfReference": 44.93853007682499,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 43.091275149999994,
+        "perf2": 43.091275149999994,
+        "perf3": 41.957294225,
+        "perfCount": 3,
+        "perfReference": 44.753804584142486,
+        "candidateGuard": 0,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 44.93853007682499
+      },
+      "liftosaur": {
+        "perf1": 43.09127515,
+        "perf2": 43.09127515,
+        "perf3": 41.957294225000005,
+        "perfCount": 3,
+        "perfReference": 44.7559591479,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 44.9419320196,
+        "auditPerformance": 41.957294225000005
+      },
+      "openGym": {
+        "perf1": 43.091275149999994,
+        "perf2": 43.091275149999994,
+        "perf3": 41.957294225,
+        "perfCount": 3,
+        "perfReference": 44.753804584142486,
+        "candidateGuard": 0,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 44.93853007682499
+      },
+      "issues": [],
+      "previousProgramSha256": "81ca012c373b19f30309211d0201c7ed7de02c45eaf3ef165d90a49be475ce0f",
+      "nextProgramSha256": "4f23ffee6c527c49a45356395648f0e5340b004aaebc409c17d8cb75f68f2835"
+    },
+    {
+      "id": "H1_SLOW_DECLINE",
+      "step": 9,
+      "input": {
+        "reps": 7,
+        "commands": [
+          "change_reps(1,1,7)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 43.09127515,
+          "perf2": 43.09127515,
+          "perf3": 41.957294225000005,
+          "perfCount": 3,
+          "perfReference": 44.7559591479,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": true,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 44.9419320196,
+          "auditPerformance": 41.957294225000005
+        },
+        "openGym": {
+          "perf1": 43.091275149999994,
+          "perf2": 43.091275149999994,
+          "perf3": 41.957294225,
+          "perfCount": 3,
+          "perfReference": 44.753804584142486,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 43.091275149999994,
+        "perf2": 41.957294225,
+        "perf3": 41.957294225,
+        "perfCount": 3,
+        "perfReference": 44.47415354822824,
+        "candidateGuard": 0,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 44.753804584142486
+      },
+      "liftosaur": {
+        "perf1": 43.09127515,
+        "perf2": 41.957294225000005,
+        "perf3": 41.957294225000005,
+        "perfCount": 3,
+        "perfReference": 44.4747318785,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 44.7559591479,
+        "auditPerformance": 41.957294225000005
+      },
+      "openGym": {
+        "perf1": 43.091275149999994,
+        "perf2": 41.957294225,
+        "perf3": 41.957294225,
+        "perfCount": 3,
+        "perfReference": 44.47415354822824,
+        "candidateGuard": 0,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 44.753804584142486
+      },
+      "issues": [],
+      "previousProgramSha256": "4f23ffee6c527c49a45356395648f0e5340b004aaebc409c17d8cb75f68f2835",
+      "nextProgramSha256": "9b98ce54a60745b588085b130d5a0836de4fddb1dbc270e283bff24014b00494"
+    },
+    {
+      "id": "H1_SLOW_DECLINE",
+      "step": 10,
+      "input": {
+        "reps": 7,
+        "commands": [
+          "change_reps(1,1,7)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 43.09127515,
+          "perf2": 41.957294225000005,
+          "perf3": 41.957294225000005,
+          "perfCount": 3,
+          "perfReference": 44.4747318785,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": true,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 44.7559591479,
+          "auditPerformance": 41.957294225000005
+        },
+        "openGym": {
+          "perf1": 43.091275149999994,
+          "perf2": 41.957294225,
+          "perf3": 41.957294225,
+          "perfCount": 3,
+          "perfReference": 44.47415354822824,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 41.957294225,
+        "perf2": 41.957294225,
+        "perf3": 41.957294225,
+        "perfCount": 3,
+        "perfReference": 44.222467615905416,
+        "candidateGuard": 0,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 44.47415354822824
+      },
+      "liftosaur": {
+        "perf1": 41.957294225000005,
+        "perf2": 41.957294225000005,
+        "perf3": 41.957294225000005,
+        "perfCount": 3,
+        "perfReference": 44.225256075000004,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 44.4747318785,
+        "auditPerformance": 41.957294225000005
+      },
+      "openGym": {
+        "perf1": 41.957294225,
+        "perf2": 41.957294225,
+        "perf3": 41.957294225,
+        "perfCount": 3,
+        "perfReference": 44.222467615905416,
+        "candidateGuard": 0,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 44.47415354822824
+      },
+      "issues": [],
+      "previousProgramSha256": "9b98ce54a60745b588085b130d5a0836de4fddb1dbc270e283bff24014b00494",
+      "nextProgramSha256": "949d698a1210902c86245019ac1a90aba5e7d072bc4cd8191e8e5cfe04737c42"
+    },
+    {
+      "id": "H1_ASCENDING",
+      "step": 1,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 0
+        },
+        "openGym": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "fcfe2a0e796460516471622d3610916e13be025b8acbe482600803b12bdef061",
+      "nextProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7"
+    },
+    {
+      "id": "H1_ASCENDING",
+      "step": 2,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7",
+      "nextProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861"
+    },
+    {
+      "id": "H1_ASCENDING",
+      "step": 3,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861",
+      "nextProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04"
+    },
+    {
+      "id": "H1_ASCENDING",
+      "step": 4,
+      "input": {
+        "reps": 11,
+        "commands": [
+          "change_reps(1,1,11)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 46.493217924999996,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 46.493217925,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 46.493217925
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 46.493217924999996,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04",
+      "nextProgramSha256": "3a90b638790a0a55eaabb68b2fa69d5b6c7e7ba965e65879ad49927b4c9f23af"
+    },
+    {
+      "id": "H1_ASCENDING",
+      "step": 5,
+      "input": {
+        "reps": 11,
+        "commands": [
+          "change_reps(1,1,11)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 46.493217925,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 46.493217925
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 46.493217924999996,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 46.493217924999996,
+        "perf3": 46.493217924999996,
+        "perfCount": 3,
+        "perfReference": 45.812829369999996,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 46.493217925,
+        "perf3": 46.493217925,
+        "perfCount": 3,
+        "perfReference": 45.81282937,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 46.493217925
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 46.493217924999996,
+        "perf3": 46.493217924999996,
+        "perfCount": 3,
+        "perfReference": 45.812829369999996,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "3a90b638790a0a55eaabb68b2fa69d5b6c7e7ba965e65879ad49927b4c9f23af",
+      "nextProgramSha256": "56f85887ea3dd7532524de506c39fd12d6eb740b7c8f01d11c8e848eb5c85e49"
+    },
+    {
+      "id": "H1_ASCENDING",
+      "step": 6,
+      "input": {
+        "reps": 11,
+        "commands": [
+          "change_reps(1,1,11)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 46.493217925,
+          "perf3": 46.493217925,
+          "perfCount": 3,
+          "perfReference": 45.81282937,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 46.493217925
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 46.493217924999996,
+          "perf3": 46.493217924999996,
+          "perfCount": 3,
+          "perfReference": 45.812829369999996,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 46.493217924999996,
+        "perf2": 46.493217924999996,
+        "perf3": 46.493217924999996,
+        "perfCount": 3,
+        "perfReference": 46.08498479199999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.812829369999996
+      },
+      "liftosaur": {
+        "perf1": 46.493217925,
+        "perf2": 46.493217925,
+        "perf3": 46.493217925,
+        "perfCount": 3,
+        "perfReference": 46.084984792,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.81282937,
+        "auditPerformance": 46.493217925
+      },
+      "openGym": {
+        "perf1": 46.493217924999996,
+        "perf2": 46.493217924999996,
+        "perf3": 46.493217924999996,
+        "perfCount": 3,
+        "perfReference": 46.08498479199999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.812829369999996
+      },
+      "issues": [],
+      "previousProgramSha256": "56f85887ea3dd7532524de506c39fd12d6eb740b7c8f01d11c8e848eb5c85e49",
+      "nextProgramSha256": "a4775582034d3bf4849f46962807addadedd7f32a5d682771d7cbc4ffc48fd45"
+    },
+    {
+      "id": "H1_ASCENDING",
+      "step": 7,
+      "input": {
+        "reps": 12,
+        "commands": [
+          "change_reps(1,1,12)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 46.493217925,
+          "perf2": 46.493217925,
+          "perf3": 46.493217925,
+          "perfCount": 3,
+          "perfReference": 46.084984792,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.81282937,
+          "auditPerformance": 46.493217925
+        },
+        "openGym": {
+          "perf1": 46.493217924999996,
+          "perf2": 46.493217924999996,
+          "perf3": 46.493217924999996,
+          "perfCount": 3,
+          "perfReference": 46.08498479199999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 46.493217924999996,
+        "perf2": 46.493217924999996,
+        "perf3": 47.62719884999999,
+        "perfCount": 3,
+        "perfReference": 46.248278045199996,
+        "candidateGuard": 1,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 46.08498479199999
+      },
+      "liftosaur": {
+        "perf1": 46.493217925,
+        "perf2": 46.493217925,
+        "perf3": 47.62719885,
+        "perfCount": 3,
+        "perfReference": 46.2482780452,
+        "candidateGuard": 1,
+        "candidate": 36.287389600000004,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 46.084984792,
+        "auditPerformance": 47.62719885
+      },
+      "openGym": {
+        "perf1": 46.493217924999996,
+        "perf2": 46.493217924999996,
+        "perf3": 47.62719884999999,
+        "perfCount": 3,
+        "perfReference": 46.248278045199996,
+        "candidateGuard": 1,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 46.08498479199999
+      },
+      "issues": [],
+      "previousProgramSha256": "a4775582034d3bf4849f46962807addadedd7f32a5d682771d7cbc4ffc48fd45",
+      "nextProgramSha256": "77122c1f4d94cd70aecb257be9693ad7daa58dba43b37454e9e27a6d74943339"
+    },
+    {
+      "id": "H1_ASCENDING",
+      "step": 8,
+      "input": {
+        "reps": 11,
+        "commands": [
+          "change_reps(1,1,11)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "DISCONTINUITY",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 46.493217925,
+          "perf2": 46.493217925,
+          "perf3": 47.62719885,
+          "perfCount": 3,
+          "perfReference": 46.2482780452,
+          "candidateGuard": 1,
+          "candidate": 36.287389600000004,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 46.084984792,
+          "auditPerformance": 47.62719885
+        },
+        "openGym": {
+          "perf1": 46.493217924999996,
+          "perf2": 46.493217924999996,
+          "perf3": 47.62719884999999,
+          "perfCount": 3,
+          "perfReference": 46.248278045199996,
+          "candidateGuard": 1
+        }
+      },
+      "expected": {
+        "perf1": 0,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 0,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": true,
+        "auditGuardBefore": 1,
+        "auditRefBefore": 46.248278045199996
+      },
+      "liftosaur": {
+        "perf1": 0,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 0,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 36.287389600000004,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": true,
+        "auditGuardBefore": 1,
+        "auditRefBefore": 46.2482780452,
+        "auditPerformance": 47.62719885
+      },
+      "openGym": {
+        "perf1": 0,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 0,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": true,
+        "auditGuardBefore": 1,
+        "auditRefBefore": 46.248278045199996
+      },
+      "issues": [],
+      "previousProgramSha256": "77122c1f4d94cd70aecb257be9693ad7daa58dba43b37454e9e27a6d74943339",
+      "nextProgramSha256": "169aa6602e08584e02367c1d0cc6b25bb6efc5be53f8eb584a68519a0db1294b"
+    },
+    {
+      "id": "H1_CANDIDATE_GUARD",
+      "step": 1,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 0
+        },
+        "openGym": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "fcfe2a0e796460516471622d3610916e13be025b8acbe482600803b12bdef061",
+      "nextProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7"
+    },
+    {
+      "id": "H1_CANDIDATE_GUARD",
+      "step": 2,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7",
+      "nextProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861"
+    },
+    {
+      "id": "H1_CANDIDATE_GUARD",
+      "step": 3,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861",
+      "nextProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04"
+    },
+    {
+      "id": "H1_CANDIDATE_GUARD",
+      "step": 4,
+      "input": {
+        "reps": 12,
+        "commands": [
+          "change_reps(1,1,12)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 47.62719884999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 1,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 47.62719885,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 1,
+        "candidate": 36.287389600000004,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 47.62719885
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 47.62719884999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 1,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04",
+      "nextProgramSha256": "fb936c4450a76e469ba0b62fc62ae1d49317df3c52ff749edbeba3bbf245772e"
+    },
+    {
+      "id": "H1_CANDIDATE_GUARD",
+      "step": 5,
+      "input": {
+        "reps": 5,
+        "weightLb": 80,
+        "commands": [
+          "change_weight(1,1,80lb)",
+          "change_reps(1,1,5)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 47.62719885,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 1,
+          "candidate": 36.287389600000004,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 47.62719885
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 47.62719884999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 1
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 47.62719884999999,
+        "perf3": 42.335287866666675,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 1,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 47.62719885,
+        "perf3": 42.3337758921,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 36.287389600000004,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 1,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 42.3337758921
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 47.62719884999999,
+        "perf3": 42.335287866666675,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 1,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "fb936c4450a76e469ba0b62fc62ae1d49317df3c52ff749edbeba3bbf245772e",
+      "nextProgramSha256": "f3decf7899665504f2727980db74485731d66253e26f371a1c3a841b71dc3003"
+    },
+    {
+      "id": "H1_CANDIDATE_GUARD",
+      "step": 6,
+      "input": {
+        "reps": 5,
+        "weightLb": 80,
+        "commands": [
+          "change_weight(1,1,80lb)",
+          "change_reps(1,1,5)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 47.62719885,
+          "perf3": 42.3337758921,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 36.287389600000004,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 1,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 42.3337758921
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 47.62719884999999,
+          "perf3": 42.335287866666675,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 47.62719884999999,
+        "perf2": 42.335287866666675,
+        "perf3": 42.335287866666675,
+        "perfCount": 3,
+        "perfReference": 45.05684208666666,
+        "candidateGuard": 0,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 47.62719885,
+        "perf2": 42.3337758921,
+        "perf3": 42.3337758921,
+        "perfCount": 3,
+        "perfReference": 45.0553301121,
+        "candidateGuard": 0,
+        "candidate": 36.287389600000004,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 42.3337758921
+      },
+      "openGym": {
+        "perf1": 47.62719884999999,
+        "perf2": 42.335287866666675,
+        "perf3": 42.335287866666675,
+        "perfCount": 3,
+        "perfReference": 45.05684208666666,
+        "candidateGuard": 0,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "f3decf7899665504f2727980db74485731d66253e26f371a1c3a841b71dc3003",
+      "nextProgramSha256": "5024a8e173cabed3aee2b301e61526af67632ab0c93e42686e6f7f1d82069b07"
+    },
+    {
+      "id": "H1_MISSING_INVALID",
+      "step": 1,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 0
+        },
+        "openGym": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "fcfe2a0e796460516471622d3610916e13be025b8acbe482600803b12bdef061",
+      "nextProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7"
+    },
+    {
+      "id": "H1_MISSING_INVALID",
+      "step": 2,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7",
+      "nextProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861"
+    },
+    {
+      "id": "H1_MISSING_INVALID",
+      "step": 3,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861",
+      "nextProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04"
+    },
+    {
+      "id": "H1_MISSING_INVALID",
+      "step": 4,
+      "input": {
+        "reps": null,
+        "commands": [
+          "finish_workout()"
+        ]
+      },
+      "kind": "MISSING",
+      "voteObservable": false,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04",
+      "nextProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04"
+    },
+    {
+      "id": "H1_MISSING_INVALID",
+      "step": 5,
+      "input": {
+        "reps": 1,
+        "commands": [
+          "change_reps(1,1,1)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "INVALID",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04",
+      "nextProgramSha256": "4b295df20a32cc10760074d4b7b83eafb7e3bec5aefe1cfebf5d2eb3f6553c4b"
+    },
+    {
+      "id": "H1_MISSING_INVALID",
+      "step": 6,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "4b295df20a32cc10760074d4b7b83eafb7e3bec5aefe1cfebf5d2eb3f6553c4b",
+      "nextProgramSha256": "43f2bd0dd526cd841c3fdd6738ec9a8d50a821a6b55674f918fcc8cf6489ff3f"
+    },
+    {
+      "id": "H1_MANUAL_LOAD_CHANGE",
+      "step": 1,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 0
+        },
+        "openGym": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "fcfe2a0e796460516471622d3610916e13be025b8acbe482600803b12bdef061",
+      "nextProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7"
+    },
+    {
+      "id": "H1_MANUAL_LOAD_CHANGE",
+      "step": 2,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7",
+      "nextProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861"
+    },
+    {
+      "id": "H1_MANUAL_LOAD_CHANGE",
+      "step": 3,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861",
+      "nextProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04"
+    },
+    {
+      "id": "H1_MANUAL_LOAD_CHANGE",
+      "step": 4,
+      "input": {
+        "reps": 10,
+        "weightLb": 80,
+        "commands": [
+          "change_weight(1,1,80lb)",
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "DISCONTINUITY",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 0,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 0,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": true,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 0,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 0,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": true,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 0,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 0,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": true,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [],
+      "previousProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04",
+      "nextProgramSha256": "aec426c4dbca7f544ad124e96e24c13db452caf281347090118f69bfbd1ca9a8"
+    },
+    {
+      "id": "H1_MANUAL_LOAD_CHANGE",
+      "step": 5,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": true,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "aec426c4dbca7f544ad124e96e24c13db452caf281347090118f69bfbd1ca9a8",
+      "nextProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7"
+    },
+    {
+      "id": "H1_UNSUPPORTED_GT20",
+      "step": 1,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 0
+        },
+        "openGym": {
+          "perf1": 0,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 0,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 0,
+        "perf3": 0,
+        "perfCount": 1,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "fcfe2a0e796460516471622d3610916e13be025b8acbe482600803b12bdef061",
+      "nextProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7"
+    },
+    {
+      "id": "H1_UNSUPPORTED_GT20",
+      "step": 2,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 0,
+          "perf3": 0,
+          "perfCount": 1,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 0,
+        "perfCount": 2,
+        "perfReference": 0,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": false,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "e84e306015be6676fd048ebca32de65c11553d19f219a462732eb6461649aef7",
+      "nextProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861"
+    },
+    {
+      "id": "H1_UNSUPPORTED_GT20",
+      "step": 3,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": false,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 0,
+          "perfCount": 2,
+          "perfReference": 0,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 0
+      },
+      "issues": [],
+      "previousProgramSha256": "29e859e8d2722a0be73ac16c03fe293a342d8aedae6bc8750a064bde0d9dc861",
+      "nextProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04"
+    },
+    {
+      "id": "H1_UNSUPPORTED_GT20",
+      "step": 4,
+      "input": {
+        "reps": 21,
+        "commands": [
+          "change_reps(1,1,21)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "INDETERMINATE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 57.833027175000005,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 57.833027175000005
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [
+        {
+          "field": "perf3",
+          "original": 57.833027175000005,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "auditValid",
+          "original": true,
+          "openGym": false
+        }
+      ],
+      "previousProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04",
+      "nextProgramSha256": "d90d93a1c4eeef6be67de6278b54112627799b4948cde0028d10d4c5f17a12f7"
+    },
+    {
+      "id": "H1_UNSUPPORTED_GT20",
+      "step": 5,
+      "input": {
+        "reps": 22,
+        "commands": [
+          "change_reps(1,1,22)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "INDETERMINATE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 57.833027175000005,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 57.833027175000005
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 57.833027175000005,
+        "perf3": 58.9670081,
+        "perfCount": 3,
+        "perfReference": 50.34875307,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 58.9670081
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [
+        {
+          "field": "perf2",
+          "original": 57.833027175000005,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "perf3",
+          "original": 58.9670081,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "perfReference",
+          "original": 50.34875307,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "auditValid",
+          "original": true,
+          "openGym": false
+        }
+      ],
+      "previousProgramSha256": "d90d93a1c4eeef6be67de6278b54112627799b4948cde0028d10d4c5f17a12f7",
+      "nextProgramSha256": "89c5d20afcbe60c35ce179367758c72955611d499454376f120547f50d59b220"
+    },
+    {
+      "id": "H1_UNSUPPORTED_GT20",
+      "step": 6,
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "kind": "COMPARABLE",
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 57.833027175000005,
+          "perf3": 58.9670081,
+          "perfCount": 3,
+          "perfReference": 50.34875307,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 58.9670081
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 57.833027175000005,
+        "perf2": 58.9670081,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 53.342462712,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 50.34875307,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [
+        {
+          "field": "perf1",
+          "original": 57.833027175000005,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "perf2",
+          "original": 58.9670081,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "perfReference",
+          "original": 53.342462712,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "auditWeak",
+          "original": true,
+          "openGym": false
+        },
+        {
+          "field": "auditRefBefore",
+          "original": 50.34875307,
+          "openGym": 45.35923699999999
+        }
+      ],
+      "previousProgramSha256": "89c5d20afcbe60c35ce179367758c72955611d499454376f120547f50d59b220",
+      "nextProgramSha256": "b02e32ff17e1683a94762a77c564bf330e7d8871b4f018a10e85212d0ee76091"
+    }
+  ],
+  "divergences": [
+    {
+      "scenarioId": "H1_UNSUPPORTED_GT20",
+      "step": 4,
+      "sourceCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+      "runtimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+      "kind": "INDETERMINATE",
+      "id": "H1_UNSUPPORTED_GT20",
+      "input": {
+        "reps": 21,
+        "commands": [
+          "change_reps(1,1,21)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 45.359237,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": false,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 0,
+          "auditPerformance": 45.359237
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 45.359237,
+        "perf3": 57.833027175000005,
+        "perfCount": 3,
+        "perfReference": 45.359237,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 57.833027175000005
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [
+        {
+          "field": "perf3",
+          "original": 57.833027175000005,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "auditValid",
+          "original": true,
+          "openGym": false
+        }
+      ],
+      "previousProgramSha256": "5d1b06d70928c83fac96eb2a05fb98ec7ec3bcf0077602188104507cc3250f04",
+      "nextProgramSha256": "d90d93a1c4eeef6be67de6278b54112627799b4948cde0028d10d4c5f17a12f7"
+    },
+    {
+      "scenarioId": "H1_UNSUPPORTED_GT20",
+      "step": 5,
+      "sourceCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+      "runtimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+      "kind": "INDETERMINATE",
+      "id": "H1_UNSUPPORTED_GT20",
+      "input": {
+        "reps": 22,
+        "commands": [
+          "change_reps(1,1,22)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 45.359237,
+          "perf3": 57.833027175000005,
+          "perfCount": 3,
+          "perfReference": 45.359237,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 57.833027175000005
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 45.359237,
+        "perf2": 57.833027175000005,
+        "perf3": 58.9670081,
+        "perfCount": 3,
+        "perfReference": 50.34875307,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.359237,
+        "auditPerformance": 58.9670081
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": false,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [
+        {
+          "field": "perf2",
+          "original": 57.833027175000005,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "perf3",
+          "original": 58.9670081,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "perfReference",
+          "original": 50.34875307,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "auditValid",
+          "original": true,
+          "openGym": false
+        }
+      ],
+      "previousProgramSha256": "d90d93a1c4eeef6be67de6278b54112627799b4948cde0028d10d4c5f17a12f7",
+      "nextProgramSha256": "89c5d20afcbe60c35ce179367758c72955611d499454376f120547f50d59b220"
+    },
+    {
+      "scenarioId": "H1_UNSUPPORTED_GT20",
+      "step": 6,
+      "sourceCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+      "runtimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+      "kind": "COMPARABLE",
+      "id": "H1_UNSUPPORTED_GT20",
+      "input": {
+        "reps": 10,
+        "commands": [
+          "change_reps(1,1,10)",
+          "complete_set(1,1)",
+          "finish_workout()"
+        ]
+      },
+      "voteObservable": true,
+      "previous": {
+        "liftosaur": {
+          "perf1": 45.359237,
+          "perf2": 57.833027175000005,
+          "perf3": 58.9670081,
+          "perfCount": 3,
+          "perfReference": 50.34875307,
+          "candidateGuard": 0,
+          "candidate": 34.01942775,
+          "auditWeak": false,
+          "auditValid": true,
+          "auditReady": true,
+          "auditReset": false,
+          "auditGuardBefore": 0,
+          "auditRefBefore": 45.359237,
+          "auditPerformance": 58.9670081
+        },
+        "openGym": {
+          "perf1": 45.35923699999999,
+          "perf2": 45.35923699999999,
+          "perf3": 45.35923699999999,
+          "perfCount": 3,
+          "perfReference": 45.35923699999999,
+          "candidateGuard": 0
+        }
+      },
+      "expected": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "liftosaur": {
+        "perf1": 57.833027175000005,
+        "perf2": 58.9670081,
+        "perf3": 45.359237,
+        "perfCount": 3,
+        "perfReference": 53.342462712,
+        "candidateGuard": 0,
+        "candidate": 34.01942775,
+        "auditWeak": true,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 50.34875307,
+        "auditPerformance": 45.359237
+      },
+      "openGym": {
+        "perf1": 45.35923699999999,
+        "perf2": 45.35923699999999,
+        "perf3": 45.35923699999999,
+        "perfCount": 3,
+        "perfReference": 45.35923699999999,
+        "candidateGuard": 0,
+        "auditWeak": false,
+        "auditValid": true,
+        "auditReady": true,
+        "auditReset": false,
+        "auditGuardBefore": 0,
+        "auditRefBefore": 45.35923699999999
+      },
+      "issues": [
+        {
+          "field": "perf1",
+          "original": 57.833027175000005,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "perf2",
+          "original": 58.9670081,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "perfReference",
+          "original": 53.342462712,
+          "openGym": 45.35923699999999
+        },
+        {
+          "field": "auditWeak",
+          "original": true,
+          "openGym": false
+        },
+        {
+          "field": "auditRefBefore",
+          "original": 50.34875307,
+          "openGym": 45.35923699999999
+        }
+      ],
+      "previousProgramSha256": "89c5d20afcbe60c35ce179367758c72955611d499454376f120547f50d59b220",
+      "nextProgramSha256": "b02e32ff17e1683a94762a77c564bf330e7d8871b4f018a10e85212d0ee76091"
+    }
+  ]
+}
