@@ -211,7 +211,7 @@ function pyramidOf(v, mode) {
 }
 // v1 never progressed pyramid sets (policyFor was 'off'): they migrate as the pyramid_reps preset.
 const presetOf = (cfg, policy, mode, bodyweight) => (pyramidOf(cfg, mode).setReps.length ? 'pyramid_reps' : presetForPolicy(policy, mode, bodyweight));
-const policyOf = (cfg, routine, mode) => (pyramidOf(cfg, mode).setReps.length ? 'off' : cfg.prog || routine.prog || (mode === 'reps' ? 'linear' : 'off'));
+const policyOf = (cfg, routine, mode, state) => (pyramidOf(cfg, mode).setReps.length ? 'off' : cfg.prog || routine.prog || (mode === 'reps' && ['off', 'linear', 'greyskull', 'double', 'triple'].includes(state.progDefault) ? state.progDefault : mode === 'reps' ? 'linear' : 'off'));
 
 function draftRoutines(state, ctx) {
   const routineId = uniqueIds();
@@ -227,7 +227,7 @@ function draftRoutines(state, ctx) {
         routineId: id, occurrenceId: `${id}:o${j}`, exerciseId, cfg, info, mode,
         // An assistance machine's load is the help given (v1 issue #232); a routine entry can override the catalogue.
         assisted: typeof cfg.assisted === 'boolean' ? cfg.assisted : isAssisted(info),
-        policy: policyOf(cfg, routine, mode), preset: presetOf(cfg, policyOf(cfg, routine, mode), mode, isBodyweight(cfg, info)),
+        policy: policyOf(cfg, routine, mode, ctx.state), preset: presetOf(cfg, policyOf(cfg, routine, mode, ctx.state), mode, isBodyweight(cfg, info)),
         excluded: routine.excludeFromProgression === true || cfg.excludeFromProgression === true,
         links: []
       };
@@ -241,9 +241,11 @@ function draftRoutines(state, ctx) {
 
 const occurrenceOf = d => ({
   occurrenceId: d.occurrenceId, exerciseId: d.exerciseId, mode: d.mode, rule: d.rule,
-  ...(d.cfg.restSec == null && d.cfg.rest == null ? { restFromProfile: true } : {}),
+  ...(!d.cfg.restOff && d.cfg.restSec == null && d.cfg.rest == null ? { restFromProfile: true } : {}),
   ...(d.warmup ? { warmup: d.warmup } : {}),
-  ...(d.cfg.sg ? { sg: d.cfg.sg } : {}),
+  ...(whole(d.cfg.warmupSets) ? { legacyWarmupSets: whole(d.cfg.warmupSets) } : {}),
+  ...(Array.isArray(d.cfg.warmupRows) ? { warmupRows: clone(d.cfg.warmupRows) } : {}),
+  ...(d.cfg.sg ? { sg: d.cfg.sg, ...Object.fromEntries(['sgName', 'sgRest'].filter(k => d.cfg[k] != null).map(k => [k, clone(d.cfg[k])])) } : {}),
   ...(typeof d.cfg.note === 'string' && d.cfg.note ? { note: d.cfg.note } : {}),
   ...(whole(d.cfg.restSec) ? { restSec: whole(d.cfg.restSec) } : {}),
   ...(whole(d.cfg.warmupRestSec) ? { warmupRestSec: whole(d.cfg.warmupRestSec) } : {}),
@@ -253,7 +255,7 @@ const occurrenceOf = d => ({
   ...(d.cfg.side === true && d.mode !== 'cardio' ? { side: true } : {}),
   // Only where it overrides the catalogue, the way v1 wrote it.
   ...(d.mode !== 'cardio' && d.cfg.bodyweight != null ? { bodyweight: !!d.cfg.bodyweight } : {}),
-  ...Object.fromEntries(['dbLoad', 'lastToFailure', 'backoff'].filter(k => d.cfg[k] != null).map(k => [k, clone(d.cfg[k])])),
+  ...Object.fromEntries(['dbLoad', 'lastToFailure', 'backoff', 'restOff', 'warmupRestOff', 'sideRestOff', 'sideRestSec', 'autoHold', 'subs'].filter(k => d.cfg[k] != null).map(k => [k, clone(d.cfg[k])])),
   ...(d.intensifier ? { intensifier: d.intensifier } : {}),
   // What the cardio sheet edits (sheets.jsx): the rule holds the same numbers for the engine.
   ...(d.mode === 'cardio' ? { cardio: { sets: planPhase(d.rule).parameters.sets.min, min: planPhase(d.rule).parameters.durationSeconds.min / 60, speed: planPhase(d.rule).parameters.speed, ...(num(d.cfg.incline) > 0 ? { incline: num(d.cfg.incline) } : {}) } } : {})
@@ -307,7 +309,8 @@ function finalizeDraft(d, ctx) {
   const climbs = d.mode === 'reps' && ['linear', 'double', 'greyskull'].includes(d.policy) && (d.assisted || isBodyweight(d.cfg, d.info) || !LOADED_EQ.has(d.info?.eq));
   d.preset = climbs && !(num(d.cfg.weight) > 0) ? 'bodyweight_ladder' : presetOf(d.cfg, d.policy, d.mode, false);
   // The rounding step is a load step; a timed hold's `inc` is seconds.
-  d.step = stepFor(loads, d.mode === 'reps' ? d.inc : null, ctx.unit, climbs || PRESETS[d.preset].steps === 'load');
+  const pinned = ctx.state.exUnit?.[d.exerciseId]?.unit;
+  d.step = ['kg', 'lb'].includes(pinned) && pinned !== ctx.unit ? 0.0001 : stepFor(loads, d.mode === 'reps' ? d.inc : null, ctx.unit, climbs || PRESETS[d.preset].steps === 'load');
   d.ruleFor = (values, step = d.step) => ruleFrom({ ...d.cfg, ...values }, {
     id: `rule:${d.occurrenceId}`, routineId: d.routineId, exerciseId: d.exerciseId,
     preset: climbs ? (num(values.weight ?? d.cfg.weight) > 0 ? presetForPolicy(d.policy, d.mode, false) : 'bodyweight_ladder') : d.preset,
@@ -340,7 +343,7 @@ function finalizeDraft(d, ctx) {
   });
   const check = validatePlanRule(d.rule);
   if (!check.ok) throw new Error(`invalid-rule ${d.occurrenceId}: ${check.errors[0]}`);
-  d.warmup = migrateOccurrence({ warmupSets: d.cfg.warmupSets }).warmup;
+  d.warmup = ['auto', 'own', 'none'].includes(d.cfg.warmup) ? d.cfg.warmup : migrateOccurrence({ warmupSets: d.cfg.warmupSets }).warmup;
   // A factor set on an exercise whose rule cannot back off (no progression, or a ladder) has nothing to act on.
   if (d.cfg.deloadFactor != null && d.cfg.deloadFactor !== false && !planPhase(d.rule).stall) {
     ctx.unsupported.push({ routineId: d.routineId, occurrenceId: d.occurrenceId, exerciseId: d.exerciseId, field: 'deloadFactor', value: clone(d.cfg.deloadFactor) });
@@ -385,6 +388,9 @@ function performanceRow(row, unit, mode) {
     status: row.done ? 'completed' : 'skipped',
     ...(row.max === true && mode === 'reps' ? { max: true } : {}),
     ...(row.failure === true ? { failure: true } : {}),
+    ...(typeof row.note === 'string' ? { note: row.note } : {}),
+    ...Object.fromEntries(['edited', 'wp', 'wb', 'at', 'restSec', 'restOff', 'hr', 'restHr'].filter(k => row[k] != null).map(k => [k, clone(row[k])])),
+    ...(Array.isArray(row.media) ? { media: clone(row.media) } : {}),
     ...((row.side === 'L' || row.side === 'R') && !isObj(row.sides) ? { side: row.side } : {}),
     observations,
     resistance: w > 0 ? { kind: 'external-load', value: w, unit } : { kind: mode === 'cardio' ? 'none' : 'bodyweight' },
@@ -449,7 +455,7 @@ const volumeOf = exposures => exposures.reduce((total, x) => total + x.performan
 function executionOf(entry, d) {
   const target = isObj(entry.target) ? entry.target : {};
   const out = {};
-  for (const key of ['side', 'bodyweight', 'assisted', 'intensifier', 'warmupRestSec', 'dbLoad', 'lastToFailure', 'backoff']) {
+  for (const key of ['side', 'bodyweight', 'assisted', 'intensifier', 'sgName', 'sgRest', 'restOff', 'warmupRestOff', 'sideRestOff', 'sideRestSec', 'autoHold', 'subs', 'warmupRestSec', 'dbLoad', 'lastToFailure', 'backoff']) {
     const value = target[key] ?? entry[key] ?? d?.cfg[key];
     if (value != null) out[key] = clone(value);
   }
@@ -492,11 +498,11 @@ function migrateWorkout(w, i, ctx) {
           ...(isObj(entry.target) ? { legacyTarget: clone(entry.target) } : {}),
           ...(isObj(entry.planned) ? { legacyPlanned: clone(entry.planned) } : {})
         }),
-      ...(entry.sg ? { sg: entry.sg } : {}),
+      ...(entry.sg ? { sg: entry.sg, ...Object.fromEntries(['sgName', 'sgRest'].filter(k => entry.target?.[k] != null).map(k => [k, clone(entry.target[k])])) } : {}),
       ...(isObj(entry.muscleSnapshot) ? { muscleSnapshot: clone(entry.muscleSnapshot) } : {}),
       performance: {
         sets: performanceRows.flatMap(row => isObj(row.sides?.L) && isObj(row.sides?.R)
-          ? ['L', 'R'].map(side => ({ ...performanceRow({ rir: row.rir, rpe: row.rpe, ...row.sides[side], setId: row.setId, phase: row.phase, warmup: row.warmup, failure: row.failure }, ctx.unit, mode), side }))
+          ? ['L', 'R'].map(side => ({ ...performanceRow({ ...Object.fromEntries(['rir', 'rpe', 'edited', 'wp', 'wb', 'at', 'restSec', 'restOff', 'hr', 'restHr'].filter(k => row[k] != null).map(k => [k, row[k]])), ...row.sides[side], ...(side === 'L' ? { note: row.note, media: row.media } : {}), setId: row.setId, phase: row.phase, warmup: row.warmup, failure: row.failure }, ctx.unit, mode), side }))
           : [performanceRow(row, ctx.unit, mode)]),
         ...(note ? { note, ...(entry.notePin ? { notePin: true } : {}) } : {})
       },
@@ -605,7 +611,7 @@ function migrateActive(active, ctx) {
       ...(target.side === true || d?.cfg.side === true ? { side: true } : {}),
       ...(d?.warmup ? { warmup: clone(d.warmup) } : {}),
       routineId: d ? d.routineId : idOf(entry.rid, null), ...(d ? { occurrenceId: d.occurrenceId } : {}), trackId,
-      excludedFromProgression: !d, prescriptionId: prescription.id, ...(entry.sg ? { sg: entry.sg } : {}),
+      excludedFromProgression: !d, prescriptionId: prescription.id, ...(entry.sg ? { sg: entry.sg, ...Object.fromEntries(['sgName', 'sgRest'].filter(k => entry.target?.[k] != null).map(k => [k, clone(entry.target[k])])) } : {}),
       performance: { sets: [] }
     });
     const setOf = setIndexer();
