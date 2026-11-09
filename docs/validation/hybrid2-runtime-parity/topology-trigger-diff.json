@@ -1,0 +1,6399 @@
+{
+  "comparedFieldsAcrossCycleBoundaries": 792,
+  "discrepancies": [],
+  "failures": 0,
+  "records": [
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "stable",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "stable",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "stable",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "stable",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 5,
+      "op": "finish_workout",
+      "scenario": "stable",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "scenario": "stable",
+      "skipped": [],
+      "topology": "K5",
+      "weak": []
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "incomplete",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "incomplete",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "incomplete",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "incomplete",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 5,
+      "op": "finish_workout",
+      "scenario": "incomplete",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 0,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 0,
+        "ready1": 0,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 0,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 0,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 0,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 0,
+        "ready1": 0,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 0,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 0,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "scenario": "incomplete",
+      "skipped": [
+        1
+      ],
+      "topology": "K5",
+      "weak": []
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "broad_once",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "broad_once",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "broad_once",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "broad_once",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 5,
+      "op": "finish_workout",
+      "scenario": "broad_once",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "scenario": "broad_once",
+      "skipped": [],
+      "topology": "K5",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "fast",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "fast",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "fast",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "fast",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 5,
+      "op": "finish_workout",
+      "scenario": "fast",
+      "state": {
+        "class": 2,
+        "queued": 1,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 1,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 1,
+        "weak4": 1,
+        "weak5": 1
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 1,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 1,
+        "weak4": 1,
+        "weak5": 1
+      },
+      "scenario": "fast",
+      "skipped": [],
+      "topology": "K5",
+      "weak": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "single_group",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "single_group",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "single_group",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "single_group",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 5,
+      "op": "finish_workout",
+      "scenario": "single_group",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 0,
+        "weak3": 1,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 0,
+        "weak3": 1,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "scenario": "single_group",
+      "skipped": [],
+      "topology": "K5",
+      "weak": [
+        1,
+        3
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 5,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "scenario": "slow_two",
+      "skipped": [],
+      "topology": "K5",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 2,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 2,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 2,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 2,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 2,
+      "day": 5,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 1,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 2,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 2,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 2,
+        "deloadQueued": 1,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 2,
+        "deloadQueued": 1,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "scenario": "slow_two",
+      "skipped": [],
+      "topology": "K5",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "day": 5,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "scenario": "streak_interrupt",
+      "skipped": [],
+      "topology": "K5",
+      "weak": []
+    },
+    {
+      "cycle": 2,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 2,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 2,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 2,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 2,
+      "day": 5,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 2,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "scenario": "streak_interrupt",
+      "skipped": [],
+      "topology": "K5",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 3,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 3,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 3,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 3,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 3,
+      "day": 5,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 3,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "scenario": "streak_interrupt",
+      "skipped": [],
+      "topology": "K5",
+      "weak": []
+    },
+    {
+      "cycle": 4,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 4,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 4,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 4,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 4,
+      "day": 5,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        }
+      },
+      "topology": "K5"
+    },
+    {
+      "cycle": 4,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0
+      },
+      "scenario": "streak_interrupt",
+      "skipped": [],
+      "topology": "K5",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "stable",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "stable",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "stable",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "scenario": "stable",
+      "skipped": [],
+      "topology": "M6",
+      "weak": []
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "incomplete",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "incomplete",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "incomplete",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 0,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 0,
+        "ready1": 0,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 0,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 0,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 0,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 0,
+        "ready1": 0,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 0,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 0,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "scenario": "incomplete",
+      "skipped": [
+        1
+      ],
+      "topology": "M6",
+      "weak": []
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "broad_once",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "broad_once",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "broad_once",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "scenario": "broad_once",
+      "skipped": [],
+      "topology": "M6",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "fast",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "fast",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "fast",
+      "state": {
+        "class": 2,
+        "queued": 1,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 1,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 1,
+        "weak4": 1,
+        "weak5": 1,
+        "weak6": 1
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 1,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 1,
+        "weak4": 1,
+        "weak5": 1,
+        "weak6": 1
+      },
+      "scenario": "fast",
+      "skipped": [],
+      "topology": "M6",
+      "weak": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "single_group",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "single_group",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "single_group",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 0,
+        "weak3": 1,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 0,
+        "weak3": 1,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "scenario": "single_group",
+      "skipped": [],
+      "topology": "M6",
+      "weak": [
+        1,
+        3
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "scenario": "slow_two",
+      "skipped": [],
+      "topology": "M6",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 2,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 2,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 2,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 1,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 2,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 2,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 2,
+        "deloadQueued": 1,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 2,
+        "deloadQueued": 1,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "scenario": "slow_two",
+      "skipped": [],
+      "topology": "M6",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "scenario": "streak_interrupt",
+      "skipped": [],
+      "topology": "M6",
+      "weak": []
+    },
+    {
+      "cycle": 2,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 2,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 2,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 2,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "scenario": "streak_interrupt",
+      "skipped": [],
+      "topology": "M6",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 3,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 3,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 3,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 3,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "scenario": "streak_interrupt",
+      "skipped": [],
+      "topology": "M6",
+      "weak": []
+    },
+    {
+      "cycle": 4,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 4,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 4,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        }
+      },
+      "topology": "M6"
+    },
+    {
+      "cycle": 4,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "ready5": 1,
+        "ready6": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "seen5": 1,
+        "seen6": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "valid5": 1,
+        "valid6": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0,
+        "weak5": 0,
+        "weak6": 0
+      },
+      "scenario": "streak_interrupt",
+      "skipped": [],
+      "topology": "M6",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "stable",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "stable",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "stable",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "stable",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "scenario": "stable",
+      "skipped": [],
+      "topology": "SYN4",
+      "weak": []
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "incomplete",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "incomplete",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "incomplete",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "incomplete",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 0,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 0,
+        "ready1": 0,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 0,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 0,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 0,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 0,
+        "ready1": 0,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 0,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 0,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "scenario": "incomplete",
+      "skipped": [
+        1
+      ],
+      "topology": "SYN4",
+      "weak": []
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "broad_once",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "broad_once",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "broad_once",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "broad_once",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "scenario": "broad_once",
+      "skipped": [],
+      "topology": "SYN4",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "fast",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "fast",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "fast",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "fast",
+      "state": {
+        "class": 2,
+        "queued": 1,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 1,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 1,
+        "weak4": 1
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 1,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 1,
+        "weak4": 1
+      },
+      "scenario": "fast",
+      "skipped": [],
+      "topology": "SYN4",
+      "weak": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "single_group",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "single_group",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "single_group",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 1,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "single_group",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 1,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 0,
+        "weak3": 1,
+        "weak4": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 0,
+        "weak3": 1,
+        "weak4": 0
+      },
+      "scenario": "single_group",
+      "skipped": [],
+      "topology": "SYN4",
+      "weak": [
+        1,
+        3
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "scenario": "slow_two",
+      "skipped": [],
+      "topology": "SYN4",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 2,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 2,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 2,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 2,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "slow_two",
+      "state": {
+        "class": 2,
+        "queued": 1,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 2,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 2,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 2,
+        "deloadQueued": 1,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 2,
+        "deloadQueued": 1,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "scenario": "slow_two",
+      "skipped": [],
+      "topology": "SYN4",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 1,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 0,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 1,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "scenario": "streak_interrupt",
+      "skipped": [],
+      "topology": "SYN4",
+      "weak": []
+    },
+    {
+      "cycle": 2,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 2,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 2,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 2,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 2,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "scenario": "streak_interrupt",
+      "skipped": [],
+      "topology": "SYN4",
+      "weak": [
+        1,
+        2
+      ]
+    },
+    {
+      "cycle": 3,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 3,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 3,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 3,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 3,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 0,
+        "deloadQueued": 0,
+        "lastCycleClass": 1,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 0,
+        "weak2": 0,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "scenario": "streak_interrupt",
+      "skipped": [],
+      "topology": "SYN4",
+      "weak": []
+    },
+    {
+      "cycle": 4,
+      "day": 1,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 4,
+      "day": 2,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 4,
+      "day": 3,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 1,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 0,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 4,
+      "day": 4,
+      "op": "finish_workout",
+      "scenario": "streak_interrupt",
+      "state": {
+        "class": 2,
+        "queued": 0,
+        "seen": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "streak": 1,
+        "valid": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1
+        },
+        "weak": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "topology": "SYN4"
+    },
+    {
+      "cycle": 4,
+      "decisions": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "issues": {},
+      "liftosaur": {
+        "allSignalsReady": 1,
+        "badCycleStreak": 1,
+        "deloadQueued": 0,
+        "lastCycleClass": 2,
+        "ready1": 1,
+        "ready2": 1,
+        "ready3": 1,
+        "ready4": 1,
+        "seen1": 1,
+        "seen2": 1,
+        "seen3": 1,
+        "seen4": 1,
+        "valid1": 1,
+        "valid2": 1,
+        "valid3": 1,
+        "valid4": 1,
+        "weak1": 1,
+        "weak2": 1,
+        "weak3": 0,
+        "weak4": 0
+      },
+      "scenario": "streak_interrupt",
+      "skipped": [],
+      "topology": "SYN4",
+      "weak": [
+        1,
+        2
+      ]
+    }
+  ],
+  "runtimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "runtimeWorkouts": 132,
+  "schema": "HYBRID2-TRIGGER-ORIGINAL-CODEGEN-REAL-RUNTIME-DIFF-1",
+  "scope": "Trigger-only: synthetic weak/valid/ready input facts injected in original frozen generic controller progress codegen; no original H1 observation performance inference or subordinate ATP2",
+  "sourceCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+  "suites": 21,
+  "topologies": [
+    "K5",
+    "M6",
+    "SYN4"
+  ]
+}
