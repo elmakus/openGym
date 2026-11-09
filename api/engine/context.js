@@ -45,7 +45,7 @@ export function replayProgression({ workouts = [], trackId, prescriptions = {}, 
   let state = null
   // Controller-owned logs are replayed by their separate ATP2 or Timed Load history, never by
   // built-in Engine v2 progression. Untagged logs retain exactly their old behaviour.
-  const counted = x => x.trackId === trackId && !x.atp2 && !x.timedLoad && x.prescriptionId && !x.excludedFromProgression && x.actual && prescriptions[x.prescriptionId]
+  const counted = x => x.trackId === trackId && !x.atp2 && !x.timedLoad && x.prescriptionId && !x.excludedFromProgression && x.hybrid2?.deloadFrozen !== true && x.actual && prescriptions[x.prescriptionId]
   for (const w of chronologicalWorkouts(workouts)) {
     // A track twice in one workout (a combined session) advances once, from its last counted
     // exposure — what finish-session.js does.
@@ -70,15 +70,15 @@ export function replayProgression({ workouts = [], trackId, prescriptions = {}, 
  * borrowed and records no plan. An own log with no recorded plan never resets.
  */
 export function resolveProgressionContext({ trackId, exerciseId, rule, workouts = [], prescriptions = {}, progression = {}, assisted = false, acrossRoutines = false }) {
-  const ownLog = newest(workouts, x => x.trackId === trackId && x.prescriptionId && !x.excludedFromProgression)
+  const ownLog = newest(workouts, x => x.trackId === trackId && x.prescriptionId && !x.excludedFromProgression && x.hybrid2?.deloadFrozen !== true)
   // "Last time means → Any workout" (#770): the exercise's newest counted log in any routine is
   // the baseline, one line of progress across routines. Only an edit of this occurrence's own
   // plan restarts it, judged against its own last prescription, never another routine's.
-  const anyLog = acrossRoutines ? newest(workouts, x => x.exerciseId === exerciseId && x.prescriptionId && !x.excludedFromProgression && x.progressionExclusion !== 'explicit') : null
+  const anyLog = acrossRoutines ? newest(workouts, x => x.exerciseId === exerciseId && x.prescriptionId && !x.excludedFromProgression && x.hybrid2?.deloadFrozen !== true && x.progressionExclusion !== 'explicit') : null
   const own = anyLog || ownLog
   const borrowed = own ? null : newest(workouts, x => x.exerciseId === exerciseId
     && x.progressionExclusion !== 'explicit'
-    && (!x.prescriptionId || !x.excludedFromProgression) && (x.performance?.sets || []).some(isWork))
+    && (!x.prescriptionId || !x.excludedFromProgression && x.hybrid2?.deloadFrozen !== true) && (x.performance?.sets || []).some(isWork))
   const baseline = own || borrowed
   const source = own ? 'slot' : borrowed ? 'exercise' : null
   let state = (baseline?.trackId && progression[baseline.trackId]) || null

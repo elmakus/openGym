@@ -42,7 +42,7 @@ export function replayAtp2History(workouts) {
     // Like openGym finish-session: only the last counted exposure per track advances.
     const counted = new Map()
     for (const exposure of workout.exposures || []) {
-      if (!exposure?.atp2 || exposure.excludedFromProgression) continue
+      if (!exposure?.atp2 || exposure.excludedFromProgression || exposure.hybrid2?.deloadFrozen === true) continue
       const rows = historicalAtp2Rows(exposure)
       if (rows.some(r => r.completed)) counted.set(exposure.trackId, { exposure, rows })
     }

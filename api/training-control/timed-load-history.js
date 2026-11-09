@@ -29,7 +29,7 @@ export function replayTimedLoadHistory(workouts) {
   for (const workout of sorted) {
     const counted = new Map()
     for (const exposure of workout.exposures || []) {
-      if (exposure?.timedLoad?.version !== 1 || exposure.excludedFromProgression || !exposure.trackId) continue
+      if (exposure?.timedLoad?.version !== 1 || (exposure.excludedFromProgression || exposure.hybrid2?.deloadFrozen === true) || !exposure.trackId) continue
       const rows = historicalTimedRows(exposure)
       if (rows.some(r => r.completed)) counted.set(exposure.trackId, { exposure, rows })
     }

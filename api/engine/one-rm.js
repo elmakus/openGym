@@ -162,6 +162,7 @@ export function reconcileDerivedOneRms(profile) {
   const best = new Map()
   const formula = formulaOf(profile)
   for (const w of ordered) for (const x of w.exposures || []) {
+    if (x.hybrid2?.deloadFrozen === true) continue
     const p = profile.prescriptions?.[x.prescriptionId]
     if (p?.assisted ?? x.assisted) continue
     for (const row of x.performance?.sets || []) {
