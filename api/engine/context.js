@@ -43,9 +43,9 @@ function newest(workouts, match) {
  */
 export function replayProgression({ workouts = [], trackId, prescriptions = {}, upTo = null }) {
   let state = null
-  // ATP2-owned logs are replayed by their separate training controller, never by the
+  // Controller-owned logs are replayed by their separate ATP2 or Timed Load history, never by
   // built-in Engine v2 progression. Untagged logs retain exactly their old behaviour.
-  const counted = x => x.trackId === trackId && !x.atp2 && x.prescriptionId && !x.excludedFromProgression && x.actual && prescriptions[x.prescriptionId]
+  const counted = x => x.trackId === trackId && !x.atp2 && !x.timedLoad && x.prescriptionId && !x.excludedFromProgression && x.actual && prescriptions[x.prescriptionId]
   for (const w of chronologicalWorkouts(workouts)) {
     // A track twice in one workout (a combined session) advances once, from its last counted
     // exposure — what finish-session.js does.

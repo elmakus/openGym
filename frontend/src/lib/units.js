@@ -191,6 +191,8 @@ const convEntry = (e, from, to, weight = convertWeight, increment = weight) => m
 const convExposure = (exposure, from, to, convert = true, weight = convertWeight, increment = weight) => {
   const out = canonicalLoads(exposure, from, to, convert, weight)
   for (const key of ['legacyTarget', 'legacyPlanned', 'planned']) if (out?.[key]) out[key] = convTarget(out[key], from, to, convert, weight, increment)
+  // Timed Load state, config and equipment ladder are canonical kg; only its display unit changes.
+  if (exposure.timedLoad?.version === 1) out.timedLoad = { ...exposure.timedLoad, unit: to }
   if (convert && exposure.atp2?.version === 1) {
     const spec = exposure.atp2
     out.atp2 = { ...spec,

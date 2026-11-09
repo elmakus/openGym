@@ -24,6 +24,7 @@ import { hasCompletedWork } from './workout-model.js'
 import { stampWorkout } from './sync-merge.js'
 import { legacySyncKey, rebuildPrHistory } from './workout-date.js'
 import { replayAtp2History } from '../../../api/training-control/history.js'
+import { replayTimedLoadHistory } from '../../../api/training-control/timed-load-history.js'
 
 const clone = value => structuredClone(value)
 const list = v => (Array.isArray(v) ? v : [])
@@ -206,6 +207,7 @@ export function saveWorkoutEdit(state, now = Date.now()) {
   const touched = [...new Set([...list(current.exposures), ...record.exposures].map(x => x?.exerciseId).filter(id => id != null))]
   state.workouts = rebuildPrHistory(state.workouts, touched, record)
   reconcileAtp2History(state)
+  reconcileTimedLoadHistory(state)
   const saved = state.workouts.find(w => keyOf(w) === key)
   lowerKeptWeights(state, touched, current, saved)
   reconcileDerivedOneRms(state)
@@ -251,9 +253,19 @@ export function reconcileAtp2History(state) {
   state.trainingControl.atp2 = replayAtp2History(state.workouts)
 }
 
+/** Timed Load is rebuilt from chronological performance; no state-cache patching. */
+export function reconcileTimedLoadHistory(state) {
+  const hasTimed = !!state.trainingControl?.timedLoad || (state.workouts || []).some(w =>
+    (w.exposures || []).some(x => x.timedLoad?.version === 1))
+  if (!hasTimed) return
+  state.trainingControl ||= {}
+  state.trainingControl.timedLoad = replayTimedLoadHistory(state.workouts)
+}
+
 /** Refresh derived references after ordinary history deletion or editor deletion. */
 export function reconcileSessionHistory(state) {
   reconcileAtp2History(state)
+  reconcileTimedLoadHistory(state)
   reconcileDerivedOneRms(state)
   const tracks = new Set([...Object.keys(state.progression || {}), ...list(state.workouts).flatMap(w => list(w.exposures).map(x => x.trackId).filter(Boolean))])
   state.progression ||= {}

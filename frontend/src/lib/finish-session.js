@@ -4,6 +4,8 @@ import { advanceProgression, auditExecution, currentOneRm, summarizeActual } fro
 import { actualOfRow, exposuresWithPerformance } from './session-ui-adapter.js'
 import { atp2WorkRows } from './atp2-session.js'
 import { evaluateAtp2 } from '../../../api/training-control/atp2.js'
+import { evaluateTimedLoad } from '../../../api/training-control/timed-load.js'
+import { timedWorkRows } from './timed-load-session.js'
 import { isWarmupRow } from './workout-model.js'
 import { betterWeight, beatsWeight } from './exercises.js'
 import { bestSetOf, formulaOf, is1RMRecord, oneRmForMeaning } from './onerm.js'
@@ -15,6 +17,7 @@ export function buildCompletedSession(active, profile, { end, newId, unit }) {
   const oneRepMaxes = []
   const progression = {}
   const atp2States = {}
+  const timedLoadStates = {}
   // A track twice in one session (a combined workout) advances once: from its last counted exposure
   // with completed work (an excluded one never counts), as replayProgression does.
   const worked = new Map()
@@ -35,6 +38,11 @@ export function buildCompletedSession(active, profile, { end, newId, unit }) {
           rounding: exposure.atp2.rounding,
           sets: rows, numberOfSets: rows.length
         }).nextState
+      } else if (exposure.timedLoad?.version === 1) {
+        const result = evaluateTimedLoad({ config: exposure.timedLoad.config,
+          state: exposure.timedLoad.initialState,
+          rows: timedWorkRows(entries.get(exposure.exposureId), exposure.timedLoad) })
+        if (result.counted) timedLoadStates[exposure.trackId] = result.nextState
       } else {
         progression[exposure.trackId] = advanceProgression({ state, prescription: p, log: { id: exposure.exposureId, actual, performance: exposure.performance }, now: completedAt })
       }
@@ -57,7 +65,8 @@ export function buildCompletedSession(active, profile, { end, newId, unit }) {
     },
     oneRepMaxes,
     progression,
-    atp2States
+    atp2States,
+    timedLoadStates
   }
 }
 

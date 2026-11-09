@@ -6,6 +6,7 @@ import { isSideSet, isWarmupRow, isFailureSet, makeSideSet, syncSideAggregate } 
 import { applyIntensifierPlan, applyFailurePlan, modeOf } from './history.js'
 import { inclineFrom } from './incline.js'
 import { prefillAtp2Entry } from './atp2-session.js'
+import { prefillTimedLoadEntry } from './timed-load-session.js'
 import { pyramidLabel } from './pyramid.js'
 
 const weightOf = (p, i) => p.prefill.load?.value ?? p.rows[i]?.load?.value ?? null
@@ -107,7 +108,7 @@ export function entriesForExposures(exposures, prescriptions) {
       ...(p.prefill.carried ? { carried: true } : {}),
       sets: [...(p.warmupRows || []).map(warmupRowFor), ...intensified(p, exposure)]
     }
-    return prefillAtp2Entry(entry, exposure)
+    return prefillTimedLoadEntry(prefillAtp2Entry(entry, exposure), exposure)
   })
 }
 
