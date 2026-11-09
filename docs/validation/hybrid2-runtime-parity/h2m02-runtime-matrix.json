@@ -1,0 +1,94 @@
+{
+  "adaptive_h1_local_preserved": true,
+  "classification_streak_queue_lifecycle": {
+    "cycle1": [
+      2,
+      1,
+      0
+    ],
+    "cycle2": [
+      2,
+      2,
+      1
+    ],
+    "cycle4": [
+      2,
+      1,
+      0
+    ],
+    "deloadClose": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "deloadStart": [
+      0,
+      1,
+      1
+    ]
+  },
+  "controller_tags": [
+    71,
+    79
+  ],
+  "distinct_identity_control": 1,
+  "exact_final_controller_state": {
+    "allSignalsReady": 1,
+    "badCycleStreak": 1,
+    "deloadActive": 0,
+    "deloadQueued": 0,
+    "deloadStarted": 0,
+    "lastCycleClass": 2,
+    "ready1": 1,
+    "ready2": 1,
+    "ready3": 1,
+    "rolloverClear": 0,
+    "seen1": 1,
+    "seen2": 1,
+    "seen3": 1,
+    "valid1": 1,
+    "valid2": 1,
+    "valid3": 1,
+    "weak1": 1,
+    "weak2": 1,
+    "weak3": 0
+  },
+  "later_shared_not_closer": 1,
+  "multiple_independent_shared": [
+    1,
+    1
+  ],
+  "naive_negative_oracle": {
+    "distinct_identity": 1,
+    "shared_normal": 0,
+    "skip_earlier": 1
+  },
+  "no_shared_parity": 1,
+  "one_shared_normal": 1,
+  "optional_shared": 1,
+  "ownership_maps": {
+    "four_signal_global_fields": 23,
+    "three_signal_global_fields": 19
+  },
+  "prescription_preserved": true,
+  "same_generic_codegen": "render_controller_progress",
+  "save_reload_boundaries": 12,
+  "shared_identity_gt2": 3,
+  "shared_identity_preservation": {
+    "carrier": "shared",
+    "closer": "closer",
+    "mid": "mid",
+    "observer": "shared",
+    "observer2": "shared",
+    "writer": "writer"
+  },
+  "skip_earlier": 1,
+  "topologies": [
+    3,
+    4
+  ],
+  "zero_override_shared": 1
+}
