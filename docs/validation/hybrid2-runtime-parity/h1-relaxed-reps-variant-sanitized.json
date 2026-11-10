@@ -1,0 +1,59 @@
+{
+  "schema": "HYBRID2-H1-RELAXED-REPS-VARIANT-1",
+  "originals": {
+    "openGymObserverSha256": "9b484836eaca791e309194ef8665e05b0487a8a5e509ace29971c244c4ac9adf",
+    "isolatedObserverSha256": "2f898b1aa04d49931fe9f89bafdd0d4f2909d68fc7939159894c344dae17433d"
+  },
+  "workoutScope": "Repeated same 28 original native boundary test sequences (not new independent scenarios)",
+  "nativeLiftosaurRuns": 28,
+  "nativeComparisonFields": 336,
+  "stepsWithDifferences": 0,
+  "discrepantFields": 0,
+  "outcome": "SOURCE_OVERLAY_PASS",
+  "nativeSerializedFirstSet": "command-projected, not serializer-extracted",
+  "limitations": "Unbounded 300+ reps outside original normal envelope not validated. No shipped code, actual profile history, or production writes.",
+  "byReps": [
+    {
+      "reps": 10,
+      "nativeWorkouts": 9,
+      "originalNativeAuditVotes": 3,
+      "variantAuditVotes": 3,
+      "redSteps": 0
+    },
+    {
+      "reps": 19,
+      "nativeWorkouts": 8,
+      "originalNativeAuditVotes": 5,
+      "variantAuditVotes": 5,
+      "redSteps": 0
+    },
+    {
+      "reps": 20,
+      "nativeWorkouts": 4,
+      "originalNativeAuditVotes": 4,
+      "variantAuditVotes": 4,
+      "redSteps": 0
+    },
+    {
+      "reps": 21,
+      "nativeWorkouts": 2,
+      "originalNativeAuditVotes": 2,
+      "variantAuditVotes": 2,
+      "redSteps": 0
+    },
+    {
+      "reps": 22,
+      "nativeWorkouts": 2,
+      "originalNativeAuditVotes": 2,
+      "variantAuditVotes": 2,
+      "redSteps": 0
+    },
+    {
+      "reps": 23,
+      "nativeWorkouts": 3,
+      "originalNativeAuditVotes": 3,
+      "variantAuditVotes": 3,
+      "redSteps": 0
+    }
+  ]
+}

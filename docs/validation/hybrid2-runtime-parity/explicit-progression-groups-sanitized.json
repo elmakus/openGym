@@ -1,0 +1,16 @@
+{
+  "schema": "OPENGYM-ENGINEV2-EXPLICIT-GROUPS-SOURCE-VALIDATION-1",
+  "source": {
+    "unchangedSha256": "f8d0575f047e04155531aab00a536f7f97ff1e0267cac2413c5919d3c6310ed1",
+    "overlaySha256": "18b07fc131c51a91102179296f82891e776f44c8a3b6f92676bbe5963d106083"
+  },
+  "verdict": "SOURCE_OVERLAY_PASS",
+  "assertions": 57,
+  "failures": [],
+  "sourceMaterializations": 9,
+  "completedSessions": 4,
+  "persistedHistoryWorkouts": 4,
+  "progressionTracks": 2,
+  "negativeControls": 8,
+  "scope": "Source-only overlay of unchanged Engine v2 start/finish/replay. No shipped UI, schema changes or native workout."
+}
