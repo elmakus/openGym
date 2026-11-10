@@ -1,0 +1,97 @@
+name: Engine v2 Android APK (Obtainium prerelease)
+
+on:
+  push:
+    branches: [integration/engine-v2]
+    paths:
+      - frontend/**
+      - api/migration/**
+      - .github/workflows/engine-v2-android-obtainium.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: engine-v2-android-release
+  cancel-in-progress: false
+
+jobs:
+  build-and-release:
+    if: github.ref == 'refs/heads/integration/engine-v2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install persistent personal test signing key
+        env:
+          TEST_KEYSTORE_BASE64: ${{ secrets.OPENGYM_ENGINE_V2_KEYSTORE_BASE64 }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$TEST_KEYSTORE_BASE64" ]; then
+            echo "::error::Set repository Actions secret OPENGYM_ENGINE_V2_KEYSTORE_BASE64 to the base64-encoded test keystore and rerun."
+            exit 1
+          fi
+          mkdir -p "$HOME/.android"
+          printf '%s' "$TEST_KEYSTORE_BASE64" | base64 --decode > "$HOME/.android/engine-v2.keystore"
+          chmod 600 "$HOME/.android/engine-v2.keystore"
+          keytool -list -keystore "$HOME/.android/engine-v2.keystore" -storepass android -alias androiddebugkey >/dev/null
+
+      - name: Build Android mobile assets
+        working-directory: frontend
+        env:
+          VITE_ENGINE_V2_OBTAINIUM: '1'
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm run build:mobile
+
+      - name: Build and sign release APK with unique versionCode
+        shell: bash
+        run: |
+          set -euo pipefail
+          code=$((1000000 + GITHUB_RUN_NUMBER * 10 + GITHUB_RUN_ATTEMPT))
+          sed -i -E "s/^[[:space:]]*versionCode [0-9]+$/        versionCode $code/" frontend/android/app/build.gradle
+          grep -Fq "versionCode $code" frontend/android/app/build.gradle
+          echo "APK_VERSION_CODE=$code" >> "$GITHUB_ENV"
+          (cd frontend/android && ./gradlew --no-daemon testSideloadDebugUnitTest assembleSideloadRelease)
+          mkdir -p dist
+          bt=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          "$bt/zipalign" -f -p 4 frontend/android/app/build/outputs/apk/sideload/release/app-sideload-release-unsigned.apk dist/aligned.apk
+          "$bt/apksigner" sign --ks "$HOME/.android/engine-v2.keystore" --ks-pass pass:android --key-pass pass:android --ks-key-alias androiddebugkey --out "dist/openGym-EngineV2-$code.apk" dist/aligned.apk
+          rm dist/aligned.apk "dist/openGym-EngineV2-$code.apk.idsig" 2>/dev/null || true
+          "$bt/apksigner" verify --print-certs "dist/openGym-EngineV2-$code.apk"
+          "$bt/aapt" dump badging "dist/openGym-EngineV2-$code.apk" | grep -F "package: name='ch.duartesantos.opengym' versionCode='$code'"
+          sha256sum "dist/openGym-EngineV2-$code.apk" > "dist/openGym-EngineV2-$code.apk.sha256"
+
+      - name: Upload APK as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openGym-EngineV2-APK
+          path: dist/*
+          retention-days: 30
+
+      - name: Publish GitHub prerelease for Obtainium
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="v1.4.4-engine-v2.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}"
+          gh release create "$tag" dist/*.apk dist/*.apk.sha256 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --prerelease \
+            --title "openGym Engine v2 test #$GITHUB_RUN_NUMBER" \
+            --notes "Experimental Android sideload debug build from integration/engine-v2 at $GITHUB_SHA. Installed as ch.duartesantos.opengym (release, not debug). If replacing an APK signed by upstream, uninstall the old app first after exporting any phone-only data. Signed with the fork-owned persistent test key; updates via Obtainium. Pair with an Engine v2 server, not the legacy 1.4.4 server."
