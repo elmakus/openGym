@@ -339,3 +339,19 @@ H2_PARITY_ROOT="$BASE" H2_PARITY_OUT="$BASE/evidence-m6-full-36/legacy-edit-foll
 ~~~
 
 [Report and original-source RED preserved](../../docs/validation/hybrid2-runtime-parity/M6_SHARED_IDENTITY_LEGACY_EDIT_REGRESSION.md); [sanitized evidence](../../docs/validation/hybrid2-runtime-parity/m6-shared-identity-legacy-edit-regression-sanitized.json). Do not auto-migrate stored histories.
+
+
+## New genuine original native H1 boundary 19–23 (2026-11-10)
+
+Three original-fitness-generated synthetic H1 sequences on **unchanged pinned original Liftosaur**: 28 NEW actual native workouts, 336 field comparisons; **16 workout steps / 58 fields are RED**, caused by original native acceptance of 21/22 and new 23 reps while unchanged openGym `h1FromExposure` excludes them. Later H1 history remains different. No contract change: original spec roughly 5–20 requires an explicit normative decision. Real original native completed-set command and finish/readback, *but* openGym source input is projected from commands (not extracted native serialized sets); not full original M6. Native cumulative selected ledger becomes 799 / 11,392 mixed assertions, not full parity.
+
+~~~sh
+BASE=/tmp/hybrid2-runtime-parity-20261109
+cd "$BASE/shared-identity-followup-20261110"
+FITNESS_ROOT="$BASE/fitness" LIFTOSAUR_RUNTIME_ROOT="$BASE/liftosaur" \
+ H2_PARITY_OUT="$BASE/evidence-h1-native-boundary-20261110" \
+ node scripts/hybrid2-runtime-parity/run-h1-native-19-23-boundary.mjs
+# Intentionally exits 1 due genuine 21+ native/openGym RED.
+~~~
+
+[Native H1 boundary report](../../docs/validation/hybrid2-runtime-parity/H1_NATIVE_19_23_BOUNDARY_RED.md); [sanitized actual outcome](../../docs/validation/hybrid2-runtime-parity/h1-native-19-23-sanitized.json). No private original fitness source or native load records are committed.
