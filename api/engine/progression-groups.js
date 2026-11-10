@@ -149,8 +149,14 @@ export function leaveProgressionGroup(profile, occurrenceId) {
   return true
 }
 
+// Completed Engine v2 sets are also stored in performance.sets. Some imported
+// or client-generated logs have no legacy actual.sets counter, so checking
+// actual alone would incorrectly allow an existing track to be re-keyed.
+const hasCompletedWork = x => x?.actual?.sets > 0 ||
+  list(x?.performance?.sets).some(r => r?.role === 'work' && r?.status === 'completed')
+
 const hasLoggedOccurrence = (profile, id) => list(profile?.workouts).some(w =>
-  list(w?.exposures).some(x => x.occurrenceId === id && x.actual?.sets > 0))
+  list(w?.exposures).some(x => x?.occurrenceId === id && hasCompletedWork(x)))
 
 // Editing a routine must not strand group references; do not silently detach a
 // progressed occurrence, as that would fork the progression without a history policy.
@@ -177,9 +183,8 @@ export function validateProgressionGroupTransition(previous, next) {
   if (next?.workouts?.length === 0 && Number(next.resetAt) > Number(previous.resetAt || 0))
     return { ok:true, errors:[] } // explicit reset wiped all historical workouts
   const logged = new Set(list(previous.workouts).flatMap(w => list(w?.exposures))
-    .filter(x => x && typeof x.occurrenceId === 'string' && (
-      x.actual?.sets > 0 || list(x.performance?.sets).some(r => r.role === 'work' && r.status === 'completed')
-    )).map(x => x.occurrenceId))
+    .filter(x => x && typeof x.occurrenceId === 'string' && hasCompletedWork(x))
+    .map(x => x.occurrenceId))
   const changes = new Set([...before.keys(),...after.keys()])
   const errors = [...changes].filter(id => logged.has(id) && before.get(id) !== after.get(id))
     .map(id => `progression group transition after completed history is not allowed for ${id}`)

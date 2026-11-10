@@ -207,3 +207,31 @@ test('adding a fresh occurrence to a progressed group must fail closed',()=>{
   assert.throws(()=>joinProgressionGroup(p,'bench-mon','bench-third',()=> 'unexpected'),/after history/)
   assert.deepEqual(p.progressionGroups,before)
 })
+
+
+test('completed performance-only history locks explicit progression identity without legacy actual counter',()=>{
+  const completed = id => ({
+    occurrenceId:id,exerciseId:bench,performance:{sets:[
+      {role:'work',status:'completed',observations:[{metric:'repetitions',value:8}]}
+    ]}
+  })
+  const p=fixture()
+  p.workouts=[{exposures:[completed('bench-mon')]}]
+  const original=structuredClone(p)
+  assert.throws(()=>joinProgressionGroup(p,'bench-mon','bench-fri',()=> 'group-unsafe'),/after history/)
+  assert.deepEqual(p,original,'failed join must not alter live profile')
+  // A planned or skipped exposure alone is not a completed historical track.
+  const empty=fixture()
+  empty.workouts=[{exposures:[{...completed('bench-mon'),performance:{sets:[
+    {role:'work',status:'skipped'}
+  ]}}]}]
+  assert.equal(joinProgressionGroup(empty,'bench-mon','bench-fri',()=> 'bench-safe'),true)
+
+  const groupedProfile=grouped()
+  groupedProfile.workouts=[{exposures:[completed('bench-mon')]}]
+  const groupsBefore=structuredClone(groupedProfile.progressionGroups)
+  assert.throws(()=>leaveProgressionGroup(groupedProfile,'bench-mon'),/after history/)
+  assert.throws(()=>leaveProgressionGroup(groupedProfile,'bench-fri'),/after history/,
+    'dissolving a two-member group must not orphan its completed track')
+  assert.deepEqual(groupedProfile.progressionGroups,groupsBefore)
+})
