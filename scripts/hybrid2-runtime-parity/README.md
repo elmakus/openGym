@@ -395,3 +395,19 @@ are removed after execution. [Full proof](../../docs/validation/hybrid2-runtime-
 
 This does **not** update any live Liftosaur program or history and does not
 turn the unchanged original M6 RTT expected-RED case into a PASS.
+
+## 2026-11-10 — original native Timed Load controller differential
+
+`run-timed-load-original-native.mjs` runs the *unchanged pinned original*
+`fitness/programs/timed_load_side_plank_candidate.liftoscript` in the genuine
+pinned Liftosaur runtime for 17 serial Side Plank workouts. It compares eight
+persistent state fields before and after each workout with the existing
+openGym `evaluateTimedLoad`, obtaining **272/272 matches**. Supply the
+`LIFTOSAUR_RUNTIME_ROOT`, `TIMED_LOAD_ORIGINAL_SOURCE`, and isolated
+`H2_PARITY_OUT` paths. The script fixes only the **test-runtime in-memory**
+dumbbell availability to match the original controller's native kg ladder;
+stock gym settings would otherwise clamp the requested 0kg to 5kg.
+
+See [scope and limitations](../../docs/validation/hybrid2-runtime-parity/TIMED_LOAD_ORIGINAL_NATIVE_DIFF_20261110.md).
+This standalone test does not cover independent bilateral timers, current M6,
+real athlete equipment, or production deployment.
