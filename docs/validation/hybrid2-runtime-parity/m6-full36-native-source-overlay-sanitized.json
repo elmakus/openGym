@@ -1,0 +1,837 @@
+{
+  "schema": "HYBRID2-M6-ORIGINAL-36-SHARED-STRUCTURAL-NATIVE-INPUT-1",
+  "provenance": {
+    "sourceSha256": "7b1c7d114229b4d1cf86093409d7d89ae4e7d88e6a0c1c4c89bcba30a4a425df",
+    "nativePrivateTraceSha256": "2b4a0747d39890dfb3c89a49e4df8c3229e39c390713a8a58d42e66284d25c95",
+    "originalFrontendSourceSha256": "f8d0575f047e04155531aab00a536f7f97ff1e0267cac2413c5919d3c6310ed1",
+    "sourceOnlyOneLineModuleSha256": "d33d0b446eb860f67e6dd945decfd5e49abdb46944df942fc9a42cb3ad263bbe",
+    "runtime": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+    "fitness": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+    "originalNativeWorkoutsNew": 0,
+    "adapter": "native source structural slots and shared e.key / openGym catalog fixture",
+    "originalPhysicalExercisesMapped": false,
+    "productionWrites": 0,
+    "privateWeightsPublished": false
+  },
+  "workouts": 9,
+  "completedNativeKgSets": 119,
+  "unparsedOccurrences": 9,
+  "checks": 854,
+  "issues": [],
+  "steps": [
+    {
+      "session": 1,
+      "day": 1,
+      "cycle": 1,
+      "sourceAfterSha256": "f0dbee7230658cdbf243180b4b54195a6abd01b1c25c832a1e3e3000e9a3abba",
+      "nativeLoadedOccurrences": 9,
+      "nonkgUnparsed": 2,
+      "completedNativeKgSets": 13,
+      "persistedExposures": 11,
+      "status": "LEARNING",
+      "sourceCount": 1,
+      "issueCount": 0
+    },
+    {
+      "session": 2,
+      "day": 2,
+      "cycle": 1,
+      "sourceAfterSha256": "765f909130f35b368c803b25f835b8edeb1a3df7652c78acc7e552a07b799e4e",
+      "nativeLoadedOccurrences": 13,
+      "nonkgUnparsed": 0,
+      "completedNativeKgSets": 15,
+      "persistedExposures": 13,
+      "status": "LEARNING",
+      "sourceCount": 2,
+      "issueCount": 0
+    },
+    {
+      "session": 3,
+      "day": 3,
+      "cycle": 1,
+      "sourceAfterSha256": "92fa4fa4b429cd88a5682d0db96ab82b33e0bb7362a9c71c191577363c681b7c",
+      "nativeLoadedOccurrences": 11,
+      "nonkgUnparsed": 1,
+      "completedNativeKgSets": 13,
+      "persistedExposures": 12,
+      "status": "LEARNING",
+      "sourceCount": 3,
+      "issueCount": 0
+    },
+    {
+      "session": 4,
+      "day": 1,
+      "cycle": 2,
+      "sourceAfterSha256": "3c3131041074205d44b7f0defec93fc477516e69010f563df13f177e0eba4285",
+      "nativeLoadedOccurrences": 9,
+      "nonkgUnparsed": 2,
+      "completedNativeKgSets": 11,
+      "persistedExposures": 11,
+      "status": "LEARNING",
+      "sourceCount": 4,
+      "issueCount": 0
+    },
+    {
+      "session": 5,
+      "day": 2,
+      "cycle": 2,
+      "sourceAfterSha256": "20dff694c149c03d68030aa08ff1d7a3d91c6ef12c41e30fba55f2ce5eb458ca",
+      "nativeLoadedOccurrences": 13,
+      "nonkgUnparsed": 0,
+      "completedNativeKgSets": 15,
+      "persistedExposures": 13,
+      "status": "LEARNING",
+      "sourceCount": 5,
+      "issueCount": 0
+    },
+    {
+      "session": 6,
+      "day": 3,
+      "cycle": 2,
+      "sourceAfterSha256": "5713e95cb0ef45ee82876078fe3f17d349af0d380b86b1b269a0ce790bb058d8",
+      "nativeLoadedOccurrences": 11,
+      "nonkgUnparsed": 1,
+      "completedNativeKgSets": 13,
+      "persistedExposures": 12,
+      "status": "LEARNING",
+      "sourceCount": 6,
+      "issueCount": 0
+    },
+    {
+      "session": 7,
+      "day": 1,
+      "cycle": 3,
+      "sourceAfterSha256": "0f0c20563f6c430f81654d62ef9df238b9640d8dce35c43d47cc05ba8cada452",
+      "nativeLoadedOccurrences": 9,
+      "nonkgUnparsed": 2,
+      "completedNativeKgSets": 11,
+      "persistedExposures": 11,
+      "status": "LEARNING",
+      "sourceCount": 7,
+      "issueCount": 0
+    },
+    {
+      "session": 8,
+      "day": 2,
+      "cycle": 3,
+      "sourceAfterSha256": "b534f9a9652a0575624d24f00d5c636450cf461fe831e73f5d23e28a5db2cfc9",
+      "nativeLoadedOccurrences": 13,
+      "nonkgUnparsed": 0,
+      "completedNativeKgSets": 15,
+      "persistedExposures": 13,
+      "status": "LEARNING",
+      "sourceCount": 8,
+      "issueCount": 0
+    },
+    {
+      "session": 9,
+      "day": 3,
+      "cycle": 3,
+      "sourceAfterSha256": "48ff0c3e57fba3a25df15887bc4f9a97416025d765728100aeb2e52ae1ff6263",
+      "nativeLoadedOccurrences": 11,
+      "nonkgUnparsed": 1,
+      "completedNativeKgSets": 13,
+      "persistedExposures": 12,
+      "status": "LEARNING",
+      "sourceCount": 9,
+      "issueCount": 0
+    }
+  ],
+  "nativeSharedGroups": [
+    {
+      "fingerprint": "f3e9117318b4",
+      "occurrences": [
+        "d1i3",
+        "d2i3"
+      ]
+    },
+    {
+      "fingerprint": "145805c4652a",
+      "occurrences": [
+        "d1i4",
+        "d2i5",
+        "d3i5"
+      ]
+    },
+    {
+      "fingerprint": "e99431b7c9d4",
+      "occurrences": [
+        "d1i9",
+        "d3i9"
+      ]
+    },
+    {
+      "fingerprint": "e62051285e3d",
+      "occurrences": [
+        "d1i11",
+        "d3i12"
+      ]
+    },
+    {
+      "fingerprint": "42c8c95501ee",
+      "occurrences": [
+        "d2i1",
+        "d3i1"
+      ]
+    },
+    {
+      "fingerprint": "86a0022a2861",
+      "occurrences": [
+        "d2i13",
+        "d3i10"
+      ]
+    }
+  ],
+  "identityContractRed": [
+    {
+      "session": 1,
+      "occurrenceId": "m6-native:d1i1",
+      "nativeProgressionFingerprint": "bd9d244811f8",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 1,
+      "occurrenceId": "m6-native:d1i2",
+      "nativeProgressionFingerprint": "efb14c095655",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 1,
+      "occurrenceId": "m6-native:d1i3",
+      "nativeProgressionFingerprint": "53f9ed9dfc40",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 1,
+      "occurrenceId": "m6-native:d1i4",
+      "nativeProgressionFingerprint": "c7a58a81f6e9",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 1,
+      "occurrenceId": "m6-native:d1i5",
+      "nativeProgressionFingerprint": "b5cc4613cf46",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 1,
+      "occurrenceId": "m6-native:d1i6",
+      "nativeProgressionFingerprint": "594d27214bcc",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 1,
+      "occurrenceId": "m6-native:d1i7",
+      "nativeProgressionFingerprint": "22b9e29abe28",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 1,
+      "occurrenceId": "m6-native:d1i8",
+      "nativeProgressionFingerprint": "0b651088c501",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 1,
+      "occurrenceId": "m6-native:d1i9",
+      "nativeProgressionFingerprint": "a06bef11347d",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 1,
+      "occurrenceId": "m6-native:d1i10",
+      "nativeProgressionFingerprint": "2bd6dd825939",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 1,
+      "occurrenceId": "m6-native:d1i11",
+      "nativeProgressionFingerprint": "cdc4e5404be6",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i1",
+      "nativeProgressionFingerprint": "57c8b02d2341",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i2",
+      "nativeProgressionFingerprint": "7dde47c29e25",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i3",
+      "nativeProgressionFingerprint": "53f9ed9dfc40",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i4",
+      "nativeProgressionFingerprint": "4cce0ded5887",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i5",
+      "nativeProgressionFingerprint": "c7a58a81f6e9",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i6",
+      "nativeProgressionFingerprint": "76a774b8f507",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i7",
+      "nativeProgressionFingerprint": "b1d3a16619cc",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i8",
+      "nativeProgressionFingerprint": "a03582a59796",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i9",
+      "nativeProgressionFingerprint": "f5ff0e6290c0",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i10",
+      "nativeProgressionFingerprint": "6e9f171483ad",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i11",
+      "nativeProgressionFingerprint": "331f743320fe",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i12",
+      "nativeProgressionFingerprint": "2e991a842cd9",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 2,
+      "occurrenceId": "m6-native:d2i13",
+      "nativeProgressionFingerprint": "3dd87524b4cd",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 3,
+      "occurrenceId": "m6-native:d3i1",
+      "nativeProgressionFingerprint": "57c8b02d2341",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 3,
+      "occurrenceId": "m6-native:d3i2",
+      "nativeProgressionFingerprint": "043e99fb1eaa",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 3,
+      "occurrenceId": "m6-native:d3i3",
+      "nativeProgressionFingerprint": "5d17584a13bc",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 3,
+      "occurrenceId": "m6-native:d3i4",
+      "nativeProgressionFingerprint": "7dfccbddb931",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 3,
+      "occurrenceId": "m6-native:d3i5",
+      "nativeProgressionFingerprint": "c7a58a81f6e9",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 3,
+      "occurrenceId": "m6-native:d3i6",
+      "nativeProgressionFingerprint": "49ddc33849ee",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 3,
+      "occurrenceId": "m6-native:d3i7",
+      "nativeProgressionFingerprint": "867ea6f31902",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 3,
+      "occurrenceId": "m6-native:d3i8",
+      "nativeProgressionFingerprint": "126065e0b2e0",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 3,
+      "occurrenceId": "m6-native:d3i9",
+      "nativeProgressionFingerprint": "a06bef11347d",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 3,
+      "occurrenceId": "m6-native:d3i10",
+      "nativeProgressionFingerprint": "3dd87524b4cd",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 3,
+      "occurrenceId": "m6-native:d3i11",
+      "nativeProgressionFingerprint": "504fa66cf494",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 3,
+      "occurrenceId": "m6-native:d3i12",
+      "nativeProgressionFingerprint": "cdc4e5404be6",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 4,
+      "occurrenceId": "m6-native:d1i1",
+      "nativeProgressionFingerprint": "bd9d244811f8",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 4,
+      "occurrenceId": "m6-native:d1i2",
+      "nativeProgressionFingerprint": "efb14c095655",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 4,
+      "occurrenceId": "m6-native:d1i3",
+      "nativeProgressionFingerprint": "53f9ed9dfc40",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 4,
+      "occurrenceId": "m6-native:d1i4",
+      "nativeProgressionFingerprint": "c7a58a81f6e9",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 4,
+      "occurrenceId": "m6-native:d1i5",
+      "nativeProgressionFingerprint": "b5cc4613cf46",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 4,
+      "occurrenceId": "m6-native:d1i6",
+      "nativeProgressionFingerprint": "594d27214bcc",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 4,
+      "occurrenceId": "m6-native:d1i7",
+      "nativeProgressionFingerprint": "22b9e29abe28",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 4,
+      "occurrenceId": "m6-native:d1i8",
+      "nativeProgressionFingerprint": "0b651088c501",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 4,
+      "occurrenceId": "m6-native:d1i9",
+      "nativeProgressionFingerprint": "a06bef11347d",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 4,
+      "occurrenceId": "m6-native:d1i10",
+      "nativeProgressionFingerprint": "2bd6dd825939",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 4,
+      "occurrenceId": "m6-native:d1i11",
+      "nativeProgressionFingerprint": "cdc4e5404be6",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i1",
+      "nativeProgressionFingerprint": "57c8b02d2341",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i2",
+      "nativeProgressionFingerprint": "7dde47c29e25",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i3",
+      "nativeProgressionFingerprint": "53f9ed9dfc40",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i4",
+      "nativeProgressionFingerprint": "4cce0ded5887",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i5",
+      "nativeProgressionFingerprint": "c7a58a81f6e9",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i6",
+      "nativeProgressionFingerprint": "76a774b8f507",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i7",
+      "nativeProgressionFingerprint": "b1d3a16619cc",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i8",
+      "nativeProgressionFingerprint": "a03582a59796",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i9",
+      "nativeProgressionFingerprint": "f5ff0e6290c0",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i10",
+      "nativeProgressionFingerprint": "6e9f171483ad",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i11",
+      "nativeProgressionFingerprint": "331f743320fe",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i12",
+      "nativeProgressionFingerprint": "2e991a842cd9",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 5,
+      "occurrenceId": "m6-native:d2i13",
+      "nativeProgressionFingerprint": "3dd87524b4cd",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 6,
+      "occurrenceId": "m6-native:d3i1",
+      "nativeProgressionFingerprint": "57c8b02d2341",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 6,
+      "occurrenceId": "m6-native:d3i2",
+      "nativeProgressionFingerprint": "043e99fb1eaa",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 6,
+      "occurrenceId": "m6-native:d3i3",
+      "nativeProgressionFingerprint": "5d17584a13bc",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 6,
+      "occurrenceId": "m6-native:d3i4",
+      "nativeProgressionFingerprint": "7dfccbddb931",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 6,
+      "occurrenceId": "m6-native:d3i5",
+      "nativeProgressionFingerprint": "c7a58a81f6e9",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 6,
+      "occurrenceId": "m6-native:d3i6",
+      "nativeProgressionFingerprint": "49ddc33849ee",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 6,
+      "occurrenceId": "m6-native:d3i7",
+      "nativeProgressionFingerprint": "867ea6f31902",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 6,
+      "occurrenceId": "m6-native:d3i8",
+      "nativeProgressionFingerprint": "126065e0b2e0",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 6,
+      "occurrenceId": "m6-native:d3i9",
+      "nativeProgressionFingerprint": "a06bef11347d",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 6,
+      "occurrenceId": "m6-native:d3i10",
+      "nativeProgressionFingerprint": "3dd87524b4cd",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 6,
+      "occurrenceId": "m6-native:d3i11",
+      "nativeProgressionFingerprint": "504fa66cf494",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 6,
+      "occurrenceId": "m6-native:d3i12",
+      "nativeProgressionFingerprint": "cdc4e5404be6",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 7,
+      "occurrenceId": "m6-native:d1i1",
+      "nativeProgressionFingerprint": "bd9d244811f8",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 7,
+      "occurrenceId": "m6-native:d1i2",
+      "nativeProgressionFingerprint": "efb14c095655",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 7,
+      "occurrenceId": "m6-native:d1i3",
+      "nativeProgressionFingerprint": "53f9ed9dfc40",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 7,
+      "occurrenceId": "m6-native:d1i4",
+      "nativeProgressionFingerprint": "c7a58a81f6e9",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 7,
+      "occurrenceId": "m6-native:d1i5",
+      "nativeProgressionFingerprint": "b5cc4613cf46",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 7,
+      "occurrenceId": "m6-native:d1i6",
+      "nativeProgressionFingerprint": "594d27214bcc",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 7,
+      "occurrenceId": "m6-native:d1i7",
+      "nativeProgressionFingerprint": "22b9e29abe28",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 7,
+      "occurrenceId": "m6-native:d1i8",
+      "nativeProgressionFingerprint": "0b651088c501",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 7,
+      "occurrenceId": "m6-native:d1i9",
+      "nativeProgressionFingerprint": "a06bef11347d",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 7,
+      "occurrenceId": "m6-native:d1i10",
+      "nativeProgressionFingerprint": "2bd6dd825939",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 7,
+      "occurrenceId": "m6-native:d1i11",
+      "nativeProgressionFingerprint": "cdc4e5404be6",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i1",
+      "nativeProgressionFingerprint": "57c8b02d2341",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i2",
+      "nativeProgressionFingerprint": "7dde47c29e25",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i3",
+      "nativeProgressionFingerprint": "53f9ed9dfc40",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i4",
+      "nativeProgressionFingerprint": "4cce0ded5887",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i5",
+      "nativeProgressionFingerprint": "c7a58a81f6e9",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i6",
+      "nativeProgressionFingerprint": "76a774b8f507",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i7",
+      "nativeProgressionFingerprint": "b1d3a16619cc",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i8",
+      "nativeProgressionFingerprint": "a03582a59796",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i9",
+      "nativeProgressionFingerprint": "f5ff0e6290c0",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i10",
+      "nativeProgressionFingerprint": "6e9f171483ad",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i11",
+      "nativeProgressionFingerprint": "331f743320fe",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i12",
+      "nativeProgressionFingerprint": "2e991a842cd9",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 8,
+      "occurrenceId": "m6-native:d2i13",
+      "nativeProgressionFingerprint": "3dd87524b4cd",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 9,
+      "occurrenceId": "m6-native:d3i1",
+      "nativeProgressionFingerprint": "57c8b02d2341",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 9,
+      "occurrenceId": "m6-native:d3i2",
+      "nativeProgressionFingerprint": "043e99fb1eaa",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 9,
+      "occurrenceId": "m6-native:d3i3",
+      "nativeProgressionFingerprint": "5d17584a13bc",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 9,
+      "occurrenceId": "m6-native:d3i4",
+      "nativeProgressionFingerprint": "7dfccbddb931",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 9,
+      "occurrenceId": "m6-native:d3i5",
+      "nativeProgressionFingerprint": "c7a58a81f6e9",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 9,
+      "occurrenceId": "m6-native:d3i6",
+      "nativeProgressionFingerprint": "49ddc33849ee",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 9,
+      "occurrenceId": "m6-native:d3i7",
+      "nativeProgressionFingerprint": "867ea6f31902",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 9,
+      "occurrenceId": "m6-native:d3i8",
+      "nativeProgressionFingerprint": "126065e0b2e0",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 9,
+      "occurrenceId": "m6-native:d3i9",
+      "nativeProgressionFingerprint": "a06bef11347d",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 9,
+      "occurrenceId": "m6-native:d3i10",
+      "nativeProgressionFingerprint": "3dd87524b4cd",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 9,
+      "occurrenceId": "m6-native:d3i11",
+      "nativeProgressionFingerprint": "504fa66cf494",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    },
+    {
+      "session": 9,
+      "occurrenceId": "m6-native:d3i12",
+      "nativeProgressionFingerprint": "cdc4e5404be6",
+      "classification": "openGym implementation mismatch: native progression identity not materialized"
+    }
+  ],
+  "bridge": "ONE source-only session-start trackId choice before generating prescriptions/progression; unchanged original materializer remains RED",
+  "outcome": "BRIDGE_PASS_ORIGINAL_PRODUCTION_RED"
+}

@@ -299,3 +299,29 @@ H2_PARITY_OUT="$OUT" \
 ```
 
 Expected PASS: **9 openGym UI-finished sessions / 38 source-native kg sets / 157 assertions**; real backend **9 writes / 13 reads / 3 process restarts / 232 checks / 0 RED**, with 18 native first-set comparable inputs, native source weight and repetitions identical after HTTP roundtrip, real file-backed state persistence, and stale rev 409. No new native workout is executed or double-counted. [Detailed scope and limitations](../../docs/validation/hybrid2-runtime-parity/M6_NATIVE_KG_HTTP_BACKEND_RESTART.md).
+
+
+## Original source-M6 full 36-occurrence shared identity negative control and one-line source-only overlay (2026-11-10)
+
+**Do not call the original source PASS:** the unchanged real openGym `buildSessionExposures` uses occurrence identity as `trackId`, conflicting with original native Liftosaur's shared progression `e.key`. Across nine native-input A/B/C workouts, the original produces **108 mismatched occurrence identity records** in six shared progression groups (13 occurrences), and original HYBRID-2 replay rejects the identity. The following runner always retains that RED and intentionally exits nonzero, but demonstrates an isolated **one-line** source-only frontend materialization variant, before prescriptions/Engine v2 state are generated. It temporarily creates and removes a sibling private ESM module, without changing the actual library or main.
+
+```sh
+BASE=/tmp/hybrid2-runtime-parity-20261109
+OUT="$BASE/evidence-m6-full-36"
+mkdir -p "$OUT/profiles"
+cd "$BASE/m6-full-structural-20261110"
+H2_PARITY_OUT="$OUT" PRIVATE_M6_ORIGINAL_PATH="$BASE/private-live/qtwbbqff.liftoscript" \
+ H2_NATIVE_M6_PRIVATE="$BASE/evidence/m6-post-deload-native-private.json" \
+ FITNESS_ROOT="$BASE/fitness" LIFTOSAUR_RUNTIME_ROOT="$BASE/liftosaur" \
+ H2_PRIVATE_PROFILE_SNAPSHOTS="$OUT/profiles" \
+ node scripts/hybrid2-runtime-parity/run-full-m6-native-source-overlay.mjs
+# Expected exit 1: unmodified current openGym 108 source identity RED remain.
+# Isolated variant 9 frontend sessions, all 36 native slots, 119 native kg sets, 854/854 checks PASS.
+
+H2_PARITY_OUT="$OUT" H2_NATIVE_M6_PRIVATE="$BASE/evidence/m6-post-deload-native-private.json" \
+ H2_PRIVATE_PROFILE_SNAPSHOTS="$OUT/profiles" \
+ node scripts/hybrid2-runtime-parity/run-full-m6-native-http-backend.mjs
+# 9 HTTP writes, 13 reads, 3 process restarts, 475/475 checks PASS only WITH SOURCE OVERLAY.
+```
+
+[Root cause, fixture scope, native source/actual-expected trace and limitations](../../docs/validation/hybrid2-runtime-parity/M6_NATIVE_SHARED_IDENTITY_SOURCE_OVERLAY_HTTP.md). These are real openGym frontend/replay and real API backend tests with prior original-native inputs, NOT new original Liftosaur workouts. The only input originals are private source/test copies, never included in Git. No original weights or true account data committed; no production branch touched.
