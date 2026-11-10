@@ -208,3 +208,27 @@ node scripts/hybrid2-runtime-parity/run-native-k5-history-pipeline.mjs
 ```
 
 [Report](../../docs/validation/hybrid2-runtime-parity/K5_NATIVE_INPUT_PERSISTENCE_PIPELINE.md) and [scrubbed frontend/replay data](../../docs/validation/hybrid2-runtime-parity/native-k5-open-gym-persisted-pipeline-sanitized.json). Synthetic fixture loads and adapter ensure this tests the data transport and H1 count, **not** numerical weight/parity, original live equipment or server DB write.
+
+## 2026-11-10 source-only M6 RTT + H1 stale rollover validation
+
+Read [M6 native source-fix report](../../docs/validation/hybrid2-runtime-parity/M6_RTT_CENTRALIZED_H1_STALE_SOURCE_FIX_NATIVE.md) and [native merge root cause](../../docs/validation/hybrid2-runtime-parity/M6_STALE_NATIVE_MERGE_CAUSAL.md) before using these **test-only** runners. All private M6 data remains under `PRIVATE_LIVE_ROOT`; do not commit, print or upload real programs, loads, history or equipment data.
+
+```sh
+cd /tmp/hybrid2-runtime-parity-20261109/validation-checkout
+export FITNESS_ROOT=/tmp/hybrid2-runtime-parity-20261109/fitness
+export LIFTOSAUR_RUNTIME_ROOT=/tmp/hybrid2-runtime-parity-20261109/liftosaur
+export PRIVATE_LIVE_ROOT=/tmp/hybrid2-runtime-parity-20261109/private-live
+export H2_PARITY_OUT=/tmp/hybrid2-runtime-parity-20261109/evidence
+node scripts/hybrid2-runtime-parity/run-current-marta-rtt-source-fixed.mjs
+# Unmodified original native runtime: 29 finish_workout; 48 probes; 688 checks; 0 RED
+node scripts/hybrid2-runtime-parity/run-m6-stale-native-merge-probe.mjs source-barrier
+# 5 native workouts; 180 checks; 0 RED
+node scripts/hybrid2-runtime-parity/run-m6-stale-native-merge-probe.mjs source-barrier-entry-reversed
+# 5 native workouts; 180 checks; 0 RED; only finish-day entry-loop ordering is test-modified
+node scripts/hybrid2-runtime-parity/run-m6-stale-native-merge-probe.mjs reference
+# EXPECTED RED: 5 native workouts; 178 checks; 10 RED
+node scripts/hybrid2-runtime-parity/run-m6-stale-native-merge-probe.mjs reference-entry-reversed
+# EXPECTED RED: 5 native workouts; 178 checks; 10 RED
+```
+
+The source-only fix centralizes the template Adaptive update (no 29 body copies) and reasserts the **current H1 tag only** on stale rollover. Do not confuse this with `native-finishday-merge-overlay.mjs`, a separate isolated one-line runtime causal control. Do not deploy either variant without further fitness-source review and missing end-to-end regressions.

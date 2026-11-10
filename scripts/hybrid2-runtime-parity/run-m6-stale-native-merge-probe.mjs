@@ -13,7 +13,7 @@ const privateRoot=process.env.PRIVATE_LIVE_ROOT
 const out=process.env.H2_PARITY_OUT
 if(!runtime||!fitness||!privateRoot||!out) throw Error('Required frozen external fixture roots missing')
 const variant=process.argv[2]||'reference'
-if(!['reference','current-state-wins','source-barrier'].includes(variant)) throw Error('Unknown variant')
+if(!['reference','current-state-wins','source-barrier','reference-entry-reversed','source-barrier-entry-reversed'].includes(variant)) throw Error('Unknown variant')
 const pin='ce75750bde4a190682fb5a6fa1984fc9184a9842'
 if(!fs.readFileSync(path.join(runtime,'README.txt'),'utf8').includes(pin))throw Error('Wrong native runtime')
 process.env.TS_NODE_TRANSPILE_ONLY ||= '1'
@@ -28,13 +28,18 @@ localRequire.extensions['.ts']=function(module,filename){
   if(filename===path.join(runtime,'src/models/program.ts')){
     const prev=module._compile
     module._compile=function(js,file){
+      if(variant.endsWith('entry-reversed')){
+        const entryLoop='for (const entry of progress.entries) {'
+        if(!js.includes(entryLoop))throw Error('Cannot find frozen native progress entry loop')
+        js=js.replace(entryLoop,'for (const entry of [...progress.entries].reverse()) {')
+      }
       const errorSeam='if (newStateResult.success) {'
       if(!js.includes(errorSeam))throw Error('Native finish-day success branch missing')
       js=js.replace(errorSeam,'if(!newStateResult.success)globalThis.__M6_TRACE?.push({phase:"script-error",entryIndex:progress.entries.indexOf(entry),message:String(newStateResult.error).slice(0,240)});'+errorSeam)
       const before='const { state, updates, bindings, otherStates } = newStateResult.data;'
       const merge='exercise.progress.state = Object.assign(Object.assign(Object.assign({}, exercise.progress.state), entry.state), state);'
       if(!js.includes(before)||!js.includes(merge))throw Error('Pinned native compiler seam not found: before='+js.includes(before)+' merge='+js.includes(merge)+' fragment='+js.slice(js.indexOf('exercise.progress.state ='),js.indexOf('exercise.progress.state =')+165))
-      const trace='globalThis.__M6_TRACE?.push({phase:"pre-write",entryIndex:progress.entries.indexOf(entry),anchor:Number(programExercise.progress?.state?.anchorId??0),canonical92002:Number(newEvaluatedProgram.states[92002]?.perfCount??-1),local92002:Number(programExercise.progress?.state?.perfCount??-1),entryPerfCount:Number(entry.state?.perfCount??-1),scriptDiffPerfCount:state.perfCount??null,otherStateDiff92002:otherStates[92002]?.perfCount??null,controllerRollover:newEvaluatedProgram.states[920]?.rolloverClear??null});'
+      const trace='globalThis.__M6_TRACE?.push({phase:"pre-write",entryIndex:progress.entries.indexOf(entry),anchor:Number(programExercise.progress?.state?.anchorId??0),canonical92002:Number(newEvaluatedProgram.states[92002]?.perfCount??-1),local92002:Number(programExercise.progress?.state?.perfCount??-1),entryPerfCount:Number(entry.state?.perfCount??-1),scriptDiffPerfCount:state.perfCount??null,otherStateDiff92002:otherStates[92002]?.perfCount??null,crossResetTags:Object.keys(otherStates).filter(k=>Number(k)>=92001&&Number(k)<=92006&&otherStates[k]?.perfCount===0).map(Number).sort((a,b)=>a-b),controllerRollover:newEvaluatedProgram.states[920]?.rolloverClear??null});'
       js=js.replace(before,before+'\n'+trace)
       const after='globalThis.__M6_TRACE?.push({phase:"post-local-write",entryIndex:progress.entries.indexOf(entry),anchor:Number(exercise.progress.state.anchorId??0),slotPerfCount:Number(exercise.progress.state.perfCount??-1)});'
       js=js.replace(merge,(variant==='current-state-wins'
@@ -66,7 +71,7 @@ const fusedSource=original.replace(/ \/ update: custom\(\) \{~([\s\S]*?)~\} \/ p
   return updateMarker+'\n'+mode+'\nif (var.rttMode != 2) {\n'+adaptive+'\n}\n'+body+endMarker
 })
 if(merged!==29)throw Error('Unexpected local RTT blocks '+merged)
-const source=variant==='source-barrier'?addStaleH1WriteBarrier(fusedSource):fusedSource
+const source=variant.startsWith('source-barrier')?addStaleH1WriteBarrier(fusedSource):fusedSource
 const origIntro=src=>src.replace(/var\.rttMode = 0/g,'var.rttMode = 2')
 const units=x=>typeof x==='number'?x:x?.unit==='kg'?x.value:x?.unit==='lb'?x.value*.45359237:0
 function project(src){
@@ -124,6 +129,11 @@ for(const item of cases){
   tags[slot]={perfCount:fields.perfCount,allH1Zero:h1Fields.every(k=>Math.abs(fields[k])<.011)}
  }
  const trace=done.trace.filter(x=>x.phase==='pre-write'||x.phase==='script-error'||(x.phase==='post-local-write'&&(x.anchor===2||x.slotPerfCount!==-1)))
+ if(variant.startsWith('source-barrier')&&item.id==='both-first-second'){
+   const anchorsWritten=trace.filter(x=>x.phase==='pre-write'&&x.anchor>0)
+   assertion(JSON.stringify(anchorsWritten[0]?.crossResetTags)==='[92001,92002,92003,92004,92005,92006]',item.id,'global-six-tags-once')
+   assertion(JSON.stringify(anchorsWritten[1]?.crossResetTags)===JSON.stringify([92000+anchorsWritten[1]?.anchor]),item.id,'later-anchor-own-tag-barrier-only')
+ }
  result.cases.push({id:item.id,requestedAnchorOrder:item.selected.map(([slot])=>Number(slot)),nativeScriptEntryOrder:trace.filter(x=>x.phase==='pre-write'&&x.anchor>0).map(x=>({entryIndex:x.entryIndex,anchor:x.anchor})),controller:{active:Number(after.control.deloadActive),rolloverClear:Number(after.control.rolloverClear)},tags,trace})
 }
 result.failureCount=result.failures.length

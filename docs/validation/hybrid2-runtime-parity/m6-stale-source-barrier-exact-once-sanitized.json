@@ -1,0 +1,788 @@
+{
+  "schema": "M6-STALE-SOURCE-BARRIER-EXACT-ONCE-SANITIZED-1",
+  "privacy": "No original program or loads",
+  "cases": [
+    {
+      "id": "source-barrier",
+      "finishedWorkouts": 5,
+      "checks": 180,
+      "redEntries": 0,
+      "failures": [],
+      "syntheticEntryLoopReorder": false,
+      "sourcePatch": "test-only template H1 write barrier",
+      "cases": [
+        {
+          "id": "first-only",
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "resetCrossWrites": [
+            {
+              "entryIndex": 0,
+              "anchor": 1,
+              "crossResetTags": [
+                92001,
+                92002,
+                92003,
+                92004,
+                92005,
+                92006
+              ]
+            }
+          ]
+        },
+        {
+          "id": "second-only",
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "resetCrossWrites": [
+            {
+              "entryIndex": 5,
+              "anchor": 2,
+              "crossResetTags": [
+                92001,
+                92002,
+                92003,
+                92004,
+                92005,
+                92006
+              ]
+            }
+          ]
+        },
+        {
+          "id": "both-first-second",
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            },
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "resetCrossWrites": [
+            {
+              "entryIndex": 0,
+              "anchor": 1,
+              "crossResetTags": [
+                92001,
+                92002,
+                92003,
+                92004,
+                92005,
+                92006
+              ]
+            },
+            {
+              "entryIndex": 5,
+              "anchor": 2,
+              "crossResetTags": [
+                92002
+              ]
+            }
+          ]
+        },
+        {
+          "id": "both-complete-reversed",
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            },
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "resetCrossWrites": [
+            {
+              "entryIndex": 0,
+              "anchor": 1,
+              "crossResetTags": [
+                92001,
+                92002,
+                92003,
+                92004,
+                92005,
+                92006
+              ]
+            },
+            {
+              "entryIndex": 5,
+              "anchor": 2,
+              "crossResetTags": [
+                92002
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reference-entry-reversed",
+      "finishedWorkouts": 5,
+      "checks": 178,
+      "redEntries": 10,
+      "failures": [
+        {
+          "caseId": "both-first-second",
+          "field": "perf1",
+          "slot": 1
+        },
+        {
+          "caseId": "both-first-second",
+          "field": "perf2",
+          "slot": 1
+        },
+        {
+          "caseId": "both-first-second",
+          "field": "perf3",
+          "slot": 1
+        },
+        {
+          "caseId": "both-first-second",
+          "field": "perfCount",
+          "slot": 1
+        },
+        {
+          "caseId": "both-first-second",
+          "field": "perfReference",
+          "slot": 1
+        },
+        {
+          "caseId": "both-complete-reversed",
+          "field": "perf1",
+          "slot": 1
+        },
+        {
+          "caseId": "both-complete-reversed",
+          "field": "perf2",
+          "slot": 1
+        },
+        {
+          "caseId": "both-complete-reversed",
+          "field": "perf3",
+          "slot": 1
+        },
+        {
+          "caseId": "both-complete-reversed",
+          "field": "perfCount",
+          "slot": 1
+        },
+        {
+          "caseId": "both-complete-reversed",
+          "field": "perfReference",
+          "slot": 1
+        }
+      ],
+      "syntheticEntryLoopReorder": true,
+      "sourcePatch": "none",
+      "cases": [
+        {
+          "id": "first-only",
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "resetCrossWrites": [
+            {
+              "entryIndex": 0,
+              "anchor": 1,
+              "crossResetTags": [
+                92001,
+                92002,
+                92003,
+                92004,
+                92005,
+                92006
+              ]
+            }
+          ]
+        },
+        {
+          "id": "second-only",
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "resetCrossWrites": [
+            {
+              "entryIndex": 5,
+              "anchor": 2,
+              "crossResetTags": [
+                92001,
+                92002,
+                92003,
+                92004,
+                92005,
+                92006
+              ]
+            }
+          ]
+        },
+        {
+          "id": "both-first-second",
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            },
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 3,
+              "allH1Zero": false
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "resetCrossWrites": [
+            {
+              "entryIndex": 5,
+              "anchor": 2,
+              "crossResetTags": [
+                92001,
+                92002,
+                92003,
+                92004,
+                92005,
+                92006
+              ]
+            },
+            {
+              "entryIndex": 0,
+              "anchor": 1,
+              "crossResetTags": []
+            }
+          ]
+        },
+        {
+          "id": "both-complete-reversed",
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            },
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 3,
+              "allH1Zero": false
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "resetCrossWrites": [
+            {
+              "entryIndex": 5,
+              "anchor": 2,
+              "crossResetTags": [
+                92001,
+                92002,
+                92003,
+                92004,
+                92005,
+                92006
+              ]
+            },
+            {
+              "entryIndex": 0,
+              "anchor": 1,
+              "crossResetTags": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "source-barrier-entry-reversed",
+      "finishedWorkouts": 5,
+      "checks": 180,
+      "redEntries": 0,
+      "failures": [],
+      "syntheticEntryLoopReorder": true,
+      "sourcePatch": "test-only template H1 write barrier",
+      "cases": [
+        {
+          "id": "first-only",
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "resetCrossWrites": [
+            {
+              "entryIndex": 0,
+              "anchor": 1,
+              "crossResetTags": [
+                92001,
+                92002,
+                92003,
+                92004,
+                92005,
+                92006
+              ]
+            }
+          ]
+        },
+        {
+          "id": "second-only",
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "resetCrossWrites": [
+            {
+              "entryIndex": 5,
+              "anchor": 2,
+              "crossResetTags": [
+                92001,
+                92002,
+                92003,
+                92004,
+                92005,
+                92006
+              ]
+            }
+          ]
+        },
+        {
+          "id": "both-first-second",
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            },
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "resetCrossWrites": [
+            {
+              "entryIndex": 5,
+              "anchor": 2,
+              "crossResetTags": [
+                92001,
+                92002,
+                92003,
+                92004,
+                92005,
+                92006
+              ]
+            },
+            {
+              "entryIndex": 0,
+              "anchor": 1,
+              "crossResetTags": [
+                92001
+              ]
+            }
+          ]
+        },
+        {
+          "id": "both-complete-reversed",
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            },
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "resetCrossWrites": [
+            {
+              "entryIndex": 5,
+              "anchor": 2,
+              "crossResetTags": [
+                92001,
+                92002,
+                92003,
+                92004,
+                92005,
+                92006
+              ]
+            },
+            {
+              "entryIndex": 0,
+              "anchor": 1,
+              "crossResetTags": [
+                92001
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

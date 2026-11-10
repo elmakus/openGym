@@ -1,0 +1,243 @@
+{
+  "schema": "M6-RTT-FROZEN-UNMODIFIED-NATIVE-SANITIZED-1",
+  "variant": "rtt-source-fixed",
+  "pin": {
+    "runtime": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+    "fitness": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+    "openGymBase": "8529b2d41b28fea8ae96a50325aaf28e864a0160",
+    "originalSourceSha256": "7b1c7d114229b4d1cf86093409d7d89ae4e7d88e6a0c1c4c89bcba30a4a425df",
+    "queuedSourceSha256": "b1f481de1385292b63ae12d7873c37f386e5f521c4807b89bfa503c8ddaa89e5",
+    "settings": "Frozen original Marta baseline; NOT active gym",
+    "privateOriginalPublished": false,
+    "accountWrites": 0,
+    "fusedInitialSha256": "3903327e70dd638d13d8870cb128af03d6220321d98bb80447eaa37a37562f1c",
+    "fusedQueuedSha256": "64895b353253b738872b44959a40bd41f975d545c35158d619c65e7769b8b301",
+    "templateUpdateSha256": "5ff793946b549a2d9fd9280aaa98b379acdfc8530679da624e63f128345fe6c0"
+  },
+  "nativeBehavior": "unmodified frozen original Liftosaur",
+  "finishedWorkouts": 29,
+  "setProbes": 48,
+  "checks": 688,
+  "redEntries": 0,
+  "failures": [],
+  "experiments": [
+    {
+      "id": "fusion-shape",
+      "mergedOccurrenceOverrides": 29,
+      "parser": "PASS"
+    },
+    {
+      "id": "NORMAL-against-native-inherited-Adaptive",
+      "nativeWorkouts": 6
+    },
+    {
+      "id": "INTRO-against-native-original-RTT",
+      "nativeWorkouts": 6,
+      "days": [
+        {
+          "day": 1,
+          "secondSetNativeAccepted": true,
+          "secondSetAfterFirstAccepted": true
+        },
+        {
+          "day": 2,
+          "secondSetNativeAccepted": true,
+          "secondSetAfterFirstAccepted": true
+        },
+        {
+          "day": 3,
+          "secondSetNativeAccepted": true,
+          "secondSetAfterFirstAccepted": true
+        }
+      ]
+    },
+    {
+      "id": "QUEUED-full-native-DELOAD-with-all-RTT",
+      "nativeWorkouts": 3,
+      "days": [
+        {
+          "day": 1,
+          "anchors": 6,
+          "invalidSetProbes": 11,
+          "active": 1,
+          "queued": 0,
+          "resetOnCloser": false
+        },
+        {
+          "day": 2,
+          "anchors": 6,
+          "invalidSetProbes": 13,
+          "active": 1,
+          "queued": 0,
+          "resetOnCloser": false
+        },
+        {
+          "day": 3,
+          "anchors": 6,
+          "invalidSetProbes": 12,
+          "active": 0,
+          "queued": 0,
+          "resetOnCloser": true
+        }
+      ]
+    },
+    {
+      "id": "STALE-shared-write-order-native-controls",
+      "nativeWorkouts": 3,
+      "cases": [
+        {
+          "id": "first-anchor-only",
+          "executedSlots": [
+            1
+          ],
+          "cleared": true,
+          "rolloverClear": 1,
+          "tagCounts": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          }
+        },
+        {
+          "id": "second-anchor-only",
+          "executedSlots": [
+            2
+          ],
+          "cleared": true,
+          "rolloverClear": 1,
+          "tagCounts": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          }
+        },
+        {
+          "id": "first-then-second",
+          "executedSlots": [
+            1,
+            2
+          ],
+          "cleared": true,
+          "rolloverClear": 1,
+          "tagCounts": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "INDUCED-STALE-original-progress-shared-tag920",
+      "nativeWorkouts": 2
+    },
+    {
+      "id": "POST-DELOAD-native-relearn-vs-openGym",
+      "nativeWorkouts": 9,
+      "cycles": [
+        {
+          "cycle": 1,
+          "observedSignals": 6,
+          "differences": 0,
+          "anchorCounts": [
+            {
+              "slot": 1,
+              "count": 1
+            },
+            {
+              "slot": 2,
+              "count": 1
+            },
+            {
+              "slot": 3,
+              "count": 1
+            },
+            {
+              "slot": 4,
+              "count": 1
+            },
+            {
+              "slot": 5,
+              "count": 1
+            },
+            {
+              "slot": 6,
+              "count": 1
+            }
+          ]
+        },
+        {
+          "cycle": 2,
+          "observedSignals": 6,
+          "differences": 0,
+          "anchorCounts": [
+            {
+              "slot": 1,
+              "count": 2
+            },
+            {
+              "slot": 2,
+              "count": 2
+            },
+            {
+              "slot": 3,
+              "count": 2
+            },
+            {
+              "slot": 4,
+              "count": 2
+            },
+            {
+              "slot": 5,
+              "count": 2
+            },
+            {
+              "slot": 6,
+              "count": 2
+            }
+          ]
+        },
+        {
+          "cycle": 3,
+          "observedSignals": 6,
+          "differences": 0,
+          "anchorCounts": [
+            {
+              "slot": 1,
+              "count": 3
+            },
+            {
+              "slot": 2,
+              "count": 3
+            },
+            {
+              "slot": 3,
+              "count": 3
+            },
+            {
+              "slot": 4,
+              "count": 3
+            },
+            {
+              "slot": 5,
+              "count": 3
+            },
+            {
+              "slot": 6,
+              "count": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
