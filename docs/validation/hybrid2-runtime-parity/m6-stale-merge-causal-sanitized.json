@@ -1,0 +1,653 @@
+{
+  "schema": "M6-STALE-MERGE-CAUSAL-SANITIZED-1",
+  "referenceSourceSha256": "b1f481de1385292b63ae12d7873c37f386e5f521c4807b89bfa503c8ddaa89e5",
+  "runtimePin": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "dataPolicy": "No actual user program, loads, history, workout rows or equipment data",
+  "variants": [
+    {
+      "variant": "reference",
+      "finishedWorkoutCalls": 5,
+      "checks": 178,
+      "redComparisonEntries": 10,
+      "failures": [
+        {
+          "caseId": "both-first-second",
+          "field": "perf1",
+          "slot": 2
+        },
+        {
+          "caseId": "both-first-second",
+          "field": "perf2",
+          "slot": 2
+        },
+        {
+          "caseId": "both-first-second",
+          "field": "perf3",
+          "slot": 2
+        },
+        {
+          "caseId": "both-first-second",
+          "field": "perfCount",
+          "slot": 2
+        },
+        {
+          "caseId": "both-first-second",
+          "field": "perfReference",
+          "slot": 2
+        },
+        {
+          "caseId": "both-complete-reversed",
+          "field": "perf1",
+          "slot": 2
+        },
+        {
+          "caseId": "both-complete-reversed",
+          "field": "perf2",
+          "slot": 2
+        },
+        {
+          "caseId": "both-complete-reversed",
+          "field": "perf3",
+          "slot": 2
+        },
+        {
+          "caseId": "both-complete-reversed",
+          "field": "perfCount",
+          "slot": 2
+        },
+        {
+          "caseId": "both-complete-reversed",
+          "field": "perfReference",
+          "slot": 2
+        }
+      ],
+      "cases": [
+        {
+          "id": "first-only",
+          "requestedAnchorOrder": [
+            1
+          ],
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "trace": [
+            {
+              "phase": "pre-write",
+              "entryIndex": 0,
+              "anchor": 1,
+              "canonical92002": 3,
+              "local92002": 3,
+              "entryPerfCount": 3,
+              "scriptDiffPerfCount": null,
+              "otherStateDiff92002": 0,
+              "controllerRollover": 0
+            },
+            {
+              "phase": "post-local-write",
+              "entryIndex": 0,
+              "anchor": 1,
+              "slotPerfCount": 3
+            }
+          ]
+        },
+        {
+          "id": "second-only",
+          "requestedAnchorOrder": [
+            2
+          ],
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "trace": [
+            {
+              "phase": "pre-write",
+              "entryIndex": 5,
+              "anchor": 2,
+              "canonical92002": 3,
+              "local92002": 3,
+              "entryPerfCount": 3,
+              "scriptDiffPerfCount": null,
+              "otherStateDiff92002": 0,
+              "controllerRollover": 0
+            },
+            {
+              "phase": "post-local-write",
+              "entryIndex": 5,
+              "anchor": 2,
+              "slotPerfCount": 3
+            }
+          ]
+        },
+        {
+          "id": "both-first-second",
+          "requestedAnchorOrder": [
+            1,
+            2
+          ],
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            },
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 3,
+              "allH1Zero": false
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "trace": [
+            {
+              "phase": "pre-write",
+              "entryIndex": 0,
+              "anchor": 1,
+              "canonical92002": 3,
+              "local92002": 3,
+              "entryPerfCount": 3,
+              "scriptDiffPerfCount": null,
+              "otherStateDiff92002": 0,
+              "controllerRollover": 0
+            },
+            {
+              "phase": "post-local-write",
+              "entryIndex": 0,
+              "anchor": 1,
+              "slotPerfCount": 3
+            },
+            {
+              "phase": "pre-write",
+              "entryIndex": 5,
+              "anchor": 2,
+              "canonical92002": 3,
+              "local92002": 0,
+              "entryPerfCount": 3,
+              "scriptDiffPerfCount": null,
+              "otherStateDiff92002": null,
+              "controllerRollover": 0
+            },
+            {
+              "phase": "post-local-write",
+              "entryIndex": 5,
+              "anchor": 2,
+              "slotPerfCount": 3
+            }
+          ]
+        },
+        {
+          "id": "both-complete-reversed",
+          "requestedAnchorOrder": [
+            2,
+            1
+          ],
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            },
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 3,
+              "allH1Zero": false
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "trace": [
+            {
+              "phase": "pre-write",
+              "entryIndex": 0,
+              "anchor": 1,
+              "canonical92002": 3,
+              "local92002": 3,
+              "entryPerfCount": 3,
+              "scriptDiffPerfCount": null,
+              "otherStateDiff92002": 0,
+              "controllerRollover": 0
+            },
+            {
+              "phase": "post-local-write",
+              "entryIndex": 0,
+              "anchor": 1,
+              "slotPerfCount": 3
+            },
+            {
+              "phase": "pre-write",
+              "entryIndex": 5,
+              "anchor": 2,
+              "canonical92002": 3,
+              "local92002": 0,
+              "entryPerfCount": 3,
+              "scriptDiffPerfCount": null,
+              "otherStateDiff92002": null,
+              "controllerRollover": 0
+            },
+            {
+              "phase": "post-local-write",
+              "entryIndex": 5,
+              "anchor": 2,
+              "slotPerfCount": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "current-state-wins",
+      "finishedWorkoutCalls": 5,
+      "checks": 178,
+      "redComparisonEntries": 0,
+      "failures": [],
+      "cases": [
+        {
+          "id": "first-only",
+          "requestedAnchorOrder": [
+            1
+          ],
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "trace": [
+            {
+              "phase": "pre-write",
+              "entryIndex": 0,
+              "anchor": 1,
+              "canonical92002": 3,
+              "local92002": 3,
+              "entryPerfCount": 3,
+              "scriptDiffPerfCount": null,
+              "otherStateDiff92002": 0,
+              "controllerRollover": 0
+            },
+            {
+              "phase": "post-local-write",
+              "entryIndex": 0,
+              "anchor": 1,
+              "slotPerfCount": 3
+            }
+          ]
+        },
+        {
+          "id": "second-only",
+          "requestedAnchorOrder": [
+            2
+          ],
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "trace": [
+            {
+              "phase": "pre-write",
+              "entryIndex": 5,
+              "anchor": 2,
+              "canonical92002": 3,
+              "local92002": 3,
+              "entryPerfCount": 3,
+              "scriptDiffPerfCount": null,
+              "otherStateDiff92002": 0,
+              "controllerRollover": 0
+            },
+            {
+              "phase": "post-local-write",
+              "entryIndex": 5,
+              "anchor": 2,
+              "slotPerfCount": 3
+            }
+          ]
+        },
+        {
+          "id": "both-first-second",
+          "requestedAnchorOrder": [
+            1,
+            2
+          ],
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            },
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "trace": [
+            {
+              "phase": "pre-write",
+              "entryIndex": 0,
+              "anchor": 1,
+              "canonical92002": 3,
+              "local92002": 3,
+              "entryPerfCount": 3,
+              "scriptDiffPerfCount": null,
+              "otherStateDiff92002": 0,
+              "controllerRollover": 0
+            },
+            {
+              "phase": "post-local-write",
+              "entryIndex": 0,
+              "anchor": 1,
+              "slotPerfCount": 3
+            },
+            {
+              "phase": "pre-write",
+              "entryIndex": 5,
+              "anchor": 2,
+              "canonical92002": 3,
+              "local92002": 0,
+              "entryPerfCount": 3,
+              "scriptDiffPerfCount": null,
+              "otherStateDiff92002": null,
+              "controllerRollover": 0
+            },
+            {
+              "phase": "post-local-write",
+              "entryIndex": 5,
+              "anchor": 2,
+              "slotPerfCount": 0
+            }
+          ]
+        },
+        {
+          "id": "both-complete-reversed",
+          "requestedAnchorOrder": [
+            2,
+            1
+          ],
+          "nativeScriptEntryOrder": [
+            {
+              "entryIndex": 0,
+              "anchor": 1
+            },
+            {
+              "entryIndex": 5,
+              "anchor": 2
+            }
+          ],
+          "controller": {
+            "active": 0,
+            "rolloverClear": 1
+          },
+          "tags": {
+            "1": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "2": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "3": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "4": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "5": {
+              "perfCount": 0,
+              "allH1Zero": true
+            },
+            "6": {
+              "perfCount": 0,
+              "allH1Zero": true
+            }
+          },
+          "trace": [
+            {
+              "phase": "pre-write",
+              "entryIndex": 0,
+              "anchor": 1,
+              "canonical92002": 3,
+              "local92002": 3,
+              "entryPerfCount": 3,
+              "scriptDiffPerfCount": null,
+              "otherStateDiff92002": 0,
+              "controllerRollover": 0
+            },
+            {
+              "phase": "post-local-write",
+              "entryIndex": 0,
+              "anchor": 1,
+              "slotPerfCount": 3
+            },
+            {
+              "phase": "pre-write",
+              "entryIndex": 5,
+              "anchor": 2,
+              "canonical92002": 3,
+              "local92002": 0,
+              "entryPerfCount": 3,
+              "scriptDiffPerfCount": null,
+              "otherStateDiff92002": null,
+              "controllerRollover": 0
+            },
+            {
+              "phase": "post-local-write",
+              "entryIndex": 5,
+              "anchor": 2,
+              "slotPerfCount": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
