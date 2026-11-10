@@ -33,6 +33,23 @@ function merge(source){
  const a=source.indexOf(updateMarker),b=source.indexOf(endMarker,a)
  if(a<0||b<0)throw Error('Adaptive template missing')
  const template=source.slice(a+updateMarker.length,b)
+ // When supplied, execute the already materialized fitness generator artifact
+ // *directly* in native Liftosaur. The original JS overlays are NOT invoked.
+ // Both candidate input SHAs must match the current private original sources.
+ const candidateDir=process.env.M6_GENERATED_CANDIDATE_DIR
+ if(candidateDir){
+  const originalSha=sha(original), queuedSha=sha(queued), inSha=sha(source)
+  const prefix=inSha===originalSha?'m6-normal':inSha===queuedSha?'m6-queued':null
+  if(!prefix)throw Error('Generated candidate input is not one of the two pinned source states')
+  const manifest=JSON.parse(fs.readFileSync(path.join(candidateDir,prefix+'.json'),'utf8'))
+  const candidate=fs.readFileSync(path.join(candidateDir,prefix+'-fixed.liftoscript'),'utf8')
+  if(manifest.original_sha256!==inSha ||
+     manifest.candidate_sha256!==sha(candidate) ||
+     manifest.merged_overrides!==29 ||
+     !manifest.version?.includes('M6-H1-STALE-ENTRY-BARRIER-1'))
+    throw Error('Generated fitness candidate source digest, identity or contract mismatch')
+  return {source:candidate,merged:manifest.merged_overrides,templateUpdateSha256:sha(template)}
+ }
  const x=centralizeRttUpdate(source)
  return {...x,source:addStaleH1WriteBarrier(x.source),templateUpdateSha256:sha(template)}
 }

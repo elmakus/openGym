@@ -1,0 +1,35 @@
+{
+  "schema": "FITNESS-PYTHON-M6-SOURCE-COMPILED-NATIVE-1",
+  "status": "SOURCE_GENERATOR_NATIVE_PASS_NOT_DEPLOYED",
+  "sourceGenerator": "fitness:fix/m6-rtt-centralized-h1-persistence",
+  "sourceGeneratorSha256": "a1402d3d177da51aed4d8503c816f04dd0f956df92d59e17b27ef5bbe6128c39",
+  "realNativeRuntimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "compiledCandidates": {
+    "m6-normal": {
+      "originalSha256": "7b1c7d114229b4d1cf86093409d7d89ae4e7d88e6a0c1c4c89bcba30a4a425df",
+      "candidateSha256": "58acb488bc69ac8b2024c06a7549a67a3118d9f21b676f24a423544708b132e4",
+      "mergedOverrides": 29
+    },
+    "m6-queued": {
+      "originalSha256": "b1f481de1385292b63ae12d7873c37f386e5f521c4807b89bfa503c8ddaa89e5",
+      "candidateSha256": "d0e99f5e41c9f40eeadaa05b14838c79e74be994dabf487dd8d431cdec1e61db",
+      "mergedOverrides": 29
+    }
+  },
+  "sourceGeneratedBy": "Python real candidate compiler, not JS source overlay",
+  "nativeFinishWorkoutExecutions": 29,
+  "nativeSetProbeExecutions": 48,
+  "comparisons": 688,
+  "failures": 0,
+  "fields": [
+    "NORMAL inherited Adaptive",
+    "RTT INTRO",
+    "queued-to-active deload",
+    "H1 stale shared-state barrier",
+    "post-deload relearning"
+  ],
+  "accountWrites": 0,
+  "originalFilesMutated": false,
+  "privateCandidateCommitted": false,
+  "deployment": "none; validation branch only"
+}
