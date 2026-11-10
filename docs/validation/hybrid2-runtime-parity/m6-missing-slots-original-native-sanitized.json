@@ -1,0 +1,191 @@
+{
+  "schema": "HYBRID2-M6-GENUINE-NATIVE-UNPARSED-RECORDS-1",
+  "sourceSha256": "7b1c7d114229b4d1cf86093409d7d89ae4e7d88e6a0c1c4c89bcba30a4a425df",
+  "nativeRuntimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "originalFitnessCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+  "testVariant": "unchanged pinned runtime; in-memory original M6 RTT-centralized and H1-current-only source variant",
+  "method": "Program_nextHistoryRecord -> original Progress_completeSetAction/Progress_settleTimedSet/Progress_changeAmrapAction -> original serializer -> original Program_runAllFinishDayScripts -> PlannerProgram_generateFullText",
+  "newNativeWorkouts": 9,
+  "comparisons": 187,
+  "unexpectedIssues": [],
+  "records": [
+    {
+      "cycle": 1,
+      "day": 1,
+      "entryCount": 11,
+      "sourceBeforeFingerprint": "3903327e70dd638d",
+      "selected": [
+        {
+          "slot": "d1i2",
+          "paired": true,
+          "nativeSets": 3,
+          "serializedSidesVerified": true,
+          "openGymSourceObservationKind": "COMPARABLE",
+          "isOriginalH1Signal": false,
+          "decodedNativeWeightUnit": "kg"
+        },
+        {
+          "slot": "d1i8",
+          "paired": false,
+          "nativeSets": 2,
+          "serializedSidesVerified": true,
+          "openGymSourceObservationKind": "COMPARABLE",
+          "isOriginalH1Signal": false,
+          "decodedNativeWeightUnit": "kg"
+        }
+      ],
+      "nativeFinishOk": true,
+      "sourceAfterFingerprint": "076c1adfde711186"
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "entryCount": 13,
+      "sourceBeforeFingerprint": "076c1adfde711186",
+      "selected": [],
+      "nativeFinishOk": true,
+      "sourceAfterFingerprint": "9859a5418e7c15e3"
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "entryCount": 12,
+      "sourceBeforeFingerprint": "9859a5418e7c15e3",
+      "selected": [
+        {
+          "slot": "d3i11",
+          "paired": true,
+          "nativeSets": 3,
+          "serializedSidesVerified": true,
+          "openGymSourceObservationKind": "COMPARABLE",
+          "isOriginalH1Signal": false,
+          "decodedNativeWeightUnit": "kg"
+        }
+      ],
+      "nativeFinishOk": true,
+      "sourceAfterFingerprint": "24aa0a9f7ba902d1"
+    },
+    {
+      "cycle": 2,
+      "day": 1,
+      "entryCount": 11,
+      "sourceBeforeFingerprint": "24aa0a9f7ba902d1",
+      "selected": [
+        {
+          "slot": "d1i2",
+          "paired": true,
+          "nativeSets": 3,
+          "serializedSidesVerified": true,
+          "openGymSourceObservationKind": "COMPARABLE",
+          "isOriginalH1Signal": false,
+          "decodedNativeWeightUnit": "kg"
+        },
+        {
+          "slot": "d1i8",
+          "paired": false,
+          "nativeSets": 2,
+          "serializedSidesVerified": true,
+          "openGymSourceObservationKind": "COMPARABLE",
+          "isOriginalH1Signal": false,
+          "decodedNativeWeightUnit": "kg"
+        }
+      ],
+      "nativeFinishOk": true,
+      "sourceAfterFingerprint": "21f56fc4a1d797dc"
+    },
+    {
+      "cycle": 2,
+      "day": 2,
+      "entryCount": 13,
+      "sourceBeforeFingerprint": "21f56fc4a1d797dc",
+      "selected": [],
+      "nativeFinishOk": true,
+      "sourceAfterFingerprint": "5677518faf7f4ba2"
+    },
+    {
+      "cycle": 2,
+      "day": 3,
+      "entryCount": 12,
+      "sourceBeforeFingerprint": "5677518faf7f4ba2",
+      "selected": [
+        {
+          "slot": "d3i11",
+          "paired": true,
+          "nativeSets": 3,
+          "serializedSidesVerified": true,
+          "openGymSourceObservationKind": "COMPARABLE",
+          "isOriginalH1Signal": false,
+          "decodedNativeWeightUnit": "kg"
+        }
+      ],
+      "nativeFinishOk": true,
+      "sourceAfterFingerprint": "7a2fe08d8a5dff20"
+    },
+    {
+      "cycle": 3,
+      "day": 1,
+      "entryCount": 11,
+      "sourceBeforeFingerprint": "7a2fe08d8a5dff20",
+      "selected": [
+        {
+          "slot": "d1i2",
+          "paired": true,
+          "nativeSets": 3,
+          "serializedSidesVerified": true,
+          "openGymSourceObservationKind": "COMPARABLE",
+          "isOriginalH1Signal": false,
+          "decodedNativeWeightUnit": "kg"
+        },
+        {
+          "slot": "d1i8",
+          "paired": false,
+          "nativeSets": 2,
+          "serializedSidesVerified": true,
+          "openGymSourceObservationKind": "COMPARABLE",
+          "isOriginalH1Signal": false,
+          "decodedNativeWeightUnit": "kg"
+        }
+      ],
+      "nativeFinishOk": true,
+      "sourceAfterFingerprint": "a58b120c93c73526"
+    },
+    {
+      "cycle": 3,
+      "day": 2,
+      "entryCount": 13,
+      "sourceBeforeFingerprint": "a58b120c93c73526",
+      "selected": [],
+      "nativeFinishOk": true,
+      "sourceAfterFingerprint": "e4f22e5548598d68"
+    },
+    {
+      "cycle": 3,
+      "day": 3,
+      "entryCount": 12,
+      "sourceBeforeFingerprint": "e4f22e5548598d68",
+      "selected": [
+        {
+          "slot": "d3i11",
+          "paired": true,
+          "nativeSets": 3,
+          "serializedSidesVerified": true,
+          "openGymSourceObservationKind": "COMPARABLE",
+          "isOriginalH1Signal": false,
+          "decodedNativeWeightUnit": "kg"
+        }
+      ],
+      "nativeFinishOk": true,
+      "sourceAfterFingerprint": "37cc79c3f29076e5"
+    }
+  ],
+  "pairedSets": 18,
+  "ordinarySets": 6,
+  "nativeCompletedSets": 123,
+  "originalNativeCompletedSetSerializersRead": true,
+  "backendWrites": 0,
+  "productionWrites": 0,
+  "earlier9SourceNativeMissedRowsReplaced": false,
+  "privateHistoryCommitted": false,
+  "totalMissingSourceOccurrencesPerNinePriorSessions": 9,
+  "outcome": "NATIVE_RECORDS_PASS_NONH1_SCOPE"
+}

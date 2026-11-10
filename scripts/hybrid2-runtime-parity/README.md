@@ -355,3 +355,18 @@ FITNESS_ROOT="$BASE/fitness" LIFTOSAUR_RUNTIME_ROOT="$BASE/liftosaur" \
 ~~~
 
 [Native H1 boundary report](../../docs/validation/hybrid2-runtime-parity/H1_NATIVE_19_23_BOUNDARY_RED.md); [sanitized actual outcome](../../docs/validation/hybrid2-runtime-parity/h1-native-19-23-sanitized.json). No private original fitness source or native load records are committed.
+
+
+## Original M6: native history record coverage of nine previously unparsed positions (2026-11-10)
+
+The previous nine full-36 source-native text-parser blanks are **not** proven failures of native training; original source position analysis shows two distinct paired/unilateral kg slots and one ordinary kg slot repeated three times, with no verified Timed Load in those three. New **9 real pinned original Liftosaur source-overlay variant workout executions** (A/B/C x 3) used `Program_nextHistoryRecord`, actual original progress set actions, true `LiftohistorySerializer_serialize` and original finish scripts. **123 native sets complete, 24 targeted (18 bilateral, 6 ordinary); 187 assertions PASS/0 unexpected failures.** Side values were independent and preserved by original native serializer. Unchanged openGym `h1FromExposure` read command-derived native records as a limited ingestion check, not full-source H1/ATP2 parity. Older nine incomplete source traces remain UNVERIFIED; no historical results invented. No backend writes, production code, real users, or source M6 files modified.
+
+~~~sh
+BASE=/tmp/hybrid2-runtime-parity-20261109
+cd "$BASE/shared-identity-followup-20261110"
+H2_PARITY_ROOT="$BASE" H2_PARITY_OUT="$BASE/evidence-m6-native-missing-20261110" \
+ FITNESS_ROOT="$BASE/fitness" LIFTOSAUR_RUNTIME_ROOT="$BASE/liftosaur" \
+ node scripts/hybrid2-runtime-parity/run-full-m6-native-missing-slots-history.mjs
+~~~
+
+[Report and limitations](../../docs/validation/hybrid2-runtime-parity/M6_MISSING_SLOTS_NATIVE_HISTORY.md); [sanitized genuine native records](../../docs/validation/hybrid2-runtime-parity/m6-missing-slots-original-native-sanitized.json). This is 9 NEW native workouts / 187 comparisons; selected native ledger now 808 / 11,579 heterogeneous checks, not complete parity.
