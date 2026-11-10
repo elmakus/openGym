@@ -1,0 +1,165 @@
+{
+  "schema": "HYBRID2-K5-NATIVE-INPUT-REAL-OPENGYM-HTTP-RESTART-1",
+  "provenance": {
+    "nativeTranscriptSha256": "44a84c1dbe7439909810d1e7275f22a1afbcf94dcbbff10d937cef7a8a814e31",
+    "backend": "actual openGym api/server.js",
+    "input": "original-native K5 repetitions / openGym fixture loads",
+    "accountWrites": 0,
+    "newNativeWorkouts": 0,
+    "dataDir": "private isolated per-run DATA_DIR; no production path"
+  },
+  "backendWrites": 20,
+  "backendReads": 23,
+  "restarts": 2,
+  "checks": 239,
+  "issues": [],
+  "steps": [
+    {
+      "session": 1,
+      "backendRevision": 1,
+      "sourceCount": 1,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 2,
+      "backendRevision": 2,
+      "sourceCount": 2,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 3,
+      "backendRevision": 3,
+      "sourceCount": 3,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 4,
+      "backendRevision": 4,
+      "sourceCount": 4,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 5,
+      "backendRevision": 5,
+      "sourceCount": 5,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 6,
+      "backendRevision": 6,
+      "sourceCount": 6,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 7,
+      "backendRevision": 7,
+      "sourceCount": 7,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 8,
+      "backendRevision": 8,
+      "sourceCount": 8,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 9,
+      "backendRevision": 9,
+      "sourceCount": 9,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 10,
+      "backendRevision": 10,
+      "sourceCount": 10,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 11,
+      "backendRevision": 11,
+      "sourceCount": 11,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 12,
+      "backendRevision": 12,
+      "sourceCount": 12,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 13,
+      "backendRevision": 13,
+      "sourceCount": 13,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 14,
+      "backendRevision": 14,
+      "sourceCount": 14,
+      "status": "LEARNING",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 15,
+      "backendRevision": 15,
+      "sourceCount": 15,
+      "status": "NORMAL",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 16,
+      "backendRevision": 16,
+      "sourceCount": 16,
+      "status": "NORMAL",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 17,
+      "backendRevision": 17,
+      "sourceCount": 17,
+      "status": "NORMAL",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 18,
+      "backendRevision": 18,
+      "sourceCount": 18,
+      "status": "NORMAL",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 19,
+      "backendRevision": 19,
+      "sourceCount": 19,
+      "status": "NORMAL",
+      "issuesSoFar": 0
+    },
+    {
+      "session": 20,
+      "backendRevision": 20,
+      "sourceCount": 20,
+      "status": "QUEUED",
+      "issuesSoFar": 0
+    }
+  ],
+  "nextSession": {
+    "exposures": 1,
+    "entries": 1,
+    "fromRevision": 20,
+    "status": "QUEUED"
+  },
+  "outcome": "PASS"
+}

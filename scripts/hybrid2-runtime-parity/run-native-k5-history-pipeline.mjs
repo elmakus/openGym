@@ -102,6 +102,13 @@ for(const c of source.cycles){
   Object.assign(profile.progression,finished.progression)
   profile.trainingControl.atp2={...profile.trainingControl.atp2,...finished.atp2States}
   profile.trainingControl.timedLoad={...profile.trainingControl.timedLoad,...finished.timedLoadStates}
+  // Optional exact per-session input to an isolated real API backend/restart harness.
+  // Never write this private synthetic-profile fixture inside the validation Git tree.
+  if(process.env.H2_PRIVATE_PROFILE_SNAPSHOTS){
+    fs.mkdirSync(process.env.H2_PRIVATE_PROFILE_SNAPSHOTS,{recursive:true,mode:0o700})
+    fs.writeFileSync(path.join(process.env.H2_PRIVATE_PROFILE_SNAPSHOTS,
+      'profile-'+String(profile.workouts.length).padStart(2,'0')+'.json'),JSON.stringify(profile)+'\n',{mode:0o600})
+  }
   const reconciliation=reconcileHybridHistory(profile)
   const manual=replayHybridHistory({workouts:JSON.parse(JSON.stringify(profile.workouts)),adapter,prescriptions:profile.prescriptions})
   assert('reconcile-snapshot-identity',JSON.stringify(reconciliation?.state)===JSON.stringify(manual.state),{cycle:c.number,day:d+1})

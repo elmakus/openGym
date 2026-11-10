@@ -248,3 +248,18 @@ node scripts/hybrid2-runtime-parity/run-m6-atp2-h1-multiset-native.mjs
 ```
 
 See [full native scope and caveats](../../docs/validation/hybrid2-runtime-parity/M6_ATP2_H1_INTEGRATED_NATIVE_DIFF.md) and [sanitized original vs openGym state/ratio trace](../../docs/validation/hybrid2-runtime-parity/m6-atp2-h1-multiset-sanitized.json). **12 of the 155 completed sets lack directly comparable kg workout-row parsing and are NOT claimed as ATP2 set records.** Original 21/22 H1 boundary RED, production M6 bug and isolated real-backend persistence remain open; passing this runner must not be called production parity.
+
+## Real backend persisted-history/restart from K5 native source (2026-11-10)
+
+`run-native-k5-real-http-backend.mjs` extends the original-native sourced K5 session pipeline to a **real** child `api/server.js` with isolated disk `DATA_DIR`, test auth, 20 HTTP PUTs, 23 HTTP GETs, 2 actual backend process restarts and 239 checks (**0 RED**). The existing `run-native-k5-history-pipeline.mjs` optionally writes 20 full canonical v2 profile snapshots **only** when `H2_PRIVATE_PROFILE_SNAPSHOTS` is explicitly set to private scratch; its prior 199 PASS are not new native workouts.
+
+```sh
+B=/tmp/hybrid2-runtime-parity-20261109
+cd "$B/integration-checkout-20261110"
+H2_PARITY_OUT="$B/evidence" H2_PRIVATE_PROFILE_SNAPSHOTS="$B/evidence/k5-isolated-backend-input" \
+node scripts/hybrid2-runtime-parity/run-native-k5-history-pipeline.mjs
+H2_PARITY_OUT="$B/evidence" H2_PRIVATE_PROFILE_SNAPSHOTS="$B/evidence/k5-isolated-backend-input" \
+node scripts/hybrid2-runtime-parity/run-native-k5-real-http-backend.mjs
+```
+
+[Evidence / boundaries](../../docs/validation/hybrid2-runtime-parity/K5_NATIVE_REAL_HTTP_BACKEND_RESTART.md). Native K5 reps/paired sets are real original-runtime output; their materialized openGym weights are synthetic. The real backend does not touch production state, and this test does **not** establish exact current M6 native-load persistence parity. Targeted 24 backend API unit/integration tests also PASS (separate count).
