@@ -131,6 +131,53 @@ describe('saved rows read back as the rows that were logged', () => {
   it('keeps a cardio interval\'s minutes and speed', () => {
     expect(save([{ done: true, min: 20, speed: 9.5, w: 0 }], 'cardio')).toEqual([{ done: true, min: 20, speed: 9.5, w: 0 }])
   })
+  it('never fuses native L/R records belonging to different prescribed set IDs', () => {
+    const limb = (side, setId, reps, weight, role = 'work') => ({
+      side, setId, prescribed: true, role, status: 'completed',
+      observations: [{ metric: 'repetitions', value: reps }],
+      resistance: { kind: 'external-load', unit: 'kg', value: weight }, segments: []
+    })
+    const native = [limb('L', 'r0', 8, 35), limb('R', 'r1', 10, 40)]
+    const reopened = rowsOfPerformance(native, 'reps')
+    expect(reopened).toHaveLength(2)
+    expect(reopened.map(r => [r.side, r.setId, r.r, r.w])).toEqual([
+      ['L', 'r0', 8, 35], ['R', 'r1', 10, 40]
+    ])
+    expect(reopened.every(r => !r.sides)).toBe(true)
+    // A history edit must not silently relabel the right limb as r0.
+    const [resaved] = exposuresWithPerformance(
+      [{ exposureId: 'native-side', exerciseId: '0025' }],
+      [{ exposureId: 'native-side', sets: reopened }], 'kg'
+    )
+    expect(resaved.performance.sets.map(r => [r.side, r.setId])).toEqual([
+      ['L', 'r0'], ['R', 'r1']
+    ])
+  })
+  it('never fuses adjacent warmup and work rows even if L/R set IDs match', () => {
+    const left = { side: 'L', setId: 'r0', role: 'warmup', prescribed: true,
+      status: 'completed', observations: [{ metric: 'repetitions', value: 8 }],
+      resistance: { kind: 'external-load', unit: 'kg', value: 20 } }
+    const right = { ...left, side: 'R', role: 'work', resistance: { ...left.resistance, value: 35 } }
+    const reopened = rowsOfPerformance([left, right], 'reps')
+    expect(reopened).toHaveLength(2)
+    expect(reopened.map(row => [row.side, row.setId, row.phase, row.w])).toEqual([
+      ['L', 'r0', 'warmup', 20], ['R', 'r0', undefined, 35]
+    ])
+  })
+  it('still rejoins one real matching L/R set into a single editable set', () => {
+    const limb = (side, r, w, done) => ({
+      side, setId: 'r0', role: 'work', prescribed: true,
+      status: done ? 'completed' : 'skipped',
+      observations: [{ metric: 'repetitions', value: r }],
+      resistance: { kind: 'external-load', value: w, unit: 'kg' }
+    })
+    const back = rowsOfPerformance([limb('L', 8, 35, true), limb('R', 10, 40, false)], 'reps')
+    expect(back).toHaveLength(1)
+    expect(back[0].setId).toBe('r0')
+    expect(back[0].sides).toEqual({
+      L: { w: 35, r: 8, done: true }, R: { w: 40, r: 10, done: false }
+    })
+  })
   it('reads a migrated v1 per-side row, whose limbs sit under `sides`', () => {
     const limb = (w, done) => ({ role: 'work', status: done ? 'completed' : 'skipped', observations: [{ metric: 'repetitions', value: 5 }], resistance: { kind: 'external-load', value: w }, segments: [] })
     const [row] = rowsOfPerformance([{ ...limb(22.5, false), sides: { L: limb(22.5, true), R: limb(20, false) } }])
