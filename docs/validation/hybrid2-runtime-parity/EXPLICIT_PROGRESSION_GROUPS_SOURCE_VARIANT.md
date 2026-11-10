@@ -33,7 +33,7 @@ The synthetic test plan (safe fixture, not a real user) contains:
 
 Replayed native Engine v2 flow: Monday 100 → state 102.5 kg; Wednesday independently 100 → 102.5 kg; Friday sees Monday 102.5 → group state 105 kg; Wednesday independently 102.5 → 105; next Monday sees Friday's 105 kg. These numbers are **controlled synthetic fixture values**, not actual Liftosaur current-plan weights.
 
-**57 assertions PASS / 0 unexpected failures**, **9 actual source materializations**, **4 completed frontend Engine v2 sessions**, **4 persisted in-memory history workout records**, **2 independent state tracks**, **8 deliberately invalid grouping scenarios rejected** (different rep ranges, exercise, operator, set count, duplicate membership, missing member, duplicate member, one-member group), plus pinned original HYBRID-2 adapter authority blocking a conflicting manual override. Independent immutable prescription content hashes and Engine v2 chronological replay state pointers/values verified.
+**68 assertions PASS / 0 unexpected failures**, **16 actual source materializations**, **7 completed frontend Engine v2 sessions**, **7 in-memory history workout records in two independent test profiles**, **2 independent state tracks per profile**, **8 deliberately invalid grouping scenarios rejected** (different rep ranges, exercise, operator, set count, duplicate membership, missing member, duplicate member, one-member group), plus pinned original HYBRID-2 adapter authority blocking a conflicting manual override. Independent immutable prescription content hashes and Engine v2 chronological replay state pointers/values verified.
 
 Unconfigured ordinary sessions retain their exact original per-occurrence track ID. Static pinned HYBRID-2 adapters retain their explicit original-fitness `progressionIdentity` as authoritative; arbitrary UI groups cannot overwrite them.
 
@@ -43,7 +43,7 @@ Unconfigured ordinary sessions retain their exact original per-occurrence track 
 - No full M6+backend restart/replay, no simultaneous double occurrence edge test, no actual user data or original Liftosaur native session in this group stage.
 - The prototype requires identical entire progression program structure (including set structure); whether differently configured sets can safely share a state needs a separate decision and tests. Identical rep range is necessary but not sufficient for safe Engine v2 state sharing.
 - Changing a group's membership once history exists must be reviewed separately. Current scope assumes a clean start with no earlier migration.
-- Potentially interacting `lastFrom: any` semantics and extra embedded prescription features require further regression testing before product rollout.
+- **Confirmed then resolved inside source-only variant:** with `lastFrom: any`, changing only the `trackId` still borrowed an unrelated Wednesday observation, causing 6 mismatched isolation assertions. The variant now disables cross-routine lookup and filters unrelated same-exercise tracks from the baseline history when a manual group is authoritative. A negative control proves unchanged Engine v2 would borrow Monday's grouped history for Wednesday before this filter, while the overlay returns no foreign baseline. Repeated 3 sessions with `lastFrom: any` now PASS. An ordinary profile without configured groups produces byte-identical original exposures/prescriptions even with `lastFrom: any`.\n- Full frontend Vitest integration could not be started in this remote worktree because `vite` is not installed (`ERR_MODULE_NOT_FOUND`). Real-source Node validation passed; no npm installation was attempted. Other embedded prescription features require further regression testing before product rollout.
 
 ## Reproduction
 ```sh
@@ -51,7 +51,7 @@ BASE=/tmp/hybrid2-runtime-parity-20261109
 cd "$BASE/shared-identity-followup-20261110"
 H2_PARITY_OUT="$BASE/evidence-explicit-groups-20261110" \
  node scripts/hybrid2-runtime-parity/run-explicit-progression-groups-source.mjs
-# SOURCE_OVERLAY_PASS, 57 assertions, 4 completed sessions, 8 negative controls
+# SOURCE_OVERLAY_PASS, 68 assertions, 7 completed sessions, 8 negative controls
 ```
 
 [Sanitized evidence](explicit-progression-groups-sanitized.json). No original native source or current user's training loads are published.

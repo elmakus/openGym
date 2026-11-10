@@ -6,12 +6,12 @@ import crypto from 'node:crypto'
 import assert from 'node:assert/strict'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { defaultPlanRule } from '../../api/engine/index.js'
-import { replayProgression } from '../../api/engine/context.js'
+import { replayProgression, resolveProgressionContext } from '../../api/engine/context.js'
 import { contentHash } from '../../api/engine/canonical.js'
 import { buildSessionExposures as unchangedStart } from '../../frontend/src/lib/session-start.js'
 import { entriesForExposures } from '../../frontend/src/lib/session-ui-adapter.js'
 import { buildCompletedSession } from '../../frontend/src/lib/finish-session.js'
-import { validateProgressionGroups, resolveValidationTrackId } from './progression-groups-validation.mjs'
+import { validateProgressionGroups, resolveValidationTrackId, resolveValidationHistory } from './progression-groups-validation.mjs'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 const frontendSource = path.resolve(here, '../../frontend/src/lib/session-start.js')
@@ -23,8 +23,12 @@ const needle = 'const trackId = occ.occurrenceId'
 assert.equal(source.split(needle).length, 2)
 const overlay = source.replace(
   "import { currentOneRm,",
-  "import { resolveValidationTrackId } from '../../../scripts/hybrid2-runtime-parity/progression-groups-validation.mjs'\nimport { currentOneRm,"
+  "import { resolveValidationTrackId, resolveValidationAcrossRoutines, resolveValidationHistory } from '../../../scripts/hybrid2-runtime-parity/progression-groups-validation.mjs'\nimport { currentOneRm,"
 ).replace(needle, 'const trackId = resolveValidationTrackId(stored, original, hybrid)')
+ .replace("acrossRoutines: lastAcrossRoutines(profile) && !(occ.rule && operatorFor(planPhase(occ.rule), 'difficulty'))",
+  "acrossRoutines: resolveValidationAcrossRoutines(stored, original, hybrid, lastAcrossRoutines(profile) && !(occ.rule && operatorFor(planPhase(occ.rule), 'difficulty')))")
+ .replace('workouts: history.workouts, prescriptions: profile.prescriptions',
+  'workouts: resolveValidationHistory(stored, original, hybrid, trackId, history.workouts), prescriptions: profile.prescriptions')
 const temp = path.join(path.dirname(frontendSource), 'session-start-explicit-groups-' + process.pid + '.mjs')
 let groupedStart
 fs.writeFileSync(temp, overlay, {mode:0o600})
@@ -107,6 +111,14 @@ const untouched=unchangedStart(old,old.routines[0],{now:Date.UTC(2026,10,11),new
 check('without-explicit-group-remains-occurrence-key',()=>assert.equal(untouched.find(x=>x.exerciseId===BENCH).trackId,'bench-mon'))
 complete(p,'MON')
 check('after-monday-shared-state-102_5',()=>assert.equal(p.progression['progression-group:bench-main'].values.load.value,102.5))
+const WedOcc=wed(p)
+const contextInput={trackId:'bench-wed',exerciseId:BENCH,rule:WedOcc.rule,
+  workouts:p.workouts,prescriptions:p.prescriptions,progression:p.progression}
+check('negative-control-unfiltered-engine-borrows-monday',
+  ()=>assert.equal(resolveProgressionContext(contextInput).baseline.trackId,'progression-group:bench-main'))
+check('explicit-group-history-cannot-borrow-other-track',
+  ()=>assert.equal(resolveProgressionContext({...contextInput,
+    workouts:resolveValidationHistory(p,WedOcc,null,'bench-wed',p.workouts)}).baseline,null))
 const w0=start(p,'WED')
 check('wednesday-independent-initial-load',()=>assert.equal(load(w0),100))
 check('wednesday-fifth-exposure',()=>assert.equal(w0.exposures[4].occurrenceId,'bench-wed'))
@@ -134,6 +146,34 @@ for (const x of p.workouts.flatMap(w=>w.exposures)) {
   check('immutable-record-track-'+x.occurrenceId,()=>assert.equal(pres.trackId,x.trackId))
   check('immutable-content-hash-'+x.occurrenceId,()=>{const {contentHash:record,...body}=pres;assert.equal(record,contentHash(body))})
 }
+// Regression: the global Any workout fallback must not cross explicitly separated tracks.
+const any=fixtures()
+any.lastFrom='any'
+complete(any,'MON')
+const anyWed=start(any,'WED')
+check('any-wednesday-does-not-import-monday',()=>assert.equal(load(anyWed),100))
+complete(any,'WED')
+const anyFri=start(any,'FRI')
+check('any-friday-ignores-wednesday',()=>assert.equal(load(anyFri),102.5))
+complete(any,'FRI')
+const anyMonNext=start(any,'MON')
+check('any-monday-reuses-friday',()=>assert.equal(load(anyMonNext),105))
+const anyWedNext=start(any,'WED')
+check('any-wednesday-keeps-independent-history',()=>assert.equal(load(anyWedNext),102.5))
+check('any-two-tracks-only',()=>assert.deepEqual(Object.keys(any.progression).sort(),['bench-wed','progression-group:bench-main']))
+for(const [track,state] of Object.entries(any.progression)) {
+  const rebuilt=replayProgression({workouts:any.workouts,trackId:track,prescriptions:any.prescriptions})
+  check('any-replay-'+track,()=>assert.equal(rebuilt.lastCompletedLogId,state.lastCompletedLogId))
+}
+const noGroupsAny=fixtures()
+noGroupsAny.lastFrom='any'
+delete noGroupsAny.progressionGroups
+const noGroupsAnyCopy=structuredClone(noGroupsAny)
+const plain=unchangedStart(noGroupsAny,noGroupsAny.routines[0],{now:Date.UTC(2026,10,11),newId:id=>id})
+const overlayOrdinary=groupedStart(noGroupsAnyCopy,noGroupsAnyCopy.routines[0],{now:Date.UTC(2026,10,11),newId:id=>id})
+check('ungrouped-any-original-behavior-byte-identical',()=>assert.deepEqual(overlayOrdinary,plain))
+check('ungrouped-any-prescriptions-identical',()=>assert.deepEqual(noGroupsAnyCopy.prescriptions,noGroupsAny.prescriptions))
+
 const modified=callback=>{const c=fixtures();callback(c);return c}
 reject('rep-mismatch',modified(c=>{c.routines[2].ex[0].rule=rule('FRI',BENCH,{min:8,max:10})}),/different repetition range/)
 reject('different-exercise',modified(c=>{c.routines[2].ex[0].exerciseId=other}),/different exerciseId/)
@@ -151,7 +191,7 @@ const report={
   verdict:counts.failures.length?'RED':'SOURCE_OVERLAY_PASS',
   assertions:counts.assertions,failures:counts.failures,
   sourceMaterializations:counts.sessions, completedSessions:counts.completed,
-  persistedHistoryWorkouts:p.workouts.length, progressionTracks:Object.keys(p.progression).length,
+  persistedHistoryWorkouts:p.workouts.length+any.workouts.length, scenarioProfiles:2, progressionTracks:Object.keys(p.progression).length,
   negativeControls:counts.negativeControls,
   scope:'Source-only overlay of unchanged Engine v2 start/finish/replay. No shipped UI, schema changes or native workout.'
 }

@@ -70,4 +70,22 @@ export function resolveValidationTrackId(profile, original, hybrid = null) {
   return id ? 'progression-group:' + id : original.occurrenceId
 }
 
-export const validationGroupMembers = groupMembers
+/** Explicit grouping always outranks the global "Any workout" cross-track fallback. */
+const guardedExercise = (profile, original, hybrid) => {
+  if (hybrid?.adapter?.occurrences?.some(x => x.occurrenceId === original.occurrenceId)) return true
+  const groups = validateProgressionGroups(profile)
+  if (groups.size === 0) return false
+  const byOccurrence = new Map((profile.routines || []).flatMap(r =>
+    (r.ex || []).map(occ => [occ.occurrenceId, occ.exerciseId])))
+  const constrainedExercises = new Set([...groups.keys()].map(id => byOccurrence.get(id)))
+  return constrainedExercises.has(original.exerciseId)
+}
+export function resolveValidationAcrossRoutines(profile, original, hybrid, fallback) {
+  return guardedExercise(profile, original, hybrid) ? false : fallback
+}
+/** Do not borrow an unrelated occurrence's baseline when a progression group is authoritative. */
+export function resolveValidationHistory(profile, original, hybrid, trackId, workouts) {
+  if (!guardedExercise(profile, original, hybrid)) return workouts
+  return workouts.map(w => ({...w,exposures:(w.exposures || []).filter(x =>
+    x.exerciseId !== original.exerciseId || x.trackId === trackId)}))
+}

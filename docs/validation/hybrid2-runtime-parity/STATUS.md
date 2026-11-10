@@ -237,6 +237,6 @@ Downstream isolated **real API backend** on the source-only variant: **9 HTTP wr
 
 ## 2026-11-10 selective progression groups + 21-23 native H1 correction (source-only)
 
-- [Explicit selective progression groups source variant](EXPLICIT_PROGRESSION_GROUPS_SOURCE_VARIANT.md): 57 source assertions PASS, 9 frontend materializations, 4 Engine v2 completed sessions, 2 independent progress tracks, 8 negative configuration controls. UI and durable schema NOT implemented; H2 static native identities preserved.
+- [Explicit selective progression groups source variant](EXPLICIT_PROGRESSION_GROUPS_SOURCE_VARIANT.md): 68 source assertions PASS, 16 frontend materializations, 7 Engine v2 completed sessions, 2 isolated progression tracks, 8 negative configuration controls. Additional `lastFrom: any` cross-track borrowing RED reproduced then prevented in source-only variant, with unchanged ordinary fallback; frontend Vitest blocked by missing local `vite` dependency. UI and durable schema NOT implemented; H2 static native identities preserved.
 - [H1 >20 native replay with isolated adapter correction](H1_GT20_RELAXED_NATIVE_VARIANT_PASS.md): 28 genuine original native workouts re-executed (same earlier sequences, not extra independent coverage), 336 matching state comparisons, zero mismatches after removing only local >20 rejection; original product still RED. Extreme repetition behavior remains unapproved.
 - Node API regression subset: 68 PASS, 0 FAIL. No production branch/source/API DB writes or merge. Historical migration deferred; clean start only.
