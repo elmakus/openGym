@@ -166,3 +166,22 @@ export function pruneEmptyProgressionGroups(profile) {
   validateProgressionGroups({...profile,progressionGroups:next})
   profile.progressionGroups=next
 }
+
+/** Protect existing completed tracks from re-keying on direct HTTP PUT or offline sync.
+ * An entirely new upload may already contain self-consistent grouped sessions. Later writes
+ * cannot retroactively assign or unassign its previously logged occurrences. */
+export function validateProgressionGroupTransition(previous, next) {
+  if (!previous || previous.engineSchemaVersion !== 2) return { ok:true, errors:[] }
+  const before = validateProgressionGroups(previous)
+  const after = validateProgressionGroups(next)
+  if (next?.workouts?.length === 0 && Number(next.resetAt) > Number(previous.resetAt || 0))
+    return { ok:true, errors:[] } // explicit reset wiped all historical workouts
+  const logged = new Set(list(previous.workouts).flatMap(w => list(w?.exposures))
+    .filter(x => x && typeof x.occurrenceId === 'string' && (
+      x.actual?.sets > 0 || list(x.performance?.sets).some(r => r.role === 'work' && r.status === 'completed')
+    )).map(x => x.occurrenceId))
+  const changes = new Set([...before.keys(),...after.keys()])
+  const errors = [...changes].filter(id => logged.has(id) && before.get(id) !== after.get(id))
+    .map(id => `progression group transition after completed history is not allowed for ${id}`)
+  return { ok:errors.length === 0, errors }
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "EXPLICIT-GROUPS-HTTP-RESTART-1",
+  "classification": "PASS",
+  "environment": "isolated temporary API child processes and fresh disposable db; synthetic workouts only",
+  "acceptedWrites": 7,
+  "rejectedWrites": 4,
+  "restarts": 2,
+  "observedRequests": 22,
+  "completedSessions": 5,
+  "completedGroupTracks": {
+    "progression-group:bench-main": {
+      "source": "exposure:MON:bench-mon:1794657600000:0",
+      "targetLoad": 107.5
+    },
+    "bench-wed": {
+      "source": "exposure:WED:bench-wed:1794571200000:4",
+      "targetLoad": 105
+    }
+  },
+  "nextMondayLoad": 107.5,
+  "nextWednesdayLoad": 105,
+  "finalRevision": 7,
+  "assertions": [
+    "invalid repetition membership: HTTP 400",
+    "post-history unlink: HTTP 400",
+    "internally self-consistent full-history rekey: HTTP 400",
+    "concurrent stale revision: HTTP 409",
+    "two real backend process restarts: state retained",
+    "client merge: progression and unrelated name edit retained",
+    "all immutable prescriptions valid",
+    "two independent replayed tracks match stored progressions"
+  ]
+}

@@ -150,11 +150,20 @@ export function validateCanonicalProfile(state) {
     try { const { contentHash: hash, ...body } = p; if (hash !== contentHash(body)) bad(at, 'content hash does not match'); }
     catch { bad(at, 'invalid frozen content'); }
   }
+  // A grouped track is an identity, not merely a view. Reject profiles that attach
+  // existing completed work to a new group or silently dissolve its shared history.
+  let groupMembership = new Map();
+  try { groupMembership = validateProgressionGroups(state); } catch { /* structure already reports it */ }
   const exposures = new Map();
   for (const [i, w] of list(state.workouts).entries()) for (const [j, x] of list(w?.exposures).entries()) {
     const at = `workouts[${i}].exposures[${j}]`;
     if (!isObj(x)) continue;
     if (!id(x.exposureId) || (x.prescriptionId != null && !id(x.trackId)) || (x.trackId != null && !id(x.trackId))) bad(at, 'exposureId and trackId are required');
+    const groupId = groupMembership.get(x.occurrenceId);
+    const expectedGroupTrack = groupId ? `progression-group:${groupId}` : null;
+    if (expectedGroupTrack || (typeof x.trackId === 'string' && x.trackId.startsWith('progression-group:'))) {
+      if (!expectedGroupTrack || x.trackId !== expectedGroupTrack) bad(`${at}.trackId`, 'progression group history identity mismatch');
+    }
     if (x.bells != null && x.bells !== 1 && x.bells !== 2) bad(`${at}.bells`, 'must be 1 or 2');
     if (x.dbLoad != null && !['as', 'each', 'total'].includes(x.dbLoad)) bad(`${at}.dbLoad`, 'invalid load meaning');
     exposures.set(x.exposureId, x);

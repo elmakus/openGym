@@ -47,6 +47,7 @@ import { isLegacyProfile, migrateProfileV1ToV2, migrationStatus, validateCanonic
 import { ENGINE_SCHEMA_HEADER } from './migration/profile-version.js';
 import { MAX_SYNC_BODY, assertSyncSize } from './migration/profile-size.js';
 import { packProfile, unpackProfile } from './migration/profile-pack.js';
+import { validateProgressionGroupTransition } from './engine/index.js';
 import { LIB_BY_ID } from './coach/core/library.js';
 
 const PORT = +(process.env.PORT || 3000);
@@ -2690,6 +2691,10 @@ const routes = {
     if (canonical) {
       const check = validateCanonicalProfile(body.state);
       if (!check.ok) return json(res, 400, { error: 'invalid state', details: check.errors });
+      let transition;
+      try { transition = validateProgressionGroupTransition(cur, body.state); }
+      catch (e) { transition = { ok:false, errors:[e.message] }; }
+      if (!transition.ok) return json(res, 400, { error: 'invalid state', details:transition.errors });
     }
     // "Reset everything" stamps the profile (`resetAt`, with `resetIds`: what it wiped). The stamp
     // only moves forward: a write without it, or with an older one — a client from before it, a
