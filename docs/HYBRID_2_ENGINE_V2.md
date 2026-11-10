@@ -179,15 +179,23 @@ fails closed. Foreign H2 namespaces require explicit review instead of
 silently reusing an unrelated epoch. Ordinary old workouts without any H2
 markers still replay without new metadata requirements.
 
-**Extreme repetitions.** H2PERF-DEC-001 defines an approximately 5–20-rep
-initial loaded-reps operating envelope. The comparability boundary now
-returns INDETERMINATE above **20 completed reps**, using the accepted upper
-endpoint rather than inventing a wider threshold. Such samples cannot seed
-or inflate the reference, issue weak votes or spuriously queue deload.
-A genuine subordinate candidate raise still arms candidateGuard. Since the
-accepted lower edge is explicitly approximate and a strict numeric minimum
-is not separately approved, existing low-rep/paired-set sentinels remain
-unchanged. Review of borderline low-rep samples is still needed.
+**Extreme repetitions (source-exact policy approved 2026-11-10).** The
+approximately 5–20-rep initial envelope in H2PERF-DEC-001 is **descriptive**,
+not a hard H1 eligibility ceiling. The authoritative frozen original
+Liftosaur/fitness H1 observation code accepts comparable first completed
+working sets with 21, 23, 100 and **300 repetitions**. The user's explicit
+priority is exact native-source H1 behavior, even at 300. Consequently openGym
+does **not** clamp performed repetitions, reject an otherwise comparable
+working set solely because reps >20, nor impose any replacement numeric cap.
+H1 computes the original loaded-reps estimate and advances the reference,
+candidate guard, votes, deload and re-learning by the unchanged controller
+rules. This intentionally permits extreme scores and their downstream
+effects, as in the frozen original; it is not a claim of physiological
+accuracy at 300 reps. Valid positive-integer repetitions, the existing
+special 1-rep/paired-set sentinel, baseline-load comparability,
+discontinuity, timed-load exclusion, missing/skipped evidence and frozen
+deload rules remain unchanged. Do not infer a new lower boundary from the
+approximate 5–20 description.
 
 **Legal incomplete performance.** A properly identified skipped or missing
 working set remains INVALID/INDETERMINATE H1 evidence; this differs from a
@@ -197,7 +205,10 @@ closer does not trigger an H1 reset.
 **Test provenance.** The original five independent assertions were copied
 without altered expectations. Added hybrid2-evidence-contract.test.mjs
 covers K5, M6 and SYN4 identities and version fields, closer spoofing,
-stripped tags, legacy records, skipped sets, and 300-rep H1 pollution.
+stripped tags, legacy records, skipped sets, and **native-exact 300-rep H1
+comparability with preserved sentinel/discontinuity rules**. The previous
+300-rep rejection test was superseded by the explicit 2026-11-10 decision;
+see `H1_NATIVE_24_300_CONTRACT_AND_M6_MULTISET_20261110.md` in validation docs.
 The actual native openGym UI fixture explicitly maps progressionIdentity
 to its real occurrence-based trackId. It does not modify a real user plan.
 

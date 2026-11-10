@@ -3,7 +3,8 @@ import assert from 'node:assert/strict'
 import { K5, M6, SYN4 } from './hybrid2/fixtures/reference-adapters.js'
 import { makeFixtureCycle, fixtureCycles } from './hybrid2/fixtures/cycles.js'
 import { replayHybridHistory } from './hybrid2/history.js'
-import { h1FromExposure, H1_SUPPORTED_REPS_UPPER } from './hybrid2/observation.js'
+import { h1FromExposure } from './hybrid2/observation.js'
+import { loadedRepScore } from './hybrid2/h1.js'
 
 const clone = value => structuredClone(value)
 const broken = (fixture, alter, cycle = 0) => {
@@ -107,44 +108,71 @@ test('unmarked old workouts remain legal; skipped H1 evidence stays indeterminat
   assert.equal(result.decisions.some(d => d.epochReset), false)
 })
 
-test('H2PERF-DEC-001 supported envelope: out-of-range reps do not seed/refit H1', () => {
-  assert.equal(H1_SUPPORTED_REPS_UPPER, 20)
+test('original source-exact H1 boundary: comparable first set accepts 20, 21, 23, 24, 30, 100 and 300 reps', () => {
   const exposure = makeFixtureCycle(K5, 0, 15)[0].exposures[0]
-  for (const reps of [20, 21, 300]) {
+  for (const reps of [2, 5, 19, 20, 21, 22, 23, 24, 25, 30, 50, 100, 300, 301]) {
     const altered = clone(exposure)
     altered.performance.sets[0].observations[0].value = reps
     const signal = h1FromExposure(altered, { beforeCandidate: 100, afterCandidate: 100, baselineUnit: 'kg' })
-    assert.equal(signal.kind, reps <= 20 ? 'COMPARABLE' : 'INDETERMINATE', 'reps=' + reps)
-    if (reps > 20) assert.equal(signal.performance, null)
+    assert.equal(signal.kind, 'COMPARABLE', 'reps=' + reps)
+    assert.equal(signal.performance, loadedRepScore(100, reps), 'native H1 Epley score reps=' + reps)
+    assert.equal(signal.candidateRaised, false)
   }
   const raised = clone(exposure)
   raised.performance.sets[0].observations[0].value = 300
   assert.deepEqual(h1FromExposure(raised, { beforeCandidate: 100, afterCandidate: 102.5 }),
-    { kind: 'INDETERMINATE', performance: null, candidateRaised: true })
+    { kind: 'COMPARABLE', performance: 1100, candidateRaised: true })
 })
 
-test('300 reps in a real historical cycle cannot inflate the reference or queue a false deload', () => {
-  const baseline = fixtureCycles(K5, [{ reps:15 }, { reps:15 }, { reps:15 }, { reps:15 }])
-  const original = replayHybridHistory({ workouts: baseline, adapter: K5.adapter })
-  assert.equal(original.status, 'NORMAL')
-  const corrupt = clone(baseline)
-  const signal = K5.adapter.signals[0].signalId
-  const lastCycleStart = baseline.length - K5.adapter.orderedCyclePositions.length
-  const target = corrupt[lastCycleStart].exposures[0]
-  assert.equal(target.hybrid2.signalId, signal)
-  target.performance.sets[0].observations[0].value = 300
-  const replayed = replayHybridHistory({ workouts: corrupt, adapter: K5.adapter })
-  assert.equal(replayed.status, 'NORMAL')
-  assert.equal(replayed.state.anchors[signal].perfCount, 3)
-  assert.equal(replayed.state.anchors[signal].perfReference, original.state.anchors[signal].perfReference)
-  assert.equal(replayed.decisions.at(-1).evaluation.weakCount, 0)
-  assert.equal(replayed.decisions.at(-1).evaluation.queueDeload, false)
+test('H1 first-set sentinels remain in force even without a high-rep cap', () => {
+  const first = makeFixtureCycle(K5, 0, 15)[0].exposures[0]
+  for (const invalid of [0, -1, 1, 2.5, null, '300']) {
+    const altered = clone(first)
+    altered.performance.sets[0].observations[0].value = invalid
+    assert.notEqual(h1FromExposure(altered, {beforeCandidate:100,afterCandidate:100}).kind,
+      'COMPARABLE','bad reps='+String(invalid))
+  }
+  const changedLoad = clone(first)
+  changedLoad.performance.sets[0].observations[0].value = 300
+  changedLoad.performance.sets[0].resistance.value = 90
+  assert.equal(h1FromExposure(changedLoad, {beforeCandidate:100,afterCandidate:100}).kind, 'DISCONTINUITY')
+  const skipped = clone(first)
+  skipped.performance.sets[0].status = 'skipped'
+  assert.notEqual(h1FromExposure(skipped, {beforeCandidate:100,afterCandidate:100}).kind, 'COMPARABLE')
+  for (const key of ['timedLoad','excludedFromProgression']) {
+    const altered = clone(first)
+    altered[key] = true
+    altered.performance.sets[0].observations[0].value = 300
+    assert.equal(h1FromExposure(altered, {beforeCandidate:100,afterCandidate:100}).kind,'INDETERMINATE')
+  }
+})
 
-  for (const w of corrupt.slice(lastCycleStart)) for (const x of w.exposures)
+test('300 reps in a completed H1 historical cycle is comparable and updates the same reference as native', () => {
+  const baseline = fixtureCycles(K5, [{ reps:15 }, { reps:15 }, { reps:15 }, { reps:15 }])
+  const reference = replayHybridHistory({ workouts: baseline, adapter: K5.adapter })
+  assert.equal(reference.status, 'NORMAL')
+  const modified = clone(baseline)
+  const signalId = K5.adapter.signals[0].signalId
+  const lastCycleStart = baseline.length - K5.adapter.orderedCyclePositions.length
+  const target = modified[lastCycleStart].exposures[0]
+  assert.equal(target.hybrid2.signalId, signalId)
+  const baselineWeight = target.performance.sets[0].resistance.value
+  target.performance.sets[0].observations[0].value = 300
+  assert.equal(h1FromExposure(target,{beforeCandidate:baselineWeight,afterCandidate:baselineWeight}).kind,'COMPARABLE')
+  const replayed = replayHybridHistory({ workouts: modified, adapter: K5.adapter })
+  assert.equal(replayed.status, 'NORMAL')
+  assert.equal(replayed.state.anchors[signalId].perfCount, 3)
+  assert.equal(replayed.state.anchors[signalId].perf3, loadedRepScore(baselineWeight,300))
+  assert.ok(replayed.state.anchors[signalId].perf3 > reference.state.anchors[signalId].perf3)
+  assert.equal(replayed.decisions.at(-1).evaluation.queueDeload,false)
+
+  // No upper threshold is introduced for later working-set observations:
+  // every H1 signal in the current cycle remains valid in native source parity.
+  for (const w of modified.slice(lastCycleStart)) for (const x of w.exposures)
     if (x.hybrid2?.signalId) x.performance.sets[0].observations[0].value = 300
-  const allUnsupported = replayHybridHistory({ workouts: corrupt, adapter: K5.adapter })
-  assert.equal(allUnsupported.decisions.at(-1).evaluation.cycleClass, 'INDETERMINATE')
-  assert.equal(allUnsupported.decisions.at(-1).evaluation.queueDeload, false)
+  const all300 = replayHybridHistory({ workouts: modified, adapter: K5.adapter })
+  assert.notEqual(all300.decisions.at(-1).evaluation.cycleClass,'INDETERMINATE')
+  assert.equal(all300.decisions.at(-1).evaluation.queueDeload,false)
   assert.ok(K5.adapter.signals.every(s =>
-    allUnsupported.state.anchors[s.signalId].perfReference === original.state.anchors[s.signalId].perfReference))
+    all300.state.anchors[s.signalId].perf3 > reference.state.anchors[s.signalId].perf3))
 })

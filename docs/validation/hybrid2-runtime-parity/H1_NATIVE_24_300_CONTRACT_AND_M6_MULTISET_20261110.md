@@ -86,3 +86,7 @@ H2_PARITY_OUT="$BASE/evidence-m6-atp2-multiset-20261110" \
 Current unmodified local Node API regressions (H1 evidence, H1 extreme, ATP2, Timed Load): **43 tests PASS, zero failures**. These are **not native differential proof**; source-only corrected H1 variant does not make them pass by changing a checked-in production file.
 
 **Unresolved:** original unmodified M6 RTT 29 local update shadow and stale H1 write; extreme H1 policy conflict; Timed Load native whole-plan equivalence; full native serialization → openGym backend and mobile sync across all 36 current-M6 slots; no merge to production.
+
+## Subsequent accepted implementation decision (2026-11-10)
+
+The `normative conflict` above is the **historical pre-decision classification** and documents the genuine incompatibility of a hard-20 rule with original native behavior. The user has now explicitly chosen **exact original Liftosaur H1 even at 300 repetitions**. The validation branch has removed only that arbitrary upper cutoff and verified 0 mismatches across source-pinned native H1 sequences; no cap has been substituted. [Current authoritative acceptance report](H1_SOURCE_EXACT_300_ACCEPTED_20261110.md). The historical 19-step/79-field RED evidence remains preserved as the pre-fix comparison.

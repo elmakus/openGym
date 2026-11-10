@@ -7,7 +7,8 @@ import crypto from 'node:crypto'
 import { execFileSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
-import { initialAnchor, observeAnchor, loadedRepScore } from '../../api/training-control/hybrid2/h1.js'
+import { initialAnchor, observeAnchor } from '../../api/training-control/hybrid2/h1.js'
+import { h1FromExposure } from '../../api/training-control/hybrid2/observation.js'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(here, '../..')
@@ -88,16 +89,21 @@ for (const suite of suites) {
     const weightLb = event.weightLb ?? 75
     const before = structuredClone(state)
     const beforeSourceSha256 = sha256(source)
-    const kind = event.reps === null ? 'MISSING' :
-      event.reps === 1 ? 'INVALID' :
-      weightLb !== candidateLb ? 'DISCONTINUITY' :
-      event.reps > 20 ? 'INDETERMINATE' : 'COMPARABLE'
-    const candidateRaised = event.reps === 12
-    const performance = event.reps === null ? null :
-      loadedRepScore(weightLb*0.45359237,event.reps)
-    const jsObservation = observeAnchor(state, {
-      kind,performance:kind==='COMPARABLE'?performance:null,candidateRaised
+    // Exercise the real openGym observation adapter, not the obsolete
+    // harness-owned 20-rep shortcut that previously made this runner RED.
+    // The set is projected from issued native commands (no serializer claim).
+    const exposure={mode:'reps',performance:{sets:event.reps===null?[]:[{
+      role:'work',status:'completed',
+      resistance:{kind:'external-load',value:weightLb,unit:'lb'},
+      observations:[{metric:'repetitions',value:event.reps}]
+    }]}}
+    const beforeCandidate=candidateLb
+    const afterCandidate=candidateLb+(event.reps===12?5:0)
+    const observation=h1FromExposure(exposure,{
+      beforeCandidate,afterCandidate,baselineUnit:'lb'
     })
+    const {kind,performance,candidateRaised}=observation
+    const jsObservation = observeAnchor(state, observation)
     state=jsObservation.state
     const commands=input(event.reps, event.weightLb)
     const response=rt.Playground_run({programText:source,week:1,day:1,commands},

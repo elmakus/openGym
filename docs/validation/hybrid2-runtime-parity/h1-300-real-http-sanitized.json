@@ -1,0 +1,17 @@
+{
+  "schema": "HYBRID2-H1-300-REAL-HTTP-RESTART-1",
+  "classification": "PASS",
+  "scope": "Synthetic K5 canonical data, genuine openGym HTTP child process, not additional Liftosaur workouts",
+  "completedSyntheticSessions": 20,
+  "apiWrites": 2,
+  "apiRequests": 6,
+  "actualBackendRestarts": 2,
+  "highRep": 300,
+  "highRepWeightKg": 100,
+  "nativeExpectedScore": 1100,
+  "persistedActualScore": 1100,
+  "afterCycleClass": "GOOD",
+  "afterValidH1Votes": 5,
+  "replayStatus": "NORMAL",
+  "sourceVersion": "H1-EPL-1 / H1-ASYM-M3-1"
+}

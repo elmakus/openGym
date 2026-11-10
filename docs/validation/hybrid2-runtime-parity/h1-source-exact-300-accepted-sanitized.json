@@ -1,0 +1,77 @@
+{
+  "schema": "HYBRID2-H1-SOURCE-EXACT-300-APPROVED-1",
+  "status": "VALIDATION_BRANCH_SOURCE_EXACT_H1_PASS",
+  "decisionDate": "2026-11-10",
+  "approval": "Exact original Liftosaur H1 even at 300 repetitions; no high-rep ceiling",
+  "originalFitnessCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+  "originalLiftosaurRuntimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "currentObservationJsSha256": "0409b5ff397ca609a5a7bbf9f2c7956c010d9817fa6c412dbb4a07eb051a75c6",
+  "h1Cap20Present": false,
+  "freshGenuineOriginalNativeReruns": [
+    {
+      "scenario": "current-H1",
+      "originalNativeWorkouts": 53,
+      "comparisons": 630,
+      "mismatchWorkoutSteps": 0
+    },
+    {
+      "scenario": "extended-H1",
+      "originalNativeWorkouts": 124,
+      "comparisons": 1470,
+      "mismatchWorkoutSteps": 0
+    },
+    {
+      "scenario": "boundary-19-23",
+      "originalNativeWorkouts": 28,
+      "comparisons": 336,
+      "mismatchWorkoutSteps": 0
+    },
+    {
+      "scenario": "boundary-24-300",
+      "originalNativeWorkouts": 30,
+      "comparisons": 360,
+      "mismatchWorkoutSteps": 0
+    },
+    {
+      "scenario": "native-ATP2-H1-composite",
+      "originalNativeWorkouts": 33,
+      "comparisons": 429,
+      "mismatchWorkoutSteps": 0
+    }
+  ],
+  "cumulativeAcrossTheseReruns": {
+    "nativeExecutionCount": 268,
+    "fieldComparisons": 3225,
+    "mismatchedFields": 0,
+    "mismatchedWorkoutSteps": 0,
+    "isUniqueNewProjectCoverage": false
+  },
+  "realHttpBackendSyntheticK5": {
+    "completedSyntheticSessions": 20,
+    "writes": 2,
+    "requests": 6,
+    "processRestarts": 2,
+    "completedReps": 300,
+    "expectedScore": 1100,
+    "persistedScore": 1100,
+    "cycleClass": "GOOD",
+    "validVotes": 5
+  },
+  "separateSourceOverlayM6": {
+    "nativeWorkouts": 12,
+    "completedSets": 155,
+    "comparedFields": 702,
+    "mismatches": 0,
+    "unmodifiedM6NativeParity": false
+  },
+  "archivedM6ProgressionReplayChecks": 1350,
+  "selectedNodeRegressionTestsPassed": 117,
+  "limits": [
+    "Original native first-set input is command-projected, not extracted from native serialized workout in H1 runners",
+    "Original native H1 composite is a controlled generator fixture, not full user M6 source",
+    "M6 original RTT/H1 shadow fixed only in isolated source overlay, unmodified M6 still unresolved",
+    "HTTP synthetic K5 profiles not run in original Liftosaur runtime inside same request chain",
+    "Does not prove full end-to-end plan/Timed Load, Android or multi-device parity",
+    "No production deployment or training-history migrations"
+  ]
+}
