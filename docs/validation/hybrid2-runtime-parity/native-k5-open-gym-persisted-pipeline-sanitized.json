@@ -1,0 +1,197 @@
+{
+  "schema": "HYBRID2-NATIVE-K5-TRANSCRIPT-OPEN-GYM-PERSISTENCE-1",
+  "nativeInputSha256": "44a84c1dbe7439909810d1e7275f22a1afbcf94dcbbff10d937cef7a8a814e31",
+  "nativeSourceSha256": "74420646c1c5826f77d842025291f75f7d89367f46265818a43a92cacfec662e",
+  "nativeWorkoutsNewInThisSuite": 0,
+  "previousNativeWorkoutsUsedAsInput": 20,
+  "fixture": "actual openGym K5 fixture adapter/routines with K5 source-native recorded reps; synthetic constant load 100 (NOT original Liftosaur load), not a numerical H1 performance equivalence claim",
+  "openGymFinishedSessions": 20,
+  "persistedRecords": 20,
+  "comparisons": 199,
+  "issues": [],
+  "positionSummaries": [
+    {
+      "cycle": 1,
+      "position": 1,
+      "paired": false,
+      "nativeH1Count": 1,
+      "historyReplayCount": 1,
+      "status": "LEARNING",
+      "workoutsPersisted": 1
+    },
+    {
+      "cycle": 1,
+      "position": 2,
+      "paired": false,
+      "nativeH1Count": 1,
+      "historyReplayCount": 1,
+      "status": "LEARNING",
+      "workoutsPersisted": 2
+    },
+    {
+      "cycle": 1,
+      "position": 3,
+      "paired": false,
+      "nativeH1Count": 1,
+      "historyReplayCount": 1,
+      "status": "LEARNING",
+      "workoutsPersisted": 3
+    },
+    {
+      "cycle": 1,
+      "position": 4,
+      "paired": false,
+      "nativeH1Count": 1,
+      "historyReplayCount": 1,
+      "status": "LEARNING",
+      "workoutsPersisted": 4
+    },
+    {
+      "cycle": 1,
+      "position": 5,
+      "paired": true,
+      "nativeH1Count": 1,
+      "historyReplayCount": 1,
+      "status": "LEARNING",
+      "workoutsPersisted": 5
+    },
+    {
+      "cycle": 2,
+      "position": 1,
+      "paired": false,
+      "nativeH1Count": 2,
+      "historyReplayCount": 2,
+      "status": "LEARNING",
+      "workoutsPersisted": 6
+    },
+    {
+      "cycle": 2,
+      "position": 2,
+      "paired": false,
+      "nativeH1Count": 2,
+      "historyReplayCount": 2,
+      "status": "LEARNING",
+      "workoutsPersisted": 7
+    },
+    {
+      "cycle": 2,
+      "position": 3,
+      "paired": false,
+      "nativeH1Count": 2,
+      "historyReplayCount": 2,
+      "status": "LEARNING",
+      "workoutsPersisted": 8
+    },
+    {
+      "cycle": 2,
+      "position": 4,
+      "paired": false,
+      "nativeH1Count": 2,
+      "historyReplayCount": 2,
+      "status": "LEARNING",
+      "workoutsPersisted": 9
+    },
+    {
+      "cycle": 2,
+      "position": 5,
+      "paired": true,
+      "nativeH1Count": 2,
+      "historyReplayCount": 2,
+      "status": "LEARNING",
+      "workoutsPersisted": 10
+    },
+    {
+      "cycle": 3,
+      "position": 1,
+      "paired": false,
+      "nativeH1Count": 3,
+      "historyReplayCount": 3,
+      "status": "LEARNING",
+      "workoutsPersisted": 11
+    },
+    {
+      "cycle": 3,
+      "position": 2,
+      "paired": false,
+      "nativeH1Count": 3,
+      "historyReplayCount": 3,
+      "status": "LEARNING",
+      "workoutsPersisted": 12
+    },
+    {
+      "cycle": 3,
+      "position": 3,
+      "paired": false,
+      "nativeH1Count": 3,
+      "historyReplayCount": 3,
+      "status": "LEARNING",
+      "workoutsPersisted": 13
+    },
+    {
+      "cycle": 3,
+      "position": 4,
+      "paired": false,
+      "nativeH1Count": 3,
+      "historyReplayCount": 3,
+      "status": "LEARNING",
+      "workoutsPersisted": 14
+    },
+    {
+      "cycle": 3,
+      "position": 5,
+      "paired": true,
+      "nativeH1Count": 3,
+      "historyReplayCount": 3,
+      "status": "NORMAL",
+      "workoutsPersisted": 15
+    },
+    {
+      "cycle": 4,
+      "position": 1,
+      "paired": false,
+      "nativeH1Count": 3,
+      "historyReplayCount": 3,
+      "status": "NORMAL",
+      "workoutsPersisted": 16
+    },
+    {
+      "cycle": 4,
+      "position": 2,
+      "paired": false,
+      "nativeH1Count": 3,
+      "historyReplayCount": 3,
+      "status": "NORMAL",
+      "workoutsPersisted": 17
+    },
+    {
+      "cycle": 4,
+      "position": 3,
+      "paired": false,
+      "nativeH1Count": 3,
+      "historyReplayCount": 3,
+      "status": "NORMAL",
+      "workoutsPersisted": 18
+    },
+    {
+      "cycle": 4,
+      "position": 4,
+      "paired": false,
+      "nativeH1Count": 3,
+      "historyReplayCount": 3,
+      "status": "NORMAL",
+      "workoutsPersisted": 19
+    },
+    {
+      "cycle": 4,
+      "position": 5,
+      "paired": true,
+      "nativeH1Count": 3,
+      "historyReplayCount": 3,
+      "status": "QUEUED",
+      "workoutsPersisted": 20
+    }
+  ],
+  "pairedPersistedCount": 4,
+  "finalStatus": "QUEUED",
+  "outcome": "PASS"
+}

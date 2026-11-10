@@ -194,3 +194,17 @@ node scripts/hybrid2-runtime-parity/run-current-krzysztof-paired-native.mjs
 ```
 
 The original Playground command parser lacks `change_reps_left`; this runner uses the real original `Progress_completeSetAction` and `Program_runAllFinishDayScripts` with independently controlled native `completedRepsLeft` and `completedReps` fields. [Analysis and limits](../../docs/validation/hybrid2-runtime-parity/K5_PAIRED_NATIVE_HISTORY_DIFF.md) and [scrubbed trace](../../docs/validation/hybrid2-runtime-parity/current-k5-native-paired-sanitized.json). Source, actual weights, live records and account state stay private.
+
+
+## K5 true-native input through openGym UI/persisted-history replay (2026-11-10)
+
+After genuinely running `run-current-krzysztof-paired-native.mjs` with pinned Liftosaur sources, the scrubbed transcript can drive real openGym's end-to-end frontend pipeline:
+
+```sh
+export H2_PARITY_OUT=/tmp/hybrid2-runtime-parity-20261109/evidence
+node scripts/hybrid2-runtime-parity/run-native-k5-history-pipeline.mjs
+# PASS: 20 new *openGym* saved sessions, 4 independent bilateral records,
+# 199 frontend/replay comparisons, ZERO new native Liftosaur executions.
+```
+
+[Report](../../docs/validation/hybrid2-runtime-parity/K5_NATIVE_INPUT_PERSISTENCE_PIPELINE.md) and [scrubbed frontend/replay data](../../docs/validation/hybrid2-runtime-parity/native-k5-open-gym-persisted-pipeline-sanitized.json). Synthetic fixture loads and adapter ensure this tests the data transport and H1 count, **not** numerical weight/parity, original live equipment or server DB write.
