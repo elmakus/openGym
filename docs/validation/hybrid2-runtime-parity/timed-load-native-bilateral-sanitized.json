@@ -1,0 +1,1651 @@
+{
+  "schema": "HYBRID2-TIMED-ORIGINAL-BILATERAL-NATIVE-1",
+  "originalSourceSha256": "9b6a10c60c8d53888ade21f60640e4baee03bb8a0ed3b9637e31f82543799218",
+  "runtimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "originalFitnessCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+  "exercise": "Side Plank, Dumbbell",
+  "mode": "independent real original Left/Right completedSetTimerLeft/completedSetTimer",
+  "originalNativeWorkouts": 24,
+  "physicalSideRecords": 96,
+  "comparisons": 384,
+  "failures": [],
+  "trace": [
+    {
+      "ordinal": 1,
+      "name": "initial",
+      "durations": [
+        {
+          "left": 30,
+          "right": 30
+        },
+        {
+          "left": 30,
+          "right": 30
+        }
+      ],
+      "reason": "first_exposure_calibration",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 30
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 30
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": false,
+        "load": 0,
+        "target": 30,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 0,
+        "target": 35,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "11de0d0bd3f3c768d513d6df1420aea40e89189c2a237994a0d6263ce90143fc",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 2,
+      "name": "left-extra",
+      "durations": [
+        {
+          "left": 37,
+          "right": 35
+        },
+        {
+          "left": 35,
+          "right": 36
+        }
+      ],
+      "reason": "normal_time_success",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 37
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 35
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 35
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 36
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 0,
+        "target": 35,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 0,
+        "target": 40,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "6b20035053426a563e3ad2e2169122222e264121d5c88277721ada56ea65e4f2",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 3,
+      "name": "right-extra",
+      "durations": [
+        {
+          "left": 40,
+          "right": 43
+        },
+        {
+          "left": 41,
+          "right": 40
+        }
+      ],
+      "reason": "normal_time_success",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 40
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 43
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 41
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 40
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 0,
+        "target": 40,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 0,
+        "target": 45,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "1d9453c3ec72a5eaee21b1e1278ee4ee0c2490a1a853697dd8f3cf3a85a3fa58",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 4,
+      "name": "promotion",
+      "durations": [
+        {
+          "left": 45,
+          "right": 45
+        },
+        {
+          "left": 45,
+          "right": 45
+        }
+      ],
+      "reason": "top_success_load_increase",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 45
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 45
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 45
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 0,
+          "seconds": 45
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 0,
+        "target": 45,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 30,
+        "fails": 0,
+        "provenance": "new",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "6428f1381e14abffa6e2e78e29101e8d5990cd034ded10a9c26bd19499817932",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 5,
+      "name": "first-right-miss",
+      "durations": [
+        {
+          "left": 30,
+          "right": 28
+        },
+        {
+          "left": 30,
+          "right": 30
+        }
+      ],
+      "reason": "first_failure_retry",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 28
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 30,
+        "fails": 0,
+        "provenance": "new",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 30,
+        "fails": 1,
+        "provenance": "new",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "6e001abdd452dbf0e8eb83a27f10ce73a879814bad84ae2ea3f1c2362af70873",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 6,
+      "name": "second-left-miss",
+      "durations": [
+        {
+          "left": 30,
+          "right": 30
+        },
+        {
+          "left": 28,
+          "right": 30
+        }
+      ],
+      "reason": "new_load_emergency",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 28
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 30,
+        "fails": 1,
+        "provenance": "new",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 25,
+        "fails": 0,
+        "provenance": "new",
+        "emergency": true,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "269a4328423663d450d009e0372c6402f40659097954a1aa866a55c49ef8576f",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 7,
+      "name": "emergency-right-miss",
+      "durations": [
+        {
+          "left": 25,
+          "right": 24
+        },
+        {
+          "left": 25,
+          "right": 25
+        }
+      ],
+      "reason": "emergency_failure_bridge",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 25
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 24
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 25
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 25
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 25,
+        "fails": 0,
+        "provenance": "new",
+        "emergency": true,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 1,
+        "target": 30,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": 2,
+        "bridgeProvenance": "new"
+      },
+      "nativeSourceSha256": "1c2f54264544749bec24474a16fa24d58cce411103979c497049b5e5a89932c7",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 8,
+      "name": "bridge-step1",
+      "durations": [
+        {
+          "left": 30,
+          "right": 30
+        },
+        {
+          "left": 30,
+          "right": 30
+        }
+      ],
+      "reason": "normal_time_success",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 30
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 30
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 1,
+        "target": 30,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": 2,
+        "bridgeProvenance": "new"
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 1,
+        "target": 35,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": 2,
+        "bridgeProvenance": "new"
+      },
+      "nativeSourceSha256": "f6509788a7d835ab2c666242ce02b53fc62a6e895cdc6dfc2a2b40092af5db2b",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 9,
+      "name": "bridge-step2",
+      "durations": [
+        {
+          "left": 35,
+          "right": 36
+        },
+        {
+          "left": 37,
+          "right": 35
+        }
+      ],
+      "reason": "normal_time_success",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 35
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 36
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 37
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 35
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 1,
+        "target": 35,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": 2,
+        "bridgeProvenance": "new"
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 1,
+        "target": 40,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": 2,
+        "bridgeProvenance": "new"
+      },
+      "nativeSourceSha256": "23ca30c48797dc28a44e2d81cd63f084c7293dfccbd8249d6ea14de9d060bba0",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 10,
+      "name": "bridge-step3",
+      "durations": [
+        {
+          "left": 41,
+          "right": 40
+        },
+        {
+          "left": 40,
+          "right": 42
+        }
+      ],
+      "reason": "normal_time_success",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 41
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 40
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 40
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 42
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 1,
+        "target": 40,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": 2,
+        "bridgeProvenance": "new"
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 1,
+        "target": 45,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": 2,
+        "bridgeProvenance": "new"
+      },
+      "nativeSourceSha256": "bd36338611ea18f14c8517fe36d02274540942e79bc93a53cb2e405eb47f492e",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 11,
+      "name": "bridge-return",
+      "durations": [
+        {
+          "left": 45,
+          "right": 45
+        },
+        {
+          "left": 45,
+          "right": 45
+        }
+      ],
+      "reason": "bridge_return",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 45
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 45
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 45
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 1,
+          "seconds": 45
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 1,
+        "target": 45,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": 2,
+        "bridgeProvenance": "new"
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 30,
+        "fails": 0,
+        "provenance": "new",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "6428f1381e14abffa6e2e78e29101e8d5990cd034ded10a9c26bd19499817932",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 12,
+      "name": "established-step1",
+      "durations": [
+        {
+          "left": 30,
+          "right": 30
+        },
+        {
+          "left": 30,
+          "right": 30
+        }
+      ],
+      "reason": "normal_time_success",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 30,
+        "fails": 0,
+        "provenance": "new",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 35,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "cb246ad3f8f35da0d3cedd59c79a0e9c4afd44bffd9e27b6298f7a6d3dbcb0e2",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 13,
+      "name": "first-left-miss",
+      "durations": [
+        {
+          "left": 34,
+          "right": 35
+        },
+        {
+          "left": 35,
+          "right": 35
+        }
+      ],
+      "reason": "first_failure_retry",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 34
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 35
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 35
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 35
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 35,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 35,
+        "fails": 1,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "51b6fd732f548a2fed44d4a2cdeafc3ab92e091dd2ad9ae3c03011504611a93e",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 14,
+      "name": "second-right-miss",
+      "durations": [
+        {
+          "left": 35,
+          "right": 35
+        },
+        {
+          "left": 35,
+          "right": 34
+        }
+      ],
+      "reason": "second_failure_time_backoff",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 35
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 35
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 35
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 34
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 35,
+        "fails": 1,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 30,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "0e006f0ef5fb4bdd13e567528a2c1386c07cc0a63644e086a225f68718f450a0",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 15,
+      "name": "time-recovery1",
+      "durations": [
+        {
+          "left": 30,
+          "right": 30
+        },
+        {
+          "left": 30,
+          "right": 30
+        }
+      ],
+      "reason": "normal_time_success",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 30
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 30,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 35,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "cb246ad3f8f35da0d3cedd59c79a0e9c4afd44bffd9e27b6298f7a6d3dbcb0e2",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 16,
+      "name": "time-recovery2",
+      "durations": [
+        {
+          "left": 35,
+          "right": 36
+        },
+        {
+          "left": 35,
+          "right": 35
+        }
+      ],
+      "reason": "normal_time_success",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 35
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 36
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 35
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 35
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 35,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 40,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "c6434be9fe6edbd18b870c3c8b107ada6819787744f9e0978f5f13e8273da93e",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 17,
+      "name": "time-recovery3",
+      "durations": [
+        {
+          "left": 40,
+          "right": 40
+        },
+        {
+          "left": 40,
+          "right": 40
+        }
+      ],
+      "reason": "normal_time_success",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 40
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 40
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 40
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 40
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 40,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 45,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "c8b7398ec9a3192375ffe6586e6c12019c9a68549ff3bc6dae0a6af46040e3eb",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 18,
+      "name": "second-promotion",
+      "durations": [
+        {
+          "left": 45,
+          "right": 45
+        },
+        {
+          "left": 45,
+          "right": 45
+        }
+      ],
+      "reason": "top_success_load_increase",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 45
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 45
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 45
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 2,
+          "seconds": 45
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 2,
+        "target": 45,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 30,
+        "fails": 0,
+        "provenance": "new",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "9df7db1a4be3a76f63f7b442fc7805b80a4a81632f6485377e108dcd2425ba7a",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 19,
+      "name": "second-load-miss",
+      "durations": [
+        {
+          "left": 30,
+          "right": 28
+        },
+        {
+          "left": 30,
+          "right": 30
+        }
+      ],
+      "reason": "first_failure_retry",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 28
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 30
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 30,
+        "fails": 0,
+        "provenance": "new",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 30,
+        "fails": 1,
+        "provenance": "new",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "7045f599938d9bcf617dbf9dd29fa73daeb0819da50765df2fbafdb671debbf8",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 20,
+      "name": "second-load-repeat-miss",
+      "durations": [
+        {
+          "left": 30,
+          "right": 30
+        },
+        {
+          "left": 28,
+          "right": 30
+        }
+      ],
+      "reason": "new_load_emergency",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 30
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 28
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 30
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 30,
+        "fails": 1,
+        "provenance": "new",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 25,
+        "fails": 0,
+        "provenance": "new",
+        "emergency": true,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "62503d5bcba911510d1bdb74c93b3628f3391bebed6635f7785534d83c7e4ba1",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 21,
+      "name": "emergency-success",
+      "durations": [
+        {
+          "left": 25,
+          "right": 25
+        },
+        {
+          "left": 25,
+          "right": 25
+        }
+      ],
+      "reason": "emergency_success_retry_normal_floor",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 25
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 25
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 25
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 25
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 25,
+        "fails": 0,
+        "provenance": "new",
+        "emergency": true,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 30,
+        "fails": 0,
+        "provenance": "new",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "9df7db1a4be3a76f63f7b442fc7805b80a4a81632f6485377e108dcd2425ba7a",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 22,
+      "name": "resumed-normal",
+      "durations": [
+        {
+          "left": 31,
+          "right": 30
+        },
+        {
+          "left": 30,
+          "right": 32
+        }
+      ],
+      "reason": "normal_time_success",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 31
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 30
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 30
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 32
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 30,
+        "fails": 0,
+        "provenance": "new",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 35,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "056313c42e370dfbfbf35716083a2af883cc302d6af246554503cd024628846d",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 23,
+      "name": "late-bilateral-miss",
+      "durations": [
+        {
+          "left": 33,
+          "right": 35
+        },
+        {
+          "left": 35,
+          "right": 34
+        }
+      ],
+      "reason": "first_failure_retry",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 33
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 35
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 35
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 34
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 35,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 35,
+        "fails": 1,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "9bbec0e570b7c9990a737d63fc785ca472b4825bc2c73b9df4a24d8a0e9caf33",
+      "mismatches": 0
+    },
+    {
+      "ordinal": 24,
+      "name": "late-success",
+      "durations": [
+        {
+          "left": 35,
+          "right": 35
+        },
+        {
+          "left": 35,
+          "right": 35
+        }
+      ],
+      "reason": "normal_time_success",
+      "actualSideRecords": 4,
+      "originalNativeRows": [
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 35
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 35
+        },
+        {
+          "side": "L",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 35
+        },
+        {
+          "side": "R",
+          "completed": true,
+          "techniqueValid": true,
+          "weightKg": 4,
+          "seconds": 35
+        }
+      ],
+      "beforeNativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 35,
+        "fails": 1,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeState": {
+        "initialized": true,
+        "load": 4,
+        "target": 40,
+        "fails": 0,
+        "provenance": "established",
+        "emergency": false,
+        "bridgeTarget": null,
+        "bridgeProvenance": null
+      },
+      "nativeSourceSha256": "73fffcc65650765bb5798bf292d06f16c3c5295ca6b176c8fc354db44ad2d9d6",
+      "mismatches": 0
+    }
+  ],
+  "settings": "isolated in-memory native kg dumbbell ladder matches published original source",
+  "accountWrites": 0,
+  "originalSourceModified": false,
+  "backendWrites": 0,
+  "status": "PASS_WITH_LIMITS"
+}

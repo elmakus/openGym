@@ -411,3 +411,22 @@ stock gym settings would otherwise clamp the requested 0kg to 5kg.
 See [scope and limitations](../../docs/validation/hybrid2-runtime-parity/TIMED_LOAD_ORIGINAL_NATIVE_DIFF_20261110.md).
 This standalone test does not cover independent bilateral timers, current M6,
 real athlete equipment, or production deployment.
+
+## 2026-11-11 — true native independent bilateral Timed Load + real HTTP
+
+`run-timed-load-native-bilateral.mjs` executes original frozen Liftosaur
+`Progress_completeSetAction` and `Progress_settleTimedSet` for **two independently
+specified left/right timers per logical set**, serially reloading the original
+`updatedProgramText`. **24 genuine original native finished workouts, 96 physical
+L/R observations and 384/384 exact before/after field comparisons.** All four
+native side rows and states are retained in the synthetic sanitized reference
+[fixture](../../docs/validation/hybrid2-runtime-parity/timed-load-native-bilateral-sanitized.json).
+
+`api/test/timed-load-native-bilateral-http.test.js` then uses that exact native
+reference as input to openGym's real frontend session-start/finish, isolated
+backend HTTP pack/store/read, three process restarts, and chronological
+controller replay: 26 HTTP writes, 28 reads, 96 original L/R observations
+preserved, and a historical right-side timing edit recalculates state.
+
+Both suites are separately reproducible and must not double count native runs.
+See [full constraints and provenance](../../docs/validation/hybrid2-runtime-parity/TIMED_LOAD_NATIVE_BILATERAL_HTTP_20261111.md).
