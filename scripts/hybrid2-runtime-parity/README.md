@@ -232,3 +232,19 @@ node scripts/hybrid2-runtime-parity/run-m6-stale-native-merge-probe.mjs referenc
 ```
 
 The source-only fix centralizes the template Adaptive update (no 29 body copies) and reasserts the **current H1 tag only** on stale rollover. Do not confuse this with `native-finishday-merge-overlay.mjs`, a separate isolated one-line runtime causal control. Do not deploy either variant without further fitness-source review and missing end-to-end regressions.
+
+## Actual full-source M6 ATP2 Turbo + HYBRID-2 H1 integration (2026-11-10)
+
+The new `run-m6-atp2-h1-multiset-native.mjs` uses the **real complete current M6**, with the previously validated source-only RTT/H1 repairs applied in memory, and original pinned unmodified Liftosaur. It runs **12 new actual native workouts, 702 comparisons/assertions, 0 RED**. These cover real unequal multiset reps and nine native Turbo load changes, all six H1 signals, candidate/probe/candidateGuard, 6 genuinely shared progress keys, RTT INTRO, queued→active deload and a genuine terminal closer. A prior assumed 2.5kg-ladder false mismatch is archived separately and the runner now obtains equipment ladders from original frozen fixture settings.
+
+```sh
+BASE=/tmp/hybrid2-runtime-parity-20261109
+cd "$BASE/integration-checkout-20261110"
+FITNESS_ROOT="$BASE/fitness" LIFTOSAUR_RUNTIME_ROOT="$BASE/liftosaur" \
+PRIVATE_LIVE_ROOT="$BASE/private-live" H2_PARITY_OUT="$BASE/evidence" \
+node scripts/hybrid2-runtime-parity/run-m6-atp2-h1-multiset-native.mjs
+# 12 actual original-native finish_workout; 155 accepted set commands;
+# 702 comparisons / assertions; zero differences.
+```
+
+See [full native scope and caveats](../../docs/validation/hybrid2-runtime-parity/M6_ATP2_H1_INTEGRATED_NATIVE_DIFF.md) and [sanitized original vs openGym state/ratio trace](../../docs/validation/hybrid2-runtime-parity/m6-atp2-h1-multiset-sanitized.json). **12 of the 155 completed sets lack directly comparable kg workout-row parsing and are NOT claimed as ATP2 set records.** Original 21/22 H1 boundary RED, production M6 bug and isolated real-backend persistence remain open; passing this runner must not be called production parity.
