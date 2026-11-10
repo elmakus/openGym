@@ -325,3 +325,17 @@ H2_PARITY_OUT="$OUT" H2_NATIVE_M6_PRIVATE="$BASE/evidence/m6-post-deload-native-
 ```
 
 [Root cause, fixture scope, native source/actual-expected trace and limitations](../../docs/validation/hybrid2-runtime-parity/M6_NATIVE_SHARED_IDENTITY_SOURCE_OVERLAY_HTTP.md). These are real openGym frontend/replay and real API backend tests with prior original-native inputs, NOT new original Liftosaur workouts. The only input originals are private source/test copies, never included in Git. No original weights or true account data committed; no production branch touched.
+
+
+## Shared identity: ordinary plans / historical edit / legacy persisted replay (2026-11-10)
+
+Real frontend source-only follow-up on nine existing original-native-derived M6 profiles (no additional original native workout). Checks ordinary-plan parity with/without HYBRID config, 9 saved 36-slot prefixes, Engine v2 hashes and state pointers, next A, a non-H1 prior edit, and a new genuine unchanged-source materializer legacy workout fail-closed. **3,410 checks PASS, 3 expected RED negatives, 9 new frontend generation calls, 68 unchanged API tests PASS, 0 new backend writes, 0 new Liftosaur workouts.** No production code modified.
+
+~~~sh
+BASE=/tmp/hybrid2-runtime-parity-20261109
+cd "$BASE/shared-identity-followup-20261110"
+H2_PARITY_ROOT="$BASE" H2_PARITY_OUT="$BASE/evidence-m6-full-36/legacy-edit-followup-20261110" \
+ node scripts/hybrid2-runtime-parity/run-m6-shared-identity-legacy-edit-regression.mjs
+~~~
+
+[Report and original-source RED preserved](../../docs/validation/hybrid2-runtime-parity/M6_SHARED_IDENTITY_LEGACY_EDIT_REGRESSION.md); [sanitized evidence](../../docs/validation/hybrid2-runtime-parity/m6-shared-identity-legacy-edit-regression-sanitized.json). Do not auto-migrate stored histories.

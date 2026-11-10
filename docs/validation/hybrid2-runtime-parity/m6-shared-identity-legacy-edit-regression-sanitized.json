@@ -1,0 +1,97 @@
+{
+  "schema": "HYBRID2-M6-SHARED-IDENTITY-LEGACY-EDIT-REGRESSION-1",
+  "provenance": {
+    "frontendSourceSha256": "f8d0575f047e04155531aab00a536f7f97ff1e0267cac2413c5919d3c6310ed1",
+    "isolatedSourceSha256": "d33d0b446eb860f67e6dd945decfd5e49abdb46944df942fc9a42cb3ad263bbe",
+    "nativeSourceSha256": "7b1c7d114229b4d1cf86093409d7d89ae4e7d88e6a0c1c4c89bcba30a4a425df",
+    "nativeTraceSha256": "2b4a0747d39890dfb3c89a49e4df8c3229e39c390713a8a58d42e66284d25c95",
+    "originalFitnessCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+    "originalLiftosaurCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+    "openGymBaselineCommit": "8529b2d41b28fea8ae96a50325aaf28e864a0160",
+    "newOriginalLiftosaurWorkouts": 0,
+    "priorOriginalLiftosaurWorkoutsReused": 9,
+    "productionFileChanges": 0,
+    "productionDatabaseWrites": 0,
+    "nativeWeightsIncluded": false
+  },
+  "checks": 3410,
+  "failures": [],
+  "expectedRed": [
+    {
+      "name": "legacy-snapshot-replay",
+      "scope": "legacy",
+      "classification": "original-source legacy identity mismatch; fail closed",
+      "errorClass": "HYBRID-2 replay"
+    },
+    {
+      "name": "legacy-next-session-blocked",
+      "scope": "legacy",
+      "classification": "original-source legacy identity mismatch; fail closed",
+      "errorClass": "HYBRID-2 supervisor"
+    },
+    {
+      "name": "legacy-naive-track-rewrite",
+      "scope": "legacy",
+      "classification": "post-hoc track rewrite invalidates prescription relationship",
+      "errorClass": "canonical-validation"
+    }
+  ],
+  "findings": [
+    {
+      "type": "existing-snapshot-integrity",
+      "snapshots": 9,
+      "historyExposureAssertions": 537,
+      "prescriptionChecks": 537,
+      "progressStateChecks": 211,
+      "replayPointerDisagreements": 0
+    },
+    {
+      "type": "legacy-seam",
+      "oldMaterializerIdentityMismatches": 11,
+      "unchangedOldMaterializerCanonicallyValid": true,
+      "semanticReplayRejects": true,
+      "naiveTrackOnlyRewriteRejected": true
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario": "without-hybrid-config",
+      "materializedExposures": 11,
+      "identical": true
+    },
+    {
+      "scenario": "disabled-hybrid-config",
+      "materializedExposures": 11,
+      "identical": true
+    },
+    {
+      "scenario": "enabled-hybrid-unrelated-routine",
+      "materializedExposures": 1,
+      "identical": true
+    },
+    {
+      "scenario": "source-backed-next-A-from-nine-native-input-sessions",
+      "materializedExposures": 11
+    },
+    {
+      "scenario": "actual-unmodified-legacy-materializer",
+      "materializedExposures": 11,
+      "originalMismatchCount": 11,
+      "canonicalBeforeHybridReplay": true,
+      "hybridReplay": "RED_EXPECTED_FAIL_CLOSED",
+      "naiveSingleFieldRekey": "CANONICAL_REJECTED"
+    },
+    {
+      "scenario": "independent-earlier-non-H1-native-history-edit",
+      "editedRecords": 1,
+      "persistedIdentityChanged": false,
+      "subsequentExposures": 11
+    }
+  ],
+  "priorNativeSessions": 9,
+  "newOriginalNativeSessions": 0,
+  "generatedFrontendSessions": 9,
+  "storedFrontendSnapshots": 9,
+  "editedHistoricalCopies": 1,
+  "outcome": "VARIANT_PASS_ORIGINAL_AND_LEGACY_RED"
+}
