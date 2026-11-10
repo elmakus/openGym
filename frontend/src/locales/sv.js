@@ -1,5 +1,10 @@
 // Swedish UI strings. Keys are the English source strings (see lib/i18n.js).
 export default {
+  // Engine v2 selective progression groups
+  "Progression group": "Progressionsgrupp",
+  "Separate progression": "Separera progressionen",
+  "Shared progression": "Delad progression",
+  "Separate progression first": "Separera progressionen först",
   'Same muscle and exercise type. The movement may differ.': 'Samma muskel och övningstyp. Rörelsen kan skilja sig.',
   'Related muscles and exercise type. The movement may differ.': 'Närliggande muskler och samma övningstyp. Rörelsen kan skilja sig.',
   'Same muscle, different exercise type. Check suitability.': 'Samma muskel, annan övningstyp. Kolla att den passar.',

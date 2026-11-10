@@ -1,0 +1,19 @@
+{
+  "schema": "HYBRID2-SHIPPED-SOURCE-M6-IDENTITY-INTEGRATION-1",
+  "sourceBranch": "validation/hybrid2-liftosaur-runtime-parity",
+  "sourceBaseline": "8529b2d41b28fea8ae96a50325aaf28e864a0160",
+  "sourceFiles": {
+    "sessionStartSha256": "16daea4580e858a6a8a375c70e4143a61dd7bf1873aa58c728587d36f3443a97"
+  },
+  "originalNativeSourceSha256": "7b1c7d114229b4d1cf86093409d7d89ae4e7d88e6a0c1c4c89bcba30a4a425df",
+  "priorNativeWorkoutsReused": 9,
+  "newNativeWorkouts": 0,
+  "checkedHistoryProfiles": 9,
+  "checkedHistoryExposures": 537,
+  "immutablePrescriptionHashes": 537,
+  "checkedProgressionStates": 211,
+  "realSourceMaterializations": 3,
+  "checks": 1350,
+  "failures": [],
+  "classification": "INTEGRATED_SOURCE_PASS"
+}

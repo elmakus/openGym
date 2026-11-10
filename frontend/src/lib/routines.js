@@ -41,6 +41,9 @@ export function copyRoutine(routine, suffix = 'Copy') {
  * them back.
  */
 export function deleteRoutine(s, id) {
+  const affected = s.routines.find(r => r.id === id)?.ex || []
+  if (affected.some(o => s.progressionGroups?.groups?.some(g => g.members.includes(o.occurrenceId))))
+    throw new Error('Progression groups: Separate progression first')
   s.routines = s.routines.filter(r => r.id !== id)
   Object.keys(s.week || {}).forEach(d => {
     const ids = [].concat(s.week[d])

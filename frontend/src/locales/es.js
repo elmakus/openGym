@@ -1,5 +1,10 @@
 // Spanish UI strings. Keys are the English source strings (see lib/i18n.js).
 export default {
+  // Engine v2 selective progression groups
+  "Progression group": "Grupo de progresión",
+  "Separate progression": "Separar progresión",
+  "Shared progression": "Progresión compartida",
+  "Separate progression first": "Separa primero la progresión",
   "Same muscle and exercise type. The movement may differ.": "Mismo músculo y tipo de ejercicio. El movimiento puede variar.",
   "Related muscles and exercise type. The movement may differ.": "Músculos relacionados y mismo tipo de ejercicio. El movimiento puede variar.",
   "Same muscle, different exercise type. Check suitability.": "Mismo músculo, distinto tipo de ejercicio. Comprueba si es adecuado.",

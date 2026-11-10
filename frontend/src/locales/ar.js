@@ -1,5 +1,10 @@
 // Arabic UI strings. Keys are the English source strings (see lib/i18n.js).
 export default {
+  // Engine v2 selective progression groups
+  "Progression group": "مجموعة التقدّم",
+  "Separate progression": "فصل التقدّم",
+  "Shared progression": "تقدّم مشترك",
+  "Separate progression first": "افصل التقدّم أولًا",
   "Same muscle and exercise type. The movement may differ.": "نفس العضلة ونوع التمرين. قد تختلف الحركة.",
   "Related muscles and exercise type. The movement may differ.": "عضلات مرتبطة ونفس نوع التمرين. قد تختلف الحركة.",
   "Same muscle, different exercise type. Check suitability.": "نفس العضلة ونوع تمرين مختلف. تحقق من الملاءمة.",

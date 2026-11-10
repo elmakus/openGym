@@ -50,6 +50,10 @@ export function deleteRoutineWithUndo(id) {
   const st = useStore.getState()
   const snap = routineSnapshot(st.S, id)
   if (!snap) return false
+  if (snap.routine.ex?.some(o => st.S.progressionGroups?.groups?.some(g => g.members.includes(o.occurrenceId)))) {
+    useUI.getState().toast(t('Separate progression first'))
+    return false
+  }
   const before = st.S
   st.update(s => { deleteRoutine(s, id) })
   // What the removal moved (weekdays, reschedules, the loop), for the Undo to mark as put back:

@@ -16,6 +16,7 @@ export { reconcileDerivedOneRms, appendOneRm, currentOneRm, DEFAULT_FORMULA, FOR
 export { generatePrescription, ruleOfPrescription } from './generate.js'
 export { failureSetsOf, failureSetSelected, failureSetRange, failureSuffix } from './failure.js'
 export { bestLoad, chronologicalWorkouts, planFingerprint, replayProgression, resolveProgressionContext } from './context.js'
+export { validateProgressionGroups, progressionTrackId, progressionAcrossRoutines, progressionHistoryForTrack, joinProgressionGroup, leaveProgressionGroup, pruneEmptyProgressionGroups } from './progression-groups.js'
 export { groupIdOf, operatorFor, phaseById, phaseOf, restOf } from './program.js'
 export { auditExecution, missingReference, normalizeEffort, summarizeActual } from './audit.js'
 export { advanceProgression, initialProgressionState, verdictOf } from './advance.js'

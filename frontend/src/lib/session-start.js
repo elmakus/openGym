@@ -1,6 +1,6 @@
 // Generate one immutable prescription per routine occurrence. The engine decides; this boundary
 // only gathers its inputs (rule, track state, newest log, current 1RM) and stores its output.
-import { currentOneRm, bestLoad, operatorFor, phaseOf, planFingerprint, planPhase, rungsOf, defaultPlanRule, generatePrescription, needsOneRm, resolveProgressionContext, supports, withRest } from './prescription/index.js'
+import { progressionTrackId, progressionAcrossRoutines, progressionHistoryForTrack, currentOneRm, bestLoad, operatorFor, phaseOf, planFingerprint, planPhase, rungsOf, defaultPlanRule, generatePrescription, needsOneRm, resolveProgressionContext, supports, withRest } from './prescription/index.js'
 import { EXIDX, isAssisted, isBodyweightEq } from './exercises.js'
 import { modeOf, barFloor, lastAcrossRoutines, lastEntryFor, isBw, insertWarmupRow } from './history.js'
 import { oneRmForMeaning } from './onerm.js'
@@ -73,7 +73,7 @@ export function buildSessionExposures(stored, routine, ctx) {
     // Opt-in only; its state belongs to ATP2, not to Engine v2's standard progression.
     const atp2Requested = !excluded && original.atp2?.enabled === true && !occ.intensifier && !occ.backoff
     const timedRequested = !excluded && !atp2Requested && original.timedLoad?.enabled === true && !occ.intensifier && !occ.backoff
-    const trackId = occ.occurrenceId
+    const trackId = progressionTrackId(stored, original, hybrid)
     const meaning = dbLoadFor(profile, occ)
     const owned = ownedWeightsFor(profile, occ)
     const history = historyAs(profile, occ.exerciseId, meaning)
@@ -83,9 +83,9 @@ export function buildSessionExposures(stored, routine, ctx) {
     // The engine picks the history and decides a restart; this boundary only passes the profile.
     const context = resolveProgressionContext({
       trackId, exerciseId: occ.exerciseId, rule: occ.rule, assisted,
-      workouts: history.workouts, prescriptions: profile.prescriptions, progression: profile.progression,
+      workouts: progressionHistoryForTrack(stored, original, hybrid, trackId, history.workouts), prescriptions: profile.prescriptions, progression: profile.progression,
       // A ladder's rung is its own track's: another routine's state for the same exercise would move it.
-      acrossRoutines: lastAcrossRoutines(profile) && !(occ.rule && operatorFor(planPhase(occ.rule), 'difficulty'))
+      acrossRoutines: progressionAcrossRoutines(stored, original, hybrid, lastAcrossRoutines(profile) && !(occ.rule && operatorFor(planPhase(occ.rule), 'difficulty')))
     })
     const previous = (profile.workouts || []).flatMap(w => w.exposures || []).find(x => x.exposureId === context.baseline?.exposureId)
     const previousMeaning = entryDbLoad(previous)

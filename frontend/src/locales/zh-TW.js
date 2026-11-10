@@ -1,4 +1,9 @@
 export default {
+  // Engine v2 selective progression groups
+  "Progression group": "進階群組",
+  "Separate progression": "分開進階",
+  "Shared progression": "共用進階",
+  "Separate progression first": "請先分開進階",
   "Same muscle and exercise type. The movement may differ.": "相同肌群與動作類型。運動方式可能不同。",
   "Related muscles and exercise type. The movement may differ.": "相關肌群與相同動作類型。運動方式可能不同。",
   "Same muscle, different exercise type. Check suitability.": "相同肌群，不同動作類型。請確認是否合適。",

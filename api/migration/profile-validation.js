@@ -1,5 +1,5 @@
 import { ENGINE_SCHEMA } from './profile-version.js';
-import { failureSetsOf, validatePlanRule, validateWarmup, ruleOfPrescription, contentHash, phaseById } from '../engine/index.js';
+import { failureSetsOf, validatePlanRule, validateWarmup, ruleOfPrescription, contentHash, phaseById, validateProgressionGroups } from '../engine/index.js';
 const isObj = v => !!v && typeof v === 'object' && !Array.isArray(v);
 const list = v => Array.isArray(v) ? v : [];
 
@@ -42,6 +42,7 @@ function validateStructure(state) {
       ))) errors.push(`${oat}.warmupRows is invalid`);
     });
   });
+  try { validateProgressionGroups(state); } catch (e) { errors.push(e.message); }
   const prescriptions = isObj(state.prescriptions) ? state.prescriptions : {};
   for (const [id, p] of Object.entries(prescriptions)) {
     if (!isObj(p) || p.id !== id || typeof p.exerciseId !== 'string' || !Array.isArray(p.rows)) {

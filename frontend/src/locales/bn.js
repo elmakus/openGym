@@ -1,5 +1,10 @@
 // Bengali UI strings. Keys are the English source strings (see lib/i18n.js).
 export default {
+  // Engine v2 selective progression groups
+  "Progression group": "অগ্রগতির গ্রুপ",
+  "Separate progression": "অগ্রগতি আলাদা করুন",
+  "Shared progression": "ভাগ করা অগ্রগতি",
+  "Separate progression first": "আগে অগ্রগতি আলাদা করুন",
   "Same muscle and exercise type. The movement may differ.": "একই পেশি ও ব্যায়ামের ধরন। নড়াচড়া ভিন্ন হতে পারে।",
   "Related muscles and exercise type. The movement may differ.": "সম্পর্কিত পেশি ও একই ব্যায়ামের ধরন। নড়াচড়া ভিন্ন হতে পারে।",
   "Same muscle, different exercise type. Check suitability.": "একই পেশি, ভিন্ন ব্যায়ামের ধরন। উপযুক্ত কি না যাচাই করুন।",

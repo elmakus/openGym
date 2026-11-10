@@ -11,6 +11,8 @@ import { supersetUnits, moveRoutineEntry, cleanupSg, effortOf } from '../lib/his
 import { Thumb } from '../components/Media.jsx'
 import { glyphPicker, exercisePicker, exConfigSheet, confirmSheet, menuSheet, printPlanSheet, quickOccurrence, supersetSheet } from '../sheets.jsx'
 import { PRESET_LABEL } from '../components/RuleEditor.jsx'
+import ProgressionGroupControl from '../components/ProgressionGroupControl.jsx'
+import { validateProgressionGroups } from '../lib/prescription/index.js'
 import { occurrenceChips, occurrenceTargets, plannedSets } from '../lib/occurrence-view.js'
 import { supersetMeta, setSupersetMeta } from '../lib/superset-meta.js'
 import { fmtRest } from '../lib/duration.js'
@@ -337,6 +339,10 @@ export function removeRoutineExercise(routineId, i) {
   const routine = st.S.routines.find(x => x.id === routineId)
   const slot = routine?.ex?.[i]
   if (!slot) return false
+  if (st.S.progressionGroups?.groups?.some(g => g.members.includes(slot.occurrenceId))) {
+    useUI.getState().toast(t('Separate progression first'))
+    return false
+  }
   const before = structuredClone(routine.ex)
   const base = Number(routine._f?.ex) || 0
   st.update(s => {
@@ -379,7 +385,19 @@ export default function RoutineEdit() {
   // auto-backup on the way out (not per keystroke) covers the whole editing session, deletion
   // included: this still unmounts after the delete button navigates away.
   useEffect(() => () => useStore.getState().autoBackupNow(), [])
-  const edit = fn => update(s => { fn(s.routines.find(x => x.id === id).ex) })
+  // Validate before persisting: editing a grouped occurrence's rep range or rule must
+  // not leave an invalid, server-rejected profile in local storage.
+  const edit = fn => {
+    const latest = useStore.getState().S
+    const routine = latest.routines.find(x => x.id === id)
+    if (!routine) return false
+    const exercises = structuredClone(routine.ex)
+    fn(exercises)
+    const trial = { ...latest, routines: latest.routines.map(x => x.id === id ? { ...x, ex: exercises } : x) }
+    try { validateProgressionGroups(trial) } catch (e) { toast(e.message); return false }
+    update(s => { s.routines.find(x => x.id === id).ex = exercises })
+    return true
+  }
   const reorder = useRoutineReorder(r, r?.ex || [], (sourceIndex, targetSlot) => {
     edit(exercises => { reorderRoutineUnit(exercises, sourceIndex, targetSlot) })
   })
@@ -406,8 +424,8 @@ export default function RoutineEdit() {
     const commit = (ex, fn) => {
       picker.close()
       let done = false
-      edit(x => { if (x[i] && x[i].exerciseId === openedOn) { x[i] = fn(x[i]); done = true } })
-      if (done) toast(t('Replaced with “{0}”', exerciseNameText(ex)))
+      const saved = edit(x => { if (x[i] && x[i].exerciseId === openedOn) { x[i] = fn(x[i]); done = true } })
+      if (done && saved) toast(t('Replaced with “{0}”', exerciseNameText(ex)))
     }
     const picker = exercisePicker((ex, quick) => {
       // The slot and the history as they are now, not as this render saw them: a sync can land
@@ -469,13 +487,19 @@ export default function RoutineEdit() {
     update(s => { s.routines.push(copy) })
     nav('/plan/r/' + copy.id)
   }
-  const askDelete = () => confirmSheet({
+  const askDelete = () => {
+    if (r.ex.some(e => S.progressionGroups?.groups?.some(g => g.members.includes(e.occurrenceId)))) {
+      toast(t('Separate progression first'))
+      return
+    }
+    confirmSheet({
     title: t('Delete routine?'), message: t('“{0}” and its exercises will be removed.', r.name), confirmText: t('Delete'), danger: true,
     onConfirm: () => {
       update(s => { deleteRoutine(s, id) })
       nav('/plan')
     }
   })
+  }
   // In the header's menu, everyday actions stay together and Delete sits apart.
   const routineMenu = () => menuSheet({
     title: r.name || t('Routine'),
@@ -571,6 +595,7 @@ export default function RoutineEdit() {
             {e.note && <span className="small dim" style={{ marginTop: 2 }}>{e.note}</span>}
           </button>
           <div className="re-rail">
+            <ProgressionGroupControl profile={S} occurrence={e} update={update} toast={toast} />
             {i > 0 ? <button className={'iconbtn re-link' + (linkedPrev ? ' on-ss' : '')} title={t('Superset with exercise above')} aria-label={t('Superset with exercise above')} aria-pressed={!!linkedPrev} onClick={() => toggleLink(i)}><Icon name="link" /></button> : <span className="re-link" aria-hidden="true" />}
             <button className="iconbtn re-up" aria-label={t('Move up')} title={leavesUp ? t('Move out of the superset') : t('Move up')} disabled={!moveRoutineEntry(r.ex, i, -1)} onClick={ev => { ev.stopPropagation(); move(i, -1) }}><Icon name="chevronUp" /></button>
             <button className="iconbtn re-down" aria-label={t('Move down')} title={leavesDown ? t('Move out of the superset') : t('Move down')} disabled={!moveRoutineEntry(r.ex, i, 1)} onClick={ev => { ev.stopPropagation(); move(i, 1) }}><Icon name="chevronDown" /></button>

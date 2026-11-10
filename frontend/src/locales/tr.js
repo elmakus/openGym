@@ -1,5 +1,10 @@
 // Turkish UI strings. Keys are the English source strings (see lib/i18n.js).
 export default {
+  // Engine v2 selective progression groups
+  "Progression group": "Progresyon grubu",
+  "Separate progression": "Progresyonu ayır",
+  "Shared progression": "Ortak progresyon",
+  "Separate progression first": "Önce progresyonu ayır",
   "Same muscle and exercise type. The movement may differ.": "Aynı kas ve egzersiz türü. Hareket farklı olabilir.",
   "Related muscles and exercise type. The movement may differ.": "İlgili kaslar ve aynı egzersiz türü. Hareket farklı olabilir.",
   "Same muscle, different exercise type. Check suitability.": "Aynı kas, farklı egzersiz türü. Uygunluğunu kontrol edin.",

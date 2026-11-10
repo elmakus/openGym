@@ -1,5 +1,10 @@
 // Thai UI strings. Keys are the English source strings (see lib/i18n.js).
 export default {
+  // Engine v2 selective progression groups
+  "Progression group": "กลุ่มการเพิ่มระดับ",
+  "Separate progression": "แยกความก้าวหน้า",
+  "Shared progression": "ความก้าวหน้าร่วมกัน",
+  "Separate progression first": "แยกความก้าวหน้าก่อน",
   "Same muscle and exercise type. The movement may differ.": "กล้ามเนื้อและประเภทการออกกำลังกายเดียวกัน การเคลื่อนไหวอาจต่างกัน",
   "Related muscles and exercise type. The movement may differ.": "กล้ามเนื้อที่เกี่ยวข้องและประเภทการออกกำลังกายเดียวกัน การเคลื่อนไหวอาจต่างกัน",
   "Same muscle, different exercise type. Check suitability.": "กล้ามเนื้อเดียวกัน แต่ประเภทการออกกำลังกายต่างกัน โปรดตรวจสอบความเหมาะสม",
