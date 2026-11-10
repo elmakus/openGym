@@ -1,0 +1,33 @@
+{
+  "schema": "M6-LIVE-INTAKE-READONLY-PREFLIGHT-NATIVE-1",
+  "status": "READ_ONLY_PREPARE_AND_ORIGINAL_NATIVE_PASS",
+  "inputProvenance": "Private frozen get_program-shaped input; NOT actual live API response",
+  "fitnessSourceBranch": "fix/m6-rtt-centralized-h1-persistence",
+  "preflightSourceSHA256": "5a6df398a934305a3149cb475bd9b9e6906218592f327b9ad1ace2df23dae1d7",
+  "originalRuntimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "candidates": {
+    "m6-normal": {
+      "inputSha256": "7b1c7d114229b4d1cf86093409d7d89ae4e7d88e6a0c1c4c89bcba30a4a425df",
+      "candidateSha256": "58acb488bc69ac8b2024c06a7549a67a3118d9f21b676f24a423544708b132e4",
+      "topologySha256": "a86a26f1a41c4cca56a34440d5c54fa0d9ffb1df57f568bfd2dbb201a9c04623",
+      "occurrences": 36,
+      "normalizedOverrides": 29
+    },
+    "m6-queued": {
+      "inputSha256": "b1f481de1385292b63ae12d7873c37f386e5f521c4807b89bfa503c8ddaa89e5",
+      "candidateSha256": "d0e99f5e41c9f40eeadaa05b14838c79e74be994dabf487dd8d431cdec1e61db",
+      "topologySha256": "2371a78e0ff213d78dd7ee87b992e7e6c533d200e60f706e7782a9afdad2283c",
+      "occurrences": 36,
+      "normalizedOverrides": 29
+    }
+  },
+  "directOriginalNativeWorkouts": 29,
+  "nativeSetProbes": 48,
+  "fieldComparisons": 688,
+  "mismatches": 0,
+  "programAccountWrites": 0,
+  "sourceCodeOverlaysDuringNativeRun": false,
+  "privateSourceFilesCommitted": false,
+  "actualLiveGetProgramCalled": false,
+  "deployed": false
+}

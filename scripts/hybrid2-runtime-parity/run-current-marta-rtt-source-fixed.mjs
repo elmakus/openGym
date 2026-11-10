@@ -43,10 +43,13 @@ function merge(source){
   if(!prefix)throw Error('Generated candidate input is not one of the two pinned source states')
   const manifest=JSON.parse(fs.readFileSync(path.join(candidateDir,prefix+'.json'),'utf8'))
   const candidate=fs.readFileSync(path.join(candidateDir,prefix+'-fixed.liftoscript'),'utf8')
+  const compilerVersion=manifest.source_generator||manifest.version
   if(manifest.original_sha256!==inSha ||
      manifest.candidate_sha256!==sha(candidate) ||
      manifest.merged_overrides!==29 ||
-     !manifest.version?.includes('M6-H1-STALE-ENTRY-BARRIER-1'))
+     !compilerVersion?.includes('M6-H1-STALE-ENTRY-BARRIER-1') ||
+     (manifest.target_program_id && manifest.target_program_id!=='qtwbbqff') ||
+     (manifest.occurrence_count && manifest.occurrence_count!==36))
     throw Error('Generated fitness candidate source digest, identity or contract mismatch')
   return {source:candidate,merged:manifest.merged_overrides,templateUpdateSha256:sha(template)}
  }

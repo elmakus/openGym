@@ -374,3 +374,24 @@ H2_PARITY_ROOT="$BASE" H2_PARITY_OUT="$BASE/evidence-m6-native-missing-20261110"
 ## 2026-11-10 superseding H1 source-exact acceptance
 
 **Historical caveat:** earlier sections of this README intentionally preserve their original RED expectations for `openGym@8529b2d...` with a hard 20-rep observation cutoff. Those counts remain valid only for that earlier implementation. The user has now explicitly approved native-source H1 exactness **including 300 repetitions**. After removing the hard 20 cap in the **validation branch**, five real original-native H1 runners now match **268 executed native workouts / 3225 compared fields / 0 discrepancies**; older `run-current-h1.mjs` and `run-h1-extended.mjs` had to drop their own duplicated cap and call the actual observer. The archival `run-h1-native-19-23-relaxed-variant.mjs` and `run-h1-native-24-300-relaxed-variant.mjs` require the *previous cap-present checkout*; on the current branch run their direct native baseline runners instead. See [accepted source-exact 300 decision](../../docs/validation/hybrid2-runtime-parity/H1_SOURCE_EXACT_300_ACCEPTED_20261110.md). **Overall full HYBRID-2/M6 parity remains PARTIAL/RED** for independent RTT/stale-write and full runtime transport gaps. Do not confuse H1 seam parity with complete program parity.
+
+## 2026-11-10 — real fitness M6 read-only preflight → native runtime
+
+[Draft fitness PR #22](https://github.com/elmakus/fitness/pull/22) adds
+`programs/hybrid2_m6_rtt_preflight.py` as a **real executable source
+preparation step**, not merely a test: it binds accepted `qtwbbqff` target
+metadata, exact SHA-256, 36 exercise prescriptions and 30 unchanged progress
+records before generating private review-only RTT/H1-corrected source.
+
+`run-fitness-preflight-m6-native.mjs` drives this Python CLI using frozen
+private `get_program`-shaped inputs (NOT a fresh live API read), produces
+two temporary verified candidate files, and runs both **directly** on
+original frozen Liftosaur runtime. It invokes no JavaScript RTT source
+patches during native work. Result: **29 native workout finish executions,
+48 set probes, 688/688 checks**. Uses explicit `M6_PYTHON_PREFLIGHT`,
+`M6_CANDIDATE_TMP`, `FITNESS_ROOT`, `LIFTOSAUR_RUNTIME_ROOT`,
+`PRIVATE_LIVE_ROOT`, and an empty `H2_PARITY_OUT`; all candidate files
+are removed after execution. [Full proof](../../docs/validation/hybrid2-runtime-parity/M6_FITNESS_READONLY_PREFLIGHT_NATIVE_20261110.md).
+
+This does **not** update any live Liftosaur program or history and does not
+turn the unchanged original M6 RTT expected-RED case into a PASS.
