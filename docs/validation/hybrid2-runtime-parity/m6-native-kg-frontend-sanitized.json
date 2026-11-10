@@ -1,0 +1,111 @@
+{
+  "schema": "HYBRID2-M6-ORIGINAL-NATIVE-KG-TO-OPENGYM-UI-HISTORY-1",
+  "provenance": {
+    "nativePrivateSha256": "2b4a0747d39890dfb3c89a49e4df8c3229e39c390713a8a58d42e66284d25c95",
+    "originalNativeRuntime": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+    "sourceSha256": "7b1c7d114229b4d1cf86093409d7d89ae4e7d88e6a0c1c4c89bcba30a4a425df",
+    "input": "real native original-M6 6 H1 anchor completed sets / isolated M6 fixture",
+    "newNativeWorkouts": 0,
+    "numericNativeControllerParityNotClaimed": true,
+    "productionWrites": 0,
+    "privateProfilePublished": false
+  },
+  "frontendSessions": 9,
+  "comparedNativeSets": 38,
+  "historyChecks": 9,
+  "checks": 157,
+  "issues": [],
+  "steps": [
+    {
+      "ordinal": 1,
+      "cycle": 1,
+      "day": 1,
+      "nativeSourceStepSha256": "f0dbee7230658cdbf243180b4b54195a6abd01b1c25c832a1e3e3000e9a3abba",
+      "recordedOriginalNativeLoadedSets": 6,
+      "replayCount": 1,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 2,
+      "cycle": 1,
+      "day": 2,
+      "nativeSourceStepSha256": "765f909130f35b368c803b25f835b8edeb1a3df7652c78acc7e552a07b799e4e",
+      "recordedOriginalNativeLoadedSets": 4,
+      "replayCount": 2,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 3,
+      "cycle": 1,
+      "day": 3,
+      "nativeSourceStepSha256": "92fa4fa4b429cd88a5682d0db96ab82b33e0bb7362a9c71c191577363c681b7c",
+      "recordedOriginalNativeLoadedSets": 4,
+      "replayCount": 3,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 4,
+      "cycle": 2,
+      "day": 1,
+      "nativeSourceStepSha256": "3c3131041074205d44b7f0defec93fc477516e69010f563df13f177e0eba4285",
+      "recordedOriginalNativeLoadedSets": 4,
+      "replayCount": 4,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 5,
+      "cycle": 2,
+      "day": 2,
+      "nativeSourceStepSha256": "20dff694c149c03d68030aa08ff1d7a3d91c6ef12c41e30fba55f2ce5eb458ca",
+      "recordedOriginalNativeLoadedSets": 4,
+      "replayCount": 5,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 6,
+      "cycle": 2,
+      "day": 3,
+      "nativeSourceStepSha256": "5713e95cb0ef45ee82876078fe3f17d349af0d380b86b1b269a0ce790bb058d8",
+      "recordedOriginalNativeLoadedSets": 4,
+      "replayCount": 6,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 7,
+      "cycle": 3,
+      "day": 1,
+      "nativeSourceStepSha256": "0f0c20563f6c430f81654d62ef9df238b9640d8dce35c43d47cc05ba8cada452",
+      "recordedOriginalNativeLoadedSets": 4,
+      "replayCount": 7,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 8,
+      "cycle": 3,
+      "day": 2,
+      "nativeSourceStepSha256": "b534f9a9652a0575624d24f00d5c636450cf461fe831e73f5d23e28a5db2cfc9",
+      "recordedOriginalNativeLoadedSets": 4,
+      "replayCount": 8,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 9,
+      "cycle": 3,
+      "day": 3,
+      "nativeSourceStepSha256": "48ff0c3e57fba3a25df15887bc4f9a97416025d765728100aeb2e52ae1ff6263",
+      "recordedOriginalNativeLoadedSets": 4,
+      "replayCount": 9,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    }
+  ],
+  "outcome": "PASS"
+}

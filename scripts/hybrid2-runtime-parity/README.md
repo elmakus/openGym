@@ -277,3 +277,25 @@ node scripts/hybrid2-runtime-parity/run-m6-post-deload-native.mjs
 ```
 
 See [post-deload report](../../docs/validation/hybrid2-runtime-parity/M6_POST_DELOAD_ATP2_H1_RELEARNING_NATIVE.md) and [safe native state trace](../../docs/validation/hybrid2-runtime-parity/m6-post-deload-native-sanitized.json). All 99 absolute source-derived set/ATP2/H1 expected/actual records stay **private mode 0600**; published records contain only anonymized relative values. Original 21/22 H1 policy RED and current M6 full persisted-backend chain remain open.
+
+
+## Current-M6 **actual native kg** records through real API HTTP persistence (2026-11-10)
+
+This is a **new** backend integration test using the genuine post-deload M6 native transcript's **original completed-set weights/reps**, unlike the earlier K5 backend's synthetic fixture loads. It maps only the six native M6 H1 anchors to an isolated openGym M6 fixture with a synthetic closer; it does **not** claim full original 36-occurrence source materialization or absolute native ↔ openGym H1 replay parity. The original native source, loads, and generated test profiles remain private (the full source evidence is required, and SHA checked).
+
+```sh
+BASE=/tmp/hybrid2-runtime-parity-20261109
+OUT="$BASE/evidence-m6-kg-backend"
+mkdir -p "$OUT/profiles"
+cd "$BASE/m6-backend-checkout-20261110"
+H2_PARITY_OUT="$OUT" \
+ H2_NATIVE_M6_PRIVATE="$BASE/evidence/m6-post-deload-native-private.json" \
+ H2_PRIVATE_PROFILE_SNAPSHOTS="$OUT/profiles" \
+ node scripts/hybrid2-runtime-parity/run-m6-native-kg-frontend.mjs
+H2_PARITY_OUT="$OUT" \
+ H2_NATIVE_M6_PRIVATE="$BASE/evidence/m6-post-deload-native-private.json" \
+ H2_PRIVATE_PROFILE_SNAPSHOTS="$OUT/profiles" \
+ node scripts/hybrid2-runtime-parity/run-native-m6-real-http-backend.mjs
+```
+
+Expected PASS: **9 openGym UI-finished sessions / 38 source-native kg sets / 157 assertions**; real backend **9 writes / 13 reads / 3 process restarts / 232 checks / 0 RED**, with 18 native first-set comparable inputs, native source weight and repetitions identical after HTTP roundtrip, real file-backed state persistence, and stale rev 409. No new native workout is executed or double-counted. [Detailed scope and limitations](../../docs/validation/hybrid2-runtime-parity/M6_NATIVE_KG_HTTP_BACKEND_RESTART.md).

@@ -1,0 +1,110 @@
+{
+  "schema": "HYBRID2-M6-ORIGINAL-NATIVE-KG-REAL-HTTP-RESTART-1",
+  "provenance": {
+    "nativePrivateSha256": "2b4a0747d39890dfb3c89a49e4df8c3229e39c390713a8a58d42e66284d25c95",
+    "backend": "openGym real api/server.js",
+    "fixture": "six real M6 original-native H1 anchor set inputs, fixture M6 adapter/closer",
+    "newNativeLiftosaurExecutions": 0,
+    "sourceOnlyOriginalLoadHistory": true,
+    "absoluteNativeH1StateEqualityNotClaimed": true,
+    "originalM6Complete36PositionsNotClaimed": true,
+    "accountWrites": 0,
+    "privateCredentialsPublished": false
+  },
+  "writes": 9,
+  "reads": 13,
+  "restarts": 3,
+  "checks": 232,
+  "loadedNativeSets": 38,
+  "nativeFirstSetObservations": 18,
+  "issues": [],
+  "steps": [
+    {
+      "ordinal": 1,
+      "originalNativeBeforeSha256": "08bb02c039b9163c3ca9c8c72206c907ede269808db6d5c9cf97b875390f066b",
+      "nativeSourceAfterSha256": "f0dbee7230658cdbf243180b4b54195a6abd01b1c25c832a1e3e3000e9a3abba",
+      "persistedRevision": 1,
+      "sourceCount": 1,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 2,
+      "originalNativeBeforeSha256": "f0dbee7230658cdbf243180b4b54195a6abd01b1c25c832a1e3e3000e9a3abba",
+      "nativeSourceAfterSha256": "765f909130f35b368c803b25f835b8edeb1a3df7652c78acc7e552a07b799e4e",
+      "persistedRevision": 2,
+      "sourceCount": 2,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 3,
+      "originalNativeBeforeSha256": "765f909130f35b368c803b25f835b8edeb1a3df7652c78acc7e552a07b799e4e",
+      "nativeSourceAfterSha256": "92fa4fa4b429cd88a5682d0db96ab82b33e0bb7362a9c71c191577363c681b7c",
+      "persistedRevision": 3,
+      "sourceCount": 3,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 4,
+      "originalNativeBeforeSha256": "92fa4fa4b429cd88a5682d0db96ab82b33e0bb7362a9c71c191577363c681b7c",
+      "nativeSourceAfterSha256": "3c3131041074205d44b7f0defec93fc477516e69010f563df13f177e0eba4285",
+      "persistedRevision": 4,
+      "sourceCount": 4,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 5,
+      "originalNativeBeforeSha256": "3c3131041074205d44b7f0defec93fc477516e69010f563df13f177e0eba4285",
+      "nativeSourceAfterSha256": "20dff694c149c03d68030aa08ff1d7a3d91c6ef12c41e30fba55f2ce5eb458ca",
+      "persistedRevision": 5,
+      "sourceCount": 5,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 6,
+      "originalNativeBeforeSha256": "20dff694c149c03d68030aa08ff1d7a3d91c6ef12c41e30fba55f2ce5eb458ca",
+      "nativeSourceAfterSha256": "5713e95cb0ef45ee82876078fe3f17d349af0d380b86b1b269a0ce790bb058d8",
+      "persistedRevision": 6,
+      "sourceCount": 6,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 7,
+      "originalNativeBeforeSha256": "5713e95cb0ef45ee82876078fe3f17d349af0d380b86b1b269a0ce790bb058d8",
+      "nativeSourceAfterSha256": "0f0c20563f6c430f81654d62ef9df238b9640d8dce35c43d47cc05ba8cada452",
+      "persistedRevision": 7,
+      "sourceCount": 7,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 8,
+      "originalNativeBeforeSha256": "0f0c20563f6c430f81654d62ef9df238b9640d8dce35c43d47cc05ba8cada452",
+      "nativeSourceAfterSha256": "b534f9a9652a0575624d24f00d5c636450cf461fe831e73f5d23e28a5db2cfc9",
+      "persistedRevision": 8,
+      "sourceCount": 8,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    },
+    {
+      "ordinal": 9,
+      "originalNativeBeforeSha256": "b534f9a9652a0575624d24f00d5c636450cf461fe831e73f5d23e28a5db2cfc9",
+      "nativeSourceAfterSha256": "48ff0c3e57fba3a25df15887bc4f9a97416025d765728100aeb2e52ae1ff6263",
+      "persistedRevision": 9,
+      "sourceCount": 9,
+      "controller": "LEARNING",
+      "issuesToDate": 0
+    }
+  ],
+  "nextSession": {
+    "exposures": 2,
+    "entries": 2,
+    "revision": 9
+  },
+  "outcome": "PASS"
+}
