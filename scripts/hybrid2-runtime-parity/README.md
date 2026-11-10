@@ -179,3 +179,18 @@ node scripts/hybrid2-runtime-parity/run-current-marta-rtt-fused.mjs
 ```
 
 [Native findings](../../docs/validation/hybrid2-runtime-parity/M6_RTT_NONDESTRUCTIVE_UPDATE_FUSION_NATIVE.md) and [sanitized trace](../../docs/validation/hybrid2-runtime-parity/rtt-fused-native-sanitized.json) retain source SHA proofs and comparison details, excluding any private training loads or Liftoscript source. The source composition happens only in isolated memory and is not a production patch.
+
+
+## K5 native bilateral left/right history record (2026-11-10)
+
+```sh
+export FITNESS_ROOT=/tmp/hybrid2-runtime-parity-20261109/fitness
+export LIFTOSAUR_RUNTIME_ROOT=/tmp/hybrid2-runtime-parity-20261109/liftosaur
+export PRIVATE_LIVE_ROOT=/tmp/hybrid2-runtime-parity-20261109/private-live
+export H2_PARITY_OUT=/tmp/hybrid2-runtime-parity-20261109/evidence
+node scripts/hybrid2-runtime-parity/run-current-krzysztof-paired-native.mjs
+# PASS: 20 actual pinned original-native finish workouts, 152 completed first sets,
+# 4 bilateral original history records, 488 semantic assertions, 0 discrepancies.
+```
+
+The original Playground command parser lacks `change_reps_left`; this runner uses the real original `Progress_completeSetAction` and `Program_runAllFinishDayScripts` with independently controlled native `completedRepsLeft` and `completedReps` fields. [Analysis and limits](../../docs/validation/hybrid2-runtime-parity/K5_PAIRED_NATIVE_HISTORY_DIFF.md) and [scrubbed trace](../../docs/validation/hybrid2-runtime-parity/current-k5-native-paired-sanitized.json). Source, actual weights, live records and account state stay private.

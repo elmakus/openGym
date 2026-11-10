@@ -1,0 +1,431 @@
+{
+  "schema": "HYBRID2-K5-NATIVE-BILATERAL-RECORD-1",
+  "provenance": {
+    "sourceSha256": "74420646c1c5826f77d842025291f75f7d89367f46265818a43a92cacfec662e",
+    "runtimePin": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+    "fitnessPin": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+    "openGymBase": "8529b2d41b28fea8ae96a50325aaf28e864a0160",
+    "settings": "synthetic original H2PERF fixture labels + unilateral flag, NOT live K5 equipment",
+    "originalK5Unchanged": true,
+    "accountWrites": 0
+  },
+  "method": "Program_nextHistoryRecord, original Progress_completeSetAction, Progress_settleTimedSet, Progress_changeAmrapAction, original Program_runAllFinishDayScripts, native serialization and planner write/reload; independent synthetic left/right observations assigned to native IHistoryRecord like original UI, not inferred from right.",
+  "executedWorkouts": 20,
+  "completedFirstSets": 152,
+  "pairedNativeEntries": 4,
+  "fieldsCompared": 488,
+  "failures": [],
+  "cycles": [
+    {
+      "number": 1,
+      "days": [
+        {
+          "day": 1,
+          "exercises": 8,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 1,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 10,
+              "sampleCount": 1,
+              "candidateGuard": 1
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 2,
+          "exercises": 9,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 2,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 10,
+              "sampleCount": 1,
+              "candidateGuard": 1
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 3,
+          "exercises": 7,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 3,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 10,
+              "sampleCount": 1,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 4,
+          "exercises": 4,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 4,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 10,
+              "sampleCount": 1,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 5,
+          "exercises": 10,
+          "pairedRecords": 1,
+          "comparedAnchors": [
+            {
+              "slot": 5,
+              "bilateral": true,
+              "sample": "COMPARABLE",
+              "leftReps": 10,
+              "rightReps": 10,
+              "sampleCount": 1,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        }
+      ],
+      "classification": {
+        "native": 0,
+        "expected": "INDETERMINATE",
+        "queue": 0,
+        "pairedObservation": [
+          10,
+          10
+        ]
+      }
+    },
+    {
+      "number": 2,
+      "days": [
+        {
+          "day": 1,
+          "exercises": 8,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 1,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 10,
+              "sampleCount": 2,
+              "candidateGuard": 1
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 2,
+          "exercises": 9,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 2,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 10,
+              "sampleCount": 2,
+              "candidateGuard": 1
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 3,
+          "exercises": 7,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 3,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 10,
+              "sampleCount": 2,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 4,
+          "exercises": 4,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 4,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 10,
+              "sampleCount": 2,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 5,
+          "exercises": 10,
+          "pairedRecords": 1,
+          "comparedAnchors": [
+            {
+              "slot": 5,
+              "bilateral": true,
+              "sample": "COMPARABLE",
+              "leftReps": 9,
+              "rightReps": 10,
+              "sampleCount": 2,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        }
+      ],
+      "classification": {
+        "native": 0,
+        "expected": "INDETERMINATE",
+        "queue": 0,
+        "pairedObservation": [
+          9,
+          10
+        ]
+      }
+    },
+    {
+      "number": 3,
+      "days": [
+        {
+          "day": 1,
+          "exercises": 8,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 1,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 10,
+              "sampleCount": 3,
+              "candidateGuard": 1
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 2,
+          "exercises": 9,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 2,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 10,
+              "sampleCount": 3,
+              "candidateGuard": 1
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 3,
+          "exercises": 7,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 3,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 10,
+              "sampleCount": 3,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 4,
+          "exercises": 4,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 4,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 10,
+              "sampleCount": 3,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 5,
+          "exercises": 10,
+          "pairedRecords": 1,
+          "comparedAnchors": [
+            {
+              "slot": 5,
+              "bilateral": true,
+              "sample": "COMPARABLE",
+              "leftReps": 8,
+              "rightReps": 9,
+              "sampleCount": 3,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        }
+      ],
+      "classification": {
+        "native": 0,
+        "expected": "INDETERMINATE",
+        "queue": 0,
+        "pairedObservation": [
+          8,
+          9
+        ]
+      }
+    },
+    {
+      "number": 4,
+      "days": [
+        {
+          "day": 1,
+          "exercises": 8,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 1,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 7,
+              "sampleCount": 3,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 2,
+          "exercises": 9,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 2,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 7,
+              "sampleCount": 3,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 3,
+          "exercises": 7,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 3,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 7,
+              "sampleCount": 3,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 4,
+          "exercises": 4,
+          "pairedRecords": 0,
+          "comparedAnchors": [
+            {
+              "slot": 4,
+              "bilateral": false,
+              "sample": "COMPARABLE",
+              "rightReps": 7,
+              "sampleCount": 3,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        },
+        {
+          "day": 5,
+          "exercises": 10,
+          "pairedRecords": 1,
+          "comparedAnchors": [
+            {
+              "slot": 5,
+              "bilateral": true,
+              "sample": "COMPARABLE",
+              "leftReps": 7,
+              "rightReps": 10,
+              "sampleCount": 3,
+              "candidateGuard": 0
+            }
+          ],
+          "failedFields": []
+        }
+      ],
+      "classification": {
+        "native": 0,
+        "expected": "INDETERMINATE",
+        "queue": 0,
+        "pairedObservation": [
+          7,
+          10
+        ]
+      }
+    }
+  ],
+  "outcome": "PASS",
+  "pairedInputs": [
+    {
+      "cycle": 1,
+      "day": 5,
+      "exerciseIndex": 1,
+      "left": 10,
+      "right": 10
+    },
+    {
+      "cycle": 2,
+      "day": 5,
+      "exerciseIndex": 1,
+      "left": 9,
+      "right": 10
+    },
+    {
+      "cycle": 3,
+      "day": 5,
+      "exerciseIndex": 1,
+      "left": 8,
+      "right": 9
+    },
+    {
+      "cycle": 4,
+      "day": 5,
+      "exerciseIndex": 1,
+      "left": 7,
+      "right": 10
+    }
+  ]
+}
