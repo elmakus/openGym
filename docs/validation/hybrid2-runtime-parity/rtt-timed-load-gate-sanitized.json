@@ -1,0 +1,47 @@
+{
+  "schema": "HYBRID2-RTT-NEGATIVE-AND-TIMED-HTTP-GATE-1",
+  "date": "2026-11-10",
+  "verdict": "EXPECTED_ORIGINAL_RTT_RED__SOURCE_ONLY_VARIANT_PASS__TIMED_HTTP_PASS",
+  "sourceOriginalSha256": "7b1c7d114229b4d1cf86093409d7d89ae4e7d88e6a0c1c4c89bcba30a4a425df",
+  "runtimePin": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "originalFitnessPin": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+  "provenance": "original native source pin and settings frozen on authorized host, no source/account publication",
+  "negativeOriginalM6": {
+    "classification": "EXPECTED_RED_FOR_ORIGINAL_M6_QUEUE_TO_DELOAD",
+    "finishedNativeWorkoutsInCausalRun": 6,
+    "comparisons": 122,
+    "unexpectedHarnessFailures": 0,
+    "queuedAfterNextWorkout": 1,
+    "activeAfterNextWorkout": 0,
+    "firstOverrideRemovedDiagnosticStarts": true,
+    "removedAllOverridesDiagnosticStarts": true
+  },
+  "correctedSourceOnlyM6": {
+    "classification": "SOURCE_VARIANT_PASS_NOT_DEPLOYED",
+    "nativeFinishExecutions": 29,
+    "nativeSetAccessProbes": 48,
+    "comparisons": 688,
+    "unexpectedDifferences": 0,
+    "unchangedOriginalRuntime": true
+  },
+  "timedLoadHTTP": {
+    "classification": "PASS_WITH_FROZEN_PYTHON_ORACLE",
+    "oracleFixtureCases": 4976,
+    "individuallyOracleMatchedTransitions": 12,
+    "syntheticSessions": 13,
+    "physicalTimedRows": 52,
+    "realHTTPRequests": 31,
+    "acceptedWrites": 15,
+    "reads": 16,
+    "realBackendRestarts": 2,
+    "genuinelyNativeLiftosaurTimedLoadComparison": false
+  },
+  "limits": [
+    "The RTT source fix is applied only in memory to a private test variant, never to the original account",
+    "M6 unmodified queued→deload is an expected RED and cannot be reclassified using source-only variant results",
+    "Timed Load comparison is anchored to the frozen Python oracle, not to a native Liftosaur Timed Load exercise",
+    "No full unmodified original M6 combined Liftosaur→HTTP→two-device parity claimed",
+    "Private source text, training values, equipment and test database secrets are not exported",
+    "No original source, production branch, active account or workout history modified"
+  ]
+}

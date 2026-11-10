@@ -1,0 +1,147 @@
+{
+  "schema": "TIMED-LOAD-REAL-HTTP-PROGRESSION-1",
+  "status": "PASS",
+  "scope": "Source-oracle model + real frontend and HTTP backend; no native Liftosaur Timed Load execution",
+  "originalOracleFixtureCases": 4976,
+  "originalPythonOracleGitBlob": "9caa4778c291a652e08ed1342e2acef7ca83702b",
+  "syntheticSessions": 13,
+  "chronologicalStateTransitions": 12,
+  "physicalTimedRows": 52,
+  "apiWrites": 15,
+  "apiReads": 16,
+  "apiRequests": 31,
+  "actualBackendRestarts": 2,
+  "testedReasons": [
+    "normal_time_success",
+    "top_success_load_increase",
+    "first_failure_retry",
+    "new_load_emergency",
+    "emergency_failure_bridge",
+    "bridge_return"
+  ],
+  "otherChecks": [
+    "excluded workout ignored",
+    "historical edit triggers full replay"
+  ],
+  "matchedFrozenPythonOracleTransitions": 12,
+  "fullStates": [
+    {
+      "i": 1,
+      "success": true,
+      "targetBefore": 30,
+      "loadBefore": 0,
+      "loadAfter": 0,
+      "targetAfter": 35
+    },
+    {
+      "i": 2,
+      "success": true,
+      "targetBefore": 35,
+      "loadBefore": 0,
+      "loadAfter": 0,
+      "targetAfter": 40
+    },
+    {
+      "i": 3,
+      "success": true,
+      "targetBefore": 40,
+      "loadBefore": 0,
+      "loadAfter": 0,
+      "targetAfter": 45
+    },
+    {
+      "i": 4,
+      "success": true,
+      "targetBefore": 45,
+      "loadBefore": 0,
+      "loadAfter": 2,
+      "targetAfter": 30
+    },
+    {
+      "i": 5,
+      "success": false,
+      "targetBefore": 30,
+      "loadBefore": 2,
+      "loadAfter": 2,
+      "targetAfter": 30
+    },
+    {
+      "i": 6,
+      "success": false,
+      "targetBefore": 30,
+      "loadBefore": 2,
+      "loadAfter": 2,
+      "targetAfter": 25
+    },
+    {
+      "i": 7,
+      "success": false,
+      "targetBefore": 25,
+      "loadBefore": 2,
+      "loadAfter": 1,
+      "targetAfter": 30
+    },
+    {
+      "i": 8,
+      "success": true,
+      "targetBefore": 30,
+      "loadBefore": 1,
+      "loadAfter": 1,
+      "targetAfter": 35
+    },
+    {
+      "i": 9,
+      "success": true,
+      "targetBefore": 35,
+      "loadBefore": 1,
+      "loadAfter": 1,
+      "targetAfter": 40
+    },
+    {
+      "i": 10,
+      "success": true,
+      "targetBefore": 40,
+      "loadBefore": 1,
+      "loadAfter": 1,
+      "targetAfter": 45
+    },
+    {
+      "i": 11,
+      "success": true,
+      "targetBefore": 45,
+      "loadBefore": 1,
+      "loadAfter": 2,
+      "targetAfter": 30
+    },
+    {
+      "i": 12,
+      "success": true,
+      "targetBefore": 30,
+      "loadBefore": 2,
+      "loadAfter": 2,
+      "targetAfter": 35
+    }
+  ],
+  "lastBeforeEdit": {
+    "initialized": true,
+    "load": 2,
+    "target": 35,
+    "fails": 0,
+    "provenance": "established",
+    "emergency": false,
+    "bridgeTarget": null,
+    "bridgeProvenance": null
+  },
+  "lastAfterEdit": {
+    "initialized": true,
+    "load": 2,
+    "target": 30,
+    "fails": 1,
+    "provenance": "new",
+    "emergency": false,
+    "bridgeTarget": null,
+    "bridgeProvenance": null
+  },
+  "noNativeRuntimeEquivalenceClaimed": true,
+  "noProductionOrPersonalDataTouched": true
+}
