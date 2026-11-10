@@ -263,3 +263,17 @@ node scripts/hybrid2-runtime-parity/run-native-k5-real-http-backend.mjs
 ```
 
 [Evidence / boundaries](../../docs/validation/hybrid2-runtime-parity/K5_NATIVE_REAL_HTTP_BACKEND_RESTART.md). Native K5 reps/paired sets are real original-runtime output; their materialized openGym weights are synthetic. The real backend does not touch production state, and this test does **not** establish exact current M6 native-load persistence parity. Targeted 24 backend API unit/integration tests also PASS (separate count).
+
+## Post-deload real M6 H1 relearning + six-field ATP2 native differential
+
+`run-m6-post-deload-native.mjs` uses the real complete original source-only RTT/H1-fixed current M6 and original native Liftosaur to build actual queued→active→terminal-closer deload state (**3 setup native finishes, NOT new selected workouts**) followed by **9 NEW selected full NORMAL native workouts** across 3 A/B/C cycles. Checks six anchors' H1 `perfCount 1 → 2 → 3`, first-set actual reps, candidateGuard and all six H1 state fields; six-field ATP2 candidate/probe/floor/lowCount/counterActive/counterWeight with original equipment ladders; shared native `e.key` readbacks; and real Turbo multiset changes. **990 selected native comparisons, zero RED**, plus 38 setup checks that are kept separate.
+
+```sh
+B=/tmp/hybrid2-runtime-parity-20261109
+cd "$B/integration-checkout-20261110"
+FITNESS_ROOT="$B/fitness" LIFTOSAUR_RUNTIME_ROOT="$B/liftosaur" \
+PRIVATE_LIVE_ROOT="$B/private-live" H2_PARITY_OUT="$B/evidence" \
+node scripts/hybrid2-runtime-parity/run-m6-post-deload-native.mjs
+```
+
+See [post-deload report](../../docs/validation/hybrid2-runtime-parity/M6_POST_DELOAD_ATP2_H1_RELEARNING_NATIVE.md) and [safe native state trace](../../docs/validation/hybrid2-runtime-parity/m6-post-deload-native-sanitized.json). All 99 absolute source-derived set/ATP2/H1 expected/actual records stay **private mode 0600**; published records contain only anonymized relative values. Original 21/22 H1 policy RED and current M6 full persisted-backend chain remain open.

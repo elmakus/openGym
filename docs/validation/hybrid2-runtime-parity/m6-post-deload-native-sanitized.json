@@ -1,0 +1,801 @@
+{
+  "schema": "HYBRID2-M6-POST-DELOAD-NATIVE-ATP2-H1-1",
+  "provenance": {
+    "sourceSha256": "7b1c7d114229b4d1cf86093409d7d89ae4e7d88e6a0c1c4c89bcba30a4a425df",
+    "queuedSourceSha256": "b1f481de1385292b63ae12d7873c37f386e5f521c4807b89bfa503c8ddaa89e5",
+    "frozenFitness": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+    "nativeRuntime": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+    "baseOpenGym": "8529b2d41b28fea8ae96a50325aaf28e864a0160",
+    "sourceOnlyRttH1": true,
+    "fixture": "original pinned baseline equipment; NOT live equipment",
+    "productionWrites": 0
+  },
+  "nativeExecutions": 12,
+  "setupWorkouts": 3,
+  "selectedPostDeloadWorkouts": 9,
+  "checks": 1028,
+  "issues": [],
+  "steps": [
+    {
+      "cycle": 1,
+      "day": 1,
+      "beforeSha256": "08bb02c039b9163c3ca9c8c72206c907ede269808db6d5c9cf97b875390f066b",
+      "afterSha256": "f0dbee7230658cdbf243180b4b54195a6abd01b1c25c832a1e3e3000e9a3abba",
+      "observedAnchors": [
+        {
+          "signal": 1,
+          "count": 1,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1.166667,
+          "expectedReferenceToCandidate": 0,
+          "actualReferenceToCandidate": 0
+        },
+        {
+          "signal": 2,
+          "count": 1,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1.4,
+          "expectedReferenceToCandidate": 0,
+          "actualReferenceToCandidate": 0
+        }
+      ],
+      "candidateChecks": 54,
+      "sharedGroups": [
+        {
+          "keyHash": "f3e9117318b4",
+          "occurrences": [
+            "d1i3",
+            "d2i3"
+          ]
+        },
+        {
+          "keyHash": "145805c4652a",
+          "occurrences": [
+            "d1i4",
+            "d2i5",
+            "d3i5"
+          ]
+        },
+        {
+          "keyHash": "e99431b7c9d4",
+          "occurrences": [
+            "d1i9",
+            "d3i9"
+          ]
+        },
+        {
+          "keyHash": "e62051285e3d",
+          "occurrences": [
+            "d1i11",
+            "d3i12"
+          ]
+        },
+        {
+          "keyHash": "42c8c95501ee",
+          "occurrences": [
+            "d2i1",
+            "d3i1"
+          ]
+        },
+        {
+          "keyHash": "86a0022a2861",
+          "occurrences": [
+            "d2i13",
+            "d3i10"
+          ]
+        }
+      ],
+      "actualMultiSets": 2,
+      "actualTurboWeightChanges": 2,
+      "unparsedRows": 2,
+      "issues": []
+    },
+    {
+      "cycle": 1,
+      "day": 2,
+      "beforeSha256": "f0dbee7230658cdbf243180b4b54195a6abd01b1c25c832a1e3e3000e9a3abba",
+      "afterSha256": "765f909130f35b368c803b25f835b8edeb1a3df7652c78acc7e552a07b799e4e",
+      "observedAnchors": [
+        {
+          "signal": 3,
+          "count": 1,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1.166667,
+          "expectedReferenceToCandidate": 0,
+          "actualReferenceToCandidate": 0
+        },
+        {
+          "signal": 4,
+          "count": 1,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1.2,
+          "expectedReferenceToCandidate": 0,
+          "actualReferenceToCandidate": 0
+        }
+      ],
+      "candidateChecks": 78,
+      "sharedGroups": [
+        {
+          "keyHash": "f3e9117318b4",
+          "occurrences": [
+            "d1i3",
+            "d2i3"
+          ]
+        },
+        {
+          "keyHash": "145805c4652a",
+          "occurrences": [
+            "d1i4",
+            "d2i5",
+            "d3i5"
+          ]
+        },
+        {
+          "keyHash": "e99431b7c9d4",
+          "occurrences": [
+            "d1i9",
+            "d3i9"
+          ]
+        },
+        {
+          "keyHash": "e62051285e3d",
+          "occurrences": [
+            "d1i11",
+            "d3i12"
+          ]
+        },
+        {
+          "keyHash": "42c8c95501ee",
+          "occurrences": [
+            "d2i1",
+            "d3i1"
+          ]
+        },
+        {
+          "keyHash": "86a0022a2861",
+          "occurrences": [
+            "d2i13",
+            "d3i10"
+          ]
+        }
+      ],
+      "actualMultiSets": 2,
+      "actualTurboWeightChanges": 2,
+      "unparsedRows": 0,
+      "issues": []
+    },
+    {
+      "cycle": 1,
+      "day": 3,
+      "beforeSha256": "765f909130f35b368c803b25f835b8edeb1a3df7652c78acc7e552a07b799e4e",
+      "afterSha256": "92fa4fa4b429cd88a5682d0db96ab82b33e0bb7362a9c71c191577363c681b7c",
+      "observedAnchors": [
+        {
+          "signal": 5,
+          "count": 1,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1.16129,
+          "expectedReferenceToCandidate": 0,
+          "actualReferenceToCandidate": 0
+        },
+        {
+          "signal": 6,
+          "count": 1,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1.090909,
+          "expectedReferenceToCandidate": 0,
+          "actualReferenceToCandidate": 0
+        }
+      ],
+      "candidateChecks": 66,
+      "sharedGroups": [
+        {
+          "keyHash": "f3e9117318b4",
+          "occurrences": [
+            "d1i3",
+            "d2i3"
+          ]
+        },
+        {
+          "keyHash": "145805c4652a",
+          "occurrences": [
+            "d1i4",
+            "d2i5",
+            "d3i5"
+          ]
+        },
+        {
+          "keyHash": "e99431b7c9d4",
+          "occurrences": [
+            "d1i9",
+            "d3i9"
+          ]
+        },
+        {
+          "keyHash": "e62051285e3d",
+          "occurrences": [
+            "d1i11",
+            "d3i12"
+          ]
+        },
+        {
+          "keyHash": "42c8c95501ee",
+          "occurrences": [
+            "d2i1",
+            "d3i1"
+          ]
+        },
+        {
+          "keyHash": "86a0022a2861",
+          "occurrences": [
+            "d2i13",
+            "d3i10"
+          ]
+        }
+      ],
+      "actualMultiSets": 2,
+      "actualTurboWeightChanges": 2,
+      "unparsedRows": 1,
+      "issues": []
+    },
+    {
+      "cycle": 2,
+      "day": 1,
+      "beforeSha256": "92fa4fa4b429cd88a5682d0db96ab82b33e0bb7362a9c71c191577363c681b7c",
+      "afterSha256": "3c3131041074205d44b7f0defec93fc477516e69010f563df13f177e0eba4285",
+      "observedAnchors": [
+        {
+          "signal": 1,
+          "count": 2,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1,
+          "expectedReferenceToCandidate": 0,
+          "actualReferenceToCandidate": 0
+        },
+        {
+          "signal": 2,
+          "count": 2,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1,
+          "expectedReferenceToCandidate": 0,
+          "actualReferenceToCandidate": 0
+        }
+      ],
+      "candidateChecks": 54,
+      "sharedGroups": [
+        {
+          "keyHash": "f3e9117318b4",
+          "occurrences": [
+            "d1i3",
+            "d2i3"
+          ]
+        },
+        {
+          "keyHash": "145805c4652a",
+          "occurrences": [
+            "d1i4",
+            "d2i5",
+            "d3i5"
+          ]
+        },
+        {
+          "keyHash": "e99431b7c9d4",
+          "occurrences": [
+            "d1i9",
+            "d3i9"
+          ]
+        },
+        {
+          "keyHash": "e62051285e3d",
+          "occurrences": [
+            "d1i11",
+            "d3i12"
+          ]
+        },
+        {
+          "keyHash": "42c8c95501ee",
+          "occurrences": [
+            "d2i1",
+            "d3i1"
+          ]
+        },
+        {
+          "keyHash": "86a0022a2861",
+          "occurrences": [
+            "d2i13",
+            "d3i10"
+          ]
+        }
+      ],
+      "actualMultiSets": 2,
+      "actualTurboWeightChanges": 0,
+      "unparsedRows": 2,
+      "issues": []
+    },
+    {
+      "cycle": 2,
+      "day": 2,
+      "beforeSha256": "3c3131041074205d44b7f0defec93fc477516e69010f563df13f177e0eba4285",
+      "afterSha256": "20dff694c149c03d68030aa08ff1d7a3d91c6ef12c41e30fba55f2ce5eb458ca",
+      "observedAnchors": [
+        {
+          "signal": 3,
+          "count": 2,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1,
+          "expectedReferenceToCandidate": 0,
+          "actualReferenceToCandidate": 0
+        },
+        {
+          "signal": 4,
+          "count": 2,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1,
+          "expectedReferenceToCandidate": 0,
+          "actualReferenceToCandidate": 0
+        }
+      ],
+      "candidateChecks": 78,
+      "sharedGroups": [
+        {
+          "keyHash": "f3e9117318b4",
+          "occurrences": [
+            "d1i3",
+            "d2i3"
+          ]
+        },
+        {
+          "keyHash": "145805c4652a",
+          "occurrences": [
+            "d1i4",
+            "d2i5",
+            "d3i5"
+          ]
+        },
+        {
+          "keyHash": "e99431b7c9d4",
+          "occurrences": [
+            "d1i9",
+            "d3i9"
+          ]
+        },
+        {
+          "keyHash": "e62051285e3d",
+          "occurrences": [
+            "d1i11",
+            "d3i12"
+          ]
+        },
+        {
+          "keyHash": "42c8c95501ee",
+          "occurrences": [
+            "d2i1",
+            "d3i1"
+          ]
+        },
+        {
+          "keyHash": "86a0022a2861",
+          "occurrences": [
+            "d2i13",
+            "d3i10"
+          ]
+        }
+      ],
+      "actualMultiSets": 2,
+      "actualTurboWeightChanges": 0,
+      "unparsedRows": 0,
+      "issues": []
+    },
+    {
+      "cycle": 2,
+      "day": 3,
+      "beforeSha256": "20dff694c149c03d68030aa08ff1d7a3d91c6ef12c41e30fba55f2ce5eb458ca",
+      "afterSha256": "5713e95cb0ef45ee82876078fe3f17d349af0d380b86b1b269a0ce790bb058d8",
+      "observedAnchors": [
+        {
+          "signal": 5,
+          "count": 2,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1,
+          "expectedReferenceToCandidate": 0,
+          "actualReferenceToCandidate": 0
+        },
+        {
+          "signal": 6,
+          "count": 2,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1,
+          "expectedReferenceToCandidate": 0,
+          "actualReferenceToCandidate": 0
+        }
+      ],
+      "candidateChecks": 66,
+      "sharedGroups": [
+        {
+          "keyHash": "f3e9117318b4",
+          "occurrences": [
+            "d1i3",
+            "d2i3"
+          ]
+        },
+        {
+          "keyHash": "145805c4652a",
+          "occurrences": [
+            "d1i4",
+            "d2i5",
+            "d3i5"
+          ]
+        },
+        {
+          "keyHash": "e99431b7c9d4",
+          "occurrences": [
+            "d1i9",
+            "d3i9"
+          ]
+        },
+        {
+          "keyHash": "e62051285e3d",
+          "occurrences": [
+            "d1i11",
+            "d3i12"
+          ]
+        },
+        {
+          "keyHash": "42c8c95501ee",
+          "occurrences": [
+            "d2i1",
+            "d3i1"
+          ]
+        },
+        {
+          "keyHash": "86a0022a2861",
+          "occurrences": [
+            "d2i13",
+            "d3i10"
+          ]
+        }
+      ],
+      "actualMultiSets": 2,
+      "actualTurboWeightChanges": 0,
+      "unparsedRows": 1,
+      "issues": []
+    },
+    {
+      "cycle": 3,
+      "day": 1,
+      "beforeSha256": "5713e95cb0ef45ee82876078fe3f17d349af0d380b86b1b269a0ce790bb058d8",
+      "afterSha256": "0f0c20563f6c430f81654d62ef9df238b9640d8dce35c43d47cc05ba8cada452",
+      "observedAnchors": [
+        {
+          "signal": 1,
+          "count": 3,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1.014286,
+          "expectedReferenceToCandidate": 1.314592,
+          "actualReferenceToCandidate": 1.314592
+        },
+        {
+          "signal": 2,
+          "count": 3,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1.142857,
+          "expectedReferenceToCandidate": 1.1665,
+          "actualReferenceToCandidate": 1.1665
+        }
+      ],
+      "candidateChecks": 54,
+      "sharedGroups": [
+        {
+          "keyHash": "f3e9117318b4",
+          "occurrences": [
+            "d1i3",
+            "d2i3"
+          ]
+        },
+        {
+          "keyHash": "145805c4652a",
+          "occurrences": [
+            "d1i4",
+            "d2i5",
+            "d3i5"
+          ]
+        },
+        {
+          "keyHash": "e99431b7c9d4",
+          "occurrences": [
+            "d1i9",
+            "d3i9"
+          ]
+        },
+        {
+          "keyHash": "e62051285e3d",
+          "occurrences": [
+            "d1i11",
+            "d3i12"
+          ]
+        },
+        {
+          "keyHash": "42c8c95501ee",
+          "occurrences": [
+            "d2i1",
+            "d3i1"
+          ]
+        },
+        {
+          "keyHash": "86a0022a2861",
+          "occurrences": [
+            "d2i13",
+            "d3i10"
+          ]
+        }
+      ],
+      "actualMultiSets": 2,
+      "actualTurboWeightChanges": 0,
+      "unparsedRows": 2,
+      "issues": []
+    },
+    {
+      "cycle": 3,
+      "day": 2,
+      "beforeSha256": "0f0c20563f6c430f81654d62ef9df238b9640d8dce35c43d47cc05ba8cada452",
+      "afterSha256": "b534f9a9652a0575624d24f00d5c636450cf461fe831e73f5d23e28a5db2cfc9",
+      "observedAnchors": [
+        {
+          "signal": 3,
+          "count": 3,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1.014286,
+          "expectedReferenceToCandidate": 1.314592,
+          "actualReferenceToCandidate": 1.314592
+        },
+        {
+          "signal": 4,
+          "count": 3,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1,
+          "expectedReferenceToCandidate": 1.333333,
+          "actualReferenceToCandidate": 1.333333
+        }
+      ],
+      "candidateChecks": 78,
+      "sharedGroups": [
+        {
+          "keyHash": "f3e9117318b4",
+          "occurrences": [
+            "d1i3",
+            "d2i3"
+          ]
+        },
+        {
+          "keyHash": "145805c4652a",
+          "occurrences": [
+            "d1i4",
+            "d2i5",
+            "d3i5"
+          ]
+        },
+        {
+          "keyHash": "e99431b7c9d4",
+          "occurrences": [
+            "d1i9",
+            "d3i9"
+          ]
+        },
+        {
+          "keyHash": "e62051285e3d",
+          "occurrences": [
+            "d1i11",
+            "d3i12"
+          ]
+        },
+        {
+          "keyHash": "42c8c95501ee",
+          "occurrences": [
+            "d2i1",
+            "d3i1"
+          ]
+        },
+        {
+          "keyHash": "86a0022a2861",
+          "occurrences": [
+            "d2i13",
+            "d3i10"
+          ]
+        }
+      ],
+      "actualMultiSets": 2,
+      "actualTurboWeightChanges": 0,
+      "unparsedRows": 0,
+      "issues": []
+    },
+    {
+      "cycle": 3,
+      "day": 3,
+      "beforeSha256": "b534f9a9652a0575624d24f00d5c636450cf461fe831e73f5d23e28a5db2cfc9",
+      "afterSha256": "48ff0c3e57fba3a25df15887bc4f9a97416025d765728100aeb2e52ae1ff6263",
+      "observedAnchors": [
+        {
+          "signal": 5,
+          "count": 3,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1.013889,
+          "expectedReferenceToCandidate": 1.315068,
+          "actualReferenceToCandidate": 1.315068
+        },
+        {
+          "signal": 6,
+          "count": 3,
+          "kind": "COMPARABLE",
+          "candidateRatio": 1,
+          "expectedReferenceToCandidate": 1.4,
+          "actualReferenceToCandidate": 1.4
+        }
+      ],
+      "candidateChecks": 66,
+      "sharedGroups": [
+        {
+          "keyHash": "f3e9117318b4",
+          "occurrences": [
+            "d1i3",
+            "d2i3"
+          ]
+        },
+        {
+          "keyHash": "145805c4652a",
+          "occurrences": [
+            "d1i4",
+            "d2i5",
+            "d3i5"
+          ]
+        },
+        {
+          "keyHash": "e99431b7c9d4",
+          "occurrences": [
+            "d1i9",
+            "d3i9"
+          ]
+        },
+        {
+          "keyHash": "e62051285e3d",
+          "occurrences": [
+            "d1i11",
+            "d3i12"
+          ]
+        },
+        {
+          "keyHash": "42c8c95501ee",
+          "occurrences": [
+            "d2i1",
+            "d3i1"
+          ]
+        },
+        {
+          "keyHash": "86a0022a2861",
+          "occurrences": [
+            "d2i13",
+            "d3i10"
+          ]
+        }
+      ],
+      "actualMultiSets": 2,
+      "actualTurboWeightChanges": 0,
+      "unparsedRows": 1,
+      "issues": []
+    }
+  ],
+  "setupSourceShas": [
+    "3be6e17720056689e791f43c6236176e8ff0394f9841edffb3bf45d8d837701c",
+    "dbc2e309ad4f8a5ffad8b999c43df1240c5dd1c9defff319b7075bf3ba31d65c",
+    "08bb02c039b9163c3ca9c8c72206c907ede269808db6d5c9cf97b875390f066b"
+  ],
+  "postCycleSummaries": [
+    {
+      "cycle": 1,
+      "anchors": [
+        {
+          "signal": 1,
+          "count": 1,
+          "comparable": true
+        },
+        {
+          "signal": 2,
+          "count": 1,
+          "comparable": true
+        },
+        {
+          "signal": 3,
+          "count": 1,
+          "comparable": true
+        },
+        {
+          "signal": 4,
+          "count": 1,
+          "comparable": true
+        },
+        {
+          "signal": 5,
+          "count": 1,
+          "comparable": true
+        },
+        {
+          "signal": 6,
+          "count": 1,
+          "comparable": true
+        }
+      ]
+    },
+    {
+      "cycle": 2,
+      "anchors": [
+        {
+          "signal": 1,
+          "count": 2,
+          "comparable": true
+        },
+        {
+          "signal": 2,
+          "count": 2,
+          "comparable": true
+        },
+        {
+          "signal": 3,
+          "count": 2,
+          "comparable": true
+        },
+        {
+          "signal": 4,
+          "count": 2,
+          "comparable": true
+        },
+        {
+          "signal": 5,
+          "count": 2,
+          "comparable": true
+        },
+        {
+          "signal": 6,
+          "count": 2,
+          "comparable": true
+        }
+      ]
+    },
+    {
+      "cycle": 3,
+      "anchors": [
+        {
+          "signal": 1,
+          "count": 3,
+          "comparable": true
+        },
+        {
+          "signal": 2,
+          "count": 3,
+          "comparable": true
+        },
+        {
+          "signal": 3,
+          "count": 3,
+          "comparable": true
+        },
+        {
+          "signal": 4,
+          "count": 3,
+          "comparable": true
+        },
+        {
+          "signal": 5,
+          "count": 3,
+          "comparable": true
+        },
+        {
+          "signal": 6,
+          "count": 3,
+          "comparable": true
+        }
+      ]
+    }
+  ],
+  "selectedNativeComparisons": 990,
+  "outcome": "PASS",
+  "afterPostDeloadProgramSha256": "48ff0c3e57fba3a25df15887bc4f9a97416025d765728100aeb2e52ae1ff6263"
+}
