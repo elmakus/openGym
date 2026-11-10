@@ -44,3 +44,7 @@ H2_PARITY_OUT="$BASE/evidence-h1-relaxed-20261110" \
 ```
 
 [Sanitized evidence](h1-relaxed-reps-variant-sanitized.json). Native exact source and full state remain private.
+
+## 2026-11-10 addendum — 300 native behavior is no longer unknown
+
+The limitation above saying 300-rep native behavior was unvalidated reflects the state of that **older 21–23 experiment only**. [A new independent 24–300 native run](H1_NATIVE_24_300_CONTRACT_AND_M6_MULTISET_20261110.md) now demonstrates the frozen original fitness+Liftosaur runtime accepts comparable 300-rep first sets and casts native valid H1 evidence when the other historical conditions pass. Unmodified openGym remains RED (19/30 new workout steps, 79 fields); a temporary no-upper-cap adapter reaches 360/360 field parity on the same 30 native workouts. The product policy conflict with the deliberate anti-extreme H1 300-rep guard is **not resolved** and shipped observation.js remains untouched.

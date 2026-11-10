@@ -1,0 +1,483 @@
+{
+  "schema": "HYBRID2-ORIGINAL-NATIVE-H1-BOUNDARY-24-300-1",
+  "fitnessCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+  "runtimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "productionOpenGymCommit": "8529b2d41b28fea8ae96a50325aaf28e864a0160",
+  "originalFitnessSha256": {
+    "hybrid2_controller_state.py": "957d8b280412862ff88f1778efd3d6ad71d64ddbdaba0dd2152f23b3c5b0ef82",
+    "hybrid2_h1_liftosaur_codegen.py": "c38004d7f0bd53ce3994ae15675bb6cc8205109accaf378cc675d662ae9f3b8c",
+    "hybrid2_promotion_materializer.py": "493839d999795a7ba21e17026fca027dea9c192721d905428a0d38cc2edbe655"
+  },
+  "generatedLiftoscriptSha256": "fcfe2a0e796460516471622d3610916e13be025b8acbe482600803b12bdef061",
+  "newOriginalNativeWorkouts": 30,
+  "scenarios": 4,
+  "comparisons": 360,
+  "discrepancyFields": 79,
+  "discrepancyWorkoutSteps": 19,
+  "comparativeSteps": 30,
+  "protocol": "Original fitness Python H1 generator -> pinned real Liftosaur Playground_run complete_set + finish_workout -> updatedProgramText native state readback; unchanged openGym h1FromExposure projection from issued completed-set commands -> observeAnchor",
+  "nativeSerializationOfCompletedSet": "not extracted: command projection only",
+  "newNativeRunsPriorOverlap": false,
+  "extremeExerciseInputScope": "24-300; source generator unchanged; no claim that this is a supported production operating range",
+  "trace": [
+    {
+      "scenario": "H1_NEW_24_25_30_THEN_10",
+      "step": 1,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": false,
+      "openGymAuditValid": false,
+      "nativePerfCount": 1,
+      "openGymPerfCount": 1,
+      "mismatchFields": [],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_24_25_30_THEN_10",
+      "step": 2,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": false,
+      "openGymAuditValid": false,
+      "nativePerfCount": 2,
+      "openGymPerfCount": 2,
+      "mismatchFields": [],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_24_25_30_THEN_10",
+      "step": 3,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": false,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_24_25_30_THEN_10",
+      "step": 4,
+      "reps": 24,
+      "openGymKind": "INDETERMINATE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf3",
+        "auditValid"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_24_25_30_THEN_10",
+      "step": 5,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": true,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf2"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_24_25_30_THEN_10",
+      "step": 6,
+      "reps": 25,
+      "openGymKind": "INDETERMINATE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf1",
+        "perf3",
+        "perfReference",
+        "auditValid"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_24_25_30_THEN_10",
+      "step": 7,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": true,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf2",
+        "perfReference",
+        "auditWeak",
+        "auditRefBefore"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_24_25_30_THEN_10",
+      "step": 8,
+      "reps": 30,
+      "openGymKind": "INDETERMINATE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf1",
+        "perf3",
+        "perfReference",
+        "auditValid",
+        "auditRefBefore"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_24_25_30_THEN_10",
+      "step": 9,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": true,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf2",
+        "perfReference",
+        "auditWeak",
+        "auditRefBefore"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_50_100_THEN_10",
+      "step": 1,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": false,
+      "openGymAuditValid": false,
+      "nativePerfCount": 1,
+      "openGymPerfCount": 1,
+      "mismatchFields": [],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_50_100_THEN_10",
+      "step": 2,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": false,
+      "openGymAuditValid": false,
+      "nativePerfCount": 2,
+      "openGymPerfCount": 2,
+      "mismatchFields": [],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_50_100_THEN_10",
+      "step": 3,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": false,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_50_100_THEN_10",
+      "step": 4,
+      "reps": 50,
+      "openGymKind": "INDETERMINATE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf3",
+        "auditValid"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_50_100_THEN_10",
+      "step": 5,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": true,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf2"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_50_100_THEN_10",
+      "step": 6,
+      "reps": 100,
+      "openGymKind": "INDETERMINATE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf1",
+        "perf3",
+        "perfReference",
+        "auditValid"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_50_100_THEN_10",
+      "step": 7,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": true,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf2",
+        "perfReference",
+        "auditWeak",
+        "auditRefBefore"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_300_THEN_10",
+      "step": 1,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": false,
+      "openGymAuditValid": false,
+      "nativePerfCount": 1,
+      "openGymPerfCount": 1,
+      "mismatchFields": [],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_300_THEN_10",
+      "step": 2,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": false,
+      "openGymAuditValid": false,
+      "nativePerfCount": 2,
+      "openGymPerfCount": 2,
+      "mismatchFields": [],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_300_THEN_10",
+      "step": 3,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": false,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_300_THEN_10",
+      "step": 4,
+      "reps": 300,
+      "openGymKind": "INDETERMINATE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf3",
+        "auditValid"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_300_THEN_10",
+      "step": 5,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": true,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf2"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_19_TO_25",
+      "step": 1,
+      "reps": 19,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": false,
+      "openGymAuditValid": false,
+      "nativePerfCount": 1,
+      "openGymPerfCount": 1,
+      "mismatchFields": [],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_19_TO_25",
+      "step": 2,
+      "reps": 20,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": false,
+      "openGymAuditValid": false,
+      "nativePerfCount": 2,
+      "openGymPerfCount": 2,
+      "mismatchFields": [],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_19_TO_25",
+      "step": 3,
+      "reps": 21,
+      "openGymKind": "INDETERMINATE",
+      "nativeAuditValid": false,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 2,
+      "mismatchFields": [
+        "perf3",
+        "perfCount",
+        "perfReference",
+        "auditReady"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_19_TO_25",
+      "step": 4,
+      "reps": 22,
+      "openGymKind": "INDETERMINATE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 2,
+      "mismatchFields": [
+        "perf1",
+        "perf2",
+        "perf3",
+        "perfCount",
+        "perfReference",
+        "auditValid",
+        "auditReady",
+        "auditRefBefore"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_19_TO_25",
+      "step": 5,
+      "reps": 23,
+      "openGymKind": "INDETERMINATE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 2,
+      "mismatchFields": [
+        "perf1",
+        "perf2",
+        "perf3",
+        "perfCount",
+        "perfReference",
+        "auditValid",
+        "auditReady",
+        "auditRefBefore"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_19_TO_25",
+      "step": 6,
+      "reps": 24,
+      "openGymKind": "INDETERMINATE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 2,
+      "mismatchFields": [
+        "perf1",
+        "perf2",
+        "perf3",
+        "perfCount",
+        "perfReference",
+        "auditValid",
+        "auditReady",
+        "auditRefBefore"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_19_TO_25",
+      "step": 7,
+      "reps": 25,
+      "openGymKind": "INDETERMINATE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 2,
+      "mismatchFields": [
+        "perf1",
+        "perf2",
+        "perf3",
+        "perfCount",
+        "perfReference",
+        "auditValid",
+        "auditReady",
+        "auditRefBefore"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_19_TO_25",
+      "step": 8,
+      "reps": 19,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": false,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf1",
+        "perf2",
+        "perfReference",
+        "auditWeak",
+        "auditValid",
+        "auditRefBefore"
+      ],
+      "nativeProgressChanged": true
+    },
+    {
+      "scenario": "H1_NEW_19_TO_25",
+      "step": 9,
+      "reps": 10,
+      "openGymKind": "COMPARABLE",
+      "nativeAuditValid": true,
+      "openGymAuditValid": true,
+      "nativePerfCount": 3,
+      "openGymPerfCount": 3,
+      "mismatchFields": [
+        "perf1",
+        "perfReference",
+        "auditRefBefore"
+      ],
+      "nativeProgressChanged": true
+    }
+  ],
+  "classification": "ORIGINAL_FITNESS_VS_OPENGYM_CONTRACT_RED"
+}

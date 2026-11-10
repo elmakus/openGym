@@ -1,0 +1,121 @@
+{
+  "schema": "HYBRID2-M6-ATP2-H1-MULTISET-NATIVE-COMPACT-1",
+  "classification": "SOURCE_VARIANT_PASS_NOT_UNMODIFIED_M6",
+  "originalRuntimeCommit": "ce75750bde4a190682fb5a6fa1984fc9184a9842",
+  "originalFitnessCommit": "9f2deb6c345643d7c0c793c52d358e496c2710d2",
+  "originalSourceSha256": "7b1c7d114229b4d1cf86093409d7d89ae4e7d88e6a0c1c4c89bcba30a4a425df",
+  "originalSourceOverlaySha256": "3903327e70dd638d13d8870cb128af03d6220321d98bb80447eaa37a37562f1c",
+  "originalQueuedSourceOverlaySha256": "64895b353253b738872b44959a40bd41f975d545c35158d619c65e7769b8b301",
+  "validationOnlyModifications": "original frozen M6 source passes through rtt-centralized-update-variant and h1-stale-barrier-variant (not unmodified authoritative M6)",
+  "newOriginalNativeRuntimeExecutionsInThisRun": 12,
+  "completedSetCommands": 155,
+  "fieldComparisons": 702,
+  "fieldDifferences": 0,
+  "h1SignalEvaluations": 12,
+  "sharedIdentityCrossOccurrenceGroupsObserved": 72,
+  "scenarios": [
+    {
+      "scenario": "baseline-native-A-B-C",
+      "day": 1,
+      "nativeCompletedSets": 9,
+      "h1SignalCount": 2,
+      "sharedIdentityGroupsObserved": 6,
+      "issues": 0
+    },
+    {
+      "scenario": "baseline-native-A-B-C",
+      "day": 2,
+      "nativeCompletedSets": 13,
+      "h1SignalCount": 2,
+      "sharedIdentityGroupsObserved": 6,
+      "issues": 0
+    },
+    {
+      "scenario": "baseline-native-A-B-C",
+      "day": 3,
+      "nativeCompletedSets": 11,
+      "h1SignalCount": 2,
+      "sharedIdentityGroupsObserved": 6,
+      "issues": 0
+    },
+    {
+      "scenario": "normal-turbo-A-B-C",
+      "day": 1,
+      "nativeCompletedSets": 14,
+      "h1SignalCount": 2,
+      "sharedIdentityGroupsObserved": 6,
+      "issues": 0
+    },
+    {
+      "scenario": "normal-turbo-A-B-C",
+      "day": 2,
+      "nativeCompletedSets": 16,
+      "h1SignalCount": 2,
+      "sharedIdentityGroupsObserved": 6,
+      "issues": 0
+    },
+    {
+      "scenario": "normal-turbo-A-B-C",
+      "day": 3,
+      "nativeCompletedSets": 14,
+      "h1SignalCount": 2,
+      "sharedIdentityGroupsObserved": 6,
+      "issues": 0
+    },
+    {
+      "scenario": "rtt-intro-A-B-C",
+      "day": 1,
+      "nativeCompletedSets": 9,
+      "h1SignalCount": 0,
+      "sharedIdentityGroupsObserved": 6,
+      "issues": 0
+    },
+    {
+      "scenario": "rtt-intro-A-B-C",
+      "day": 2,
+      "nativeCompletedSets": 13,
+      "h1SignalCount": 0,
+      "sharedIdentityGroupsObserved": 6,
+      "issues": 0
+    },
+    {
+      "scenario": "rtt-intro-A-B-C",
+      "day": 3,
+      "nativeCompletedSets": 11,
+      "h1SignalCount": 0,
+      "sharedIdentityGroupsObserved": 6,
+      "issues": 0
+    },
+    {
+      "scenario": "queued-active-deload-A-B-C",
+      "day": 1,
+      "nativeCompletedSets": 9,
+      "h1SignalCount": 0,
+      "sharedIdentityGroupsObserved": 6,
+      "issues": 0
+    },
+    {
+      "scenario": "queued-active-deload-A-B-C",
+      "day": 2,
+      "nativeCompletedSets": 13,
+      "h1SignalCount": 0,
+      "sharedIdentityGroupsObserved": 6,
+      "issues": 0
+    },
+    {
+      "scenario": "queued-active-deload-A-B-C",
+      "day": 3,
+      "nativeCompletedSets": 11,
+      "h1SignalCount": 0,
+      "sharedIdentityGroupsObserved": 6,
+      "issues": 0
+    }
+  ],
+  "limitations": [
+    "Only source-overlay original runtime, not original M6 verbatim",
+    "Original gym settings fixture frozen and test-only; not current equipment",
+    "Not an HTTP-disk-roundtrip proof for these exact 12 native workouts",
+    "No real account, customer data or production branch modified",
+    "Native runs may overlap previous executed scenario families; not added to unique cumulative ledger"
+  ]
+}

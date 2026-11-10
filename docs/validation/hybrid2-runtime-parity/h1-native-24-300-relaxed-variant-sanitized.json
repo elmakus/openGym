@@ -1,0 +1,101 @@
+{
+  "schema": "HYBRID2-H1-EXTREMES-24-300-RELAXED-1",
+  "originals": {
+    "openGymObserverSha256": "9b484836eaca791e309194ef8665e05b0487a8a5e509ace29971c244c4ac9adf",
+    "isolatedObserverSha256": "b9190b9a6f410537d2a174b5c2f464c19af7e2ba9135ee3ed40361c8339c4eb5"
+  },
+  "workoutScope": "Re-executes the same 30 NEW 24..300 boundary workouts; do not count those 30 a second time.",
+  "nativeLiftosaurRuns": 30,
+  "nativeComparisonFields": 360,
+  "stepsWithDifferences": 0,
+  "discrepantFields": 0,
+  "outcome": "SOURCE_OVERLAY_PASS",
+  "nativeSerializedFirstSet": "command-projected, not serializer-extracted",
+  "limitations": "The original native runtime accepted and counted a 300-rep input when load was comparable. A strict 20-cap policy conflicts with the original; removing it expands accepted extreme values, contrary to the product hard-cap safety. No production code, existing data or user plan was modified.",
+  "byReps": [
+    {
+      "reps": 10,
+      "nativeWorkouts": 16,
+      "originalNativeAuditVotes": 7,
+      "variantAuditVotes": 7,
+      "redSteps": 0
+    },
+    {
+      "reps": 19,
+      "nativeWorkouts": 2,
+      "originalNativeAuditVotes": 1,
+      "variantAuditVotes": 1,
+      "redSteps": 0
+    },
+    {
+      "reps": 20,
+      "nativeWorkouts": 1,
+      "originalNativeAuditVotes": 0,
+      "variantAuditVotes": 0,
+      "redSteps": 0
+    },
+    {
+      "reps": 21,
+      "nativeWorkouts": 1,
+      "originalNativeAuditVotes": 0,
+      "variantAuditVotes": 0,
+      "redSteps": 0
+    },
+    {
+      "reps": 22,
+      "nativeWorkouts": 1,
+      "originalNativeAuditVotes": 1,
+      "variantAuditVotes": 1,
+      "redSteps": 0
+    },
+    {
+      "reps": 23,
+      "nativeWorkouts": 1,
+      "originalNativeAuditVotes": 1,
+      "variantAuditVotes": 1,
+      "redSteps": 0
+    },
+    {
+      "reps": 24,
+      "nativeWorkouts": 2,
+      "originalNativeAuditVotes": 2,
+      "variantAuditVotes": 2,
+      "redSteps": 0
+    },
+    {
+      "reps": 25,
+      "nativeWorkouts": 2,
+      "originalNativeAuditVotes": 2,
+      "variantAuditVotes": 2,
+      "redSteps": 0
+    },
+    {
+      "reps": 30,
+      "nativeWorkouts": 1,
+      "originalNativeAuditVotes": 1,
+      "variantAuditVotes": 1,
+      "redSteps": 0
+    },
+    {
+      "reps": 50,
+      "nativeWorkouts": 1,
+      "originalNativeAuditVotes": 1,
+      "variantAuditVotes": 1,
+      "redSteps": 0
+    },
+    {
+      "reps": 100,
+      "nativeWorkouts": 1,
+      "originalNativeAuditVotes": 1,
+      "variantAuditVotes": 1,
+      "redSteps": 0
+    },
+    {
+      "reps": 300,
+      "nativeWorkouts": 1,
+      "originalNativeAuditVotes": 1,
+      "variantAuditVotes": 1,
+      "redSteps": 0
+    }
+  ]
+}
