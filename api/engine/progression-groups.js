@@ -188,5 +188,20 @@ export function validateProgressionGroupTransition(previous, next) {
   const changes = new Set([...before.keys(),...after.keys()])
   const errors = [...changes].filter(id => logged.has(id) && before.get(id) !== after.get(id))
     .map(id => `progression group transition after completed history is not allowed for ${id}`)
+
+  // A group already containing completed work cannot absorb a fresh member.
+  // Its existing members keep the SAME group ID, so comparing only the
+  // identities of previously logged occurrences misses this direct API or
+  // offline-sync bypass of the editor's clean-start-only join restriction.
+  // Removing an unlogged member from a 3+-member group remains safe.
+  const currentGroups = new Map(list(next?.progressionGroups?.groups).map(g => [g.id, g]))
+  for (const group of list(previous?.progressionGroups?.groups)) {
+    if (!group.members.some(id => logged.has(id))) continue
+    const proposed = currentGroups.get(group.id)
+    if (!proposed) continue // a rename/removal of logged members is rejected above
+    const members = new Set(group.members)
+    for (const id of proposed.members) if (!members.has(id))
+      errors.push(`cannot add ${id} to a progressed group after completed history`)
+  }
   return { ok:errors.length === 0, errors }
 }

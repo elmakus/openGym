@@ -199,6 +199,20 @@ test('real HTTP /api/data: grouped Engine v2 sessions survive disk/restart, stal
   assert.equal(preview(p,'WED').w,105)
   assert.equal(preview(p,'MON').w,105)
 
+  // Once Monday has logged work, no client (including an offline device
+  // bypassing editor actions) may add a fresh member to that active group's
+  // existing history. The original backend transition guard previously
+  // checked only re-keyed *logged* members, letting this addition HTTP 200.
+  const lateJoin=clone(p)
+  lateJoin.routines.find(r=>r.id==='FRI').ex.push(occurrence('FRI','bench-late'))
+  lateJoin.progressionGroups.groups[0].members.push('bench-late')
+  assert.deepEqual(validateCanonicalProfile(lateJoin),{ok:true,errors:[]})
+  res=await write(lateJoin,rev)
+  assert.equal(res.status,400,JSON.stringify(res))
+  assert.match(res.data.details.join(' '),/progressed group|group.*completed history/i)
+  assert.equal((await read()).rev,rev)
+  assert.deepEqual(disk().progressionGroups,p.progressionGroups)
+
   // As requested, grouping is clean-start only. A forged JSON payload changing
   // the membership after completed group workouts must fail at the API boundary.
   const tampered=clone(p)
