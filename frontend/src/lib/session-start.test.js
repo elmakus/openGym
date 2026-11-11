@@ -4,6 +4,8 @@ import { advanceProgression, editPlan, generatePrescription, planPhase } from '.
 import { buildSessionExposures, effectiveExerciseId, missingOneRms, occurrenceFor } from './session-start.js'
 import { entriesForExposures } from './session-ui-adapter.js'
 import { buildCompletedSession } from './finish-session.js'
+import { isWarmupRow } from './workout-model.js'
+import { historicalAtp2Rows } from '../../../api/training-control/history.js'
 import { loggedExposure, ruleOccurrence } from './test-fixtures.js'
 import { EXIDX, isAssisted, registerCustom } from './exercises.js'
 
@@ -53,6 +55,43 @@ describe('buildSessionExposures', () => {
       const [x]=buildSessionExposures(S,{id:'r1',ex:[ruleOccurrence(nameless.id)]},ctx)
       expect(x.exerciseNameSnapshot).toBe(nameless.id)
     } finally {registerCustom([])}
+  })
+
+  it('saves a custom cable ladder warmup exactly and excludes it from ATP2 progression', () => {
+    const custom={id:'custom_native_cable_fixture',n:'Synthetic cable stack',eq:'cable',bp:'upper body',custom:true}
+    registerCustom([custom])
+    try {
+      const rungs=[2.5,10,17,18.125,22.5,24.75,28.75,34]
+      const occ=ruleOccurrence(custom.id,{options:{
+        sets:{min:2,max:2},reps:{min:10,max:15},
+        load:{mode:'absolute',value:34,unit:'kg'},
+        rounding:{mode:'allowed_values',allowedValues:rungs}
+      }})
+      occ.warmup={mode:'template',steps:[{percent:55,reps:5},{percent:75,reps:3}]}
+      occ.atp2={enabled:true,floorWeight:10}
+      const s=profile({customEx:[custom],trainingControl:{atp2:{},timedLoad:{}}})
+      const [exposure]=buildSessionExposures(s,{id:'source-cable',ex:[occ]},ctx)
+      expect(exposure.atp2.initialState.candidate).toBe(34)
+      const prescription=s.prescriptions[exposure.prescriptionId]
+      expect(prescription.warmupRows.map(row=>[row.load.value,row.reps]))
+        .toEqual([[18.125,5],[24.75,3]])
+      const [entry]=entriesForExposures([exposure],s.prescriptions)
+      expect(entry.sets.filter(isWarmupRow).map(row=>[row.w,row.r]))
+        .toEqual([[18.125,5],[24.75,3]])
+      entry.sets.forEach(row=>{
+        row.done=true
+        if(!isWarmupRow(row))row.r=1 // unusable ATP2 work must not promote on warmup reps
+      })
+      const {session,atp2States}=buildCompletedSession({
+        id:'source-cable-session',d:'2026-09-24',start:ctx.now,
+        exposures:[exposure],entries:[entry]
+      },s,{end:ctx.now+3600000,newId:seed=>seed,unit:'kg'})
+      const sets=session.exposures[0].performance.sets
+      expect(sets.filter(row=>row.role==='warmup').map(row=>row.resistance.value))
+        .toEqual([18.125,24.75])
+      expect(historicalAtp2Rows(session.exposures[0])).toHaveLength(2)
+      expect(atp2States[exposure.trackId].candidate).toBe(34)
+    }finally{registerCustom([])}
   })
 
   it('A8: migrated inherited rest follows the profile while explicit rest stays fixed', () => {

@@ -9,6 +9,7 @@ import {addStaleH1WriteBarrier} from './h1-stale-barrier-variant.mjs'
 import {evaluateAtp2} from '../../api/training-control/atp2.js'
 import {h1FromExposure} from '../../api/training-control/hybrid2/observation.js'
 import {observeAnchor,validateAnchor} from '../../api/training-control/hybrid2/h1.js'
+import {nativeTranscriptSets} from './native-workout-transcript.mjs'
 const base=process.env.PRIVATE_LIVE_ROOT,fitness=process.env.FITNESS_ROOT,runtime=process.env.LIFTOSAUR_RUNTIME_ROOT,out=process.env.H2_PARITY_OUT
 if(!base||!fitness||!runtime||!out)throw Error('PINNED private, fitness, runtime and output roots required')
 const pin='ce75750bde4a190682fb5a6fa1984fc9184a9842'
@@ -36,7 +37,10 @@ const tol=.011
 // Never use a generic 2.5 kg assumption when a native fixed ladder is available.
 function originalEquipmentRounding(e){
  const typeId=e.exerciseType?.id
- const equipmentId=settings.exerciseData?.[typeId]?.equipment?.default
+ const configured=settings.exerciseData?.[typeId]?.equipment?.default
+ // When an exercise has no per-type preference, the original evaluated
+ // native workout still identifies its selected physical gym equipment.
+ const equipmentId=configured ?? (settings.gyms[0]?.equipment?.[e.equipment] ? e.equipment : null)
  const equipment=settings.gyms[0]?.equipment?.[equipmentId]
  if(!equipmentId||!equipment)return null
  const values=(equipment.fixed??[]).map(kg).filter(x=>Number.isFinite(x)&&x>=0)
@@ -64,15 +68,16 @@ function project(src){
  return {days,signals,control:parsed.states['920']??{}}
 }
 function workoutSets(workout,e){
- const line=workout.split('\n').map(x=>x.trim()).find(x=>x.startsWith(e.name+' / '))
- if(!line)return [] // Missing native row remains explicitly non-comparable; never infer a completed set.
- const arr=[...line.matchAll(/(\d+)x(\d+)\s+([0-9.]+)kg/g)]
- const sets=[]
- for(const a of arr)for(let i=0;i<Number(a[1]);i++)sets.push({ordinal:sets.length+1,reps:Number(a[2]),weight:Number(a[3]),completed:true})
- return sets
+ return nativeTranscriptSets(workout,e.name)
 }
 function exposure(rows){
- return {mode:'repetitions',performance:{sets:rows.map((r,i)=>({setId:'s'+(i+1),role:'work',status:'completed',resistance:{kind:'external-load',value:r.weight,unit:'kg'},observations:[{metric:'repetitions',value:r.reps}]}))}}
+ return {mode:'repetitions',performance:{sets:rows.flatMap((r,i)=>{
+  const common={setId:'r'+i,role:'work',status:'completed',resistance:{kind:'external-load',value:r.weight,unit:'kg'}}
+  return r.leftReps === undefined
+   ? [{...common,observations:[{metric:'repetitions',value:r.reps}]}]
+   : [{...common,side:'L',observations:[{metric:'repetitions',value:r.leftReps}]},
+      {...common,side:'R',observations:[{metric:'repetitions',value:r.reps}]}]
+ })}}
 }
 function run(src,scenario,day,planned,{freeze=false,atp2=true}={}){
  const before=project(src),all=before.days[day-1],commands=[]
@@ -93,7 +98,12 @@ function run(src,scenario,day,planned,{freeze=false,atp2=true}={}){
    row.completedOccurrences.push({identity:'d'+day+'i'+ix,exerciseHash:sha(e.name).slice(0,12),nativeSets:0,nonLoadedOrUnparseable:true})
    continue
   }
-  if(sets.length!==reps.length||sets.some((s,k)=>s.reps!==reps[k])){
+  // Playground.change_reps does not reliably author two independent limbs.
+  // For paired movements, compare ACTUAL serialized right|left observations;
+  // a separate original-runtime per-side UI test covers asymmetric repetitions.
+  const paired=Number(e.progress?.state?.paired??0)===1
+  if(sets.length!==reps.length||sets.some((s,k)=>paired ?
+      s.leftReps==null : s.reps!==reps[k])){
    console.error('Native set parser discrepancy',JSON.stringify({scenario,day,index:ix,requested:reps,parsed:sets.map(s=>s.reps),exerciseHash:sha(e.name).slice(0,12)}))
    throw Error('Native completed-set transcription differs '+scenario+'/'+day+'/'+ix)
   }
@@ -102,6 +112,7 @@ function run(src,scenario,day,planned,{freeze=false,atp2=true}={}){
   if(start>0&&!relativeBase.has(id))relativeBase.set(id,start)
   const divisor=relativeBase.get(id)||Math.max(start,1)
   const detail={identity,exerciseHash:id,anchor:Number(b.anchorId??0),nativeSets:sets.length,reps:sets.map(s=>s.reps),
+   ...(paired ? {leftReps:sets.map(s=>s.leftReps)} : {}),
    relativeSetLoads:sets.map(s=>Number((s.weight/divisor).toFixed(6))),candidateBeforeRatio:Number((start/divisor).toFixed(6)),candidateAfterRatio:Number((end/divisor).toFixed(6)),
    floorBeforeRatio:Number((kg(b.floorWeight)/divisor).toFixed(6)),floorAfterRatio:Number((kg(a.floorWeight)/divisor).toFixed(6)),
    probeBefore:Number(b.probeActive??0),probeAfter:Number(a.probeActive??0),

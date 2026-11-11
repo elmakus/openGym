@@ -30,18 +30,26 @@ export function warmupSteps(warmup, eq) {
 export function planWarmupRows({ rows, warmup, eq, rounding, floor = 0, assisted = false }) {
   const work = rows.find(r => r.load?.value > 0)?.load
   if (!work) return []
-  // The set editor's step (see loadStepFor); an allowed-values rule has none, so the unit default.
+  // Step-grid fallback for ordinary loads; allowed-values equipment never uses it.
   const down = { mode: 'down', step: rounding?.step || (work.unit === 'lb' ? 5 : 2.5) }
+  // A declared physical equipment ladder is authoritative for every movement,
+  // not only dumbbells. Synthesizing a 2.5 kg cable/machine rung is unsafe.
+  const equipmentRungs = rounding?.mode === 'allowed_values'
+    ? [...new Set((rounding.allowedValues || []).filter(Number.isFinite))].sort((a, b) => a - b)
+    : null
   const out = []
   if (assisted) {
     // An assistance machine's load is the help given, so less is harder: its warm-ups give MORE
     // help instead. The first at 1.5x the work load, each next one halving what is left down to
-    // it, rounded UP to the step (a notch more help is still a warm-up).
+    // it, rounded UP to a real equipment rung or configured step (more help is a warm-up).
     let from = 0
     for (const { reps } of warmupSteps(warmup, eq)) {
       const top = from > 0 ? from : 2 * work.value
       const x = work.value + (top - work.value) / 2
-      const value = Math.max(work.value, Math.ceil(x / down.step - 1e-9) * down.step)   // 1e-9: 37.5 / 2.5 must stay 15, not 16
+      const available = equipmentRungs?.find(v => v >= x - 1e-9) ?? equipmentRungs?.at(-1)
+      const value = Math.max(work.value, equipmentRungs
+        ? (available ?? work.value)
+        : Math.ceil(x / down.step - 1e-9) * down.step) // no synthetic assisted rung
       if (value <= work.value || value === out.at(-1)?.load.value) continue
       out.push({ load: { value, unit: work.unit }, reps, phase: 'warmup' })
       from = value
@@ -50,8 +58,8 @@ export function planWarmupRows({ rows, warmup, eq, rounding, floor = 0, assisted
   }
   for (const { percent, reps } of warmupSteps(warmup, eq)) {
     const ideal = work.value * percent / 100
-    const allowed = eq === 'dumbbell' && rounding?.mode === 'allowed_values' ? rounding.allowedValues.filter(v => v <= ideal) : null
-    const value = Math.max(floor, allowed ? allowed.at(-1) ?? rounding.allowedValues[0] : roundLoad(ideal, down))
+    const allowed = equipmentRungs?.filter(v => v <= ideal + 1e-9) ?? null
+    const value = Math.max(floor, allowed ? (allowed.at(-1) ?? equipmentRungs[0] ?? 0) : roundLoad(ideal, down))
     if (value <= 0 || value >= work.value || value === out.at(-1)?.load.value) continue
     out.push({ load: { value, unit: work.unit }, reps, phase: 'warmup' })
   }
