@@ -3,14 +3,58 @@ import { describe, expect, it } from 'vitest'
 import { advanceProgression, editPlan, generatePrescription, planPhase } from './prescription/index.js'
 import { buildSessionExposures, effectiveExerciseId, missingOneRms, occurrenceFor } from './session-start.js'
 import { entriesForExposures } from './session-ui-adapter.js'
+import { buildCompletedSession } from './finish-session.js'
 import { loggedExposure, ruleOccurrence } from './test-fixtures.js'
-import { EXIDX, isAssisted } from './exercises.js'
+import { EXIDX, isAssisted, registerCustom } from './exercises.js'
 
 const ctx = { now: Date.UTC(2026, 8, 24), newId: seed => seed, unit: 'kg' }
 const profile = over => ({ unit: 'kg', workouts: [], prescriptions: {}, oneRepMaxes: {}, progression: {}, ...over })
 const percent = ruleOccurrence('0025', { options: { load: { mode: 'percent_1rm', percent: 70 }, step: { type: 'percentage_points', value: 2.5 } } })
 
 describe('buildSessionExposures', () => {
+  it('stores the registered custom exercise name as the durable history snapshot', () => {
+    const custom={id:'m6_native_fixture',n:'Native custom leg machine',eq:'custom',bp:'upper legs',custom:true}
+    registerCustom([custom])
+    try {
+      const occ=ruleOccurrence(custom.id,{options:{
+        sets:{min:2,max:2}, reps:{min:8,max:8},
+        load:{mode:'absolute',value:21.25,unit:'kg'},
+        rounding:{mode:'allowed_values',allowedValues:[21.25]}
+      }})
+      const s=profile({customEx:[custom]})
+      const [x]=buildSessionExposures(s,{id:'m6-validation',ex:[occ]},ctx)
+      expect(x.exerciseId).toBe(custom.id)
+      expect(x.exerciseNameSnapshot).toBe(custom.n)
+      expect(s.prescriptions[x.prescriptionId].rows[0].load.value).toBe(21.25)
+      const entries=entriesForExposures([x],s.prescriptions)
+      entries[0].sets.forEach(row=>{row.done=true;row.r=8;row.w=21.25})
+      const {session}=buildCompletedSession({id:'custom-native-session',d:'2026-09-24',
+        start:ctx.now,exposures:[x],entries},s,
+        {end:ctx.now+3600000,newId:seed=>seed,unit:'kg'})
+      expect(session.exposures[0].exerciseNameSnapshot).toBe(custom.n)
+      registerCustom([])
+      // Snapshots must survive a later deleted/unregistered custom exercise.
+      expect(session.exposures[0].exerciseNameSnapshot).toBe('Native custom leg machine')
+    } finally {registerCustom([])}
+  })
+  it('reads custom exercise names from the canonical profile without global catalogue registration', () => {
+    const native={id:'m6_profile_native',n:'Native machine from synced profile',custom:true,eq:'custom'}
+    registerCustom([])
+    const s=profile({customEx:[native]})
+    const [exposure]=buildSessionExposures(s,{id:'r2',ex:[ruleOccurrence(native.id)]},ctx)
+    expect(exposure.exerciseNameSnapshot).toBe(native.n)
+  })
+
+  it('uses a stable id fallback when an imported custom exercise has no name', () => {
+    const nameless={id:'m6_unnamed',eq:'custom',custom:true}
+    registerCustom([nameless])
+    try {
+      const S=profile({customEx:[nameless]})
+      const [x]=buildSessionExposures(S,{id:'r1',ex:[ruleOccurrence(nameless.id)]},ctx)
+      expect(x.exerciseNameSnapshot).toBe(nameless.id)
+    } finally {registerCustom([])}
+  })
+
   it('A8: migrated inherited rest follows the profile while explicit rest stays fixed', () => {
     const inherited = { ...ruleOccurrence('0025'), restFromProfile: true }
     inherited.rule = editPlan(inherited.rule, { restSeconds: 90 })

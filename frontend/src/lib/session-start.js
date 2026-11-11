@@ -1,7 +1,7 @@
 // Generate one immutable prescription per routine occurrence. The engine decides; this boundary
 // only gathers its inputs (rule, track state, newest log, current 1RM) and stores its output.
 import { progressionTrackId, progressionAcrossRoutines, progressionHistoryForTrack, currentOneRm, bestLoad, operatorFor, phaseOf, planFingerprint, planPhase, rungsOf, defaultPlanRule, generatePrescription, needsOneRm, resolveProgressionContext, supports, withRest } from './prescription/index.js'
-import { EXIDX, isAssisted, isBodyweightEq } from './exercises.js'
+import { EXIDX, isAssisted, isBodyweightEq, isCustomEx } from './exercises.js'
 import { modeOf, barFloor, lastAcrossRoutines, lastEntryFor, isBw, insertWarmupRow } from './history.js'
 import { oneRmForMeaning } from './onerm.js'
 import { exView, exConverted, viewTarget, profileUnit } from './ex-unit.js'
@@ -147,7 +147,13 @@ export function buildSessionExposures(stored, routine, ctx) {
     }
     const exposure = {
       exposureId: ctx.newId(`exposure:${routine.id}:${occ.occurrenceId}:${ctx.now}:${i}`),
-      exerciseId: occ.exerciseId, exerciseNameSnapshot: occ.exerciseName || occ.exerciseId, mode: modeFor(occ, prescription),
+      // Custom exercises can be present in the synced profile before the global
+      // catalogue has registered them. Save the source-owned readable name
+      // now; history must survive an exercise rename or later deletion.
+      exerciseId: occ.exerciseId, exerciseNameSnapshot: occ.exerciseName ||
+        stored.customEx?.find(custom => custom?.id === occ.exerciseId)?.n ||
+        (isCustomEx(EXIDX[occ.exerciseId]) && EXIDX[occ.exerciseId].n) || occ.exerciseId,
+      mode: modeFor(occ, prescription),
       routineId: routine.id, occurrenceId: occ.occurrenceId, trackId,
       excludedFromProgression: excluded || slot?.deload === true || frozen,
       ...(hybridMeta ? { hybrid2: hybridMeta } : {}),
