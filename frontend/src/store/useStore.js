@@ -901,6 +901,19 @@ export const useStore = create((set, get) => {
 
   const doPush = async (attempt = 0) => {
     const S = get().S
+    // A 409 merge can be canonical-valid yet structurally impossible for H1.
+    // Do not send that combined timeline back as if the user had approved it.
+    // Its conflicting source rows remain in the local/native persisted profile.
+    if (S.trainingControl?.hybrid2HistoryConflict ||
+        S.trainingControl?.hybrid2BootstrapConflict ||
+        S.trainingControl?.hybrid2Conflict ||
+        (S.trainingControl?.hybrid2Config?.enabled === true &&
+          S.trainingControl?.hybrid2Diagnostics?.status === 'INCOMPATIBLE')) {
+      markOwed(true)
+      setSync({ pending: true, offline: false,
+        lastError: { status: 409, code: 'hybrid2-review' } })
+      return
+    }
     const { base } = metaOf()
     // A forced push is one attempt. One that fails is retried as an ordinary push against the
     // revision this copy descends from: kept armed, it went out later without a baseRev and

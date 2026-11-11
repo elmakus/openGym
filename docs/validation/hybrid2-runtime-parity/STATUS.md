@@ -372,3 +372,22 @@ An additional actual native-custom session-start test exposed a real bug: after 
 Fixed `frontend/src/lib/session-start.js`: after `prepareAtp2Session` resolves the actual durable candidate and before saving the immutable prescription, rederive `template`/`smart` warmup rows using `planWarmupRows` at the progressed ATP2 candidate and source custom equipment. Preserve the ATP2-only authority for work-row weights, preserve the frozen prescription content hash, and explicitly **skip frozen HYBRID-2 deload sessions** so a normal candidate cannot override reduced deload warmups. An imported synced custom definition's equipment is preferred to a not-yet-registered global catalog entry.
 
 Real frontend regression now verifies old and new source equipment warmup values at next session, editable warmup rows, persisted warmup resistance and exclusion from `historicalAtp2Rows`. **226/226 focused frontend PASS** across seven files, production Vite build PASS. Independent full API **1085 PASS / 0 FAIL / 3 SKIP**; no change to source-native Liftosaur, no real app/profile writes, no user private data published. Full prior native H1 history bootstrap, future RTT source interaction and physical mobile still remain out of scope.
+
+## 2026-11-11 — H1 OFFLINE REVIEW / HTTP 409 PERSISTENCE HOLD
+
+After the last published 04bd08b, a validation-only package added explicit history
+conflict preservation, fail-closed client/server sync guards, complete reviewer choices,
+history replay and immutable review receipts. Both conflicting completed H1 sets with
+valid independent replay and stale checkpoint edits to an existing workout were RED and
+are now blocked. The adversarial isolated HTTP path tests 409, 400, explicit selection,
+accepted write, restart, disk read and controller replay.
+
+See M6_OFFLINE_H1_CONFLICT_REVIEW_20261111.md for exact behavior, files, synthetic
+tests, unresolved limitations and migration blockers. Full native M6 RTT parity,
+physical Android readiness and production migration remain NOT READY.
+
+Validation summary: API 1088 PASS / 0 FAIL / 3 SKIP; focused frontend H1/sync
+401 PASS; full frontend 8368 PASS / **2 unrelated failures** (pt-BR inheritance
+fingerprint and prescription warmup fallback); Vite build PASS. The two failing
+tests are documented in M6_OFFLINE_H1_CONFLICT_REVIEW_20261111.md and have not
+been silently suppressed or modified.

@@ -49,6 +49,9 @@ import { MAX_SYNC_BODY, assertSyncSize } from './migration/profile-size.js';
 import { packProfile, unpackProfile } from './migration/profile-pack.js';
 import { validateProgressionGroupTransition } from './engine/index.js';
 import { validateHybridBootstrapTransition, validateHybridBootstrap, assertHybridBootstrapHistory } from './training-control/hybrid2/bootstrap.js';
+import { validatePlanAdapter } from './training-control/hybrid2/adapter.js';
+import { replayHybridHistory, assertHybridResumeContinuity } from './training-control/hybrid2/history.js';
+import { verifyFrozenHistory } from './training-control/hybrid2/supervisor.js';
 import { LIB_BY_ID } from './coach/core/library.js';
 
 const PORT = +(process.env.PORT || 3000);
@@ -2712,6 +2715,33 @@ const routes = {
       if (!transition.ok) return json(res, 400, { error: 'invalid state', details:transition.errors });
       const h1Transition = validateHybridBootstrapTransition(cur, body.state);
       if (!h1Transition.ok) return json(res, 400, { error: 'invalid state', details:h1Transition.errors });
+      // The frontend refuses to retry an incompatible H1 409 merge. Enforce
+      // the same boundary on the persistence server: older/offline clients
+      // may bypass the current UI, but must not save an invalid H1 timeline.
+      const tc = body.state.trainingControl;
+      if (tc?.hybrid2HistoryConflict || tc?.hybrid2Conflict || tc?.hybrid2BootstrapConflict)
+        return json(res, 400, { error: 'invalid state',
+          details: ['unresolved HYBRID-2 sync conflict requires explicit review'] });
+      const cfg = tc?.hybrid2Config;
+      const hasStructural = (body.state.workouts || []).some(w =>
+        w.hybrid2 != null || (w.exposures || []).some(x => x?.hybrid2 != null));
+      if (hasStructural && !cfg?.adapter)
+        return json(res, 400, { error: 'invalid state',
+          details: ['structural HYBRID-2 workout requires a reviewed plan adapter'] });
+      if (cfg?.adapter) {
+        try {
+          if (hasStructural) {
+            validatePlanAdapter(cfg.adapter, body.state.routines);
+            verifyFrozenHistory(body.state.workouts, cfg.adapter);
+            if (cfg.enabled === true) assertHybridResumeContinuity(body.state.workouts, cfg.adapter);
+            replayHybridHistory({ workouts: body.state.workouts, adapter: cfg.adapter,
+              prescriptions: body.state.prescriptions, bootstrap: tc.hybrid2Bootstrap });
+          }
+        } catch (err) {
+          return json(res, 400, { error: 'invalid state',
+            details: ['trainingControl.hybrid2: ' + err.message] });
+        }
+      }
     }
     // "Reset everything" stamps the profile (`resetAt`, with `resetIds`: what it wiped). The stamp
     // only moves forward: a write without it, or with an older one — a client from before it, a

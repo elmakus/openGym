@@ -25,7 +25,7 @@ import { buildCompletedSession } from '../../frontend/src/lib/finish-session.js'
 import { mergeStates } from '../../frontend/src/lib/sync-merge.js'
 import { editCompletedSession, saveWorkoutEdit } from '../../frontend/src/lib/session-edit.js'
 import { syncSideAggregate } from '../../frontend/src/lib/workout-model.js'
-import { reconcileHybridHistory } from '../../frontend/src/lib/hybrid2-sync.js'
+import { reconcileHybridHistory, resolveHybridHistoryConflict } from '../../frontend/src/lib/hybrid2-sync.js'
 
 const API=path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const UID='two_device_engine_v2_synthetic'
@@ -235,6 +235,17 @@ test('two offline clients: A completes, B edits earlier L/R, HTTP 409/merge, res
  assert.equal(remote.workouts.length,8)
  // Same conflict algorithm used by useStore.doPush after 409.
  const merged=mergeStates(B,remote)
+ assert.ok(merged.trainingControl.hybrid2HistoryConflict,
+  'offline edit of H1 evidence requires review even with valid canonical schema')
+ assert.equal(merged.trainingControl.hybrid2Diagnostics.status,'INCOMPATIBLE')
+ // Server must also refuse an incompatible but canonical-valid merged timeline,
+ // including if an older client bypasses the current app's offline hold.
+ assert.equal((await write(merged,revA)).status,400)
+ const noAdapter=clone(merged)
+ delete noAdapter.trainingControl.hybrid2Config
+ delete noAdapter.trainingControl.hybrid2HistoryConflict
+ assert.equal((await write(noAdapter,revA)).status,400,
+  'older client cannot strip H1 adapter and save the tagged timeline')
  assert.equal(merged.workouts.length,8)
  assert.equal(merged.workouts.filter(w=>w.id===bShared.id).length,1)
  assert.deepEqual(merged.progressionGroups,remote.progressionGroups)
@@ -244,6 +255,13 @@ test('two offline clients: A completes, B edits earlier L/R, HTTP 409/merge, res
  assert.equal(physical(merged.workouts.find(w=>w.id===bShared.id),
   'progression-group:synthetic-shared')[1].observations[0].value,5)
  assert.deepEqual(merged.workouts.map(w=>w.id),[...remote.workouts.map(w=>w.id)])
+ const pending=clone(merged.trainingControl.hybrid2HistoryConflict)
+ const choices=Object.fromEntries(pending.entries.map(e=>[e.id,'merged']))
+ resolveHybridHistoryConflict(merged,choices) // explicit synthetic reviewer decision, not automatic sync
+ assert.equal(merged.trainingControl.hybrid2Config.enabled,false)
+ assert.deepEqual(merged.trainingControl.hybrid2HistoryReviews[0].entries,pending.entries)
+ merged.trainingControl.hybrid2Config.enabled=true // separate explicit reviewer re-enable
+ assert.ok(reconcileHybridHistory(merged))
  expectedDerived(merged)
  r=await write(merged,revA)
  assert.equal(r.status,200,JSON.stringify(r))
@@ -285,13 +303,21 @@ test('two offline clients: A completes, B edits earlier L/R, HTTP 409/merge, res
  assert.equal(persistedTimed[1].observations[0].value,21,'older right hold edited')
  const secondMerge=mergeStates(after.state,B)
  assert.equal(secondMerge.workouts.length,8,'repeated stale merge must never duplicate workouts')
+ // B has exactly the accepted H1 performance in this case. A later sync
+ // of identical observations is safe; the immutable review receipt remains.
+ assert.equal(secondMerge.trainingControl.hybrid2HistoryConflict,undefined)
+ assert.deepEqual(secondMerge.trainingControl.hybrid2HistoryReviews,
+  after.state.trainingControl.hybrid2HistoryReviews)
  expectedDerived(secondMerge)
+ assert.deepEqual(secondMerge.workouts.find(w=>w.id===timedId).exposures,
+  after.state.workouts.find(w=>w.id===timedId).exposures)
  const result={schema:'ENGINE-V2-TWO-DEVICE-HTTP-ADVERSARIAL-1',verdict:'PASS',
   syntheticCompletedSessions:after.state.workouts.length,physicalBilateralRows:8+4,
   httpRequests:requests,httpReads:reads,httpAcceptedWrites:writes,http409Conflicts:conflicts,
   backendRestarts:restarts,revision:revFinal,
   editedRightTimedSeconds:21,editedRightSharedReps:5,
   replay:['ATP2','Timed Load','HYBRID-2','grouped Engine V2'],
+  explicitH1HistoryReviews:1,staleSameEvidenceAccepted:true,
   sourceNativeNewRuns:0,liveDataWrites:0}
  if(process.env.H2_PARITY_OUT){
   fs.mkdirSync(process.env.H2_PARITY_OUT,{recursive:true,mode:0o700})

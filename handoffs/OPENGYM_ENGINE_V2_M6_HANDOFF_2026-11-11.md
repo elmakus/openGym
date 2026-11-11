@@ -88,3 +88,23 @@ W katalogu `/mnt/cachedl/projects/openGym-validation/local-native-proof-20261111
 - Produkcyjne zestawy testowe i parser: `api/engine/warmup.equipment.test.mjs`, `scripts/hybrid2-runtime-parity/native-workout-transcript.test.mjs`, `frontend/src/lib/session-start.test.js`.
 
 **Stan docelowy nowego czatu:** rozpocząć od P1/P2, wykonać konkretne poprawki (nie od nowa tę samą walidację), zapisać sensowny commit i jeden zbiorczy raport. Jeżeli H1 bootstrap wymaga osobnej decyzji projektowej, wybrać bezpieczne, jawnie opisane rozwiązanie i równolegle naprawić niezależne defekty z P2; nie blokować pracy bez potrzeby.
+
+## 2026-11-11 follow-up — H1 offline/409 conflict safety
+
+Read docs/validation/hybrid2-runtime-parity/M6_OFFLINE_H1_CONFLICT_REVIEW_20261111.md
+before continuing. Since 04bd08be, the sync layer retains competing H1 evidence,
+holds invalid or compatible-looking divergent completed results, rejects automatic
+PUT retries, presents explicit review, replays approved history and keeps immutable
+receipts. API persistence now refuses pending/structurally invalid H1 writes.
+An isolated HTTP scenario verifies 409, manual synthetic review, accepted PUT,
+backend restart, disk reload and deterministic Engine/ATP2/Timed/H1 replay.
+
+Unresolved: genuine three-way per-workout ancestry, differing checkpoint resolution,
+physical Android offline UX and full real M6 future Liftosaur parity. This is NOT
+production-ready. No private native M6 data were published; no live changes were made.
+Never merge into main or migrate without separate consent.
+
+Final test caveat: API 1088 pass (3 skip), focused sync frontend 401 pass and
+build pass; full frontend 8368 pass / 2 fail (pt-BR inherited fingerprint
+and unrelated warmup unit fallback). Do not claim all-green. See the new
+offline H1 review document and private Unraid test logs for evidence.

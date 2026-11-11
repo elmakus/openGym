@@ -83,7 +83,7 @@ import { readDayNote as readNote } from './day-notes.js'
 import { canonicalJSON, contentHash, chronologicalWorkouts, replayProgression, reconcileDerivedOneRms } from '../../../api/engine/index.js'
 import { replayAtp2History } from '../../../api/training-control/history.js'
 import { replayTimedLoadHistory } from '../../../api/training-control/timed-load-history.js'
-import { reconcileHybridHistory, mergeHybridSettings } from './hybrid2-sync.js'
+import { reconcileHybridHistory, mergeHybridSettings, retainHybridHistoryConflict } from './hybrid2-sync.js'
 import { mergeAdvent } from './advent.js'
 import { mergeChallenges } from './challenges.js'
 import { mergeDay, dailyModeOf, settleAll } from './weigh-ins.js'
@@ -1028,17 +1028,6 @@ export function mergeStates(a0, b0, { prefer } = {}) {
     out.trainingControl = { ...(out.trainingControl || {}),
       timedLoad: { ...untouchedTimed, ...replayedTimed } }
   }
-  // H1 and deload are never selected from a device's cached controller state.
-  // Conflicting offline adapter changes fail closed rather than choosing an LWW H1 epoch.
-  if (n.trainingControl?.hybrid2Config || o.trainingControl?.hybrid2Config ||
-      n.trainingControl?.hybrid2Bootstrap || o.trainingControl?.hybrid2Bootstrap) {
-    out.trainingControl = { ...(out.trainingControl || {}) }
-    delete out.trainingControl.hybrid2Conflict
-    delete out.trainingControl.hybrid2BootstrapConflict
-    Object.assign(out.trainingControl, mergeHybridSettings(n, o))
-    delete out.trainingControl.hybrid2
-    reconcileHybridHistory(out)
-  }
   if (out.engineSchemaVersion === 2) reconcileDerivedOneRms(out)
   // The plate-loading choices (lib/plates.js) are stamped the same way: an exercise's loading and
   // a unit's plate inventory are each one choice, made on one device, that a later set logged on
@@ -1091,6 +1080,21 @@ export function mergeStates(a0, b0, { prefer } = {}) {
   // An exercise merged into another on either copy (#656, lib/exercise-merge.js exMerged): what
   // the other copy still logged against it moves over too.
   applyExerciseMerges(out)
+  // Reconcile only AFTER stamped settings and exercise merges have finished.
+  // Otherwise a stamped trainingControl field could replace the checked H1
+  // state after validation, silently accepting an unreviewed history.
+  // H1 and deload are never selected from a device's cached controller state.
+  // Conflicting offline adapter changes fail closed rather than choosing an LWW H1 epoch.
+  if (n.trainingControl?.hybrid2Config || o.trainingControl?.hybrid2Config ||
+      n.trainingControl?.hybrid2Bootstrap || o.trainingControl?.hybrid2Bootstrap) {
+    out.trainingControl = { ...(out.trainingControl || {}) }
+    delete out.trainingControl.hybrid2Conflict
+    delete out.trainingControl.hybrid2BootstrapConflict
+    Object.assign(out.trainingControl, mergeHybridSettings(n, o))
+    delete out.trainingControl.hybrid2
+    reconcileHybridHistory(out)
+    retainHybridHistoryConflict(out, a, b)
+  }
   return out
 }
 

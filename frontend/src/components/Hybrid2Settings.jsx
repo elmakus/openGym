@@ -7,7 +7,7 @@ import { validatePlanAdapter } from '../../../api/training-control/hybrid2/adapt
 import { assertHybridResumeContinuity } from '../../../api/training-control/hybrid2/history.js'
 import { createHybridBootstrap, validateHybridBootstrap, assertHybridBootstrapHistory } from '../../../api/training-control/hybrid2/bootstrap.js'
 import { canonicalJSON } from '../../../api/engine/canonical.js'
-import { reconcileHybridHistory } from '../lib/hybrid2-sync.js'
+import { reconcileHybridHistory, resolveHybridHistoryConflict } from '../lib/hybrid2-sync.js'
 
 export default function Hybrid2Settings({ profile, update }) {
   const cfg = profile.trainingControl?.hybrid2Config
@@ -15,6 +15,8 @@ export default function Hybrid2Settings({ profile, update }) {
   const conflict = profile.trainingControl?.hybrid2Conflict
   const checkpoint = profile.trainingControl?.hybrid2Bootstrap
   const checkpointConflict = profile.trainingControl?.hybrid2BootstrapConflict
+  const historyConflict = profile.trainingControl?.hybrid2HistoryConflict
+  const [historyChoices, setHistoryChoices] = useState({})
   const [bootstrapDraft, setBootstrapDraft] = useState('')
   const [bootstrapOpen, setBootstrapOpen] = useState(false)
   const [draft, setDraft] = useState(() => cfg?.adapter ? JSON.stringify(cfg.adapter, null, 2) : '')
@@ -26,7 +28,7 @@ export default function Hybrid2Settings({ profile, update }) {
     try {
       validatePlanAdapter(cfg.adapter, profile.routines)
       if (checkpoint) validateHybridBootstrap(checkpoint, cfg.adapter)
-      return !conflict && !checkpointConflict
+      return !conflict && !checkpointConflict && !historyConflict
     } catch { return false }
   }
   const assignAdapter = () => {
@@ -74,6 +76,13 @@ export default function Hybrid2Settings({ profile, update }) {
         reconcileHybridHistory(s)
       })
       setDraft(JSON.stringify(selected.adapter, null, 2))
+      setError('')
+    } catch (err) { setError(String(err.message)) }
+  }
+  const resolveHistory = () => {
+    try {
+      update(s => resolveHybridHistoryConflict(s, historyChoices))
+      setHistoryChoices({})
       setError('')
     } catch (err) { setError(String(err.message)) }
   }
@@ -148,6 +157,36 @@ export default function Hybrid2Settings({ profile, update }) {
       </div>}
       {checkpointConflict && <div role="alert" className="small" style={{ marginTop: 10 }}>
         {t('Native H1 checkpoint conflict: explicit review is required before training.')}
+      </div>}
+      {historyConflict && <div role="alert" style={{ marginTop: 12 }}>
+        <strong>HYBRID-2 history sync is blocked pending review</strong>
+        <p className="small">{historyConflict.reason}</p>
+        <p className="small dim">Neither device history is discarded automatically. Sync is paused on this device. Review each original version and choose the evidence to retain. The controller remains disabled after approval.</p>
+        {historyConflict.alternatives
+          ? <p className="small">More than one unresolved review exists. Export a local backup and reconcile the independent evidence before continuing.</p>
+          : <>
+            {(historyConflict.entries || []).map(entry => <details key={entry.id} style={{ marginTop: 8 }}>
+              <summary className="small">{entry.id} · {entry.local?.d || entry.remote?.d || entry.merged?.d || 'unknown date'}</summary>
+              <label className="small" htmlFor={'h2-review-' + entry.id}>Choose workout evidence</label>
+              <select id={'h2-review-' + entry.id} value={historyChoices[entry.id] || ''}
+                onChange={e => setHistoryChoices(v => ({ ...v, [entry.id]: e.target.value }))}>
+                <option value="">Review required</option>
+                <option value="local">Local device {entry.local ? '(workout)' : '(no workout)'}</option>
+                <option value="remote">Other device {entry.remote ? '(workout)' : '(no workout)'}</option>
+                <option value="merged">Original merged version {entry.merged ? '(workout)' : '(no workout)'}</option>
+                <option value="current">Current History after manual correction</option>
+              </select>
+              <details className="small" style={{ marginTop: 6 }}>
+                <summary>Show full original records and deletion markers</summary>
+                <pre style={{ overflowX: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>
+                  {JSON.stringify(entry, null, 2)}
+                </pre>
+              </details>
+            </details>)}
+            <div style={{ marginTop: 10 }}>
+              <Button size="sm" onClick={resolveHistory}>Validate selected history and resolve (disabled)</Button>
+            </div>
+          </>}
       </div>}
       <div style={{ marginTop: 10 }}>
         <Button size="sm" variant="tinted" onClick={() => setBootstrapOpen(v => !v)}>

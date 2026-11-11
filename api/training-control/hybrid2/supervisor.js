@@ -38,6 +38,12 @@ const before = (workouts, time) => (workouts || []).filter(w =>
   (Number(w.start) || Date.parse(w.end) || 0) < time)
 export function currentHybridPlan(profile, routine, now = Date.now()) {
   const config = profile.trainingControl?.hybrid2Config
+  // Even when the controller was disabled in Settings, do not generate an
+  // ordinary untagged session for a mapped H1 routine during an unresolved
+  // offline history conflict; that would make the cutover harder to repair.
+  if (profile.trainingControl?.hybrid2HistoryConflict && config?.adapter?.occurrences?.some(o =>
+    (routine?.ex || []).some(e => e.occurrenceId === o.occurrenceId)))
+    fail('unresolved H1 history sync review for mapped workout')
   if (config?.enabled !== true) return null
   if (profile.trainingControl?.hybrid2Conflict || profile.trainingControl?.hybrid2BootstrapConflict || profile.trainingControl?.hybrid2Error)
     fail('unresolved HYBRID-2 configuration or history conflict')

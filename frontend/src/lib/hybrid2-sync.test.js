@@ -93,7 +93,7 @@ describe('HYBRID-2 across actual openGym two-device offline merge/replay', () =>
     expect(out.trainingControl.hybrid2Diagnostics.status).toBe('INCOMPATIBLE')
     expect(out.trainingControl.hybrid2).toBeUndefined()
   })
-  it('concurrent edits of one workout choose reviewed winner, then regenerate H1 once', () => {
+  it('concurrent edits of the same H1 workout retain both results for explicit review', () => {
     const source=fixtureCycles(K5,[{reps:15},{reps:15},{reps:15},{reps:15}])
     const stale=copy(source), corrected=copy(source)
     stale[6]._ts=400
@@ -105,9 +105,10 @@ describe('HYBRID-2 across actual openGym two-device offline merge/replay', () =>
       expect(out.workouts).toHaveLength(source.length)
       const selected=out.workouts.find(w=>w.id===source[6].id)
       expect(selected.exposures[0].performance.sets[0].observations[0].value).toBe(9)
-      const expected=replayHybridHistory({workouts:out.workouts,adapter:K5.adapter}).state
-      expect(out.trainingControl.hybrid2).toEqual(expected)
-      expect(out.trainingControl.hybrid2Error).toBeUndefined()
+      expect(out.trainingControl.hybrid2HistoryConflict).toBeTruthy()
+      expect(out.trainingControl.hybrid2HistoryConflict.entries.map(e => e.id)).toContain(source[6].id)
+      expect(out.trainingControl.hybrid2).toBeUndefined()
+      expect(out.trainingControl.hybrid2Diagnostics.status).toBe('INCOMPATIBLE')
     }
   })
   it('old workout deletion tombstone wins; missing structural evidence invalidates H1 instead of carrying stale reference', () => {
