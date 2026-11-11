@@ -171,12 +171,20 @@ export function adaptTimedState(previous, raw) {
   try { return validateTimedState({ ...previous }, c) } catch { return initialTimedState(c) }
 }
 
+// Session rows and imported logs may carry stable prescribed set IDs. Never
+// count repeated/missing numbered sets as different logical workouts after
+// an offline merge, but preserve legacy logs without recorded set IDs.
+const isNumberedSet = row => /^r\d+$/.test(row?.setId || '')
+const numberedSetOrder = (rows, unilateral) => !rows.some(isNumberedSet) ||
+  rows.every((row, index) => row.setId === 'r' + Math.floor(index / (unilateral ? 2 : 1)))
+
 /** A complete exposure needs every prescribed work row (including both timed sides). */
 export function timedExposureSuccess(rows, state, raw) {
   const c = validateTimedConfig(raw)
   const count = c.setsPerSide * (c.unilateral ? 2 : 1)
   if (rows.length < count) return false
   const work = rows.slice(0, count)
+  if (!numberedSetOrder(work, c.unilateral)) return false
   if (c.unilateral && work.some((r, i) => r.side !== (i % 2 ? 'R' : 'L'))) return false
   return work.every(r => r.completed === true && r.techniqueValid !== false &&
     c.ladderKg.includes(r.weightKg) && Number.isFinite(r.seconds) && r.seconds >= state.target)
@@ -191,9 +199,13 @@ export function firstTimedLoadSet(rows, raw) {
   const c = validateTimedConfig(raw)
   const first = rows?.[0]
   if (!first?.completed || !c.ladderKg.includes(first.weightKg)) return null
+  // An imported workout with only later numbered rows (r1, r2, ...) does
+  // not contain native logical setIndex==1; its load cannot calibrate state.
+  if (rows.some(isNumberedSet) && first.setId !== 'r0') return null
   if (!c.unilateral) return first
   const right = rows?.[1]
   return first.side === 'L' && right?.side === 'R' && right.completed === true &&
+    (!rows.some(isNumberedSet) || right.setId === 'r0') &&
     right.weightKg === first.weightKg ? first : null
 }
 

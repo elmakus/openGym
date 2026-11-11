@@ -105,6 +105,22 @@ describe('Timed Load: actual Engine v2 session→rows→finish→persist→next 
     expect(replayTimedLoadHistory(s.workouts)).toEqual(result.timedLoadStates)
   })
 
+  it('refuses live Timed Load calibration from r1 when the first prescribed set was removed',()=>{
+    const s=S(), a=start(s,T0)
+    const secondSet=a.entries[0].sets.slice(2)
+    expect(secondSet.map(x=>x.setId)).toEqual(['r1','r1'])
+    a.entries[0].sets=secondSet
+    fill(a,30,6)
+    const preview=refreshTimedLoadLive(a,0)
+    expect(preview.counted).toBe(false)
+    expect(preview.nextState.initialized).toBe(false)
+    const completed=finish(s,a)
+    expect(completed.timedLoadStates).toEqual({})
+    expect(replayTimedLoadHistory(s.workouts)).toEqual({})
+    expect(s.workouts[0].exposures[0].performance.sets.map(row=>row.setId))
+      .toEqual(['r1','r1'])
+  })
+
   it('regression #2: a lone completed right side of set 1 cannot downshift remaining sets',()=>{
     const s=S()
     // Build real chronological history first, so a replay has the same 8 kg baseline.

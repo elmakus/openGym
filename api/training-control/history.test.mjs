@@ -78,6 +78,19 @@ test('Paired ATP2 replay groups imported bilateral limbs by setId, not storage o
   assert.deepEqual(imported, original)
 })
 
+test('unilateral-independent ATP2 multiset replay restores source r0/r1 set order', () => {
+  const ordered = [
+    work('r0', 20, 6), work('r1', 17.5, 12)
+  ]
+  const reordered = [ordered[1], ordered[0]]
+  const expectedRows = historicalAtp2Rows({ performance: { sets: ordered } })
+  assert.deepEqual(historicalAtp2Rows({ performance: { sets: reordered } }), expectedRows)
+  const a = replayAtp2History([event('w1', 1000, ordered)])['squat-slot']
+  const b = replayAtp2History([event('w1', 1000, reordered)])['squat-slot']
+  assert.equal(a.candidate, 17.5)
+  assert.deepEqual(b, a, 'native ordered progression must be permutation-invariant')
+})
+
 test('Ambiguous duplicate bilateral set IDs never manufacture a joined ATP2 set', () => {
   const spec = { ...atp2, initialState: { ...atp2.initialState, paired: 1 } }
   const repeated = [

@@ -17,6 +17,7 @@ export function prepareTimedLoadSession({ config, previous, prescription, unit =
 export function timedWorkRows(entry, spec) {
   const cfg = validateTimedConfig(spec.config)
   return (entry?.sets || []).filter(row => !isWarmupRow(row)).map(row => ({
+    ...(row.setId ? { setId: row.setId } : {}),
     side: row.side || null,
     completed: row.done === true,
     seconds: Number.isFinite(row.sec) ? row.sec : null,

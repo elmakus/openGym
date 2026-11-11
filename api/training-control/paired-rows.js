@@ -37,11 +37,12 @@ export function pairSavedSideRows(savedRows) {
     }
     out.push({ row, index: i, setId: row?.setId ?? null })
   }
-  // Numbered prescribed rows retain their source set order even when a merge
-  // permutes the persisted array. If legacy/manual rows are mixed in, preserve
-  // their relative array order; guessing an order is worse than leaving it.
+  // Numeric prescribed set IDs recover the source order for both paired and
+  // ordinary work rows. Sort only when every logical set has exactly one ID.
+  // Duplicate or unnumbered manual rows are ambiguous: preserve storage order.
   const order = x => /^r(\d+)$/.exec(x.setId || '')
-  if (out.some(x => x.left && x.right) && out.every(x => order(x))) out.sort((a, b) =>
+  if (out.length && out.every(x => order(x)) &&
+      new Set(out.map(x => x.setId)).size === out.length) out.sort((a, b) =>
     Number(order(a)[1]) - Number(order(b)[1]) || a.index - b.index)
   return out
 }

@@ -2,6 +2,7 @@
 // No last-write-wins merge of candidate state: edits/deletions/backfills are replayed.
 import { evaluateTimedLoad, initialTimedState, validateTimedConfig } from './timed-load.js'
 import { nativeTimedKg } from './timed-load-weight.js'
+import { pairSavedSideRows } from './paired-rows.js'
 
 const observation = row => row?.observations?.find(x => x.metric === 'duration')?.value
 
@@ -10,7 +11,14 @@ export function historicalTimedRows(exposure) {
   const spec = exposure?.timedLoad
   if (spec?.version !== 1) return []
   const cfg = validateTimedConfig(spec.config)
-  return (exposure.performance?.sets || []).filter(r => r.role === 'work').map(row => ({
+  const persisted = (exposure.performance?.sets || []).filter(r => r.role === 'work')
+  // Each timed limb is a physical row. Restore its original L/R sequence and
+  // numbered logical set order across imports/offline merges, never aggregate
+  // seconds or invent a successful set from ambiguous duplicate IDs.
+  const ordered = cfg.unilateral ? pairSavedSideRows(persisted).flatMap(({ row, left, right }) =>
+    left && right ? [left, right] : [row]) : persisted
+  return ordered.map(row => ({
+    ...(row.setId ? { setId: row.setId } : {}),
     side: row.side || null,
     completed: row.status === 'completed',
     seconds: observation(row) ?? null,

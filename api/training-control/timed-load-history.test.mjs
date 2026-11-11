@@ -54,6 +54,37 @@ test('per-track last counted exposure in a workout advances only once; explicit 
   assert.deepEqual(replayTimedLoadHistory([a,b,excluded]),replayTimedLoadHistory([a,b]))
 })
 
+test('timed L/R replay preserves original logical set order after an offline merge permutes rows',()=>{
+  const original=event('ordered',1000,30,{load:6})
+  const expected=state([original])
+  assert.equal(expected.load,6)
+  assert.equal(expected.target,35)
+  const permuted=structuredClone(original)
+  const sets=permuted.exposures[0].performance.sets
+  permuted.exposures[0].performance.sets=[sets[3],sets[1],sets[2],sets[0]]
+  const history=historicalTimedRows(permuted.exposures[0])
+  assert.deepEqual(history,historicalTimedRows(original.exposures[0]))
+  assert.deepEqual(state([permuted]),expected)
+  // A single missing first-set limb must still fail calibration, not promote r1.
+  permuted.exposures[0].performance.sets=sets.filter(x=>!(x.setId==='r0'&&x.side==='L'))
+  assert.deepEqual(replayTimedLoadHistory([permuted]),{})
+})
+
+test('timed storage cannot calibrate from r1 or count duplicated r0 as two logical sets',()=>{
+  const original=event('calibrate',1000,30,{load:6})
+  const next=structuredClone(original)
+  const all=next.exposures[0].performance.sets
+  next.exposures[0].performance.sets=all.slice(2)
+  assert.deepEqual(replayTimedLoadHistory([next]),{},
+    'missing r0 cannot calibrate from the later native logical set')
+  next.exposures[0].performance.sets=all.map(r=>({...r,setId:'r0'}))
+  const duplicate=replayTimedLoadHistory([next])['side-plank']
+  assert.equal(duplicate.initialized,true)
+  assert.equal(duplicate.target,30,
+    'duplicate r0 sides cannot become two successful source sets')
+  assert.equal(duplicate.fails,1)
+})
+
 test('unit switch history maps only native loads; 0kg remains logical zero',()=>{
   const kg=event('w1',1000,30,{load:6})
   const lb=JSON.parse(JSON.stringify(kg))
