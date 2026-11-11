@@ -448,3 +448,7 @@ Full frontend Vitest: **8341 PASS / 1 unrelated existing RED** in 701 files; unc
 ## 2026-11-11 — Date-change history fix
 
 `Change date & time` now uses `moveWorkoutInProfile()` to move a session and replay Engine v2 progression as well as ATP2, Timed Load and HYBRID-2; the previously stale terminal log/load after chronological reordering is corrected. Reproduced RED before fix; 75/75 focused frontend regressions PASS. See STATUS checkpoint. No production deployment.
+
+## 2026-11-11 — Paused HYBRID-2 preserves original M6 source tracks
+
+Once stored native HYBRID-2 workouts pin a reviewed adapter, temporarily disabling its H1 monitor no longer changes any of the adapter's Engine v2 progression identities, including not-yet-trained B/C source occurrences. A never-used disabled adapter still opts out. An incompatible replacement identity or historical namespace is rejected instead of silently rekeying history. Verified in-memory against all 36 slots (11/13/12) from an existing private nine-session M6 profile: 36 matching frontend exposure/prescription tracks, canonical profile valid, 0 new Liftosaur native workouts; 36 focused API + 162 frontend tests PASS. Status remains PARTIAL for numerical full M6 and actual physical equipment. See STATUS checkpoint.

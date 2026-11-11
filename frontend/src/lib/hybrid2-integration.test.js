@@ -101,6 +101,33 @@ describe('HYBRID-2 actual Engine v2 session -> rows -> finish -> history -> next
     expect(s.workouts).toHaveLength(0)
   })
 
+  it('keeps historical native progression identities when the HYBRID-2 monitor is paused', () => {
+    const s = buildProfile()
+    // Unlike the normal K5 test mapping, the source-native identity differs
+    // from the routine occurrence ID (as it does for original M6 e.key groups).
+    s.trainingControl.hybrid2Config.adapter = structuredClone(K5.adapter)
+    const first = trainPosition(s, 0, 0, 12)
+    const nativeId = K5.adapter.occurrences[0].progressionIdentity
+    const occurrenceId = K5.adapter.occurrences[0].occurrenceId
+    expect(nativeId).not.toBe(occurrenceId)
+    expect(first.result.session.exposures[0].trackId).toBe(nativeId)
+    s.trainingControl.hybrid2Config.enabled = false
+    reconcileHybridHistory(s)
+    const next = buildSessionExposures(s, s.routines[0], {
+      now: startAt + 5 * 86400000, newId: x => x, unit: s.unit
+    })
+    expect(next[0].hybrid2).toBeUndefined()
+    expect(next[0].trackId).toBe(nativeId)
+    expect(s.prescriptions[next[0].prescriptionId].trackId).toBe(nativeId)
+    // Wednesday has no completed native exposure yet, but it belongs to the
+    // same pinned adapter and must not silently change identity on pause.
+    const neverPerformed = buildSessionExposures(s, s.routines[1], {
+      now: startAt + 6 * 86400000, newId: x => x, unit: s.unit
+    })
+    expect(neverPerformed[0].hybrid2).toBeUndefined()
+    expect(neverPerformed[0].trackId).toBe(K5.adapter.occurrences[1].progressionIdentity)
+  })
+
   it('runs full K5 cycles and freezes ATP2/Engine for the standard deload, then H1 relearns', () => {
     const s=buildProfile()
     for(let i=0;i<3;i++) {

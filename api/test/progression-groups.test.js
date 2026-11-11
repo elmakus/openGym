@@ -164,6 +164,45 @@ test('pinned native HYBRID-2 identity remains authoritative without manual group
   assert.equal(progressionAcrossRoutines(p,slot(p,'bench-mon'),hybrid,true),false)
 })
 
+test('pausing native HYBRID-2 pins only historically used identities and rejects silent remapping',()=>{
+  const p=fixture()
+  p.trainingControl={hybrid2Config:{enabled:false,adapter:{
+    namespace:'original-M6',occurrences:[
+      {occurrenceId:'bench-mon',progressionIdentity:'native-shared-key'},
+      {occurrenceId:'bench-fri',progressionIdentity:'native-shared-key'}
+    ]
+  }}}
+  // A reviewed but unused disabled adapter does not opt the regular plan in.
+  assert.equal(progressionTrackId(p,slot(p,'bench-mon')),'bench-mon')
+  assert.equal(progressionAcrossRoutines(p,slot(p,'bench-mon'),null,true),true)
+  p.workouts=[{id:'historical-native-day',exposures:[{
+    occurrenceId:'bench-mon',exerciseId:bench,trackId:'native-shared-key',
+    hybrid2:{namespace:'original-M6',progressionIdentity:'native-shared-key'}
+  }]}]
+  assert.equal(progressionTrackId(p,slot(p,'bench-mon')),'native-shared-key')
+  assert.equal(progressionAcrossRoutines(p,slot(p,'bench-mon'),null,true),false)
+  assert.equal(progressionTrackId(p,slot(p,'bench-fri')),'native-shared-key',
+    'an unused Friday occurrence must retain its declared source key after Monday recorded a native workout')
+  assert.equal(progressionTrackId(p,slot(p,'bench-wed')),'bench-wed',
+    'unrelated ordinary occurrences stay on their own tracks')
+  const filtered=progressionHistoryForTrack(p,slot(p,'bench-mon'),null,'native-shared-key',p.workouts)
+  assert.equal(filtered[0].exposures[0].trackId,'native-shared-key')
+  const competingManualGroup=structuredClone(p)
+  competingManualGroup.progressionGroups={version:1,groups:[{id:'new-manual-key',
+    members:['bench-mon','bench-fri']}]}
+  assert.throws(()=>validateProgressionGroups(competingManualGroup),/HYBRID-2 pinned identity/,
+    'pausing the monitor cannot allow a manual group to steal a used native key')
+  const alteredKey=structuredClone(p)
+  alteredKey.trainingControl.hybrid2Config.adapter.occurrences[0].progressionIdentity='changed'
+  assert.throws(()=>progressionTrackId(alteredKey,slot(alteredKey,'bench-mon')),/historical HYBRID-2 progression identity/)
+  const alteredHistory=structuredClone(p)
+  alteredHistory.workouts[0].exposures[0].trackId='rewritten-legacy-key'
+  assert.throws(()=>progressionTrackId(alteredHistory,slot(alteredHistory,'bench-mon')),/historical HYBRID-2 progression identity/)
+  const alteredNamespace=structuredClone(p)
+  alteredNamespace.trainingControl.hybrid2Config.adapter.namespace='different-program'
+  assert.throws(()=>progressionTrackId(alteredNamespace,slot(alteredNamespace,'bench-mon')),/historical HYBRID-2 progression identity/)
+})
+
 test('ungrouped native HYBRID-2-style colon identities coexist with strict manual groups',()=>{
   const p=fixture()
   p.routines[1].ex[0].occurrenceId='native:original-slot'

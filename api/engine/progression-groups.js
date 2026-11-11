@@ -34,8 +34,29 @@ const signature = occ => canonicalJSON({
 
 const hybridNative = (profile, occurrenceId) => {
   const config = profile?.trainingControl?.hybrid2Config
-  if (config?.enabled !== true) return null
-  return config.adapter?.occurrences?.find(o => o.occurrenceId === occurrenceId) || null
+  const native = config?.adapter?.occurrences?.find(o => o.occurrenceId === occurrenceId)
+  if (!native) return null
+  if (config.enabled === true) return native
+
+  // Once any native workout used this adapter, pausing the H1 monitor must
+  // preserve ALL of its declared progression identities, including later
+  // B/C occurrences that have not yet logged a set. Otherwise M6 shared
+  // source keys split into occurrence-scoped tracks mid-cycle.
+  // An unused disabled adapter stays opt-out.
+  const catalog = new Map(config.adapter.occurrences.map(o => [o.occurrenceId, o]))
+  let pinned = false
+  for (const workout of list(profile?.workouts)) for (const exposure of list(workout?.exposures)) {
+    if (!exposure?.hybrid2) continue
+    const declared = catalog.get(exposure.occurrenceId)
+    if (exposure.hybrid2.namespace !== config.adapter.namespace && !declared) continue
+    pinned = true
+    const expected = declared?.progressionIdentity ?? exposure.occurrenceId
+    if (!declared || exposure.hybrid2.namespace !== config.adapter.namespace ||
+        exposure.hybrid2.progressionIdentity !== declared.progressionIdentity ||
+        exposure.trackId !== expected)
+      fail('historical HYBRID-2 progression identity changed; explicit review required')
+  }
+  return pinned ? native : null
 }
 
 export function validateProgressionGroups(profile) {
