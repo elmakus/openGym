@@ -22,10 +22,10 @@ import { buildCompletedSession, workLoadOf } from './finish-session.js'
 import { plannedOf, rowsOfPerformance, targetFor } from './session-ui-adapter.js'
 import { hasCompletedWork } from './workout-model.js'
 import { stampWorkout } from './sync-merge.js'
-import { legacySyncKey, rebuildPrHistory, moveWorkout } from './workout-date.js'
+import { legacySyncKey, rebuildPrHistory, moveWorkout, sameWorkout } from './workout-date.js'
 import { replayAtp2History } from '../../../api/training-control/history.js'
 import { replayTimedLoadHistory } from '../../../api/training-control/timed-load-history.js'
-import { reconcileHybridHistory } from './hybrid2-sync.js'
+import { reconcileHybridHistory, assertSafeHybridHistoryEdit } from './hybrid2-sync.js'
 
 const clone = value => structuredClone(value)
 const list = v => (Array.isArray(v) ? v : [])
@@ -177,8 +177,10 @@ export function saveWorkoutEdit(state, now = Date.now()) {
     return current
   }
   const ids = new Set([...list(current.exposures), ...list(active.exposures)].map(x => x.exposureId))
-  state.oneRepMaxes = ownEstimates(state, ids)
-  const { session, oneRepMaxes } = buildCompletedSession(active, state, { end: current.end, newId: uid, unit: state.unit })
+  const retainedOneRms = ownEstimates(state, ids)
+  const { session, oneRepMaxes } = buildCompletedSession(active,
+    { ...state, oneRepMaxes: retainedOneRms },
+    { end: current.end, newId: uid, unit: state.unit })
   const record = { ...current, ...session, id: key, d: current.d, start: current.start, end: current.end }
   const base = active.editBase
   for (const k of SESSION_FIELDS) {
@@ -187,7 +189,11 @@ export function saveWorkoutEdit(state, now = Date.now()) {
     if (value == null || value === '') delete record[k]
     else record[k] = value
   }
+  // The editor must not commit a structural workout whose changed evidence
+  // breaks H1 chronology, provenance, or the frozen deload lifecycle.
+  assertSafeHybridHistoryEdit(state, state.workouts.map((w, i) => i === index ? record : w))
   stampWorkout(record, now)
+  state.oneRepMaxes = retainedOneRms
   state.workouts[index] = record
   for (const r of oneRepMaxes) state.oneRepMaxes = appendOneRm(state.oneRepMaxes, r)
 
@@ -273,9 +279,24 @@ export function reconcileTimedLoadHistory(state) {
 export function moveWorkoutInProfile(state, ref, iso, time, now = Date.now()) {
   const next = moveWorkout(state.workouts, ref, iso, time, now)
   if (!next) return null
+  assertSafeHybridHistoryEdit(state, next)
   state.workouts = next
   reconcileSessionHistory(state)
   return next
+}
+
+/** The History detail sheet uses the same protected deletion path as its editor.
+ * A structural H1 workout must not disappear if doing so invalidates a healthy
+ * cycle. Ordinary legacy/custom workouts remain deletable without an adapter.
+ */
+export function deleteWorkoutFromProfile(state, ref) {
+  const current = list(state.workouts).find(w => sameWorkout(w, ref))
+  if (!current) return false
+  const next = state.workouts.filter(w => w !== current)
+  assertSafeHybridHistoryEdit(state, next)
+  state.workouts = next
+  reconcileSessionHistory(state)
+  return true
 }
 
 /** Refresh derived references after ordinary history deletion or editor deletion. */
@@ -302,9 +323,11 @@ export function reconcileSessionHistory(state) {
  */
 export function deleteEditedWorkout(state) {
   const current = editedRecord(state)
+  if (!current) { state.active = null; return false }
+  const remaining = state.workouts.filter(w => w !== current)
+  assertSafeHybridHistoryEdit(state, remaining)
   state.active = null
-  if (!current) return false
-  state.workouts = state.workouts.filter(w => w !== current)
+  state.workouts = remaining
   reconcileSessionHistory(state)
   lowerKeptWeights(state, [...new Set(list(current.exposures).map(x => x?.exerciseId).filter(id => id != null))], current, null)
   return true

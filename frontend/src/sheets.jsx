@@ -85,7 +85,7 @@ import { buildSessionExposures, effectiveExerciseId, missingOneRms, occurrenceFo
 import { buildCombinedExposures, deriveSessionName } from './lib/session-merge.js'
 import { entriesForExposures, planSummary, exposuresWithPerformance } from './lib/session-ui-adapter.js'
 import { reconcileHybridHistory } from './lib/hybrid2-sync.js'
-import { reconcileSessionHistory, reconcileAtp2History, reconcileTimedLoadHistory, moveWorkoutInProfile, editCompletedSession, editChangesNothing, editLeftEmpty, editedRecord } from './lib/session-edit.js'
+import { deleteWorkoutFromProfile, reconcileAtp2History, reconcileTimedLoadHistory, moveWorkoutInProfile, editCompletedSession, editChangesNothing, editLeftEmpty, editedRecord } from './lib/session-edit.js'
 import { finishCompare, finishCardio } from './lib/finish-compare.js'
 import { workoutFit, fitFileName } from './lib/fit-export.js'
 import { workoutsOn, backfillStart, backfillEnd, completeBackfill, historyAsOf, sessionHistory } from './lib/backfill.js'
@@ -2905,7 +2905,8 @@ function WorkoutDateEdit({ w, onDone, close }) {
     if (!(S().workouts || []).some(x => sameWorkout(x, w))) { close(); return }
     // It keeps its length, so the end it would have is what has to be in the past.
     if (endsInFuture(date, time, durationMinOf(w))) { toast(t('That’s still in the future. Try an earlier start.')); return }
-    update(s => { moveWorkoutInProfile(s, w, date, time) })
+    try { update(s => { moveWorkoutInProfile(s, w, date, time) }) }
+    catch (error) { toast(t(error.message)); return }
     close()
     onDone && onDone()
     toast(t('Workout moved'))
@@ -3117,7 +3118,13 @@ function WorkoutDetail({ w, close }) {
   }
   // Matched the way the edits above are, not by id: a workout from before ids has none, and
   // filtering on `x.id !== undefined` took every other one of them with it.
-  const deleteWorkout = () => confirmSheet({ title: t('Delete workout?'), message: t('This removes it from your history for good.') + mediaGoesToo(S().workouts.find(x => sameWorkout(x, w))), confirmText: t('Delete'), danger: true, onConfirm: () => { update(s => { s.workouts = s.workouts.filter(x => !sameWorkout(x, w)); reconcileSessionHistory(s) }); close(); toast(t('Workout deleted')) } })
+  const deleteWorkout = () => confirmSheet({ title: t('Delete workout?'), message: t('This removes it from your history for good.') + mediaGoesToo(S().workouts.find(x => sameWorkout(x, w))), confirmText: t('Delete'), danger: true, onConfirm: () => {
+    let removed = false
+    try { update(s => { removed = deleteWorkoutFromProfile(s, w) }) }
+    catch (error) { toast(t(error.message)); return }
+    close()
+    if (removed) toast(t('Workout deleted'))
+  } })
   // The once-in-a-while things, in one menu over this sheet: when it happened, keeping it as a
   // routine, getting it out of the app (on paper: the browser's print dialog or the phone's
   // print sheet; .fit for Garmin Connect), and Delete on its own at the end.

@@ -38,6 +38,37 @@ export function reconcileHybridHistory(profile) {
     return null
   }
 }
+/** Before changing persisted history, test the proposed timeline with the same
+ * full structural replay used at session start. A previously valid H1 epoch must
+ * not be made incompatible by a date move, deletion or workout editor save.
+ *
+ * If history is already incompatible, do not lock the user out of corrective
+ * editing; the ordinary reconcile path still reports its incompatibility.
+ * No profile caches or source logs are modified during the preflight.
+ */
+export function assertSafeHybridHistoryEdit(profile, proposedWorkouts) {
+  const cfg = profile?.trainingControl?.hybrid2Config
+  if (!cfg?.adapter) return
+  const tagged = list => (list || []).some(w => w.hybrid2 != null ||
+    (w.exposures || []).some(x => x?.hybrid2 != null))
+  if (!tagged(profile.workouts) && !tagged(proposedWorkouts)) return
+  const errorOf = workouts => {
+    try {
+      validatePlanAdapter(cfg.adapter, profile.routines)
+      verifyFrozenHistory(workouts, cfg.adapter)
+      if (cfg.enabled === true) assertHybridResumeContinuity(workouts, cfg.adapter)
+      const bootstrap = profile.trainingControl?.hybrid2Bootstrap
+      assertHybridBootstrapHistory(workouts, cfg.adapter, bootstrap)
+      replayHybridHistory({ workouts, adapter: cfg.adapter,
+        prescriptions: profile.prescriptions, bootstrap })
+      return null
+    } catch (error) { return error }
+  }
+  if (errorOf(profile.workouts)) return
+  const error = errorOf(proposedWorkouts)
+  if (error) throw new Error('HYBRID-2 history edit blocked: ' + error.message)
+}
+
 export function mergeHybridSettings(local, remote) {
   const a = local?.trainingControl?.hybrid2Config, b = remote?.trainingControl?.hybrid2Config
   const result = {}
