@@ -153,6 +153,28 @@ describe('saved rows read back as the rows that were logged', () => {
       ['L', 'r0'], ['R', 'r1']
     ])
   })
+  it('reopens shuffled native L/R set records by their source set IDs', () => {
+    const limb = (side, setId, r, w, done = true) => ({
+      side, setId, role: 'work', prescribed: true,
+      status: done ? 'completed' : 'skipped',
+      observations: [{ metric: 'repetitions', value: r }],
+      resistance: { kind: 'external-load', value: w, unit: 'kg' }
+    })
+    const source = [
+      limb('R', 'r1', 14, 42.5), limb('R', 'r0', 8, 35),
+      limb('L', 'r1', 12, 40), limb('L', 'r0', 9, 37.5, false)
+    ]
+    const reopened = rowsOfPerformance(source, 'reps')
+    expect(reopened).toHaveLength(2)
+    expect(reopened.map(row => row.setId)).toEqual(['r0', 'r1'])
+    expect(reopened[0].sides).toEqual({
+      L: { w: 37.5, r: 9, done: false }, R: { w: 35, r: 8, done: true }
+    })
+    expect(reopened[1].sides).toEqual({
+      L: { w: 40, r: 12, done: true }, R: { w: 42.5, r: 14, done: true }
+    })
+  })
+
   it('never fuses adjacent warmup and work rows even if L/R set IDs match', () => {
     const left = { side: 'L', setId: 'r0', role: 'warmup', prescribed: true,
       status: 'completed', observations: [{ metric: 'repetitions', value: 8 }],

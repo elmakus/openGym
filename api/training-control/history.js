@@ -1,6 +1,7 @@
 // Deterministic ATP2 replay from completed openGym workout history.
 // Engine v2's progression is replayed separately; ATP2 never writes into it.
 import { evaluateAtp2 } from './atp2.js'
+import { pairSavedSideRows } from './paired-rows.js'
 
 const observation = (row, metric) => row?.observations?.find(o => o.metric === metric)?.value
 const load = row => row?.resistance?.kind === 'external-load' ? row.resistance.value : 0
@@ -8,28 +9,20 @@ const load = row => row?.resistance?.kind === 'external-load' ? row.resistance.v
 /** Saved unilateral rows use a shared setId and one row for each limb. */
 export function historicalAtp2Rows(exposure) {
   const rows = (exposure?.performance?.sets || []).filter(x => x.role === 'work')
-  const out = []
-  for (let i = 0; i < rows.length; i++) {
-    const row = rows[i], next = rows[i + 1]
-    if (row.side === 'L' && next?.side === 'R' && row.setId === next.setId) {
-      out.push({
-        ordinal: out.length + 1,
-        completed: row.status === 'completed' && next.status === 'completed',
-        weight: Math.min(load(row), load(next)),
-        leftReps: observation(row, 'repetitions'),
-        reps: observation(next, 'repetitions')
-      })
-      i++
-    } else {
-      out.push({
-        ordinal: out.length + 1,
+  return pairSavedSideRows(rows).map(({ row, left, right }, index) => left && right
+    ? {
+        ordinal: index + 1,
+        completed: left.status === 'completed' && right.status === 'completed',
+        weight: Math.min(load(left), load(right)),
+        leftReps: observation(left, 'repetitions'),
+        reps: observation(right, 'repetitions')
+      }
+    : {
+        ordinal: index + 1,
         completed: row.status === 'completed',
         weight: load(row),
         reps: observation(row, 'repetitions')
       })
-    }
-  }
-  return out
 }
 
 /** Full replay, not last-write-wins: history edits and sync must not double-progress. */

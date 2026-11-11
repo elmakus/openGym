@@ -7,6 +7,7 @@ import { applyIntensifierPlan, applyFailurePlan, modeOf } from './history.js'
 import { inclineFrom } from './incline.js'
 import { prefillAtp2Entry } from './atp2-session.js'
 import { prefillTimedLoadEntry } from './timed-load-session.js'
+import { pairSavedSideRows } from '../../../api/training-control/paired-rows.js'
 import { pyramidLabel } from './pyramid.js'
 
 const weightOf = (p, i) => p.prefill.load?.value ?? p.rows[i]?.load?.value ?? null
@@ -223,17 +224,13 @@ function rowOfPerformance(row, mode) {
 /** A saved exposure's rows as editable UI rows: limb rows (or a migrated `sides` row) rejoin into one per-side row. */
 export function rowsOfPerformance(sets, mode) {
   const out = []
-  for (let i = 0; i < (sets || []).length; i++) {
-    const row = sets[i], next = sets[i + 1]
-    // A hold's two limbs stay the two rows they were: one duration each, nothing to join.
-    // Native/imported histories can contain adjacent L/R observations from
-    // DIFFERENT prescribed sets. Never silently fuse them into one editable
-    // series: each side must refer to the same set ID and phase. The legacy
-    // no-setId L/R adjacency still works as it did before.
-    const matchingSidePair = mode !== 'time' && row.side === 'L' && next?.side === 'R'
-      && row.setId === next.setId && row.role === next.role
-      && row.prescribed === next.prescribed
-    const pair = row.sides ? [row.sides.L, row.sides.R] : matchingSidePair ? [row, sets[++i]] : null
+  // Timed holds intentionally keep a separate physical row per limb. Loaded
+  // unilateral sets may be stored out of order by imports or offline merges.
+  const saved = mode === 'time'
+    ? (sets || []).map((row, index) => ({ row, index }))
+    : pairSavedSideRows(sets)
+  for (const { row, left, right } of saved) {
+    const pair = row.sides ? [row.sides.L, row.sides.R] : left && right ? [left, right] : null
     if (!pair) { out.push(rowOfPerformance(row, mode)); continue }
     const [L, R] = pair.map(limb => rowOfPerformance({ ...limb, rir: limb.rir ?? row.rir, rpeEntered: limb.rpeEntered ?? row.rpeEntered }, mode))
     out.push(syncSideAggregate({ ...kept(row, ROW_META), ...(row.rpeEntered != null ? { rpe: row.rpeEntered } : row.rir != null ? { rir: row.rir } : {}), ...(row.setId ? { setId: row.setId } : {}), ...(row.role === 'warmup' ? { phase: 'warmup' } : {}), ...(row.max ? { max: true } : {}),

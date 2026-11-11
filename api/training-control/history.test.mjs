@@ -57,6 +57,42 @@ test('Unilateral paired logged limbs are interpreted as one ATP2 working set', (
   assert.equal(replayAtp2History([profile])['squat-slot'].candidate, 20)
 })
 
+test('Paired ATP2 replay groups imported bilateral limbs by setId, not storage order', () => {
+  const spec = { ...atp2, initialState: { ...atp2.initialState, paired: 1 } }
+  const chronological = [
+    work('r0', 20, 6, 'completed', 'L'),
+    work('r0', 20, 6, 'completed', 'R'),
+    work('r1', 20, 18, 'completed', 'L'),
+    work('r1', 20, 18, 'completed', 'R')
+  ]
+  const reordered = [
+    chronological[3], chronological[1], chronological[2], chronological[0]
+  ]
+  const expected = historicalAtp2Rows({ performance: { sets: chronological } })
+  assert.equal(expected.length, 2)
+  const actual = historicalAtp2Rows({ performance: { sets: reordered } })
+  assert.deepEqual(actual, expected, 'source setId defines the authoritative prescribed-set order')
+  const original = replayAtp2History([event('w1', 1000, chronological, { atp2: spec })])['squat-slot']
+  assert.equal(original.candidate, 17.5)
+  const imported = replayAtp2History([event('w1', 1000, reordered, { atp2: spec })])['squat-slot']
+  assert.deepEqual(imported, original)
+})
+
+test('Ambiguous duplicate bilateral set IDs never manufacture a joined ATP2 set', () => {
+  const spec = { ...atp2, initialState: { ...atp2.initialState, paired: 1 } }
+  const repeated = [
+    work('r0', 20, 18, 'completed', 'L'),
+    work('r0', 20, 18, 'completed', 'R'),
+    work('r0', 20, 6, 'completed', 'L'),
+    work('r0', 20, 6, 'completed', 'R')
+  ]
+  const reconstructed = historicalAtp2Rows({ performance: { sets: repeated } })
+  assert.equal(reconstructed.length, 4)
+  assert.ok(reconstructed.every(row => row.leftReps === undefined))
+  const state = replayAtp2History([event('w1', 1000, repeated, { atp2: spec })])['squat-slot']
+  assert.equal(state.candidate, 20)
+})
+
 test('Skipped and excluded rows cannot trigger ATP2 progression', () => {
   const skipped = event('skip', 1000, [work('r0', 20, 18, 'skipped')])
   assert.deepEqual(replayAtp2History([skipped]), {})
