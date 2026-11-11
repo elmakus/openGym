@@ -2,7 +2,7 @@
 // permission to persist progression, never an ATP2/Timed Load/Engine v2 reducer.
 import { contentHash, deepFreeze } from '../../engine/canonical.js'
 import { deloadSetBudget, reactivePermissions } from './lifecycle.js'
-import { replayHybridHistory } from './history.js'
+import { replayHybridHistory, assertHybridResumeContinuity } from './history.js'
 import { compilePlanAdapter } from './adapter.js'
 
 const fail = msg => { throw new Error('HYBRID-2 supervisor: ' + msg) }
@@ -47,8 +47,10 @@ export function currentHybridPlan(profile, routine, now = Date.now()) {
   if (positions.size !== 1) fail('routine has mixed structural positions')
   const position = [...positions][0]
   verifyFrozenHistory(profile.workouts, adapter)
+  const priorWorkouts = before(profile.workouts, now)
+  assertHybridResumeContinuity(priorWorkouts, adapter)
   const effective = replayHybridHistory({
-    workouts: before(profile.workouts, now), adapter: config.adapter,
+    workouts: priorWorkouts, adapter: config.adapter,
     prescriptions: profile.prescriptions
   })
   const rt = effective.state.runtime

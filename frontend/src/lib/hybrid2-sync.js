@@ -1,6 +1,6 @@
 // HYBRID-2 persistence is a pure, replayable view of canonical workout evidence.
 // Never trust/merge H1 controller snapshots from devices (no last-write-wins).
-import { replayHybridHistory } from '../../../api/training-control/hybrid2/history.js'
+import { replayHybridHistory, assertHybridResumeContinuity } from '../../../api/training-control/hybrid2/history.js'
 import { verifyFrozenHistory } from '../../../api/training-control/hybrid2/supervisor.js'
 import { validatePlanAdapter } from '../../../api/training-control/hybrid2/adapter.js'
 import { canonicalJSON } from '../../../api/engine/canonical.js'
@@ -13,6 +13,7 @@ export function reconcileHybridHistory(profile) {
     if (profile.trainingControl.hybrid2Conflict) throw new Error('Conflicting plan adapter settings across devices')
     validatePlanAdapter(cfg.adapter, profile.routines)
     verifyFrozenHistory(profile.workouts, cfg.adapter)
+    if (cfg.enabled === true) assertHybridResumeContinuity(profile.workouts, cfg.adapter)
     const result = replayHybridHistory({ workouts: profile.workouts,
       adapter: cfg.adapter, prescriptions: profile.prescriptions })
     profile.trainingControl.hybrid2 = result.state

@@ -12,6 +12,24 @@ import { verifiedHybridExposures } from './evidence.js'
 const fail = reason => { throw new Error('HYBRID-2 replay: ' + reason) }
 const completedWork = exposure => (exposure?.performance?.sets || [])
   .filter(row => row.role === 'work' && row.status === 'completed').length
+/** A paused monitor cannot silently resume over completed workouts for mapped
+ * occurrences: those sessions have no HYBRID-2 structural event and were not
+ * counted by H1. Legacy workouts before the first H2 event remain unmodified.
+ * Unrelated exercise history can continue while the monitor is paused.
+ */
+export function assertHybridResumeContinuity(workouts = [], adapter) {
+  const occurrences = new Set(adapter.occurrences.map(o => o.occurrenceId))
+  let started = false
+  for (const workout of chronologicalWorkouts(workouts)) {
+    const exposures = Array.isArray(workout.exposures) ? workout.exposures : []
+    const tagged = workout.hybrid2 != null || exposures.some(x => x?.hybrid2 != null)
+    if ((started || tagged) && exposures.some(x =>
+      occurrences.has(x?.occurrenceId) && x?.hybrid2 == null))
+      fail('untagged adapter workout while HYBRID-2 was paused; explicit resume review required')
+    if (tagged) started = true
+  }
+}
+
 const byId = (workouts) => {
   const ids = new Map()
   for (const w of workouts) {

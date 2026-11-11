@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Button, Row, Switch, TextArea } from './ui.jsx'
 import { t } from '../lib/i18n.js'
 import { validatePlanAdapter } from '../../../api/training-control/hybrid2/adapter.js'
+import { assertHybridResumeContinuity } from '../../../api/training-control/hybrid2/history.js'
 import { reconcileHybridHistory } from '../lib/hybrid2-sync.js'
 
 export default function Hybrid2Settings({ profile, update }) {
@@ -37,6 +38,7 @@ export default function Hybrid2Settings({ profile, update }) {
   const setEnabled = enabled => {
     try {
       if (enabled && !isValid()) throw new Error('Assign a valid, reviewed adapter before enabling HYBRID-2')
+      if (enabled) assertHybridResumeContinuity(profile.workouts, cfg.adapter)
       update(s => {
         s.trainingControl ||= {}
         s.trainingControl.hybrid2Config = { ...s.trainingControl.hybrid2Config, enabled }

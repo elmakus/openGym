@@ -128,6 +128,49 @@ describe('HYBRID-2 actual Engine v2 session -> rows -> finish -> history -> next
     expect(neverPerformed[0].trackId).toBe(K5.adapter.occurrences[1].progressionIdentity)
   })
 
+  it('refuses a silent H1 resume after mapped workouts were completed during a pause', () => {
+    const s = buildProfile()
+    s.trainingControl.hybrid2Config.adapter = structuredClone(K5.adapter)
+    trainPosition(s, 0, 0, 12)
+    const originalCount = s.workouts.length
+    s.trainingControl.hybrid2Config.enabled = false
+    trainPosition(s, 0, 1, 12)
+    expect(s.workouts).toHaveLength(originalCount + 1)
+    expect(s.workouts[1].exposures[0].hybrid2).toBeUndefined()
+    expect(s.workouts[1].exposures[0].trackId)
+      .toBe(K5.adapter.occurrences[1].progressionIdentity)
+    s.trainingControl.hybrid2Config.enabled = true
+    // The direct session-start API must also fail closed before the stored H1
+    // diagnostics have been recomputed (e.g. after an offline config change).
+    expect(() => buildSessionExposures(s, s.routines[2], {
+      now: startAt + 2 * 86400000, newId: x => x, unit: s.unit
+    })).toThrow(/untagged.*while.*paused/i)
+    expect(reconcileHybridHistory(s)).toBeNull()
+    expect(s.trainingControl.hybrid2Diagnostics.status).toBe('INCOMPATIBLE')
+    expect(s.trainingControl.hybrid2Error).toMatch(/untagged.*while.*paused/i)
+    expect(() => buildSessionExposures(s, s.routines[2], {
+      now: startAt + 2 * 86400000, newId: x => x, unit: s.unit
+    })).toThrow(/unresolved HYBRID-2/)
+
+    // A pause with no adapter-owned workouts remains safe to resume.
+    const noGap = buildProfile()
+    noGap.trainingControl.hybrid2Config.adapter = structuredClone(K5.adapter)
+    trainPosition(noGap, 0, 0, 12)
+    noGap.trainingControl.hybrid2Config.enabled = false
+    // Unrelated exercise history during the pause is not a structural gap.
+    noGap.workouts.push({ id: 'unrelated-during-pause',
+      start: startAt + 86400000, d: '2026-11-10',
+      exposures: [{ exposureId: 'unrelated-exposure',
+        occurrenceId: 'not-in-k5-adapter', exerciseId: '0025' }] })
+    reconcileHybridHistory(noGap)
+    noGap.trainingControl.hybrid2Config.enabled = true
+    expect(reconcileHybridHistory(noGap)).not.toBeNull()
+    const resumed = buildSessionExposures(noGap, noGap.routines[1], {
+      now: startAt + 2 * 86400000, newId: x => x, unit: noGap.unit
+    })
+    expect(resumed[0].hybrid2).toBeDefined()
+  })
+
   it('runs full K5 cycles and freezes ATP2/Engine for the standard deload, then H1 relearns', () => {
     const s=buildProfile()
     for(let i=0;i<3;i++) {
