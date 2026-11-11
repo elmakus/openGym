@@ -10,6 +10,7 @@ import { replayAtp2History } from '../../../api/training-control/history.js'
 import { replayTimedLoadHistory } from '../../../api/training-control/timed-load-history.js'
 import { SIDE_PLANK_TIMED_CONFIG } from '../../../api/training-control/timed-load.js'
 import { replayProgression } from './prescription/index.js'
+import { createHybridBootstrap } from '../../../api/training-control/hybrid2/bootstrap.js'
 
 const startAt = Date.UTC(2026, 10, 9, 10)
 // Unlike generic controller fixtures, live openGym tracks use occurrenceId
@@ -169,6 +170,35 @@ describe('HYBRID-2 actual Engine v2 session -> rows -> finish -> history -> next
       now: startAt + 2 * 86400000, newId: x => x, unit: noGap.unit
     })
     expect(resumed[0].hybrid2).toBeDefined()
+  })
+
+  it('imports prior H1 memory and carries real UI workout through queued, frozen closer, then NORMAL', () => {
+    const s = buildProfile()
+    const anchors = Object.fromEntries(liveK5Adapter.signals.map(signal => [signal.signalId, {
+      perf1: 150, perf2: 150, perf3: 150, perfCount: 3,
+      perfReference: 150, candidateGuard: 0
+    }]))
+    s.trainingControl.hybrid2Bootstrap = createHybridBootstrap({
+      adapter: s.trainingControl.hybrid2Config.adapter,
+      sourceId: 'reviewed-liftosaur-incremental-h1',
+      cutoverAt: '2026-11-08T20:00:00.000Z',
+      importedAt: '2026-11-09T09:00:00.000Z',
+      anchors
+    })
+    const first = cycle(s, 0, 10)
+    expect(first.replayed.status).toBe('QUEUED')
+    expect(first.replayed.state.runtime.deloadQueued).toBe(1)
+    const previousAtp2 = structuredClone(s.trainingControl.atp2)
+    const previousTimed = structuredClone(s.trainingControl.timedLoad)
+    const frozen = cycle(s, 1, 10)
+    expect(frozen.frozen).toBe(true)
+    expect(frozen.replayed.decisions.at(-1).event).toBe('DELOAD_CLOSED')
+    expect(frozen.replayed.status).toBe('LEARNING')
+    expect(s.trainingControl.atp2).toEqual(previousAtp2)
+    expect(s.trainingControl.timedLoad).toEqual(previousTimed)
+    expect(cycle(s, 2, 14).replayed.status).toBe('LEARNING')
+    expect(cycle(s, 3, 14).replayed.status).toBe('LEARNING')
+    expect(cycle(s, 4, 14).replayed.status).toBe('NORMAL')
   })
 
   it('runs full K5 cycles and freezes ATP2/Engine for the standard deload, then H1 relearns', () => {

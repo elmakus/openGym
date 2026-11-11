@@ -4,6 +4,7 @@ import { reconcileHybridHistory } from './hybrid2-sync.js'
 import { replayHybridHistory } from '../../../api/training-control/hybrid2/history.js'
 import { convertStateUnit } from './units.js'
 import { replayAtp2History } from '../../../api/training-control/history.js'
+import { createHybridBootstrap } from '../../../api/training-control/hybrid2/bootstrap.js'
 import { K5, M6, SYN4 } from '../../../api/training-control/hybrid2/fixtures/reference-adapters.js'
 import { makeFixtureCycle, fixtureCycles } from '../../../api/training-control/hybrid2/fixtures/cycles.js'
 
@@ -24,6 +25,42 @@ const history = () => fixtureCycles(K5, [
 ])
 
 describe('HYBRID-2 across actual openGym two-device offline merge/replay', () => {
+  it('converges the same native H1 cutover without LWW and keeps an offline divergence blocked', () => {
+    const anchor = Object.fromEntries(M6.adapter.signals.map(s => [s.signalId, {
+      perf1: 150, perf2: 150, perf3: 150, perfCount: 3,
+      perfReference: 150, candidateGuard: 0
+    }]))
+    const checkpoint = createHybridBootstrap({
+      adapter: M6.adapter, sourceId: 'reviewed-native-baseline',
+      cutoverAt: '2025-12-31T20:00:00.000Z',
+      importedAt: '2025-12-31T21:00:00.000Z', anchors: anchor
+    })
+    const A = base(M6)
+    A.trainingControl.hybrid2Bootstrap = checkpoint
+    const B = base(M6)
+    const initial = mergeStates(A, B)
+    expect(initial.trainingControl.hybrid2Bootstrap).toEqual(checkpoint)
+    expect(initial.trainingControl.hybrid2BootstrapConflict).toBeUndefined()
+    const synced = mergeStates(initial, A)
+    expect(synced.trainingControl.hybrid2Bootstrap).toEqual(checkpoint)
+    const offline = base(M6, {workouts: makeFixtureCycle(M6,0,8)})
+    const collided = mergeStates(A, offline)
+    expect(collided.trainingControl.hybrid2BootstrapConflict).toBeTruthy()
+    expect(collided.trainingControl.hybrid2Diagnostics.status).toBe('INCOMPATIBLE')
+    expect(collided.trainingControl.hybrid2).toBeUndefined()
+    // A later merge with the original offline device must NOT clear conflict.
+    const again = mergeStates(collided, offline)
+    expect(again.trainingControl.hybrid2BootstrapConflict).toBeTruthy()
+    expect(again.trainingControl.hybrid2).toBeUndefined()
+    const other = base(M6)
+    other.trainingControl.hybrid2Bootstrap = createHybridBootstrap({
+      adapter: M6.adapter, sourceId: 'different-native-source',
+      cutoverAt: '2025-12-31T20:00:00.000Z',
+      importedAt: '2025-12-31T21:00:00.000Z', anchors: anchor
+    })
+    expect(mergeStates(A, other).trainingControl.hybrid2BootstrapConflict).toBeTruthy()
+  })
+
   it('replays split offline training from chronological logs and ignores stale H1 snapshots', () => {
     const source = history().slice(0, K5.adapter.orderedCyclePositions.length*5)
     const shared = source.slice(0, 5)

@@ -246,6 +246,15 @@ describe('warm-up inputs', () => {
     const id = Object.keys(EXIDX).find(k => EXIDX[k].eq === 'barbell')
     expect(run(occ(id, { mode: 'smart', count: 5 })).warmupRows).toHaveLength(5)
   })
+  it('generates a complete heavy smart ramp for a synced custom barbell not yet in the global catalogue', () => {
+    const custom={id:'test_imported_native_barbell',n:'Imported barbell',eq:'barbell',custom:true}
+    const S=profile({ customEx:[custom] })
+    const ex=occ(custom.id,{ mode:'smart', count:5 })
+    const [x]=buildSessionExposures(S,{id:'rt',ex:[ex]},ctx)
+    const p=S.prescriptions[x.prescriptionId]
+    expect(p.warmupRows.map(r=>r.load.value)).toEqual([25,40,60,75,85])
+    expect(p.warmupRows).toHaveLength(5)
+  })
   it('an assisted machine warms up with more help than its work sets, not less (#581)', () => {
     const id = Object.keys(EXIDX).find(k => isAssisted(k))
     const p = run(occ(id, { mode: 'smart', count: 2 }))

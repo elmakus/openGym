@@ -4,6 +4,7 @@ import { loadedRepScore } from './h1.js'
 import { historicalAtp2Rows } from '../history.js'
 import { evaluateAtp2 } from '../atp2.js'
 import { replayProgression } from '../../engine/context.js'
+import { pairSavedSideRows } from '../paired-rows.js'
 
 // H1 source parity policy (2026-11-10): the initial ~5..20 reps envelope is
 // descriptive, not a hard observation limit. Pinned original Liftosaur accepts
@@ -40,14 +41,21 @@ export function h1FromExposure(exposure, { beforeCandidate, afterCandidate, base
   if (exposure.atp2?.version === 1) first = sampleAt(historicalAtp2Rows(exposure))
   else {
     const rows = (exposure.performance?.sets || []).filter(row => row.role === 'work')
-    const x = rows.find(row => row.status === 'completed')
-    const partner = rows.find(row => row.setId === x?.setId && row.side === 'R')
-    if (x?.side === 'L' && partner) {
-      const left = obs(x, 'repetitions'), right = obs(partner, 'repetitions')
-      first = sampleAt([{ completed: x.status === 'completed' && partner.status === 'completed',
-        weight: Math.min(x.resistance?.value, partner.resistance?.value), leftReps: left, reps: right }])
+    // Canonical merged records may store R before L or interleave prescribed sets.
+    // Reuse the exact saved setId pairer shared by ATP2 replay and the editor.
+    // A single unpaired physical limb must never masquerade as a valid H1 set.
+    const logical = pairSavedSideRows(rows)
+    const counted = logical.find(group => group.left && group.right
+      ? group.left.status === 'completed' && group.right.status === 'completed'
+      : !group.row?.side && group.row?.status === 'completed')
+    if (counted?.left && counted?.right) {
+      const left = counted.left, right = counted.right
+      first = sampleAt([{ completed: true,
+        weight: Math.min(left.resistance?.value, right.resistance?.value),
+        leftReps: obs(left, 'repetitions'), reps: obs(right, 'repetitions') }])
     } else {
-      first = sampleAt([{ completed: x?.status === 'completed',
+      const x = counted?.row
+      first = sampleAt([{ completed: !!x,
         weight: x?.resistance?.value, reps: obs(x, 'repetitions') }])
     }
   }

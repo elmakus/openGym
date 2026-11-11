@@ -4,6 +4,7 @@ import { contentHash, deepFreeze } from '../../engine/canonical.js'
 import { deloadSetBudget, reactivePermissions } from './lifecycle.js'
 import { replayHybridHistory, assertHybridResumeContinuity } from './history.js'
 import { compilePlanAdapter } from './adapter.js'
+import { assertHybridBootstrapHistory } from './bootstrap.js'
 
 const fail = msg => { throw new Error('HYBRID-2 supervisor: ' + msg) }
 const freeze = p => {
@@ -38,7 +39,7 @@ const before = (workouts, time) => (workouts || []).filter(w =>
 export function currentHybridPlan(profile, routine, now = Date.now()) {
   const config = profile.trainingControl?.hybrid2Config
   if (config?.enabled !== true) return null
-  if (profile.trainingControl?.hybrid2Conflict || profile.trainingControl?.hybrid2Error)
+  if (profile.trainingControl?.hybrid2Conflict || profile.trainingControl?.hybrid2BootstrapConflict || profile.trainingControl?.hybrid2Error)
     fail('unresolved HYBRID-2 configuration or history conflict')
   const adapter = compilePlanAdapter(config.adapter, profile.routines)
   const declared = adapter.occurrences.filter(o => o.routineId === routine.id)
@@ -49,9 +50,11 @@ export function currentHybridPlan(profile, routine, now = Date.now()) {
   verifyFrozenHistory(profile.workouts, adapter)
   const priorWorkouts = before(profile.workouts, now)
   assertHybridResumeContinuity(priorWorkouts, adapter)
+  const bootstrap = profile.trainingControl?.hybrid2Bootstrap
+  assertHybridBootstrapHistory(priorWorkouts, config.adapter, bootstrap)
   const effective = replayHybridHistory({
     workouts: priorWorkouts, adapter: config.adapter,
-    prescriptions: profile.prescriptions
+    prescriptions: profile.prescriptions, bootstrap
   })
   const rt = effective.state.runtime
   const isStart = position === adapter.cycleStartPosition

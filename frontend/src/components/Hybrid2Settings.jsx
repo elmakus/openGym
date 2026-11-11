@@ -5,24 +5,35 @@ import { Button, Row, Switch, TextArea } from './ui.jsx'
 import { t } from '../lib/i18n.js'
 import { validatePlanAdapter } from '../../../api/training-control/hybrid2/adapter.js'
 import { assertHybridResumeContinuity } from '../../../api/training-control/hybrid2/history.js'
+import { createHybridBootstrap, validateHybridBootstrap, assertHybridBootstrapHistory } from '../../../api/training-control/hybrid2/bootstrap.js'
+import { canonicalJSON } from '../../../api/engine/canonical.js'
 import { reconcileHybridHistory } from '../lib/hybrid2-sync.js'
 
 export default function Hybrid2Settings({ profile, update }) {
   const cfg = profile.trainingControl?.hybrid2Config
   const diagnostics = profile.trainingControl?.hybrid2Diagnostics
   const conflict = profile.trainingControl?.hybrid2Conflict
+  const checkpoint = profile.trainingControl?.hybrid2Bootstrap
+  const checkpointConflict = profile.trainingControl?.hybrid2BootstrapConflict
+  const [bootstrapDraft, setBootstrapDraft] = useState('')
+  const [bootstrapOpen, setBootstrapOpen] = useState(false)
   const [draft, setDraft] = useState(() => cfg?.adapter ? JSON.stringify(cfg.adapter, null, 2) : '')
   const [editorOpen, setEditorOpen] = useState(false)
   const [error, setError] = useState('')
   const active = cfg?.enabled === true
   const isValid = () => {
     if (!cfg?.adapter) return false
-    try { validatePlanAdapter(cfg.adapter, profile.routines); return !conflict } catch { return false }
+    try {
+      validatePlanAdapter(cfg.adapter, profile.routines)
+      if (checkpoint) validateHybridBootstrap(checkpoint, cfg.adapter)
+      return !conflict && !checkpointConflict
+    } catch { return false }
   }
   const assignAdapter = () => {
     try {
       const adapter = JSON.parse(draft)
       validatePlanAdapter(adapter, profile.routines)
+      if (checkpoint) validateHybridBootstrap(checkpoint, adapter)
       update(s => {
         s.trainingControl ||= {}
         s.trainingControl.hybrid2Config = { version: 1, enabled: false, adapter }
@@ -38,7 +49,10 @@ export default function Hybrid2Settings({ profile, update }) {
   const setEnabled = enabled => {
     try {
       if (enabled && !isValid()) throw new Error('Assign a valid, reviewed adapter before enabling HYBRID-2')
-      if (enabled) assertHybridResumeContinuity(profile.workouts, cfg.adapter)
+      if (enabled) {
+        assertHybridResumeContinuity(profile.workouts, cfg.adapter)
+        assertHybridBootstrapHistory(profile.workouts, cfg.adapter, checkpoint)
+      }
       update(s => {
         s.trainingControl ||= {}
         s.trainingControl.hybrid2Config = { ...s.trainingControl.hybrid2Config, enabled }
@@ -52,6 +66,7 @@ export default function Hybrid2Settings({ profile, update }) {
       const selected = conflict?.[choice]
       if (!selected?.adapter) throw new Error('No adapter configuration to resolve')
       validatePlanAdapter(selected.adapter, profile.routines)
+      if (checkpoint) validateHybridBootstrap(checkpoint, selected.adapter)
       // Resolving a conflict is a user action. Fail safe: leave disabled until re-enabled.
       update(s => {
         s.trainingControl.hybrid2Config = { version: 1, enabled: false, adapter: selected.adapter }
@@ -60,6 +75,35 @@ export default function Hybrid2Settings({ profile, update }) {
       })
       setDraft(JSON.stringify(selected.adapter, null, 2))
       setError('')
+    } catch (err) { setError(String(err.message)) }
+  }
+  const importCheckpoint = () => {
+    try {
+      if (!cfg?.adapter || active || conflict || checkpointConflict)
+        throw new Error('Disable HYBRID-2 and resolve adapter conflicts before importing H1')
+      validatePlanAdapter(cfg.adapter, profile.routines)
+      // User supplies only reviewed source metadata and six native H1 anchors;
+      // the app binds them to the current exact adapter and computes the seal.
+      const input = JSON.parse(bootstrapDraft)
+      const sameImport = checkpoint && canonicalJSON({
+        sourceId: input.sourceId, cutoverAt: input.cutoverAt, anchors: input.anchors
+      }) === canonicalJSON({
+        sourceId: checkpoint.sourceId, cutoverAt: checkpoint.cutoverAt,
+        anchors: checkpoint.anchors
+      })
+      const next = sameImport ? checkpoint : createHybridBootstrap({
+        ...input, adapter: cfg.adapter, importedAt: new Date().toISOString()
+      })
+      if (checkpoint && !sameImport)
+        throw new Error('Native H1 checkpoint already exists; it cannot be replaced')
+      assertHybridBootstrapHistory(profile.workouts, cfg.adapter, next)
+      update(s => {
+        s.trainingControl ||= {}
+        s.trainingControl.hybrid2Bootstrap = next
+        reconcileHybridHistory(s)
+      })
+      setError('')
+      setBootstrapOpen(false)
     } catch (err) { setError(String(err.message)) }
   }
   const state = profile.trainingControl?.hybrid2
@@ -97,6 +141,26 @@ export default function Hybrid2Settings({ profile, update }) {
           onChange={e => { setDraft(e.target.value); setError('') }} />
         <div style={{ marginTop: 8 }}>
           <Button size="sm" onClick={assignAdapter}>{t('Validate and assign (disabled)')}</Button>
+        </div>
+      </div>}
+      {checkpoint && <div className="small dim" style={{ marginTop: 10 }}>
+        {t('Imported H1 cutover')}: {checkpoint.cutoverAt} · {t('Source')}: {checkpoint.sourceId}
+      </div>}
+      {checkpointConflict && <div role="alert" className="small" style={{ marginTop: 10 }}>
+        {t('Native H1 checkpoint conflict: explicit review is required before training.')}
+      </div>}
+      <div style={{ marginTop: 10 }}>
+        <Button size="sm" variant="tinted" onClick={() => setBootstrapOpen(v => !v)}>
+          {t('Import reviewed native H1 checkpoint')}
+        </Button>
+      </div>
+      {bootstrapOpen && <div style={{ marginTop: 10 }}>
+        <p className="small dim">{t('Disable HYBRID-2 first. Paste JSON with sourceId, UTC cutoverAt and exact signal anchors. The original source is not automatically verified. An imported checkpoint cannot be replaced after synchronization.')}</p>
+        <TextArea value={bootstrapDraft} rows={9} spellCheck={false}
+          aria-label="Reviewed native H1 checkpoint JSON"
+          onChange={e => { setBootstrapDraft(e.target.value); setError('') }} />
+        <div style={{ marginTop: 8 }}>
+          <Button size="sm" onClick={importCheckpoint}>{t('Validate and import H1 checkpoint')}</Button>
         </div>
       </div>}
       {state && <details style={{ marginTop: 12 }}>

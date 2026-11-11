@@ -114,7 +114,8 @@ export function buildSessionExposures(stored, routine, ctx) {
       backoff: occ.backoff === true,
       failureSets: modeOf({ mode: occ.mode, id: occ.exerciseId }) === 'cardio' ? undefined : occ.failureSets,
       lastToFailure: modeOf({ mode: occ.mode, id: occ.exerciseId }) !== 'cardio' && occ.lastToFailure === true,
-      equipment: EXIDX[occ.exerciseId]?.eq ?? null, assisted,
+      equipment: stored.customEx?.find(custom => custom?.id === occ.exerciseId)?.eq ??
+        EXIDX[occ.exerciseId]?.eq ?? null, assisted,
       // What a deload needs to know about the movement (deload.js).
       perSide: occ.side === true, restPause: occ.intensifier?.type === 'restpause', restPauseReps: occ.intensifier?.totalReps,
       bodyweight: typeof occ.bodyweight === 'boolean' ? occ.bodyweight : isBodyweightEq(occ.exerciseId)

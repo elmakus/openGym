@@ -8,6 +8,7 @@ import { initialHybridState, observeSignal, evaluateNormalCloser,
 import { h1FromExposure, engineCandidate } from './observation.js'
 import { compilePlanAdapter } from './adapter.js'
 import { verifiedHybridExposures } from './evidence.js'
+import { assertHybridBootstrapHistory, validateHybridBootstrap } from './bootstrap.js'
 
 const fail = reason => { throw new Error('HYBRID-2 replay: ' + reason) }
 const completedWork = exposure => (exposure?.performance?.sets || [])
@@ -71,10 +72,12 @@ const progressFor = (exposure, current, previousWorkouts, prescriptions) => {
 }
 
 /** Replay from verified adapter and saved structural exposures; no device snapshots accepted. */
-export function replayHybridHistory({ workouts = [], adapter, prescriptions = {} }) {
+export function replayHybridHistory({ workouts = [], adapter, prescriptions = {}, bootstrap = null }) {
   const compiled = compilePlanAdapter(adapter)
   const sorted = chronologicalWorkouts(byId(workouts))
+  assertHybridBootstrapHistory(sorted, adapter, bootstrap)
   let state = initialHybridState(compiled)
+  if (bootstrap) state = { ...state, anchors: structuredClone(validateHybridBootstrap(bootstrap, adapter).anchors) }
   const decisions = []
   const lastWorkouts = []
   const atp2ByTrack = new Map()

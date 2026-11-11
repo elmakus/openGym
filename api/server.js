@@ -48,6 +48,7 @@ import { ENGINE_SCHEMA_HEADER } from './migration/profile-version.js';
 import { MAX_SYNC_BODY, assertSyncSize } from './migration/profile-size.js';
 import { packProfile, unpackProfile } from './migration/profile-pack.js';
 import { validateProgressionGroupTransition } from './engine/index.js';
+import { validateHybridBootstrapTransition, validateHybridBootstrap, assertHybridBootstrapHistory } from './training-control/hybrid2/bootstrap.js';
 import { LIB_BY_ID } from './coach/core/library.js';
 
 const PORT = +(process.env.PORT || 3000);
@@ -2691,10 +2692,26 @@ const routes = {
     if (canonical) {
       const check = validateCanonicalProfile(body.state);
       if (!check.ok) return json(res, 400, { error: 'invalid state', details: check.errors });
+      // The migration layer is intentionally controller-agnostic. Validate the
+      // native H1 seal/adapter/cutover here, before accepting its first write.
+      const bootstrap = body.state.trainingControl?.hybrid2Bootstrap;
+      if (bootstrap != null) {
+        try {
+          const adapter = body.state.trainingControl?.hybrid2Config?.adapter;
+          if (!adapter) throw new Error('native H1 checkpoint requires a plan adapter');
+          validateHybridBootstrap(bootstrap, adapter);
+          assertHybridBootstrapHistory(body.state.workouts, adapter, bootstrap);
+        } catch (err) {
+          return json(res, 400, { error: 'invalid state',
+            details: ['trainingControl.hybrid2Bootstrap: ' + err.message] });
+        }
+      }
       let transition;
       try { transition = validateProgressionGroupTransition(cur, body.state); }
       catch (e) { transition = { ok:false, errors:[e.message] }; }
       if (!transition.ok) return json(res, 400, { error: 'invalid state', details:transition.errors });
+      const h1Transition = validateHybridBootstrapTransition(cur, body.state);
+      if (!h1Transition.ok) return json(res, 400, { error: 'invalid state', details:h1Transition.errors });
     }
     // "Reset everything" stamps the profile (`resetAt`, with `resetIds`: what it wiped). The stamp
     // only moves forward: a write without it, or with an older one — a client from before it, a

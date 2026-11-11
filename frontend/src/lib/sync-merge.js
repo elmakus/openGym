@@ -1030,9 +1030,11 @@ export function mergeStates(a0, b0, { prefer } = {}) {
   }
   // H1 and deload are never selected from a device's cached controller state.
   // Conflicting offline adapter changes fail closed rather than choosing an LWW H1 epoch.
-  if (n.trainingControl?.hybrid2Config || o.trainingControl?.hybrid2Config) {
+  if (n.trainingControl?.hybrid2Config || o.trainingControl?.hybrid2Config ||
+      n.trainingControl?.hybrid2Bootstrap || o.trainingControl?.hybrid2Bootstrap) {
     out.trainingControl = { ...(out.trainingControl || {}) }
     delete out.trainingControl.hybrid2Conflict
+    delete out.trainingControl.hybrid2BootstrapConflict
     Object.assign(out.trainingControl, mergeHybridSettings(n, o))
     delete out.trainingControl.hybrid2
     reconcileHybridHistory(out)
