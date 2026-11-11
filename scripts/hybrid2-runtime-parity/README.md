@@ -444,3 +444,7 @@ Full frontend Vitest: **8341 PASS / 1 unrelated existing RED** in 701 files; unc
 ## 2026-11-11 — Correct earlier historical edits with later Engine v2 sessions
 
 `saveWorkoutEdit` now replays the complete chronological progression for all affected tracks instead of only refreshing when the corrected workout was the terminal log. This prevents stale downstream phase successes and load states after a backdated correction, including shared progression groups. Actual regression: 18/18 focused API and 156/156 frontend tests PASS; original Liftosaur parity count unchanged. See the latest STATUS checkpoint. No deployment.
+
+## 2026-11-11 — Date-change history fix
+
+`Change date & time` now uses `moveWorkoutInProfile()` to move a session and replay Engine v2 progression as well as ATP2, Timed Load and HYBRID-2; the previously stale terminal log/load after chronological reordering is corrected. Reproduced RED before fix; 75/75 focused frontend regressions PASS. See STATUS checkpoint. No production deployment.

@@ -85,7 +85,7 @@ import { buildSessionExposures, effectiveExerciseId, missingOneRms, occurrenceFo
 import { buildCombinedExposures, deriveSessionName } from './lib/session-merge.js'
 import { entriesForExposures, planSummary, exposuresWithPerformance } from './lib/session-ui-adapter.js'
 import { reconcileHybridHistory } from './lib/hybrid2-sync.js'
-import { reconcileSessionHistory, reconcileAtp2History, reconcileTimedLoadHistory, editCompletedSession, editChangesNothing, editLeftEmpty, editedRecord } from './lib/session-edit.js'
+import { reconcileSessionHistory, reconcileAtp2History, reconcileTimedLoadHistory, moveWorkoutInProfile, editCompletedSession, editChangesNothing, editLeftEmpty, editedRecord } from './lib/session-edit.js'
 import { finishCompare, finishCardio } from './lib/finish-compare.js'
 import { workoutFit, fitFileName } from './lib/fit-export.js'
 import { workoutsOn, backfillStart, backfillEnd, completeBackfill, historyAsOf, sessionHistory } from './lib/backfill.js'
@@ -99,7 +99,7 @@ import { occurrenceTargets } from './lib/occurrence-view.js'
 import { profileRule } from './lib/prescription/vocabulary.js'
 import { auditFields, badgeFor } from './views/history-outcome.js'
 import { findingText } from './lib/progression-copy.js'
-import { moveWorkout, sameWorkout, startTimeOf, durationMinOf, setWorkoutDuration, rebuildPrHistory, MAX_DURATION_MIN, endsInFuture } from './lib/workout-date.js'
+import { sameWorkout, startTimeOf, durationMinOf, setWorkoutDuration, rebuildPrHistory, MAX_DURATION_MIN, endsInFuture } from './lib/workout-date.js'
 import { stampWorkout } from './lib/sync-merge.js'
 import { hrLabel } from './lib/heart-rate.js'
 import { weeklyWeights } from './lib/bodyweight.js'
@@ -2905,10 +2905,7 @@ function WorkoutDateEdit({ w, onDone, close }) {
     if (!(S().workouts || []).some(x => sameWorkout(x, w))) { close(); return }
     // It keeps its length, so the end it would have is what has to be in the past.
     if (endsInFuture(date, time, durationMinOf(w))) { toast(t('That’s still in the future. Try an earlier start.')); return }
-    update(s => {
-      const next = moveWorkout(s.workouts, w, date, time)
-      if (next) { s.workouts = next; reconcileAtp2History(s); reconcileTimedLoadHistory(s); reconcileHybridHistory(s) }
-    })
+    update(s => { moveWorkoutInProfile(s, w, date, time) })
     close()
     onDone && onDone()
     toast(t('Workout moved'))

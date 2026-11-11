@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { editCompletedSession, saveWorkoutEdit, editLeftEmpty, deleteEditedWorkout, editChangesNothing } from './session-edit.js'
+import { editCompletedSession, saveWorkoutEdit, editLeftEmpty, deleteEditedWorkout, editChangesNothing, moveWorkoutInProfile } from './session-edit.js'
 import { mergeStates } from './sync-merge.js'
 import { replayProgression } from './prescription/index.js'
 import { lastEntryFor } from './history.js'
@@ -331,6 +331,31 @@ describe('an edit of a workout the engine counted', () => {
     expect(expected).not.toEqual(next.progression[trackId])
     expect(state.workouts[1]).toEqual(originalSecond)
     expect(state.progression[trackId]).toEqual(expected)
+  })
+
+  it('replays Engine V2 after moving a completed workout before an earlier session', () => {
+    const { state, trackId } = counted(20)
+    const now=NOW+86400000
+    const exposures=buildSessionExposures(state,state.routines[0],{now,newId:seed=>seed})
+    const entries=[{exposureId:exposures[0].exposureId,id:'0025',target:{mode:'reps'},
+      sets:state.prescriptions[exposures[0].prescriptionId].rows.map((_,i)=>
+        ({setId:'r'+i,w:22.5,r:5,done:true}))}]
+    const next=buildCompletedSession({id:'w2',d:'2026-09-02',start:now,
+      routineIds:['A'],exposures,entries},state,
+      {end:now+3600e3,newId:seed=>seed,unit:'kg'})
+    state.workouts.push(next.session)
+    Object.assign(state.progression,next.progression)
+    expect(state.progression[trackId].lastCompletedLogId).toBe(next.session.exposures[0].exposureId)
+
+    // Actual Change date & time UI calls this profile-level helper, which
+    // must also re-derive the ordinary Engine V2 state after the reorder.
+    const moved=moveWorkoutInProfile(state,next.session,'2026-08-31','12:00',now+3600e3)
+    expect(moved).not.toBeNull()
+    expect(state.workouts.map(w=>w.id)).toEqual(['w2','w'])
+    const replayed=replayProgression({workouts:state.workouts,
+      trackId,prescriptions:state.prescriptions})
+    expect(replayed.lastCompletedLogId).toBe(state.workouts[1].exposures[0].exposureId)
+    expect(state.progression[trackId]).toEqual(replayed)
   })
 
   it('leaves the track to the log before when the edit keeps the exercise out of progression', () => {

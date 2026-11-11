@@ -22,7 +22,7 @@ import { buildCompletedSession, workLoadOf } from './finish-session.js'
 import { plannedOf, rowsOfPerformance, targetFor } from './session-ui-adapter.js'
 import { hasCompletedWork } from './workout-model.js'
 import { stampWorkout } from './sync-merge.js'
-import { legacySyncKey, rebuildPrHistory } from './workout-date.js'
+import { legacySyncKey, rebuildPrHistory, moveWorkout } from './workout-date.js'
 import { replayAtp2History } from '../../../api/training-control/history.js'
 import { replayTimedLoadHistory } from '../../../api/training-control/timed-load-history.js'
 import { reconcileHybridHistory } from './hybrid2-sync.js'
@@ -264,6 +264,18 @@ export function reconcileTimedLoadHistory(state) {
   if (!hasTimed) return
   state.trainingControl ||= {}
   state.trainingControl.timedLoad = replayTimedLoadHistory(state.workouts)
+}
+
+/** Update the full profile when an existing workout changes chronological position.
+ * The history array alone is not enough: the normal Engine v2 track's terminal
+ * state depends on the *order* of completed logs, just as subordinate controllers do.
+ */
+export function moveWorkoutInProfile(state, ref, iso, time, now = Date.now()) {
+  const next = moveWorkout(state.workouts, ref, iso, time, now)
+  if (!next) return null
+  state.workouts = next
+  reconcileSessionHistory(state)
+  return next
 }
 
 /** Refresh derived references after ordinary history deletion or editor deletion. */
