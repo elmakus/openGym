@@ -5,6 +5,7 @@ import { defaultPlanRule, validateProgressionGroups, joinProgressionGroup, leave
 import { validateCanonicalProfile } from '../migration/profile-validation.js'
 import { packProfile, unpackProfile } from '../migration/profile-pack.js'
 import { mergeStates, stampEdits } from '../../frontend/src/lib/sync-merge.js'
+import { editCompletedSession, saveWorkoutEdit } from '../../frontend/src/lib/session-edit.js'
 import { deleteRoutine } from '../../frontend/src/lib/routines.js'
 import { buildSessionExposures } from '../../frontend/src/lib/session-start.js'
 import { entriesForExposures } from '../../frontend/src/lib/session-ui-adapter.js'
@@ -80,6 +81,29 @@ test('explicit group joins Monday and Friday while Wednesday remains a separate 
   assert.deepEqual(unpackProfile(packProfile(p)).progressionGroups,p.progressionGroups)
   assert.deepEqual(validateCanonicalProfile(unpackProfile(packProfile(p))),{ok:true,errors:[]})
 })
+test('editing an older grouped occurrence recalculates the later member without touching unrelated tracks',()=>{
+  date=0
+  const p=grouped()
+  run(p,'MON')
+  run(p,'WED')
+  run(p,'FRI')
+  const groupedId='progression-group:bench-main'
+  const later=structuredClone(p.workouts[2])
+  const unrelated=structuredClone(p.progression['bench-wed'])
+  const before=structuredClone(p.progression[groupedId])
+  assert.equal(before.lastCompletedLogId,later.exposures[0].exposureId)
+  editCompletedSession(p,p.workouts[0].id)
+  p.active.entries[0].sets.forEach(row=>{row.r=1})
+  saveWorkoutEdit(p,Date.UTC(2026,10,20))
+  const exact=replayProgression({workouts:p.workouts,trackId:groupedId,prescriptions:p.prescriptions})
+  assert.ok(exact)
+  assert.notDeepEqual(exact,before,'a corrected historical failure changes later accumulated progression')
+  assert.equal(exact.lastCompletedLogId,later.exposures[0].exposureId)
+  assert.deepEqual(p.progression[groupedId],exact,'cached state equals full chronological replay')
+  assert.deepEqual(p.workouts[2],later,'later completed workout immutable')
+  assert.deepEqual(p.progression['bench-wed'],unrelated,'unrelated track unchanged')
+})
+
 test('Any workout never mixes distinct explicitly selected progression tracks',()=>{
   date=0
   const p=grouped();p.lastFrom='any'

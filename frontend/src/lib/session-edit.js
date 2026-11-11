@@ -191,15 +191,17 @@ export function saveWorkoutEdit(state, now = Date.now()) {
   state.workouts[index] = record
   for (const r of oneRepMaxes) state.oneRepMaxes = appendOneRm(state.oneRepMaxes, r)
 
-  // A track whose newest log is the edited one moves on from what that log now says: its logs are
-  // replayed the way each finish advanced them. Kept out of progression now, the track is left
-  // where the logs before it put it.
+  // A correction to ANY counted workout can change every subsequent advance of its
+  // track, even when a later session is still its last completed log. Replay only the
+  // affected tracks chronologically; never retain a stale cached terminal state.
+  // ATP2/Timed Load remain controller-owned (replayProgression excludes their logs).
   state.progression ||= {}
-  for (const x of [...current.exposures, ...record.exposures]) {
-    if (state.progression[x.trackId]?.lastCompletedLogId !== x.exposureId) continue
-    const replayed = replayProgression({ workouts: state.workouts, trackId: x.trackId, prescriptions: state.prescriptions })
-    if (replayed) state.progression[x.trackId] = replayed
-    else delete state.progression[x.trackId]
+  const touchedTracks = new Set([...current.exposures, ...record.exposures]
+    .map(x => x.trackId).filter(Boolean))
+  for (const trackId of touchedTracks) {
+    const replayed = replayProgression({ workouts: state.workouts, trackId, prescriptions: state.prescriptions })
+    if (replayed) state.progression[trackId] = replayed
+    else delete state.progression[trackId]
   }
 
   // Badges are a claim about the sessions before each one. The edited session can earn one it now

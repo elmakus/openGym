@@ -440,3 +440,7 @@ A reproduced native-id compatibility defect in `api/engine/progression-groups.js
 Complete API regression (isolated validation worktree, TMPDIR=/dev/shm): **1077/1077 PASS**; the first attempt's two -122 scratch filesystem write failures disappeared without source/test changes. Validation branch is 100 commits ahead of integration/engine-v2 and 0 behind before this checkpoint. Integration is not authorized by this result.
 
 Full frontend Vitest: **8341 PASS / 1 unrelated existing RED** in 701 files; unchanged pt-BR inherited-text fingerprint assertion also fails in isolation. All targeted 142 Engine V2 frontend tests pass; no locale fingerprint expectation was altered.
+
+## 2026-11-11 — Correct earlier historical edits with later Engine v2 sessions
+
+`saveWorkoutEdit` now replays the complete chronological progression for all affected tracks instead of only refreshing when the corrected workout was the terminal log. This prevents stale downstream phase successes and load states after a backdated correction, including shared progression groups. Actual regression: 18/18 focused API and 156/156 frontend tests PASS; original Liftosaur parity count unchanged. See the latest STATUS checkpoint. No deployment.

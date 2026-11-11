@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { editCompletedSession, saveWorkoutEdit, editLeftEmpty, deleteEditedWorkout, editChangesNothing } from './session-edit.js'
 import { mergeStates } from './sync-merge.js'
+import { replayProgression } from './prescription/index.js'
 import { lastEntryFor } from './history.js'
 import { exposuresWithPerformance, rowsOfPerformance } from './session-ui-adapter.js'
 import { buildSessionExposures } from './session-start.js'
@@ -300,6 +301,36 @@ describe('an edit of a workout the engine counted', () => {
     expect(state.progression[trackId].lastActual.load.value).toBe(100)
     expect(Object.values(state.oneRepMaxes).map(r => r.value)).toEqual([expect.any(Number)])
     expect(Object.values(state.oneRepMaxes)[0].value).toBeLessThan(200)
+  })
+
+  it('replays a progressed track after editing an EARLIER log even when a newer log is the current head', () => {
+    const { state, trackId } = counted(20)
+    const now = NOW + 86400000
+    const exposures = buildSessionExposures(state, state.routines[0], { now, newId: seed => seed })
+    const entries = [{ exposureId: exposures[0].exposureId, id: '0025',
+      target: { mode: 'reps' }, sets: state.prescriptions[exposures[0].prescriptionId].rows
+        .map((_, i) => ({ setId: 'r' + i, w: 22.5, r: 5, done: true })) }]
+    const next = buildCompletedSession({ id: 'w2', d: '2026-09-02', start: now,
+      routineIds: ['A'], exposures, entries }, state,
+    { end: now + 3600e3, newId: seed => seed, unit: 'kg' })
+    state.workouts.push(next.session)
+    Object.assign(state.progression, next.progression)
+    const terminal = state.progression[trackId].lastCompletedLogId
+    expect(terminal).toBe(next.session.exposures[0].exposureId)
+
+    // Editing the first day must rebuild all later dependent advances, not just
+    // the corrected workout's own state. The newer immutable log must remain untouched.
+    const originalSecond = structuredClone(next.session)
+    editCompletedSession(state, 'w')
+    for (const row of state.active.entries[0].sets) row.r = 1
+    saveWorkoutEdit(state, now + 2 * 3600e3)
+    const expected = replayProgression({ workouts: state.workouts,
+      trackId, prescriptions: state.prescriptions })
+    expect(expected).not.toBeNull()
+    expect(expected.lastCompletedLogId).toBe(terminal)
+    expect(expected).not.toEqual(next.progression[trackId])
+    expect(state.workouts[1]).toEqual(originalSecond)
+    expect(state.progression[trackId]).toEqual(expected)
   })
 
   it('leaves the track to the log before when the edit keeps the exercise out of progression', () => {
