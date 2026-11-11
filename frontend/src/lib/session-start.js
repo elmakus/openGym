@@ -55,7 +55,9 @@ export function effectiveExerciseId(occ, profile) {
   const at = s && (!s.planFingerprint || s.planFingerprint === planFingerprint(occ.rule)) ? s.values?.difficulty ?? 0 : 0
   const rungs = rungsOf(op)
   const id = rungs[Math.min(at, rungs.length - 1)]?.exerciseId
-  return id && EXIDX[id] ? id : occ.exerciseId
+  const inProfile = profile?.customEx?.some(custom => custom?.id === id)
+  const builtin = EXIDX[id] && !isCustomEx(EXIDX[id])
+  return id && (inProfile || builtin) ? id : occ.exerciseId
 }
 
 /** Mutates `profile.prescriptions` (the store's update draft) and returns the session exposures. */

@@ -308,6 +308,26 @@ describe('rung exercises', () => {
     expect(effectiveExerciseId(ruleOccurrence('0025'), profile())).toBe('0025')
   })
 
+  it('keeps a synced custom exercise as a difficulty rung and records its real name', () => {
+    const custom={id:'native_synced_rung_test',n:'Imported assisted movement',eq:'machine',custom:true}
+    const occ=ladder([{name:'Imported',exerciseId:custom.id},{name:'Chin-up',exerciseId:'1326'}])
+    const S=at(occ,0)
+    S.customEx=[custom]
+    registerCustom([])
+    expect(effectiveExerciseId(occ,S)).toBe(custom.id)
+    const [x]=buildSessionExposures(S,{id:'r1',ex:[occ]},ctx)
+    expect(x.exerciseId).toBe(custom.id)
+    expect(x.exerciseNameSnapshot).toBe(custom.n)
+    expect(S.prescriptions[x.prescriptionId].exerciseId).toBe(custom.id)
+    const deleted={...S,customEx:[]}
+    // Global catalogue cache may still contain a custom definition from a
+    // previous user/profile; it must not reauthorize a deleted rung.
+    registerCustom([custom])
+    try {
+      expect(effectiveExerciseId(occ,deleted)).toBe(occ.exerciseId)
+    } finally { registerCustom([]) }
+  })
+
   it('a plan edit restarts the track, and its exercise, at rung 0', () => {
     const occ = ladder()
     expect(effectiveExerciseId(occ, at(occ, 1, { planFingerprint: 'an older plan' }))).toBe('0017')
