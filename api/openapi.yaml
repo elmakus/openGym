@@ -1840,6 +1840,73 @@ paths:
               example: { error: "credential already registered", code: "credential-exists" }
         '429': { $ref: '#/components/responses/TooManyRequests' }
 
+  /api/data/h1-authorize:
+    post:
+      tags: [data]
+      operationId: authorizeExistingH1Edits
+      summary: Preview or explicitly approve corrections to existing structural H1 workouts
+      description: |
+        Signed-in session required. PREVIEW compares the current canonical
+        server history against the submitted proposed H1 history, returns
+        affected workout IDs and SHA-256 before/after evidence digests and
+        NEVER returns an authorization token or writes data.
+        Separate APPROVE creates a five-minute HMAC-SHA256 token bound to
+        account, session version, current baseRev/baseWid, changed record
+        digest and a nonce. No profile is written by this endpoint.
+        The app requires an explicit confirmation after preview. A malicious
+        signed-in client can call APPROVE directly, so this is not WebAuthn
+        step-up or cryptographic proof that a human pressed Confirm.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [state, baseRev, baseWid, confirmed]
+              properties:
+                state: { $ref: '#/components/schemas/State' }
+                baseRev: { type: integer, minimum: 0 }
+                baseWid: { type: string }
+                confirmed:
+                  type: string
+                  enum: [PREVIEW_EXISTING_H1_HISTORY_CHANGES, APPROVE_EXISTING_H1_HISTORY_CHANGES]
+      responses:
+        '200':
+          description: Preview returns change list only; approval returns a signed five-minute token and affected IDs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  changedWorkoutIds: { type: array, items: { type: string } }
+                  changes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: { type: string }
+                        from: { type: string }
+                        to: { oneOf: [{ type: string }, { type: 'null' }] }
+                  requiresExplicitApproval: { type: boolean }
+                  token: { type: string }
+                  expiresInSeconds: { type: integer }
+        '400':
+          description: Invalid request, incompatible H1 evidence or no existing H1 record changed.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '409':
+          description: Server revision or write ID changed since the proposed H1 edit.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '503':
+          description: Stored canonical profile cannot be read safely.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
   /api/data:
     get:
       tags: [data]
@@ -1851,6 +1918,18 @@ paths:
         that document (0 when there is none). A client keeps the `rev` it last read or
         wrote and sends it back as `baseRev` on the next push, which lets the server
         refuse a write over a document the client never saw (see the 409 on PUT).
+        Optional X-OpenGym-H1-Base-Rev and X-OpenGym-H1-Base-Wid headers,
+        on an authenticated H1 device, request the exact prior H1 witness
+        when its write ID belongs to the current server lineage.
+      parameters:
+        - in: header
+          name: X-OpenGym-H1-Base-Rev
+          required: false
+          schema: { type: integer, minimum: 0 }
+        - in: header
+          name: X-OpenGym-H1-Base-Wid
+          required: false
+          schema: { type: string }
       responses:
         '200':
           description: The stored state, or null, and its revision.
@@ -1910,6 +1989,14 @@ paths:
         Every accepted write also starts the grace period of each stored file (tag `media`)
         the new state no longer references, and stops it for each one it references again.
         That bookkeeping never changes the answer.
+
+        Changing an EXISTING structural H1 workout requires exact current
+        baseRev/baseWid and a separately issued approval token for the
+        exact record digests. HTTP 428 blocks unapproved edits. New H1
+        workout IDs and note/media-only changes do not require retrospective
+        approval. Successful edits commit a server-owned tamper-evident
+        HMAC receipt chain with the profile in the same atomic write.
+        The audit list is private and not independent WORM storage.
       requestBody:
         required: true
         content:
@@ -1936,6 +2023,12 @@ paths:
                     True when the client stamps its own changes in `deleted`, `edited` and
                     each entry's `_ts`/`_f`, as the app does. Omit it to have the server
                     stamp what changed against the stored document.
+                h1Authorization:
+                  type: string
+                  description: >-
+                    Server-signed short-lived edit authorization from POST
+                    /api/data/h1-authorize, required for changes to existing
+                    structural H1 workouts.
       responses:
         '200':
           description: Saved.
@@ -1987,6 +2080,16 @@ paths:
                 missing: { value: { error: "state required" } }
                 invalid: { value: { error: "invalid state" } }
         '401': { $ref: '#/components/responses/Unauthorized' }
+        '428':
+          description: Existing H1 evidence was changed without exact current rev/wid or approved signed token.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '503':
+          description: Persisted H1 ancestor or receipt chain unavailable/corrupt; write refused.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
 
   /api/data/rev:
     get:

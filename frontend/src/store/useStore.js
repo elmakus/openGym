@@ -899,7 +899,7 @@ export const useStore = create((set, get) => {
   // Take the server's copy as this device's own, timestamp and all (see persist).
   const adopt = (next, rev) => { persist(next, false, false); writeSync(rev, next._ts, next._wid); markOwed(false) }
 
-  const doPush = async (attempt = 0) => {
+  const doPush = async (attempt = 0, h1Authorization = null) => {
     const S = get().S
     // A 409 merge can be canonical-valid yet structurally impossible for H1.
     // Do not send that combined timeline back as if the user had approved it.
@@ -928,6 +928,9 @@ export const useStore = create((set, get) => {
     // against the copy it holds, exactly as it would for that app (api/sync-stamps.js).
     const legacy = readLegacy()
     const body = { state: packProfile(S), stamped: !(legacy && legacy.owner === get().user?.id) }
+    // One-time signed approval, bound by the server to this exact H1 mutation.
+    // Do not reuse it after a 409 rebase or save it in localStorage.
+    if (h1Authorization && attempt === 0) body.h1Authorization = h1Authorization
     if (asReplace != null) { body.baseRev = asReplace.rev; if (asReplace.wid) body.baseWid = asReplace.wid }
     else if (!force && base) { body.baseRev = base.rev; if (base.wid) body.baseWid = base.wid }
     try {
@@ -970,7 +973,8 @@ export const useStore = create((set, get) => {
       }
       // The server refuses a legacy H1 write that cannot prove the revision it
       // edited. Preserve the local copy and show the same explicit review UI.
-      if (e.status === 428 && e.data?.error === 'h1-ancestry-required') {
+      if (e.status === 428 && ['h1-ancestry-required', 'h1-approval-required']
+        .includes(e.data?.error)) {
         markOwed(true)
         setSync({ pending: true, offline: false,
           lastError: { status: 428, code: 'hybrid2-review' } })
@@ -2106,19 +2110,87 @@ export const useStore = create((set, get) => {
     // One PUT at a time: a push asked for while one is in flight runs after it (once, however
     // many asked), and the promise returned covers that follow-up too, so a caller that awaits
     // before signing out knows the last change is on the server.
-    async pushState() {
+    async pushState({ h1Authorization = null } = {}) {
       if (!get().user) return
       if (sandbox) { sandbox.owesPush = true; return }
       clearTimeout(pushTm)
       pushTm = null
       if (adoptHold) return   // the sign-in has not decided what this copy is yet (adoptProfile)
-      if (pushing) { pushAgain = true; return pushing.then(() => pushing) }
-      pushing = doPush().finally(() => {
+      if (pushing) {
+        // An approval is a direct, intentional action and cannot disappear
+        // inside an already-running automatic background PUT.
+        if (h1Authorization) { await pushing; return get().pushState({ h1Authorization }) }
+        pushAgain = true
+        return pushing.then(() => pushing)
+      }
+      pushing = doPush(0, h1Authorization).finally(() => {
         pushing = null
         if (pushAgain) { pushAgain = false; get().pushState() }
       })
       return pushing
     },
+    // Human-triggered approval for edits to previously synced structural H1
+    // history. Offline edits stay local; authorization needs a fresh online
+    // account session and the exact current server revision. Never auto-issue
+    // this token when ordinary polling/retry discovers a 428.
+    async previewH1HistoryChanges() {
+      if (!get().user || !get().ready || adoptHold || gated())
+        throw new Error('Connect and finish syncing before H1 review')
+      if (get().S.trainingControl?.hybrid2HistoryConflict ||
+          get().S.trainingControl?.hybrid2BootstrapConflict ||
+          get().S.trainingControl?.hybrid2Conflict)
+        throw new Error('Resolve conflicting H1 sources before authorizing edits')
+      if (pushing) await pushing
+      const base = metaOf().base
+      if (!base || !Number.isSafeInteger(base.rev) || !base.wid)
+        throw new Error('A confirmed server revision is required')
+      const response = await api('/api/data/h1-authorize', {
+        method: 'POST', body: JSON.stringify({
+          state: packProfile(get().S), baseRev: base.rev, baseWid: base.wid,
+          confirmed: 'PREVIEW_EXISTING_H1_HISTORY_CHANGES'
+        })
+      })
+      if (!Array.isArray(response.changedWorkoutIds) ||
+          !response.changedWorkoutIds.length || response.requiresExplicitApproval !== true ||
+          !Array.isArray(response.changes))
+        throw new Error('Server did not return an H1 edit review')
+      return { changedWorkoutIds: response.changedWorkoutIds, changes: response.changes }
+    },
+    async approveH1HistoryChanges(expectedReview = null) {
+      if (!get().user || !get().ready) throw new Error('Sign in and sync before approving H1 edits')
+      if (adoptHold || gated()) throw new Error('Resolve the pending profile handover first')
+      const S = get().S
+      if (!S.trainingControl?.hybrid2Config?.adapter ||
+          S.trainingControl?.hybrid2HistoryConflict ||
+          S.trainingControl?.hybrid2BootstrapConflict ||
+          S.trainingControl?.hybrid2Conflict)
+        throw new Error('Resolve the incompatible H1 history before approving changes')
+      if (pushing) await pushing
+      clearTimeout(pushTm)
+      pushTm = null
+      const base = metaOf().base
+      if (!base || !Number.isSafeInteger(base.rev) || !base.wid)
+        throw new Error('H1 history requires a confirmed server base revision')
+      const response = await api('/api/data/h1-authorize', {
+        method: 'POST', body: JSON.stringify({
+          state: packProfile(get().S), baseRev: base.rev, baseWid: base.wid,
+          confirmed: 'APPROVE_EXISTING_H1_HISTORY_CHANGES'
+        })
+      })
+      if (!response?.token || !Array.isArray(response.changedWorkoutIds) ||
+          !response.changedWorkoutIds.length)
+        throw new Error('Server did not authorize the H1 workout changes')
+      if (expectedReview && (
+          JSON.stringify(expectedReview.changedWorkoutIds) !==
+            JSON.stringify(response.changedWorkoutIds) ||
+          JSON.stringify(expectedReview.changes) !== JSON.stringify(response.changes)))
+        throw new Error('The reviewed H1 workout evidence changed; review again')
+      await get().pushState({ h1Authorization: response.token })
+      if (get().sync?.lastError) throw new Error(
+        'H1 history still requires review: ' + (get().sync.lastError.code || 'sync error'))
+      return response.changedWorkoutIds
+    },
+
     // Ask the server for its copy and settle the difference. Coalesced, and a push still waiting
     // in the debounce goes first — the server's answer is then the one that already includes it,
     // and the push itself is what catches a conflict.

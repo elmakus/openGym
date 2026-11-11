@@ -33,6 +33,61 @@ afterEach(() => {
   localStorage.clear()
   useStore.setState({ S: copy(DEF), A: null, user: null, ready: false })
 })
+describe('explicit H1 workout authorization before the server accepts edits', () => {
+  it('shows server-confirmed preview IDs and cannot approve a different changed set', async () => {
+    const initial=profile(),local=copy(initial)
+    changed(local,0,13)
+    useStore.setState({ S: local, user: { id: 'account-1' }, ready: true })
+    localStorage.setItem('gym_sync', JSON.stringify({ rev: 9, wid: 'wid-9', ts: 1000 }))
+    const reviewed=[{id:initial.workouts[0].id,from:'old-sha',to:'new-sha'}]
+    api.mockResolvedValueOnce({ requiresExplicitApproval:true,
+      changedWorkoutIds:[initial.workouts[0].id],changes:reviewed })
+    const expected=await useStore.getState().previewH1HistoryChanges()
+    expect(expected).toEqual({changedWorkoutIds:[initial.workouts[0].id],changes:reviewed})
+    const previewBody=JSON.parse(api.mock.calls[0][1].body)
+    expect(previewBody.confirmed).toBe('PREVIEW_EXISTING_H1_HISTORY_CHANGES')
+    expect(api.mock.calls.some(([url,opts])=>url==='/api/data'&&opts?.method==='PUT')).toBe(false)
+    api.mockResolvedValueOnce({ token:'TOKEN',
+      changedWorkoutIds:[initial.workouts[0].id],
+      changes:[{id:initial.workouts[0].id,from:'old-sha',to:'CHANGED-SHA'}] })
+    await expect(useStore.getState().approveH1HistoryChanges(expected))
+      .rejects.toThrow('review again')
+    expect(puts()).toHaveLength(0)
+  })
+
+  it('never auto-mints a token; owner can explicitly approve the exact edits once', async () => {
+    const initial=profile(), local=copy(initial)
+    changed(local,1,12)
+    useStore.setState({ S: local, user: { id: 'account-1' }, ready: true })
+    localStorage.setItem('gym_sync', JSON.stringify({ rev: 9, wid: 'wid-9', ts: 1000 }))
+    api.mockRejectedValueOnce({status:428,data:{error:'h1-approval-required'}})
+    await useStore.getState().pushState()
+    expect(useStore.getState().sync.lastError?.code).toBe('hybrid2-review')
+    expect(api.mock.calls.some(([url])=>url==='/api/data/h1-authorize')).toBe(false)
+    expect(puts()).toHaveLength(1)
+    api.mockResolvedValueOnce({token:'SIGNED-ONE-TIME-TOKEN',
+      changedWorkoutIds:[initial.workouts[1].id]})
+    api.mockResolvedValueOnce({ok:true,rev:10,wid:'wid-10'})
+    const approved=await useStore.getState().approveH1HistoryChanges()
+    expect(approved).toEqual([initial.workouts[1].id])
+    const calls=api.mock.calls
+    const authorize=calls.find(([path])=>path==='/api/data/h1-authorize')
+    expect(authorize[1].method).toBe('POST')
+    expect(JSON.parse(authorize[1].body)).toMatchObject({
+      confirmed:'APPROVE_EXISTING_H1_HISTORY_CHANGES',
+      baseRev:9,baseWid:'wid-9'
+    })
+    expect(puts()).toHaveLength(2)
+    expect(JSON.parse(puts()[1][1].body)).toMatchObject({
+      h1Authorization:'SIGNED-ONE-TIME-TOKEN',baseRev:9,baseWid:'wid-9'
+    })
+    expect(useStore.getState().sync.status).toBe('ok')
+    await useStore.getState().pushState()
+    expect(puts()).toHaveLength(3)
+    expect(JSON.parse(puts()[2][1].body).h1Authorization).toBeUndefined()
+  })
+})
+
 describe('dirty GET refresh must use server-verified H1 revision witness', () => {
   it('merges an unopposed H1 result correction on pull and PUTs against refreshed revision', async () => {
     const ancestor=profile(), local=copy(ancestor), remote=copy(ancestor)

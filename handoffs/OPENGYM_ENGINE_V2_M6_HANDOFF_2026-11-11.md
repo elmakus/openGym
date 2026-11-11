@@ -130,3 +130,25 @@ Validation of this H1 ancestor package: full API 1089 PASS / 0 FAIL /
 build PASS. The prior two unrelated full-frontend failures are not fixed
 or suppressed. Refer to the private log files and the dedicated ancestry
 document before further changes. Still NOT READY FOR PRODUCTION.
+
+## H1 edit approval / authenticated server receipt follow-up
+
+Read docs/validation/hybrid2-runtime-parity/M6_H1_EDIT_AUTHORIZATION_20261111.md.
+The next validation-only package requires a separate signed five-minute
+authorization for ANY existing saved structural H1 result edit or deletion,
+even from a client with the latest baseRev/baseWid. The Plan view previews
+server-confirmed changed workout IDs, asks the user to confirm and only
+then requests one signed PUT token. The server maintains its own HMAC
+receipt chain as part of the atomic profile commit; corrupt receipts
+stop all writes. Native H1 replay and old offline conflict holds remain.
+
+This is not cryptographic proof of real human intent and the audit is not
+independently write-once/offsite anchored. No physical Android M6 or
+actual future native Liftosaur parity, no live migration or main merge.
+
+Final validation on synthetic isolated fixtures (active production untouched):
+API 1093 PASS / 0 FAIL / 3 SKIP; selected frontend 452 PASS /
+0 FAIL; full frontend 8378 PASS / 2 unrelated historic failures;
+Vite build PASS. Synthetic isolated backend only. See report
+M6_H1_EDIT_AUTHORIZATION_20261111.md and the private final proof
+logs in Tower; do not push real training logs into public Git.

@@ -52,7 +52,9 @@ import { validateHybridBootstrapTransition, validateHybridBootstrap, assertHybri
 import { validatePlanAdapter } from './training-control/hybrid2/adapter.js';
 import { replayHybridHistory, assertHybridResumeContinuity } from './training-control/hybrid2/history.js';
 import { verifyFrozenHistory } from './training-control/hybrid2/supervisor.js';
-import { makeHybridHistoryWitness, hybridHistoryDigest, isHybridHistoryWorkout } from './training-control/hybrid2/history-ancestry.js';
+import { makeHybridHistoryWitness } from './training-control/hybrid2/history-ancestry.js';
+import { existingH1Changes, issueH1Approval, verifyH1Approval, verifyH1ReceiptState,
+  appendH1Receipt } from './training-control/hybrid2/edit-authority.js';
 import { LIB_BY_ID } from './coach/core/library.js';
 
 const PORT = +(process.env.PORT || 3000);
@@ -277,8 +279,9 @@ function readStateStrict(uid) {
 }
 // A stored document as a client gets it: without the server's own notes `_unstamped` and `_prior`.
 function forClient(S) {
-  if (!S || typeof S !== 'object' || !('_unstamped' in S || '_prior' in S)) return S;
-  const { _unstamped, _prior, ...rest } = S;
+  if (!S || typeof S !== 'object' ||
+      !('_unstamped' in S || '_prior' in S || '_h1Receipts' in S)) return S;
+  const { _unstamped, _prior, _h1Receipts, ...rest } = S;
   return rest;
 }
 // An entry is an object a reader can dereference, and `records` is every entry of a stored
@@ -2581,6 +2584,11 @@ const routes = {
       if (engineGate(req, res, user.id)) return;
     const state = readStateStrict(user.id);
     if (state === UNREADABLE) { console.error('state file unreadable for', user.id); return json(res, 503, { error: 'state unreadable' }); }
+    try { if (state) verifyH1ReceiptState(state, SECRET); }
+    catch (err) {
+      console.error('H1 receipt source validation failed on GET', user.id, err.message);
+      return json(res, 503, { error: 'h1-receipt-unavailable' });
+    }
     notePull(user);
     const baseRevText = req.headers['x-opengym-h1-base-rev'];
     const baseRev = typeof baseRevText === 'string' && /^(0|[1-9][0-9]*)$/.test(baseRevText)
@@ -2692,6 +2700,64 @@ const routes = {
     json(res, 200, { migrated: true, revision: profile._rev, summary });
   },
 
+  // Explicit button-triggered acknowledgment of the EXACT proposed changes
+  // to already confirmed H1 workout evidence. Authenticated token is
+  // revision+wid+session+SHA-256 change-set bound and expires after 5 min.
+  // It does not mutate the profile. A malicious signed-in client could request
+  // its own token: this is per-account audit/approval, not WebAuthn step-up.
+  'POST /api/data/h1-authorize': async (req, res) => {
+    const user = readSession(req);
+    if (!user) return json(res, 401, { error: 'not signed in' });
+    if (engineGate(req, res, user.id)) return;
+    const body = await readBody(req);
+    if (!['PREVIEW_EXISTING_H1_HISTORY_CHANGES',
+          'APPROVE_EXISTING_H1_HISTORY_CHANGES'].includes(body.confirmed) ||
+        !Number.isSafeInteger(body.baseRev) || typeof body.baseWid !== 'string' ||
+        !body.state || typeof body.state !== 'object')
+      return json(res, 400, { error: 'invalid-h1-authorization-request' });
+    let incoming;
+    try { incoming = unpackProfile(body.state); }
+    catch { return json(res, 400, { error: 'invalid-h1-authorization-request' }); }
+    const current = readStateStrict(user.id);
+    if (current === UNREADABLE) return json(res, 503, { error: 'state unreadable' });
+    if (!current || body.baseRev !== current._rev || body.baseWid !== current._wid)
+      return json(res, 409, { error: 'h1-authorization-stale' });
+    if (!validateCanonicalProfile(incoming).ok ||
+        incoming.trainingControl?.hybrid2HistoryConflict ||
+        incoming.trainingControl?.hybrid2BootstrapConflict ||
+        incoming.trainingControl?.hybrid2Conflict)
+      return json(res, 400, { error: 'invalid-h1-history' });
+    const adapter = incoming.trainingControl?.hybrid2Config?.adapter;
+    if (!adapter) return json(res, 400, { error: 'missing-h1-adapter' });
+    try {
+      validatePlanAdapter(adapter, incoming.routines);
+      verifyFrozenHistory(incoming.workouts, adapter);
+      if (incoming.trainingControl.hybrid2Config.enabled === true)
+        assertHybridResumeContinuity(incoming.workouts, adapter);
+      assertHybridBootstrapHistory(incoming.workouts, adapter,
+        incoming.trainingControl.hybrid2Bootstrap);
+      replayHybridHistory({ workouts: incoming.workouts, adapter,
+        prescriptions: incoming.prescriptions,
+        bootstrap: incoming.trainingControl.hybrid2Bootstrap });
+      const changes = existingH1Changes(current, incoming);
+      if (!changes.length) return json(res, 400, { error: 'no-existing-h1-changes' });
+      verifyH1ReceiptState(current, SECRET);
+      if (body.confirmed === 'PREVIEW_EXISTING_H1_HISTORY_CHANGES')
+        return json(res, 200, { changedWorkoutIds: changes.map(x=>x.id),
+          changes, requiresExplicitApproval: true });
+      const token = issueH1Approval({
+        secret: SECRET, uid: user.id, sessionVersion: sessionVersion(user),
+        rev: current._rev, wid: current._wid, changes
+      });
+      audit(req, 'h1-edit.approved', { user, msg: changes.map(x=>x.id).join(',').slice(0,180) });
+      json(res, 200, { token, changedWorkoutIds: changes.map(x=>x.id),
+        changes, expiresInSeconds: 300 });
+    } catch (err) {
+      return json(res, 400, { error: 'invalid-h1-history',
+        details: [String(err.message).slice(0, 180)] });
+    }
+  },
+
   'PUT /api/data': async (req, res) => {
     const user = readSession(req);
     if (!user) return json(res, 401, { error: 'not signed in' });
@@ -2735,6 +2801,14 @@ const routes = {
     const cur = readStateStrict(user.id);
     if (cur === UNREADABLE) { console.error('state file unreadable for', user.id); return json(res, 503, { error: 'state unreadable' }); }
     const curRev = cur?._rev || 0;
+    // Independently changing source workouts while retaining the signed
+    // receipts must NOT allow a new PUT. Compare the last approved digest
+    // of each historical workout to the actual stored evidence first.
+    try { if (cur) verifyH1ReceiptState(cur, SECRET); }
+    catch (err) {
+      console.error('H1 receipt data mismatch for', user.id, err.message);
+      return json(res, 503, { error: 'h1-receipt-unavailable' });
+    }
     // `_rev` is a counter, so after the data directory went back in time (a restored backup, a
     // write lost to a power cut) the same number names a different document. Every write also gets
     // a write id (`_wid`) and keeps its ancestors' (`_wids`): a client quoting the id it last saw
@@ -2749,6 +2823,11 @@ const routes = {
         ...(witness ? { hybrid2Ancestor: witness } : {}) });
     }
     delete body.state.active;              // in-progress workouts stay device-local
+    // Every client-submitted receipt list is untrusted, even if it presents a
+    // matching current revision. The authoritative chain is server-owned.
+    delete body.state._h1Receipts;
+    let h1Approval = null;
+    let h1EditedRecords = [];
     if (canonical) {
       const check = validateCanonicalProfile(body.state);
       if (!check.ok) return json(res, 400, { error: 'invalid state', details: check.errors });
@@ -2792,16 +2871,20 @@ const routes = {
       // New workouts do not need an edit witness if all previous H1 records
       // remain byte-for-byte equivalent in their structural evidence.
       if (liveAdapter) {
-        const prior = new Map((cur?.workouts || [])
-          .filter(w => isHybridHistoryWorkout(w, liveAdapter))
-          .map(w => [w.id, hybridHistoryDigest(w)]));
-        const incoming = new Map((body.state.workouts || [])
-          .filter(w => isHybridHistoryWorkout(w, liveAdapter))
-          .map(w => [w.id, hybridHistoryDigest(w)]));
-        const rewroteEvidence = [...prior].some(([id, digest]) => incoming.get(id) !== digest);
-        if (rewroteEvidence && (body.baseRev == null || body.baseWid !== cur?._wid))
-          return json(res, 428, { error: 'h1-ancestry-required',
-            details: ['An existing H1 workout was changed without its current server revision/write ID'] });
+        h1EditedRecords = existingH1Changes(cur, body.state);
+        if (h1EditedRecords.length) {
+          if (body.baseRev == null || body.baseWid !== cur?._wid)
+            return json(res, 428, { error: 'h1-ancestry-required' });
+          h1Approval = verifyH1Approval(body.h1Authorization, {
+            secret: SECRET, uid: user.id, sessionVersion: sessionVersion(user),
+            rev: curRev, wid: cur._wid, changes: h1EditedRecords
+          });
+          if (!h1Approval) return json(res, 428, {
+            error: 'h1-approval-required',
+            details: ['Explicitly approve exactly these existing H1 workout changes'],
+            changedWorkoutIds: h1EditedRecords.map(x=>x.id)
+          });
+        }
       }
       if (cfg?.adapter) {
         try {
@@ -2836,6 +2919,32 @@ const routes = {
     const report = {};
     try { stampPut(cur, body.state, { overRead: body.baseRev != null && body.baseRev === curRev, stamped: body.stamped === true, report }); }
     catch (e) { if (e instanceof RangeError) return json(res, 400, { error: 'invalid state' }); throw e; }
+    // Legacy unstamped writers may have unknown fields restored by stampPut.
+    // Authorization was verified BEFORE that repair, so recheck the exact
+    // structural H1 delta after it. An unapproved or differently authorised
+    // mutation must never be committed by the server's own repair mechanism.
+    if (canonical) {
+      const changedAfterStamp = existingH1Changes(cur, body.state);
+      if (JSON.stringify(changedAfterStamp) !== JSON.stringify(h1EditedRecords))
+        return json(res, 409, { error: 'h1-evidence-changed-during-sync' });
+      const finalConfig = body.state.trainingControl?.hybrid2Config;
+      if (finalConfig?.adapter && (body.state.workouts || []).some(w =>
+        w.hybrid2 != null || (w.exposures || []).some(x=>x?.hybrid2 != null))) {
+        try {
+          verifyFrozenHistory(body.state.workouts, finalConfig.adapter);
+          if (finalConfig.enabled === true)
+            assertHybridResumeContinuity(body.state.workouts, finalConfig.adapter);
+          assertHybridBootstrapHistory(body.state.workouts, finalConfig.adapter,
+            body.state.trainingControl?.hybrid2Bootstrap);
+          replayHybridHistory({ workouts: body.state.workouts, adapter: finalConfig.adapter,
+            prescriptions: body.state.prescriptions,
+            bootstrap: body.state.trainingControl?.hybrid2Bootstrap });
+        } catch (err) {
+          return json(res, 400, { error: 'invalid state',
+            details: ['post-sync H1 replay: ' + err.message] });
+        }
+      }
+    }
     body.state._rev = curRev + 1;          // server-owned; whatever the client sent is ignored
     // A writer that does not stamp (an older app) takes the revision it is told for the document it
     // sent, and only reads the profile again once the revision moves. When the server put back
@@ -2846,6 +2955,19 @@ const routes = {
     body.state._wids = [...(Array.isArray(cur?._wids) ? cur._wids : []), ...(cur?._wid ? [cur._wid] : [])]
       .filter(x => typeof x === 'string').slice(-WID_KEEP);
     body.state._wid = crypto.randomBytes(8).toString('hex');
+    // Preserve the trusted H1 approval ledger on EVERY write, not just edits.
+    // The receipt is committed atomically with the profile. If an existing
+    // receipt chain fails verification, no state update can replace it.
+    try {
+      const receiptLog = appendH1Receipt(cur?._h1Receipts, h1Approval, {
+        secret: SECRET, rev: body.state._rev, wid: body.state._wid,
+        changes: h1EditedRecords
+      });
+      if (receiptLog.length) body.state._h1Receipts = receiptLog;
+    } catch (err) {
+      console.error('H1 receipt verification failed for', user.id, err.message);
+      return json(res, 503, { error: 'h1-receipt-unavailable' });
+    }
     // JSON.parse takes any nesting, JSON.stringify recurses and runs out of stack on a document
     // nested some thousands deep. No client builds one; it is a bad request, not a server error.
     let text;
@@ -3301,7 +3423,7 @@ const server = http.createServer(async (req, res) => {
       // for an Access application that passes OPTIONS through to the origin.
       // And the engine schema the client announces on every request (frontend lib/api.js): left
       // out, the WebView fails every preflighted request before the server sees it (#312 review).
-      'Access-Control-Allow-Headers': `Content-Type, Authorization, CF-Access-Client-Id, CF-Access-Client-Secret, ${ENGINE_SCHEMA_HEADER}`,
+      'Access-Control-Allow-Headers': `Content-Type, Authorization, CF-Access-Client-Id, CF-Access-Client-Secret, ${ENGINE_SCHEMA_HEADER}, X-OpenGym-H1-Base-Rev, X-OpenGym-H1-Base-Wid`,
       'Access-Control-Max-Age': '86400',
       ...(pna ? { 'Access-Control-Allow-Private-Network': 'true' } : {})
     });

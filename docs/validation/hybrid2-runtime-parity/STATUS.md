@@ -408,3 +408,23 @@ M6_H1_REVISION_ANCESTRY_20261111.md.
 Ancestry package verified: API 1089 PASS / 0 FAIL / 3 SKIP; focused
 frontend sync/UX 450 PASS / 0 FAIL; Vite build PASS. Full physical
 Android and original Liftosaur M6 source-native parity are outstanding.
+
+## 2026-11-11 — H1 EXISTING-HISTORY EDIT AUTHORISATION FOLLOW-UP
+
+The follow-up after e30266b44 introduces session-authenticated, explicit
+preview/approve of edits to already persisted H1 workouts, five-minute
+rev+wid+user+session+SHA-256-bound signed tokens, HTTP 428 refusal without
+approval, a server-owned tamper-evident HMAC receipt chain atomically
+co-committed with the canonical profile, CORS support for Android H1 ancestry
+headers, and isolated HTTP/frontend adversarial tests. New sessions and
+non-evidence metadata changes are not retroactive edits.
+
+See M6_H1_EDIT_AUTHORIZATION_20261111.md for detailed flows, limitations,
+test evidence and explicit NOT READY FOR PRODUCTION restrictions.
+
+Validated server-signed H1 approval package (final rerun):
+API 1096 tests = 1093 PASS / 0 FAIL / 3 SKIP;
+frontend focused H1/sync/UX 452 PASS / 0 FAIL (37 files);
+full frontend 8378 PASS / 2 unrelated previously failing tests
+(pt-BR inherited locale and generic warmup fallback); Vite build PASS.
+True mobile dual-device and original native M6 parity are still BLOCKING.

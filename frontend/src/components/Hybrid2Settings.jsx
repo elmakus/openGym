@@ -18,6 +18,9 @@ export default function Hybrid2Settings({ profile, update }) {
   const checkpointConflict = profile.trainingControl?.hybrid2BootstrapConflict
   const historyConflict = profile.trainingControl?.hybrid2HistoryConflict
   const syncReviewError = useStore(s => s.sync?.lastError?.code === 'hybrid2-review')
+  const approveH1 = useStore(s => s.approveH1HistoryChanges)
+  const previewH1 = useStore(s => s.previewH1HistoryChanges)
+  const [approving, setApproving] = useState(false)
   const [historyChoices, setHistoryChoices] = useState({})
   const [bootstrapDraft, setBootstrapDraft] = useState('')
   const [bootstrapOpen, setBootstrapOpen] = useState(false)
@@ -117,6 +120,22 @@ export default function Hybrid2Settings({ profile, update }) {
       setBootstrapOpen(false)
     } catch (err) { setError(String(err.message)) }
   }
+  const confirmH1HistoryEdit = async () => {
+    setApproving(true)
+    setError('')
+    try {
+      const preview = await previewH1()
+      const ids = preview.changedWorkoutIds
+      // Show the server-verified exact set of affected workout IDs before
+      // authorization. A fresh server revision or changed selection aborts.
+      if (!globalThis.confirm(
+        'Approve changes to these ' + ids.length + ' existing H1 workouts?\n\n' +
+        ids.join('\n') + '\n\nThe server will store a signed audit receipt.'))
+        return
+      await approveH1(preview)
+    } catch (err) { setError(String(err.message)) }
+    finally { setApproving(false) }
+  }
   const state = profile.trainingControl?.hybrid2
   const status = diagnostics?.status || (active ? 'NOT_INITIALIZED' : 'DISABLED')
   return <section className="sect-b" aria-label={t('HYBRID-2 recovery controller')}
@@ -162,9 +181,13 @@ export default function Hybrid2Settings({ profile, update }) {
       </div>}
       {syncReviewError && !historyConflict && !conflict && !checkpointConflict &&
         <div role="alert" className="small" style={{ marginTop: 12 }}>
-          The server needs a confirmed H1 revision before accepting changed history.
-          Keep the current device's backup; do not reset H1. Review synchronization
-          and reconnect to the latest server history before resolving the edit.
+          <p>The server has paused synchronization of edits to previously saved
+          H1 workouts. Check the changed reps, loads, sides and dates against your
+          original history. Your local data remains intact until the changes are
+          explicitly approved.</p>
+          <Button size="sm" disabled={approving} onClick={confirmH1HistoryEdit}>
+            {approving ? 'Approving H1 changes…' : 'Review and approve existing H1 edits'}
+          </Button>
         </div>}
       {historyConflict && <div role="alert" style={{ marginTop: 12 }}>
         <strong>HYBRID-2 history sync is blocked pending review</strong>

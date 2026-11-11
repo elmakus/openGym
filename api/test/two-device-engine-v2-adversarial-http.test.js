@@ -161,10 +161,21 @@ test('two offline clients: A completes, B edits earlier L/R, HTTP 409/merge, res
   assert.equal(r.status,200,JSON.stringify(r))
   return {rev:r.data.rev,wid:r.data.wid,state:r.data.state?unpackProfile(r.data.state):null}
  }
- const write=async(p,rev,wid=null)=>{
+ const write=async(p,rev,wid=null,{approved=false}={})=>{
   assert.deepEqual(validateCanonicalProfile(p),{ok:true,errors:[]})
+  let h1Authorization=null
+  if(approved){
+   const auth=await fetch('http://127.0.0.1:'+s.port+'/api/data/h1-authorize',{
+    method:'POST',headers:{cookie:cookie(),origin:'http://localhost:8080',
+     'content-type':'application/json','x-opengym-engine-schema':'2'},
+    body:JSON.stringify({state:packProfile(p),baseRev:rev,baseWid:wid,
+     confirmed:'APPROVE_EXISTING_H1_HISTORY_CHANGES'})})
+   const answer=await auth.json()
+   assert.equal(auth.status,200,JSON.stringify(answer))
+   h1Authorization=answer.token
+  }
   const r=await req('PUT',{state:packProfile(p),baseRev:rev,stamped:true,
-    ...(wid?{baseWid:wid}:{})})
+    ...(wid?{baseWid:wid}:{}),...(h1Authorization?{h1Authorization}:{})})
   if(r.status===200)writes++
   if(r.status===409)conflicts++
   return r
@@ -264,7 +275,7 @@ test('two offline clients: A completes, B edits earlier L/R, HTTP 409/merge, res
  merged.trainingControl.hybrid2Config.enabled=true // separate explicit reviewer re-enable
  assert.ok(reconcileHybridHistory(merged))
  expectedDerived(merged)
- r=await write(merged,revA,remote._wid)
+ r=await write(merged,revA,remote._wid,{approved:true})
  assert.equal(r.status,200,JSON.stringify(r))
  const revFinal=r.data.rev
  head=await read()
@@ -338,19 +349,32 @@ test('revision-bound H1 ancestry: 409 resolves unilateral history edit, concurre
  let s=null
  t.after(async()=>{await stop(s);fs.rmSync(dir,{recursive:true,force:true})})
  s=await start(dir)
- const req=async(method,profile,rev,wid)=>{
+ const req=async(method,profile,rev,wid,h1Authorization=null)=>{
    const res=await fetch('http://127.0.0.1:'+s.port+'/api/data',{
      method,headers:{cookie:cookie(),origin:'http://localhost:8080',
        'content-type':'application/json','x-opengym-engine-schema':'2'},
      ...(profile===undefined?{}:{body:JSON.stringify({
        state:packProfile(profile),stamped:true,
        ...(rev==null?{}:{baseRev:rev}),
-       ...(wid?{baseWid:wid}:{})})})
+       ...(wid?{baseWid:wid}:{}),
+       ...(h1Authorization?{h1Authorization}:{})})})
    })
    const data=await res.json()
    return {status:res.status,data,profile:data.state?unpackProfile(data.state):null}
  }
  const get=async()=>{const res=await req('GET');assert.equal(res.status,200);return res}
+ const approve=async(profile,rev,wid)=>{
+   const response=await fetch('http://127.0.0.1:'+s.port+'/api/data/h1-authorize',{
+     method:'POST',headers:{cookie:cookie(),origin:'http://localhost:8080',
+       'content-type':'application/json','x-opengym-engine-schema':'2'},
+     body:JSON.stringify({state:packProfile(profile),baseRev:rev,baseWid:wid,
+       confirmed:'APPROVE_EXISTING_H1_HISTORY_CHANGES'})
+   })
+   const body=await response.json()
+   assert.equal(response.status,200,JSON.stringify(body))
+   assert.ok(body.token)
+   return body.token
+ }
  const edited=(profile,index,reps)=>{
    const w=profile.workouts[index]
    const row=w.exposures.find(x=>x.hybrid2?.signalId)?.performance?.sets?.find(r=>r.role==='work')
@@ -370,9 +394,40 @@ test('revision-bound H1 ancestry: 409 resolves unilateral history edit, concurre
  const A=clone(initial),B=clone(initial)
  edited(A,1,13)
  B.restSec=77;B._ts=at(30)
- response=await req('PUT',A,baseRev,baseWid)
+ const preview=await fetch('http://127.0.0.1:'+s.port+'/api/data/h1-authorize',{
+   method:'POST',headers:{cookie:cookie(),origin:'http://localhost:8080',
+     'content-type':'application/json','x-opengym-engine-schema':'2'},
+   body:JSON.stringify({state:packProfile(A),baseRev,baseWid,
+     confirmed:'PREVIEW_EXISTING_H1_HISTORY_CHANGES'})
+ })
+ assert.equal(preview.status,200)
+ const previewBody=await preview.json()
+ assert.equal(previewBody.token,undefined,
+   'preview cannot accidentally issue a write authorization')
+ assert.equal(previewBody.requiresExplicitApproval,true)
+ assert.deepEqual(previewBody.changedWorkoutIds,[initial.workouts[1].id])
+ assert.equal(previewBody.changes[0].from.length,64)
+ assert.equal(previewBody.changes[0].to.length,64)
+ const firstApproval=await approve(A,baseRev,baseWid)
+ // Same valid profile with correct wid cannot silently edit historical H1.
+ const noApproval=await req('PUT',A,baseRev,baseWid)
+ assert.equal(noApproval.status,428)
+ assert.equal(noApproval.data.error,'h1-approval-required')
+ const tamperedApproval=await req('PUT',A,baseRev,baseWid,firstApproval+'tampered')
+ assert.equal(tamperedApproval.status,428)
+ assert.equal(tamperedApproval.data.error,'h1-approval-required')
+ response=await req('PUT',A,baseRev,baseWid,firstApproval)
  assert.equal(response.status,200,JSON.stringify(response.data))
  const nextRev=response.data.rev
+ const auditAfterEdit=unpackProfile(JSON.parse(fs.readFileSync(
+   path.join(dir,'state-'+UID+'.json'),'utf8')))
+ assert.equal(auditAfterEdit._h1Receipts.length,1)
+ assert.equal(auditAfterEdit._h1Receipts[0].body.sourceRev,baseRev)
+ assert.equal(auditAfterEdit._h1Receipts[0].body.sourceWid,baseWid)
+ assert.equal(auditAfterEdit._h1Receipts[0].body.changes.length,1)
+ assert.equal(auditAfterEdit._h1Receipts[0].body.changes[0].id,initial.workouts[1].id)
+ const confirmedPublic=await get()
+ assert.equal(confirmedPublic.profile._h1Receipts,undefined)
  response=await req('PUT',B,baseRev,baseWid)
  assert.equal(response.status,409)
  assert.equal(response.data.rev,nextRev)
@@ -392,6 +447,10 @@ test('revision-bound H1 ancestry: 409 resolves unilateral history edit, concurre
  await stop(s);s=await start(dir)
  head=await get()
  assert.equal(sample(head.profile.workouts[1]),13)
+ const restartedReceipts=unpackProfile(JSON.parse(fs.readFileSync(
+   path.join(dir,'state-'+UID+'.json'),'utf8')))._h1Receipts
+ assert.equal(restartedReceipts.length,1,'approval survives real backend restart')
+ assert.equal(restartedReceipts[0].seal,auditAfterEdit._h1Receipts[0].seal)
  assert.equal(head.profile.restSec,77)
  // A poll/pull is entitled to the same verified three-way ancestor as 409.
  const pulled=await fetch('http://127.0.0.1:'+s.port+'/api/data',{
@@ -404,6 +463,16 @@ test('revision-bound H1 ancestry: 409 resolves unilateral history edit, concurre
  const pullBody=await pulled.json()
  assert.equal(pullBody.hybrid2Ancestor.rev,baseRev)
  assert.equal(pullBody.hybrid2Ancestor.wid,baseWid)
+ // Real paired Android WebViews require CORS preflight for these headers.
+ const preflight=await fetch('http://127.0.0.1:'+s.port+'/api/data',{
+   method:'OPTIONS',headers:{origin:'http://localhost',
+     'access-control-request-method':'GET',
+     'access-control-request-headers':'x-opengym-h1-base-rev,x-opengym-h1-base-wid'}
+ })
+ assert.equal(preflight.status,204)
+ const allowed=preflight.headers.get('access-control-allow-headers').toLowerCase()
+ assert.ok(allowed.includes('x-opengym-h1-base-rev'))
+ assert.ok(allowed.includes('x-opengym-h1-base-wid'))
  const badPull=await fetch('http://127.0.0.1:'+s.port+'/api/data',{
    headers:{cookie:cookie(),origin:'http://localhost:8080',
      'x-opengym-engine-schema':'2',
@@ -422,7 +491,8 @@ test('revision-bound H1 ancestry: 409 resolves unilateral history edit, concurre
  assert.equal(legacyEdit.status,428,
   'the server must reject an existing H1 edit without a confirmed source write-id')
  assert.equal(legacyEdit.data.error,'h1-ancestry-required')
- response=await req('PUT',first,sharedRev,sharedWid)
+ const approvedFirst=await approve(first,sharedRev,sharedWid)
+ response=await req('PUT',first,sharedRev,sharedWid,approvedFirst)
  assert.equal(response.status,200,JSON.stringify(response.data))
  response=await req('PUT',second,sharedRev,sharedWid)
  assert.equal(response.status,409)
@@ -438,6 +508,46 @@ test('revision-bound H1 ancestry: 409 resolves unilateral history edit, concurre
  const legacy=await req('PUT',second,sharedRev)
  assert.equal(legacy.status,409)
  assert.equal(legacy.data.hybrid2Ancestor,undefined)
+ // A corrupted persisted HMAC receipt must fail closed even when the next
+ // PUT only changes a harmless setting, not H1 history.
+ const beforeIntegrityCheck=await get()
+ const verifiedStatePath=path.join(dir,'state-'+UID+'.json')
+ const intactSnapshot=fs.readFileSync(verifiedStatePath,'utf8')
+ const changedWithoutReceipt=unpackProfile(JSON.parse(intactSnapshot))
+ assert.ok(changedWithoutReceipt._h1Receipts.length>=2)
+ const lastApprovedId=changedWithoutReceipt._h1Receipts.at(-1).body.changes[0].id
+ const changedSource=changedWithoutReceipt.workouts.find(w=>w.id===lastApprovedId)
+ assert.ok(changedSource)
+ changedSource.start+=60000
+ await stop(s)
+ fs.writeFileSync(verifiedStatePath,JSON.stringify(packProfile(changedWithoutReceipt)),{mode:0o600})
+ s=await start(dir)
+ const unsafeGet=await req('GET')
+ assert.equal(unsafeGet.status,503,
+   'GET cannot expose a corrupted H1 source to a recovering/offline device')
+ assert.equal(unsafeGet.data.error,'h1-receipt-unavailable')
+ const sourceMismatch=await req('PUT',beforeIntegrityCheck.profile,
+   beforeIntegrityCheck.data.rev,beforeIntegrityCheck.profile._wid)
+ assert.equal(sourceMismatch.status,503)
+ assert.equal(sourceMismatch.data.error,'h1-receipt-unavailable')
+ await stop(s)
+ fs.writeFileSync(verifiedStatePath,intactSnapshot,{mode:0o600})
+ s=await start(dir)
+ const forgedSnapshot=unpackProfile(JSON.parse(intactSnapshot))
+ assert.ok(forgedSnapshot._h1Receipts.length>=2)
+ forgedSnapshot._h1Receipts[0].body.changes[0].id='FORGED'
+ await stop(s)
+ fs.writeFileSync(verifiedStatePath,JSON.stringify(packProfile(forgedSnapshot)),{mode:0o600})
+ s=await start(dir)
+ const alteredOnlySetting=clone(beforeIntegrityCheck.profile)
+ alteredOnlySetting.restSec=400
+ const integrityRefusal=await req('PUT',alteredOnlySetting,
+   beforeIntegrityCheck.data.rev,beforeIntegrityCheck.profile._wid)
+ assert.equal(integrityRefusal.status,503)
+ assert.equal(integrityRefusal.data.error,'h1-receipt-unavailable')
+ await stop(s)
+ fs.writeFileSync(verifiedStatePath,intactSnapshot,{mode:0o600})
+ s=await start(dir)
  // Simulate a server disk restore that keeps an old journal from another
  // branch. The revision may be reused, but _wids no longer descend from it.
  const beforeRestore=await get()
@@ -476,6 +586,7 @@ test('revision-bound H1 ancestry: 409 resolves unilateral history edit, concurre
    optimistic409:true,verifiedAncestor:true,unilateralCorrection:true,
    divergentSameRecordHeld:true,backendRestart:true,
    noProofWithoutWid:true,privateDigestJournal:true,
-   restoredBranchDenied:true,corruptJournalWriteBlocked:true
+   restoredBranchDenied:true,corruptJournalWriteBlocked:true,
+   corruptReceiptWriteBlocked:true,sourceEvidenceTamperBlocked:true
  }))
 })
