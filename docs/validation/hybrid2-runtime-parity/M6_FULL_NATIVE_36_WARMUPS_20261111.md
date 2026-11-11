@@ -47,3 +47,7 @@ Source-native end-to-end proof: the 36 custom exercise profile carried the **six
 ### Remaining gaps
 
 The full H1 checkpoint/import design for pre-existing native history, all source future warm-up **transitions** (only source initial warm-ups were verified), full native RTT/queued deload across the real user's phone workflow, complete program mobile sync, and actual user-account deployment were not established in this run. Normal/Turbo source numeric parity is proven at its explicit six-native-session boundary; native-only RTT/de-load assertions do not automatically imply every openGym frontend transition has been verified.
+
+### Additional native warm-up HTTP/offline proof
+
+A further independent isolated `api/server.js` run used the **full three-session A/B/C profile with all eight actually completed source-native warm-up rows** (36 recorded exercise exposures and 29 custom exercises). On every authenticated GET, the stale-client HTTP `409` conflict/merge, backend restart, and persisted disk unpack, assertions required **exactly eight separate completed `role: warmup` rows**, canonical schema validity, source exercise names, deterministic `replayAtp2History` and deterministic HYBRID-2 history. **3 GETs, 3 accepted PUTs, 1 real 409 merge, 1 restart — PASS**. The proof was executed with a random private test user/secret and ephemeral isolated data directory, no production account writes. The test driver and sanitized counts are kept in protected Unraid private evidence, not this public repository.
