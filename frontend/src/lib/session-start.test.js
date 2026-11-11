@@ -94,6 +94,45 @@ describe('buildSessionExposures', () => {
     }finally{registerCustom([])}
   })
 
+  it('recomputes template warmups from the progressed ATP2 candidate on the next workout', () => {
+    const custom={id:'synthetic_native_stack_change',n:'Synthetic stack',eq:'cable',custom:true}
+    registerCustom([custom])
+    try {
+      const rungs=[2.5,10,17,18.125,22.5,24.75,28.75,34]
+      const occ=ruleOccurrence(custom.id,{options:{
+        sets:{min:2,max:2},reps:{min:10,max:15},
+        load:{mode:'absolute',value:34,unit:'kg'},
+        rounding:{mode:'allowed_values',allowedValues:rungs}
+      }})
+      occ.atp2={enabled:true,floorWeight:10}
+      occ.warmup={mode:'template',steps:[{percent:55,reps:5},{percent:75,reps:3}]}
+      const s=profile({customEx:[custom],trainingControl:{atp2:{},timedLoad:{}}})
+      const routine={id:'native-next-candidate',ex:[occ]}
+      const [first]=buildSessionExposures(s,routine,ctx)
+      expect(s.prescriptions[first.prescriptionId].warmupRows.map(row=>row.load.value))
+        .toEqual([18.125,24.75])
+      s.trainingControl.atp2[first.trackId]={...first.atp2.initialState,candidate:28.75}
+      const [second]=buildSessionExposures(s,routine,{...ctx,now:ctx.now+86400000})
+      expect(second.atp2.initialState.candidate).toBe(28.75)
+      expect(s.prescriptions[second.prescriptionId].warmupRows.map(row=>row.load.value))
+        .toEqual([10,18.125])
+      const [editable]=entriesForExposures([second],s.prescriptions)
+      expect(editable.sets.filter(isWarmupRow).map(row=>row.w))
+        .toEqual([10,18.125])
+      editable.sets.forEach(row=>{
+        row.done=true
+        if(!isWarmupRow(row))row.r=1
+      })
+      const {session}=buildCompletedSession({
+        id:'source-next-candidate',d:'2026-09-25',start:ctx.now+86400000,
+        exposures:[second],entries:[editable]
+      },s,{end:ctx.now+90000000,newId:seed=>seed,unit:'kg'})
+      expect(session.exposures[0].performance.sets.filter(row=>row.role==='warmup')
+        .map(row=>row.resistance.value)).toEqual([10,18.125])
+      expect(historicalAtp2Rows(session.exposures[0])).toHaveLength(2)
+    }finally{registerCustom([])}
+  })
+
   it('A8: migrated inherited rest follows the profile while explicit rest stays fixed', () => {
     const inherited = { ...ruleOccurrence('0025'), restFromProfile: true }
     inherited.rule = editPlan(inherited.rule, { restSeconds: 90 })

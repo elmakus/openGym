@@ -11,7 +11,7 @@ import { isoOf } from './format.js'
 import { warmupSource, warmupModeOf, withWarmupBlock } from './warmup-ramp.js'
 import { dropGrid } from './plates.js'
 import { isWarmupRow, isSideSet, syncSideAggregate } from './workout-model.js'
-import { contentHash, deepFreeze } from '../../../api/engine/index.js'
+import { contentHash, deepFreeze, planWarmupRows } from '../../../api/engine/index.js'
 import { entriesForExposures } from './session-ui-adapter.js'
 import { prepareAtp2Session } from './atp2-session.js'
 import { prepareTimedLoadSession } from './timed-load-session.js'
@@ -183,7 +183,25 @@ export function buildSessionExposures(stored, routine, ctx) {
         previous: stored.trainingControl?.atp2?.[trackId],
         prescription, paired: occ.side === true
       })
-      if (atp2) exposure.atp2 = atp2
+      if (atp2) {
+        exposure.atp2 = atp2
+        // The actual ATP2 candidate can change between sessions even when
+        // the static PlanRule load has not. Derive a fresh warmup ramp from
+        // that candidate while ATP2 remains the authority over work rows.
+        if (!frozen && ['template', 'smart'].includes(occ.warmup?.mode) &&
+            atp2.initialState.candidate !== (prescription.prefill?.load?.value ?? prescription.rows[0]?.load?.value)) {
+          const targetRows = prescription.rows.map(row => ({
+            ...row, load: { value: atp2.initialState.candidate, unit: profileUnit(stored) }
+          }))
+          const warmupRows = planWarmupRows({
+            rows: targetRows, warmup: occ.warmup,
+            eq: stored.customEx?.find(custom => custom?.id === occ.exerciseId)?.eq ??
+              EXIDX[occ.exerciseId]?.eq ?? null, rounding: atp2.rounding,
+            floor: barFloor(profile, occ.exerciseId), assisted: false
+          })
+          prescription = freezePrescription({ ...prescription, warmupRows })
+        }
+      }
     }
     if (timedRequested && (frozen || !exposure.excludedFromProgression) && exposure.mode === 'time' && !assisted) {
       const timedLoad = prepareTimedLoadSession({ config: original.timedLoad,
