@@ -1,0 +1,22 @@
+{
+  "schema": "ENGINE-V2-TWO-DEVICE-HTTP-ADVERSARIAL-1",
+  "verdict": "PASS",
+  "syntheticCompletedSessions": 8,
+  "physicalBilateralRows": 12,
+  "httpRequests": 9,
+  "httpReads": 4,
+  "httpAcceptedWrites": 4,
+  "http409Conflicts": 1,
+  "backendRestarts": 1,
+  "revision": 4,
+  "editedRightTimedSeconds": 21,
+  "editedRightSharedReps": 5,
+  "replay": [
+    "ATP2",
+    "Timed Load",
+    "HYBRID-2",
+    "grouped Engine V2"
+  ],
+  "sourceNativeNewRuns": 0,
+  "liveDataWrites": 0
+}

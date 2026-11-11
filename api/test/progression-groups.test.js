@@ -140,6 +140,25 @@ test('pinned native HYBRID-2 identity remains authoritative without manual group
   assert.equal(progressionAcrossRoutines(p,slot(p,'bench-mon'),hybrid,true),false)
 })
 
+test('ungrouped native HYBRID-2-style colon identities coexist with strict manual groups',()=>{
+  const p=fixture()
+  p.routines[1].ex[0].occurrenceId='native:original-slot'
+  assert.equal(joinProgressionGroup(p,'bench-mon','bench-fri',()=> 'bench-main'),true)
+  assert.deepEqual([...validateProgressionGroups(p)],
+    [['bench-mon','bench-main'],['bench-fri','bench-main']])
+  assert.equal(progressionTrackId(p,p.routines[1].ex[0]),'native:original-slot')
+  assert.deepEqual(validateCanonicalProfile(p),{ok:true,errors:[]})
+  const groupedColon=structuredClone(p)
+  groupedColon.progressionGroups.groups[0].members[1]='native:original-slot'
+  assert.throws(()=>validateProgressionGroups(groupedColon),/unknown occurrence ID/)
+  const duplicate=structuredClone(p)
+  duplicate.routines[1].ex[1].occurrenceId='native:original-slot'
+  assert.throws(()=>validateProgressionGroups(duplicate),/duplicated occurrence ID/)
+  const empty=structuredClone(p)
+  empty.routines[1].ex[0].occurrenceId=' '
+  assert.throws(()=>validateProgressionGroups(empty),/invalid or duplicated occurrence ID/)
+})
+
 test('progressionGroups is a stamped, durable profile setting across multi-device merges',()=>{
   const original=fixture()
   const laptop=structuredClone(original)

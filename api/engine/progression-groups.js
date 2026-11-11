@@ -13,7 +13,11 @@ const isObj = v => v && typeof v === 'object' && !Array.isArray(v)
 const catalogue = profile => {
   const byId = new Map()
   for (const routine of list(profile?.routines)) for (const occ of list(routine?.ex)) {
-    if (!validId(occ?.occurrenceId) || byId.has(occ.occurrenceId)) fail('invalid or duplicated occurrence ID')
+    // Existing HYBRID-2/legacy occurrence identities may contain ':'; only IDs
+    // participating in a newly configured manual group must use validId().
+    // Still reject missing and duplicated identities anywhere in the catalogue.
+    if (typeof occ?.occurrenceId !== 'string' || !occ.occurrenceId.trim() || byId.has(occ.occurrenceId))
+      fail('invalid or duplicated occurrence ID')
     byId.set(occ.occurrenceId, occ)
   }
   return byId

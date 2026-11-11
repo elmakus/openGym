@@ -430,3 +430,13 @@ preserved, and a historical right-side timing edit recalculates state.
 
 Both suites are separately reproducible and must not double count native runs.
 See [full constraints and provenance](../../docs/validation/hybrid2-runtime-parity/TIMED_LOAD_NATIVE_BILATERAL_HTTP_20261111.md).
+
+## 2026-11-11 — Adversarial two-device sync using actual HTTP, real history editor, independent L/R
+
+The runnable `api/test/two-device-engine-v2-adversarial-http.test.js` exercises actual Engine V2 session start/finish, historical edit, real backend revision-based optimistic conflict (HTTP 409), `mergeStates` and conditional retry, canonical disk persistence, and restart. The synthetic K5/HYBRID-2 + ATP2 + bilateral Timed Load profile also has two manually grouped independent bilateral occurrences with the same true Engine V2 track. Offline historical edits on the right side survive the merge without losing A's newer sessions or either side's `setId`. All four controller histories are re-derived; a second stale merge does not duplicate workouts. **8 synthetic completed sessions, 12 bilateral rows, 9 real HTTP requests, one actual server restart, 0 unexpected failures**.
+
+A reproduced native-id compatibility defect in `api/engine/progression-groups.js` is corrected: an *ungrouped* HYBRID-2 occurrence ID containing `:` no longer prevents a separate explicit manual group, while grouped-member IDs, duplicate detection and native identity lock remain strict. See [full report](../../docs/validation/hybrid2-runtime-parity/TWO_DEVICE_ENGINE_V2_ADVERSARIAL_HTTP_20261111.md) and [sanitized evidence](../../docs/validation/hybrid2-runtime-parity/two-device-engine-v2-adversarial-sanitized.json). This is an openGym synthetic integration result, **not** a new genuine original-Liftosaur workout or full M6 acceptance.
+
+Complete API regression (isolated validation worktree, TMPDIR=/dev/shm): **1077/1077 PASS**; the first attempt's two -122 scratch filesystem write failures disappeared without source/test changes. Validation branch is 100 commits ahead of integration/engine-v2 and 0 behind before this checkpoint. Integration is not authorized by this result.
+
+Full frontend Vitest: **8341 PASS / 1 unrelated existing RED** in 701 files; unchanged pt-BR inherited-text fingerprint assertion also fails in isolation. All targeted 142 Engine V2 frontend tests pass; no locale fingerprint expectation was altered.
