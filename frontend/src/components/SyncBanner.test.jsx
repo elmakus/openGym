@@ -112,6 +112,19 @@ describe('connected and in step', () => {
   })
 })
 
+describe('HYBRID-2 sync review is a visible, actionable barrier', () => {
+  it('takes the user to the Plan review instead of endlessly retrying unsafe PUT', async () => {
+    mocks.sync = sync('error', { pending: true,
+      lastError: { status: 409, code: 'hybrid2-review' } })
+    render()
+    expect(text()).toContain('H1 history')
+    expect(bar().className).toContain('bad')
+    await act(async () => { button().click() })
+    expect(mocks.navs).toContain('/plan')
+    expect(mocks.syncNow).not.toHaveBeenCalled()
+  })
+})
+
 describe('not connected — it says so, and what to do', () => {
   it('offline with changes waiting: kept on this device, and a retry that reports back', async () => {
     network(false)

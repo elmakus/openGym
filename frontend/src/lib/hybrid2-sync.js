@@ -145,7 +145,7 @@ const differsInH1Evidence = (a, b) => a?.start !== b?.start ||
  * the actual evidence rather than inventing workout results or resetting H1.
  * This function is called after the merged history has been fully replayed.
  */
-export function retainHybridHistoryConflict(merged, local, remote) {
+export function retainHybridHistoryConflict(merged, local, remote, { ancestry = null } = {}) {
   const cfg = merged?.trainingControl?.hybrid2Config
   if (!cfg?.adapter) return
   const tc = merged.trainingControl
@@ -169,7 +169,7 @@ export function retainHybridHistoryConflict(merged, local, remote) {
   const mergedRows = new Map((merged.workouts || []).filter(mapped).map(w => [w.id, w]))
   const ids = new Set([...left.keys(), ...right.keys(), ...mergedRows.keys()])
   if (!ids.size) return
-  const unsafe = [...ids].some(id => {
+  const unsafe = ancestry ? ancestry.disputes.size > 0 : [...ids].some(id => {
     const a = left.get(id), b = right.get(id)
     const deletedLeft = Number(local.deleted?.workouts?.[id]) > 0
     const deletedRight = Number(remote.deleted?.workouts?.[id]) > 0
@@ -185,6 +185,8 @@ export function retainHybridHistoryConflict(merged, local, remote) {
     const db = remote.deleted?.workouts?.[id] ?? null
     const dm = merged.deleted?.workouts?.[id] ?? null
     if (canonicalJSON(a) === canonicalJSON(b) && da === db) continue
+    if (ancestry && !ancestry.disputes.has(id) &&
+        tc.hybrid2Diagnostics?.status !== 'INCOMPATIBLE') continue
     // Record differences which may affect H1. For an incompatible union keep
     // even different metadata for full forensic reconstruction.
     if (!differsInH1Evidence(a, b) && da === db &&
@@ -195,7 +197,8 @@ export function retainHybridHistoryConflict(merged, local, remote) {
   tc.hybrid2HistoryConflict = {
     version: 1, reason: tc.hybrid2Diagnostics?.status === 'INCOMPATIBLE'
       ? tc.hybrid2Error || 'Merged HYBRID-2 history is structurally incompatible'
-      : 'Two devices contain differing completed HYBRID-2 evidence; last-write-wins is unsafe',
+      : ancestry ? 'Concurrent H1 edits differ from the same server revision; explicit review required'
+        : 'Two devices contain differing completed HYBRID-2 evidence; last-write-wins is unsafe',
     entries
   }
   reconcileHybridHistory(merged)

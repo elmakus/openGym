@@ -8,6 +8,7 @@ import { assertHybridResumeContinuity } from '../../../api/training-control/hybr
 import { createHybridBootstrap, validateHybridBootstrap, assertHybridBootstrapHistory } from '../../../api/training-control/hybrid2/bootstrap.js'
 import { canonicalJSON } from '../../../api/engine/canonical.js'
 import { reconcileHybridHistory, resolveHybridHistoryConflict } from '../lib/hybrid2-sync.js'
+import { useStore } from '../store/useStore.js'
 
 export default function Hybrid2Settings({ profile, update }) {
   const cfg = profile.trainingControl?.hybrid2Config
@@ -16,6 +17,7 @@ export default function Hybrid2Settings({ profile, update }) {
   const checkpoint = profile.trainingControl?.hybrid2Bootstrap
   const checkpointConflict = profile.trainingControl?.hybrid2BootstrapConflict
   const historyConflict = profile.trainingControl?.hybrid2HistoryConflict
+  const syncReviewError = useStore(s => s.sync?.lastError?.code === 'hybrid2-review')
   const [historyChoices, setHistoryChoices] = useState({})
   const [bootstrapDraft, setBootstrapDraft] = useState('')
   const [bootstrapOpen, setBootstrapOpen] = useState(false)
@@ -158,6 +160,12 @@ export default function Hybrid2Settings({ profile, update }) {
       {checkpointConflict && <div role="alert" className="small" style={{ marginTop: 10 }}>
         {t('Native H1 checkpoint conflict: explicit review is required before training.')}
       </div>}
+      {syncReviewError && !historyConflict && !conflict && !checkpointConflict &&
+        <div role="alert" className="small" style={{ marginTop: 12 }}>
+          The server needs a confirmed H1 revision before accepting changed history.
+          Keep the current device's backup; do not reset H1. Review synchronization
+          and reconnect to the latest server history before resolving the edit.
+        </div>}
       {historyConflict && <div role="alert" style={{ marginTop: 12 }}>
         <strong>HYBRID-2 history sync is blocked pending review</strong>
         <p className="small">{historyConflict.reason}</p>

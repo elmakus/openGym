@@ -82,6 +82,11 @@ export function connectionView(sync, { mobile = MOBILE, online = isOnline() } = 
         banner: sync.pending ? t('Offline. Your changes are saved on this device and sync when you’re back online.') : t('Offline. Showing the last copy synced with the server.'),
       }
     case 'error':
+      if (err.code === 'hybrid2-review') return {
+        tone: 'bad', icon: 'warning', action: 'review',
+        line: t('H1 history requires review before sync'),
+        banner: t('H1 history sync is paused to protect both device records. Open Plan to review the conflict; nothing has been overwritten.')
+      }
       return err.code === 'bad-response'
         ? { tone: 'bad', icon: 'warning', action: 'retry', line: t('Not an openGym answer (HTTP {0})', err.status), banner: t('Your server’s address answered with something other than openGym (HTTP {0}). Your changes are kept here.', err.status) }
         : { tone: 'bad', icon: 'warning', action: 'retry', line: t('Server error (HTTP {0})', err.status), banner: t('Your server answered with an error (HTTP {0}). Your changes are kept here.', err.status) }
@@ -104,7 +109,7 @@ export function connectionView(sync, { mobile = MOBILE, online = isOnline() } = 
 
 // The word on the indicator's button: the view's own `label` when it has one (null for none),
 // else the action's.
-export const actionLabel = view => (view.label !== undefined ? view.label : ({ retry: t('Try again'), pair: t('Pair again'), signin: t('Sign in'), connect: t('Connect') })[view.action] || null)
+export const actionLabel = view => (view.label !== undefined ? view.label : ({ retry: t('Try again'), review: t('Review H1'), pair: t('Pair again'), signin: t('Sign in'), connect: t('Connect') })[view.action] || null)
 
 // "Sync now": whatever is waiting goes, the server's copy is checked, and the answer is said.
 export async function syncNowWithToast() {

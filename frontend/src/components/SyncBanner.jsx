@@ -94,6 +94,7 @@ export default function SyncBanner() {
   if (!show) return null
   const act = {
     retry: () => { syncNowWithToast() },
+    review: () => nav('/plan'),
     pair: pairAgain,
     connect: connectServer,
     // Signed in, or with a session the server ended: the passkey right here. A guest goes to

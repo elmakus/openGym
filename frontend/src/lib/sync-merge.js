@@ -84,6 +84,7 @@ import { canonicalJSON, contentHash, chronologicalWorkouts, replayProgression, r
 import { replayAtp2History } from '../../../api/training-control/history.js'
 import { replayTimedLoadHistory } from '../../../api/training-control/timed-load-history.js'
 import { reconcileHybridHistory, mergeHybridSettings, retainHybridHistoryConflict } from './hybrid2-sync.js'
+import { compareHybridHistoryWitness, hybridHistoryEvidence, hybridHistoryDigest } from '../../../api/training-control/hybrid2/history-ancestry.js'
 import { mergeAdvent } from './advent.js'
 import { mergeChallenges } from './challenges.js'
 import { mergeDay, dailyModeOf, settleAll } from './weigh-ins.js'
@@ -864,7 +865,7 @@ function applyEdits(out, n, o) {
 // `prefer` names the side whose settings, plan and per-exercise config win regardless of `_ts`:
 // on sign-in the server's profile is the truth and the device only contributes the entries it
 // logged while signed out. Without it the newer copy decides, as for a conflict between devices.
-export function mergeStates(a0, b0, { prefer } = {}) {
+export function mergeStates(a0, b0, { prefer, hybrid2Ancestor = null } = {}) {
   if (!a0) return b0 ? clone(b0) : b0
   if (!b0) return clone(a0)
   let a = a0, b = b0
@@ -976,7 +977,7 @@ export function mergeStates(a0, b0, { prefer } = {}) {
   // With `prefer` only the preferred side's removals count: a guest's are about the guest's own
   // entries, and keyed by day (weigh-ins) or exercise (favourites) they also named the account's
   // weigh-in of that day and its favourite, which the guest never had.
-  const deleted = prefer ? mergeDeletions(prefer === 'a' ? a.deleted : b.deleted, null) : mergeDeletions(a.deleted, b.deleted)
+  let deleted = prefer ? mergeDeletions(prefer === 'a' ? a.deleted : b.deleted, null) : mergeDeletions(a.deleted, b.deleted)
   for (const w of applyDeletions(out, deleted)) {
     const k = String(workoutKey(w))
     const by = [n, o].filter(S => Number(S.deleted?.workouts?.[k]) > 0).map(S => S.exWeights)
@@ -985,6 +986,34 @@ export function mergeStates(a0, b0, { prefer } = {}) {
       if (!editedBy.has(e.id)) editedBy.set(e.id, new Set())
       for (const src of by) editedBy.get(e.id).add(src)
     }
+  }
+  // The server supplies a digest map of the ACTUAL shared revision after a
+  // stale baseRev/baseWid. A change on exactly one side beats an unchanged copy
+  // regardless of its newer profile _ts. True competing edits remain disputed.
+  const h1Ancestry = prefer ? null : compareHybridHistoryWitness(a, b, hybrid2Ancestor)
+  if (h1Ancestry) {
+    const rows = new Map(out.workouts.map(w => [workoutKey(w), w]))
+    for (const [id, accepted] of h1Ancestry.selected) {
+      if (h1Ancestry.disputes.has(id)) continue
+      if (!accepted) {
+        rows.delete(id)
+        deleted ||= {}
+        deleted.workouts ||= {}
+        deleted.workouts[id] = Math.max(Date.now(),
+          Number(a.deleted?.workouts?.[id]) || 0,
+          Number(b.deleted?.workouts?.[id]) || 0)
+        continue
+      }
+      const existing = rows.get(id)
+      if (hybridHistoryDigest(existing) !== hybridHistoryDigest(accepted)) {
+        // Keep independently edited note/media from the generic field merge.
+        const evidence = hybridHistoryEvidence(accepted)
+        rows.set(id, { ...(existing || accepted), ...clone(evidence),
+          id, _ts: Math.max(existing?._ts || 0, accepted._ts || 0) })
+      }
+      if (deleted?.workouts?.[id]) delete deleted.workouts[id]
+    }
+    out.workouts = chronologicalWorkouts([...rows.values()])
   }
   out.exWeights = clone(mergeExWeights(n.exWeights, o.exWeights))
   for (const [id, sources] of editedBy) {
@@ -1093,7 +1122,7 @@ export function mergeStates(a0, b0, { prefer } = {}) {
     Object.assign(out.trainingControl, mergeHybridSettings(n, o))
     delete out.trainingControl.hybrid2
     reconcileHybridHistory(out)
-    retainHybridHistoryConflict(out, a, b)
+    retainHybridHistoryConflict(out, a, b, { ancestry: h1Ancestry })
   }
   return out
 }

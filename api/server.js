@@ -52,6 +52,7 @@ import { validateHybridBootstrapTransition, validateHybridBootstrap, assertHybri
 import { validatePlanAdapter } from './training-control/hybrid2/adapter.js';
 import { replayHybridHistory, assertHybridResumeContinuity } from './training-control/hybrid2/history.js';
 import { verifyFrozenHistory } from './training-control/hybrid2/supervisor.js';
+import { makeHybridHistoryWitness, hybridHistoryDigest, isHybridHistoryWorkout } from './training-control/hybrid2/history-ancestry.js';
 import { LIB_BY_ID } from './coach/core/library.js';
 
 const PORT = +(process.env.PORT || 3000);
@@ -204,6 +205,48 @@ function atomicWrite(file, content, mode) { durableWrite(file, content, mode); }
 // synced more writes ago than this merges on its next pull instead of taking the server's copy.
 const WID_KEEP = 50;
 const stateFile = uid => path.join(DATA, 'state-' + uid.replace(/[^a-zA-Z0-9_-]/g, '') + '.json');
+// Private bounded digest journal of server-confirmed H1 workout ancestors.
+// No private training loads/sets, only deterministic hashes tied to revision+wid.
+// Never serve arbitrary journal entries outside the authenticated user's own 409.
+const H1_ANCESTOR_KEEP = 64;
+const h1AncestryFile = uid => path.join(DATA, 'h1-ancestors-' +
+  uid.replace(/[^a-zA-Z0-9_-]/g, '') + '.json');
+function readH1Ancestors(uid) {
+  let text;
+  try { text = fs.readFileSync(h1AncestryFile(uid), 'utf8'); }
+  catch (err) { if (err.code === 'ENOENT') return []; throw err; }
+  const parsed = JSON.parse(text);
+  if (parsed.version !== 1 || !Array.isArray(parsed.entries) ||
+      parsed.entries.length > H1_ANCESTOR_KEEP)
+    throw new Error('H1 ancestry journal is corrupt');
+  return parsed.entries;
+}
+function findH1Ancestor(uid, rev, wid) {
+  if (!Number.isSafeInteger(rev) || rev < 0 || typeof wid !== 'string' || !wid) return null;
+  try {
+    const entries = readH1Ancestors(uid);
+    return entries.find(w => w.rev === rev && w.wid === wid) || null;
+  } catch (err) {
+    console.error('H1 ancestry read failed for', uid, err.message);
+    return null; // safe fallback: client must hold conflict for manual review
+  }
+}
+function persistH1Ancestors(uid, current, next) {
+  const previous = makeHybridHistoryWitness(current, current?._rev, current?._wid);
+  const incoming = makeHybridHistoryWitness(next, next?._rev, next?._wid);
+  if (!previous && !incoming) return;
+  const existing = readH1Ancestors(uid);
+  const entries = existing.filter(w => w && Number.isSafeInteger(w.rev) &&
+    typeof w.wid === 'string');
+  for (const witness of [previous, incoming]) if (witness) {
+    const index = entries.findIndex(old => old.rev === witness.rev && old.wid === witness.wid);
+    if (index >= 0) entries.splice(index, 1);
+    entries.push(witness);
+  }
+  // AtomicWrite is durable; a journal write failure MUST refuse the state write.
+  atomicWrite(h1AncestryFile(uid),
+    JSON.stringify({ version: 1, entries: entries.slice(-H1_ANCESTOR_KEEP) }), 0o600);
+}
 // The watch relay's mailbox of a profile (watch-relay.js): the page's last snapshot and what its
 // Zepp OS watches sent. Small, rewritten whole like the state file.
 const watchFile = uid => path.join(DATA, 'watch-' + uid.replace(/[^a-zA-Z0-9_-]/g, '') + '.json');
@@ -2539,7 +2582,17 @@ const routes = {
     const state = readStateStrict(user.id);
     if (state === UNREADABLE) { console.error('state file unreadable for', user.id); return json(res, 503, { error: 'state unreadable' }); }
     notePull(user);
-    json(res, 200, { state: packProfile(forClient(state)), rev: state?._rev || 0 });
+    const baseRevText = req.headers['x-opengym-h1-base-rev'];
+    const baseRev = typeof baseRevText === 'string' && /^(0|[1-9][0-9]*)$/.test(baseRevText)
+      ? Number(baseRevText) : null;
+    const baseWid = req.headers['x-opengym-h1-base-wid'];
+    // A matching old wid alone is not enough after a restored server backup:
+    // it must also be an ancestor of this server's CURRENT write-id lineage.
+    const ancestor = state && baseRev !== state._rev &&
+      Array.isArray(state._wids) && state._wids.includes(baseWid)
+      ? findH1Ancestor(user.id, baseRev, baseWid) : null;
+    json(res, 200, { state: packProfile(forClient(state)), rev: state?._rev || 0,
+      ...(ancestor ? { hybrid2Ancestor: ancestor } : {}) });
   },
   // Just the revision: the client asks this every half minute while it is open and on every
   // return to the foreground, and fetches the document only when the number moved — a signed-in
@@ -2689,7 +2742,11 @@ const routes = {
     // and a client reading a document can tell whether it descends from its own (useStore pullState).
     if ((body.baseRev != null && body.baseRev !== curRev) ||
         (body.baseRev != null && typeof body.baseWid === 'string' && cur?._wid && body.baseWid !== cur._wid)) {
-      return json(res, 409, { error: 'conflict', rev: curRev, state: packProfile(forClient(cur)) });
+      const witness = Array.isArray(cur?._wids) && cur._wids.includes(body.baseWid)
+        ? findH1Ancestor(user.id, body.baseRev, body.baseWid) : null;
+      return json(res, 409, { error: 'conflict', rev: curRev,
+        state: packProfile(forClient(cur)),
+        ...(witness ? { hybrid2Ancestor: witness } : {}) });
     }
     delete body.state.active;              // in-progress workouts stay device-local
     if (canonical) {
@@ -2728,6 +2785,24 @@ const routes = {
       if (hasStructural && !cfg?.adapter)
         return json(res, 400, { error: 'invalid state',
           details: ['structural HYBRID-2 workout requires a reviewed plan adapter'] });
+      const liveAdapter = cfg?.adapter || cur?.trainingControl?.hybrid2Config?.adapter;
+      // Previous H1 evidence may be replaced only by a client that references
+      // the ACTUAL current write-id. A legacy PUT without baseWid cannot prove
+      // its starting history, even when it guesses/reads the revision number.
+      // New workouts do not need an edit witness if all previous H1 records
+      // remain byte-for-byte equivalent in their structural evidence.
+      if (liveAdapter) {
+        const prior = new Map((cur?.workouts || [])
+          .filter(w => isHybridHistoryWorkout(w, liveAdapter))
+          .map(w => [w.id, hybridHistoryDigest(w)]));
+        const incoming = new Map((body.state.workouts || [])
+          .filter(w => isHybridHistoryWorkout(w, liveAdapter))
+          .map(w => [w.id, hybridHistoryDigest(w)]));
+        const rewroteEvidence = [...prior].some(([id, digest]) => incoming.get(id) !== digest);
+        if (rewroteEvidence && (body.baseRev == null || body.baseWid !== cur?._wid))
+          return json(res, 428, { error: 'h1-ancestry-required',
+            details: ['An existing H1 workout was changed without its current server revision/write ID'] });
+      }
       if (cfg?.adapter) {
         try {
           if (hasStructural) {
@@ -2776,6 +2851,13 @@ const routes = {
     let text;
     try { text = JSON.stringify(packProfile(body.state)); }
     catch (e) { if (e instanceof RangeError) return json(res, 400, { error: 'invalid state' }); throw e; }
+    // Revision-bound H1 witnesses are written BEFORE the profile. A failed
+    // journal write must not produce a successful but untraceable H1 revision.
+    try { if (canonical) persistH1Ancestors(user.id, cur, body.state); }
+    catch (err) {
+      console.error('H1 ancestry persistence failed for', user.id, err.message);
+      return json(res, 503, { error: 'h1-ancestry-unavailable' });
+    }
     atomicWrite(stateFile(user.id), text);
     // The stat cache cannot see this write on its own: mtime granularity is 4 ms here (ext4 on
     // this kernel — 3901 of 3999 back-to-back same-size writes shared one timestamp), and a

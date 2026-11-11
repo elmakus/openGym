@@ -108,3 +108,25 @@ Final test caveat: API 1088 pass (3 skip), focused sync frontend 401 pass and
 build pass; full frontend 8368 pass / 2 fail (pt-BR inherited fingerprint
 and unrelated warmup unit fallback). Do not claim all-green. See the new
 offline H1 review document and private Unraid test logs for evidence.
+
+## 2026-11-11 follow-up — server revision-based H1 ancestry protocol
+
+Latest validation work following e3c30ee: read
+docs/validation/hybrid2-runtime-parity/M6_H1_REVISION_ANCESTRY_20261111.md.
+A private bounded server witness journal and rev+wid authenticated GET/409
+ancestor responses make verified three-way H1 history merging possible.
+Unilateral edits to existing workouts may converge safely; two genuinely
+different edits, invalid deload chronology and stale/missing witnesses still
+hold with explicit review. Server refuses legacy writes to previous H1 sets
+without exact baseRev/baseWid. Sync banner routes directly to Plan review.
+
+The protocol is NOT proof of source authenticity/author intent. Physical
+Android two-device trials, differing checkpoint workflow, real future M6
+Liftosaur parity and live migration authorization remain pending. Keep
+private Unraid proof logs private; never alter active Liftosaur or merge main.
+
+Validation of this H1 ancestor package: full API 1089 PASS / 0 FAIL /
+3 SKIP; selected frontend sync/UX regressions 450 PASS / 0 FAIL; Vite
+build PASS. The prior two unrelated full-frontend failures are not fixed
+or suppressed. Refer to the private log files and the dedicated ancestry
+document before further changes. Still NOT READY FOR PRODUCTION.

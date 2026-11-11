@@ -391,3 +391,20 @@ Validation summary: API 1088 PASS / 0 FAIL / 3 SKIP; focused frontend H1/sync
 fingerprint and prescription warmup fallback); Vite build PASS. The two failing
 tests are documented in M6_OFFLINE_H1_CONFLICT_REVIEW_20261111.md and have not
 been silently suppressed or modified.
+
+## 2026-11-11 — REVISION-BOUND H1 THREE-WAY OFFLINE SYNC FOLLOW-UP
+
+The next validation-only batch after e3c30ee adds server-confirmed
+rev+write-id witness digests, private bounded durable H1 ancestry journal,
+strict divergent-branch handling, safe unilateral vs competing historical
+edits, and explicit H1 sync UI navigation. Older writers without current
+revision/wid are refused when changing existing H1 records (HTTP 428).
+No raw private M6/H1 values were committed.
+
+Full design, RED cases, test matrix, physical Android / source-native parity
+limitations, remaining production blockers and migration preflight are in
+M6_H1_REVISION_ANCESTRY_20261111.md.
+
+Ancestry package verified: API 1089 PASS / 0 FAIL / 3 SKIP; focused
+frontend sync/UX 450 PASS / 0 FAIL; Vite build PASS. Full physical
+Android and original Liftosaur M6 source-native parity are outstanding.

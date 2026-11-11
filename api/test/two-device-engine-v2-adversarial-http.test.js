@@ -161,9 +161,10 @@ test('two offline clients: A completes, B edits earlier L/R, HTTP 409/merge, res
   assert.equal(r.status,200,JSON.stringify(r))
   return {rev:r.data.rev,wid:r.data.wid,state:r.data.state?unpackProfile(r.data.state):null}
  }
- const write=async(p,rev)=>{
+ const write=async(p,rev,wid=null)=>{
   assert.deepEqual(validateCanonicalProfile(p),{ok:true,errors:[]})
-  const r=await req('PUT',{state:packProfile(p),baseRev:rev,stamped:true})
+  const r=await req('PUT',{state:packProfile(p),baseRev:rev,stamped:true,
+    ...(wid?{baseWid:wid}:{})})
   if(r.status===200)writes++
   if(r.status===409)conflicts++
   return r
@@ -263,7 +264,7 @@ test('two offline clients: A completes, B edits earlier L/R, HTTP 409/merge, res
  merged.trainingControl.hybrid2Config.enabled=true // separate explicit reviewer re-enable
  assert.ok(reconcileHybridHistory(merged))
  expectedDerived(merged)
- r=await write(merged,revA)
+ r=await write(merged,revA,remote._wid)
  assert.equal(r.status,200,JSON.stringify(r))
  const revFinal=r.data.rev
  head=await read()
@@ -325,4 +326,156 @@ test('two offline clients: A completes, B edits earlier L/R, HTTP 409/merge, res
    JSON.stringify(result,null,2)+'\n',{mode:0o600})
  }
  console.log('TWO_DEVICE_ENGINE_V2_HTTP_PASS',JSON.stringify(result))
+})
+
+test('revision-bound H1 ancestry: 409 resolves unilateral history edit, concurrent edits hold, survives restart', async t => {
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'og-h1-ancestry-'))
+ fs.chmodSync(dir,0o700)
+ fs.writeFileSync(path.join(dir,'secret'),SECRET,{mode:0o600})
+ fs.writeFileSync(path.join(dir,'db.json'),JSON.stringify({
+   users:[{id:UID,name:'Synthetic',created:'2026-11-10T00:00:00.000Z'}],
+   creds:[],subs:[],invites:[]}),{mode:0o600})
+ let s=null
+ t.after(async()=>{await stop(s);fs.rmSync(dir,{recursive:true,force:true})})
+ s=await start(dir)
+ const req=async(method,profile,rev,wid)=>{
+   const res=await fetch('http://127.0.0.1:'+s.port+'/api/data',{
+     method,headers:{cookie:cookie(),origin:'http://localhost:8080',
+       'content-type':'application/json','x-opengym-engine-schema':'2'},
+     ...(profile===undefined?{}:{body:JSON.stringify({
+       state:packProfile(profile),stamped:true,
+       ...(rev==null?{}:{baseRev:rev}),
+       ...(wid?{baseWid:wid}:{})})})
+   })
+   const data=await res.json()
+   return {status:res.status,data,profile:data.state?unpackProfile(data.state):null}
+ }
+ const get=async()=>{const res=await req('GET');assert.equal(res.status,200);return res}
+ const edited=(profile,index,reps)=>{
+   const w=profile.workouts[index]
+   const row=w.exposures.find(x=>x.hybrid2?.signalId)?.performance?.sets?.find(r=>r.role==='work')
+   assert.ok(row)
+   row.observations.find(x=>x.metric==='repetitions').value=reps
+   w._ts=at(28)
+   profile._ts=at(29)
+   reconcileHybridHistory(profile)
+ }
+ let p=seed()
+ for(let i=0;i<5;i++)complete(p,K5.routines[i].id,10+i,{leftReps:12,rightReps:10})
+ let response=await req('PUT',p,0)
+ assert.equal(response.status,200,JSON.stringify(response.data))
+ let head=await get()
+ const initial=clone(head.profile),baseRev=head.data.rev,baseWid=head.profile._wid
+ assert.ok(baseWid)
+ const A=clone(initial),B=clone(initial)
+ edited(A,1,13)
+ B.restSec=77;B._ts=at(30)
+ response=await req('PUT',A,baseRev,baseWid)
+ assert.equal(response.status,200,JSON.stringify(response.data))
+ const nextRev=response.data.rev
+ response=await req('PUT',B,baseRev,baseWid)
+ assert.equal(response.status,409)
+ assert.equal(response.data.rev,nextRev)
+ assert.equal(response.data.hybrid2Ancestor?.rev,baseRev)
+ assert.equal(response.data.hybrid2Ancestor?.wid,baseWid)
+ assert.ok(response.data.hybrid2Ancestor.records[initial.workouts[1].id])
+ assert.equal(response.data.hybrid2Ancestor.records[initial.workouts[1].id].length,16)
+ const current=unpackProfile(response.data.state)
+ const merged=mergeStates(B,current,{hybrid2Ancestor:response.data.hybrid2Ancestor})
+ assert.equal(merged.trainingControl.hybrid2HistoryConflict,undefined)
+ assert.notEqual(merged.trainingControl.hybrid2Diagnostics?.status,'INCOMPATIBLE')
+ assert.equal(merged.restSec,77)
+ const sample=w=>w.exposures.find(x=>x.hybrid2?.signalId).performance.sets[0].observations[0].value
+ assert.equal(sample(merged.workouts[1]),13)
+ response=await req('PUT',merged,nextRev,current._wid)
+ assert.equal(response.status,200,JSON.stringify(response.data))
+ await stop(s);s=await start(dir)
+ head=await get()
+ assert.equal(sample(head.profile.workouts[1]),13)
+ assert.equal(head.profile.restSec,77)
+ // A poll/pull is entitled to the same verified three-way ancestor as 409.
+ const pulled=await fetch('http://127.0.0.1:'+s.port+'/api/data',{
+   headers:{cookie:cookie(),origin:'http://localhost:8080',
+     'x-opengym-engine-schema':'2',
+     'x-opengym-h1-base-rev':String(baseRev),
+     'x-opengym-h1-base-wid':baseWid}
+ })
+ assert.equal(pulled.status,200)
+ const pullBody=await pulled.json()
+ assert.equal(pullBody.hybrid2Ancestor.rev,baseRev)
+ assert.equal(pullBody.hybrid2Ancestor.wid,baseWid)
+ const badPull=await fetch('http://127.0.0.1:'+s.port+'/api/data',{
+   headers:{cookie:cookie(),origin:'http://localhost:8080',
+     'x-opengym-engine-schema':'2',
+     'x-opengym-h1-base-rev':String(baseRev),
+     'x-opengym-h1-base-wid':'wrong-id'}
+ })
+ assert.equal((await badPull.json()).hybrid2Ancestor,undefined)
+ const journal=JSON.parse(fs.readFileSync(path.join(dir,'h1-ancestors-'+UID+'.json'),'utf8'))
+ assert.equal(journal.version,1)
+ assert.ok(journal.entries.some(x=>x.rev===baseRev&&x.wid===baseWid))
+ assert.ok(journal.entries.every(x=>Object.values(x.records).every(v=>/^[0-9a-f]{16}$/.test(v))))
+ // A and B change the same previously confirmed result differently.
+ const first=clone(head.profile),second=clone(head.profile),sharedRev=head.data.rev,sharedWid=head.profile._wid
+ edited(first,0,13);edited(second,0,9)
+ const legacyEdit=await req('PUT',first,sharedRev)
+ assert.equal(legacyEdit.status,428,
+  'the server must reject an existing H1 edit without a confirmed source write-id')
+ assert.equal(legacyEdit.data.error,'h1-ancestry-required')
+ response=await req('PUT',first,sharedRev,sharedWid)
+ assert.equal(response.status,200,JSON.stringify(response.data))
+ response=await req('PUT',second,sharedRev,sharedWid)
+ assert.equal(response.status,409)
+ const dispute=mergeStates(second,unpackProfile(response.data.state),{
+   hybrid2Ancestor:response.data.hybrid2Ancestor})
+ assert.ok(dispute.trainingControl.hybrid2HistoryConflict)
+ assert.equal(dispute.trainingControl.hybrid2Diagnostics.status,'INCOMPATIBLE')
+ assert.equal((await req('PUT',dispute,response.data.rev,unpackProfile(response.data.state)._wid)).status,400)
+ // Neither a wrong write-id nor an absent write-id can obtain an ancestor proof.
+ const tampered=await req('PUT',second,sharedRev,'wrong-revision-id')
+ assert.equal(tampered.status,409)
+ assert.equal(tampered.data.hybrid2Ancestor,undefined)
+ const legacy=await req('PUT',second,sharedRev)
+ assert.equal(legacy.status,409)
+ assert.equal(legacy.data.hybrid2Ancestor,undefined)
+ // Simulate a server disk restore that keeps an old journal from another
+ // branch. The revision may be reused, but _wids no longer descend from it.
+ const beforeRestore=await get()
+ await stop(s)
+ const statePath=path.join(dir,'state-'+UID+'.json')
+ const restored=clone(beforeRestore.profile)
+ restored._rev=beforeRestore.data.rev+5
+ restored._wid='restored-unrelated-branch'
+ restored._wids=[]
+ fs.writeFileSync(statePath,JSON.stringify(packProfile(restored)),{mode:0o600})
+ s=await start(dir)
+ const afterRestore=await fetch('http://127.0.0.1:'+s.port+'/api/data',{
+   headers:{cookie:cookie(),origin:'http://localhost:8080',
+     'x-opengym-engine-schema':'2',
+     'x-opengym-h1-base-rev':String(sharedRev),
+     'x-opengym-h1-base-wid':sharedWid}
+ })
+ assert.equal((await afterRestore.json()).hybrid2Ancestor,undefined,
+  'a restored unrelated write lineage must NOT reuse an old H1 witness')
+ const divergent=await req('PUT',second,sharedRev,sharedWid)
+ assert.equal(divergent.status,409)
+ assert.equal(divergent.data.hybrid2Ancestor,undefined)
+ // Corrupt source-of-truth witness storage: the server must fail closed, not
+ // accept a further untraceable H1 write or change the persisted revision.
+ const corruptPath=path.join(dir,'h1-ancestors-'+UID+'.json')
+ fs.writeFileSync(corruptPath,'{invalid-json',{mode:0o600})
+ const beforeFailure=await get()
+ const updated=clone(beforeFailure.profile)
+ updated.restSec=63
+ updated._ts=at(31)
+ const rejected=await req('PUT',updated,beforeFailure.data.rev,beforeFailure.profile._wid)
+ assert.equal(rejected.status,503)
+ assert.equal(rejected.data.error,'h1-ancestry-unavailable')
+ assert.equal((await get()).data.rev,beforeFailure.data.rev)
+ console.log('HYBRID_H1_ANCESTRY_HTTP_PASS',JSON.stringify({
+   optimistic409:true,verifiedAncestor:true,unilateralCorrection:true,
+   divergentSameRecordHeld:true,backendRestart:true,
+   noProofWithoutWid:true,privateDigestJournal:true,
+   restoredBranchDenied:true,corruptJournalWriteBlocked:true
+ }))
 })

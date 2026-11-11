@@ -858,7 +858,7 @@ export const useStore = create((set, get) => {
   // conditional on exactly the document that was merged. The merged copy is stamped — it is a
   // real change this device now holds — while `ts` in the base stays old, so a pull that
   // happens before the push lands still sees it as unsent.
-  const mergeInto = (local, remote, rev) => {
+  const mergeInto = (local, remote, rev, hybrid2Ancestor = null) => {
     // Only two canonical profiles are ever merged.
     if (isLegacyProfile(local) || isLegacyProfile(remote)) throw new Error('ENGINE_MIXED_MERGE')
     const ts = metaOf().base?.ts || 0
@@ -872,7 +872,7 @@ export const useStore = create((set, get) => {
       local = Object.assign(clone(DEF), lifted.state)
     }
     if (legacy) clearLegacy()
-    const merged = Object.assign(clone(DEF), mergeStates(local, remote))
+    const merged = Object.assign(clone(DEF), mergeStates(local, remote, { hybrid2Ancestor }))
     carryActiveUnit(local?.unit, merged)
     // A pass of this app's rotation that the merge left complete (each copy finished a session of
     // it, or one copy's refill lost to the other's older queue) starts its next pass here, as the
@@ -959,8 +959,22 @@ export const useStore = create((set, get) => {
             .then(({ useUI }) => useUI.getState().toast(t('Another device synced while you were importing, so its changes were kept next to the backup.')))
             .catch(() => {})
         }
-        mergeInto(get().S, migrateWarmups(e.data.state), e.data.rev || 0)
+        // Accept the ancestor ONLY when it names the exact revision+write ID
+        // this device last confirmed, not a guess from a restored/moved server.
+        const ancestor = e.data.hybrid2Ancestor
+        const exact = ancestor && base?.wid && ancestor.rev === base.rev &&
+          ancestor.wid === base.wid
+        mergeInto(get().S, migrateWarmups(e.data.state), e.data.rev || 0,
+          exact ? ancestor : null)
         return doPush(attempt + 1)
+      }
+      // The server refuses a legacy H1 write that cannot prove the revision it
+      // edited. Preserve the local copy and show the same explicit review UI.
+      if (e.status === 428 && e.data?.error === 'h1-ancestry-required') {
+        markOwed(true)
+        setSync({ pending: true, offline: false,
+          lastError: { status: 428, code: 'hybrid2-review' } })
+        return
       }
       // Whatever went wrong — no network, a refused token, a phone without a pairing, a server
       // error — the copy stays owed to the server and the next check retries it.
@@ -2117,7 +2131,14 @@ export const useStore = create((set, get) => {
         try {
           if (pushTm) { clearTimeout(pushTm); pushTm = null; await get().pushState() }
           else if (pushing) await pushing
-          const res = await api('/api/data')
+          const requestedBase = metaOf().base
+          // A dirty pull also needs the exact common server ancestor.
+          const requestWitness = requestedBase?.wid &&
+            get().S.trainingControl?.hybrid2Config?.adapter
+          const res = await api('/api/data', requestWitness ? { headers: {
+            'x-opengym-h1-base-rev': String(requestedBase.rev),
+            'x-opengym-h1-base-wid': requestedBase.wid
+          } } : undefined)
           lastCheck = Date.now()
           reached()
           const { state, rev } = res
@@ -2125,6 +2146,10 @@ export const useStore = create((set, get) => {
           if (isLegacyProfile(state)) { await get().openMigration(); return }
           const S = get().S
           const { base, owed } = metaOf()
+          const ancestor = base?.wid &&
+            res.hybrid2Ancestor?.rev === base.rev &&
+            res.hybrid2Ancestor?.wid === base.wid
+            ? res.hybrid2Ancestor : null
           // Owed to the server: a push that failed, or a change made while boot was still pulling.
           const dirty = owed || pushPending
           // A server from before revisions: the old rule, newer `_ts` wins outright.
@@ -2139,7 +2164,7 @@ export const useStore = create((set, get) => {
           // revisions. The newer copy wins as before, except that a copy still owed to the
           // server (dirty) is merged instead of pushed over whatever is there.
           if (!base) {
-            if (dirty && state) { mergeInto(S, migrateWarmups(state), rev); pushPending = false; await get().pushState(); return }
+            if (dirty && state) { mergeInto(S, migrateWarmups(state), rev, ancestor); pushPending = false; await get().pushState(); return }
             const restored = restoredStateFor(S, state, false)
             if (restored) { adopt(restored, rev); confirmed(get().S) }
             else if (hasData(S)) { writeSync(rev, 0, state?._wid); await get().pushState() }
@@ -2158,13 +2183,13 @@ export const useStore = create((set, get) => {
           const changed = dirty || localChanged(S)
           if (!serverMoved) { if (changed) await get().pushState(); else confirmed(S); return }
           if (!state) { writeSync(rev, 0); if (hasData(S)) await get().pushState(); return }
-          if (!descends) { mergeInto(S, migrateWarmups(state), rev); pushPending = false; await get().pushState(); return }
+          if (!descends) { mergeInto(S, migrateWarmups(state), rev, ancestor); pushPending = false; await get().pushState(); return }
           if (!changed) {
             const next = sanitizeAccent(Object.assign(clone(DEF), migrateWarmups(state)))
             carryActiveUnit(S?.unit, next)
             adopt(next, rev); confirmed(get().S); return
           }
-          mergeInto(S, migrateWarmups(state), rev)
+          mergeInto(S, migrateWarmups(state), rev, ancestor)
           pushPending = false
           await get().pushState()
         } catch (e) {
